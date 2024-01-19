@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
 
 
 
@@ -97,8 +97,37 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <p><a href="https://whpi.hao.ucar.edu/whpi_campaign-psp15p.php">WHPI - Campaign: PSP 15th Perhihelion</a></p>
 <p>2021-05-09</p>
+<p>05/09/2021</p>
 <p><a href="images/wind.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/wind.png" class="img-fluid"></a></p>
 <p><a href="images/psp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/psp.png" class="img-fluid"></a></p>
+<p>vap+cdaweb:ds=PSP_SWP_SPC_L3I&amp;filter=psp&amp;id=vp_moment_RTN[:,0];vp_moment_RTN[:,1];vp_moment_RTN[:,2]&amp;timerange=2021-05-07+through+2021-05-08</p>
+<p>|rebundle(vp_moment_R,vp_moment_T,vp_moment_N)|magnitude()</p>
+<p>|rebundle(psp_fld_l2_mag_RTN_1min__0,psp_fld_l2_mag_RTN_1min__0,psp_fld_l2_mag_RTN_1min__0)|magnitude()</p>
+<ul>
+<li>ops: “|rebundle(vp_moment_R,vp_moment_T,vp_moment_N)|magnitude()” title: “PSP/SWP_SPC Proton bulk velocity from the 1st moment of the reduced distribution function in [inertial] RTN coordinate system (All Qualities)” y: label: V (km/s)</li>
+<li>ops: “|rebundle(B_R,B_T,B_N)|magnitude()” y: label: B (nT) title: PSP_FLD/MAG_RTN_1min Magnetic field in RTN coordinates (1 minute cadence)</li>
+</ul>
+<p>PSP/PSP/SWEAP/SPAN Partial Moment Velocity in RTN Coordinates and Sun reference frame |rebundle(Vx RTN,Vy RTN,Vz RTN)|magnitude()</p>
+<p>Wind or ACE</p>
+<p><a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/paste-1.png" class="img-fluid"></a></p>
+<!-- ![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_1day_plots/2021/05/20210509-day.png) -->
+<div>
+
+</div>
+<div class="column-page quarto-layout-panel" data-layout-nrow="1">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png" class="img-fluid"></a></p>
+</div>
+</div>
+</div>
+<p>tr = ‘2021-05-06 22:46 to 2021-05-15 22:46’ vp = getDataSet( ‘vap+cdaweb:ds=PSP_SWP_SPC_L3I&amp;filter=psp_SW&amp;id=vp_moment_RTN’, tr ) plot( 0, vp )</p>
+<p>density5min= getDataSet( ‘http://cdaweb.gsfc.nasa.gov/pub/data/ace/mag/level_2_cdaweb/mfi_k0/2017/ac_k0_mfi_20170117_v01.cdf?Magnitude’) dst60min= getDataSet( ‘http://cdaweb.gsfc.nasa.gov/pub/data/omni/omni_cdaweb/hourly/2017/omni2_h0_mrg1hr_20170101_v01.cdf?DST’)</p>
+<p>t5min= density5min.property(QDataSet.DEPEND_0)</p>
+<p>( density, flux, dst ) = synchronize( t5min, density5min, flux4min, dst60min, nn=1 ) # experimental function (note there is a built-in function in Autoplot v2017a. plot( 1, flux ) plot( 2, dst )</p>
 
 </main>
 <!-- /main column -->
@@ -500,7 +529,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom","selector":".lightbox"});</script>
+<script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom"});</script>
 
 
 
