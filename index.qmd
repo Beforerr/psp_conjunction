@@ -13,4 +13,39 @@ bibliography: files/references.bib
 
 2021-05-09
 
+05/09/2021
+
+![](images/wind.png)
+
+![](images/psp.png)
+
+vap+cdaweb:ds=PSP_SWP_SPC_L3I&filter=psp&id=vp_moment_RTN\[:,0\];vp_moment_RTN\[:,1\];vp_moment_RTN\[:,2\]&timerange=2021-05-07+through+2021-05-08
+
+\|rebundle(vp_moment_R,vp_moment_T,vp_moment_N)\|magnitude()
+
+\|rebundle(psp_fld_l2_mag_RTN_1min\_\_0,psp_fld_l2_mag_RTN_1min\_\_0,psp_fld_l2_mag_RTN_1min\_\_0)\|magnitude()
+
+-   ops: "\|rebundle(vp_moment_R,vp_moment_T,vp_moment_N)\|magnitude()" title: "PSP/SWP_SPC Proton bulk velocity from the 1st moment of the reduced distribution function in \[inertial\] RTN coordinate system (All Qualities)" y: label: V (km/s)
+-   ops: "\|rebundle(B_R,B_T,B_N)\|magnitude()" y: label: B (nT) title: PSP_FLD/MAG_RTN_1min Magnetic field in RTN coordinates (1 minute cadence)
+
+PSP/PSP/SWEAP/SPAN Partial Moment Velocity in RTN Coordinates and Sun reference frame \|rebundle(Vx RTN,Vy RTN,Vz RTN)\|magnitude()
+
+Wind or ACE
+
 ![](images/paste-1.png)
+
+<!-- ![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_1day_plots/2021/05/20210509-day.png) -->
+
+::: {.column-page layout-nrow="1"}
+![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png)
+
+![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png)
+:::
+
+tr = '2021-05-06 22:46 to 2021-05-15 22:46' vp = getDataSet( 'vap+cdaweb:ds=PSP_SWP_SPC_L3I&filter=psp_SW&id=vp_moment_RTN', tr ) plot( 0, vp )
+
+density5min= getDataSet( 'http://cdaweb.gsfc.nasa.gov/pub/data/ace/mag/level_2_cdaweb/mfi_k0/2017/ac_k0_mfi_20170117_v01.cdf?Magnitude') dst60min= getDataSet( 'http://cdaweb.gsfc.nasa.gov/pub/data/omni/omni_cdaweb/hourly/2017/omni2_h0_mrg1hr_20170101_v01.cdf?DST')
+
+t5min= density5min.property(QDataSet.DEPEND_0)
+
+( density, flux, dst ) = synchronize( t5min, density5min, flux4min, dst60min, nn=1 ) \# experimental function (note there is a built-in function in Autoplot v2017a. plot( 1, flux ) plot( 2, dst )
