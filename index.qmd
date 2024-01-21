@@ -5,6 +5,12 @@ bibliography: files/references.bib
 
 ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png) ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
 
+## Updates
+
+![](images/paste-11.png)
+
+## ![](images/paste-12.png)
+
 ## PSP Encounter Infos
 
 [PSP Science Planning](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters)
