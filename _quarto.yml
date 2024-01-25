@@ -19,5 +19,5 @@ format:
 execute:
   freeze: true
 
-
-
+bibliography:
+  - ../research.bib

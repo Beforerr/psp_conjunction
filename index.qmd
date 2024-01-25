@@ -1,50 +1,54 @@
 ---
-title: Psp_conjunction
-bibliography: files/references.bib
+title: Evolution of solar wind discontinuities in the inner heliosphere
+subtitle: PSP and Earth conjunctions and alignments
+author:
+  - name: Zijin Zhang
+    email: zijin@ucla.edu
+    orcid: 0000-0002-9968-067X
+    affiliation: University of California, Los Angeles
+    roles: writing
+    corresponding: true
+  - name: Anton V. Artemyev
+    email: aartemyev@igpp.ucla.edu
+    orcid: 0000-0001-8823-4474
+    affiliation: University of California, Los Angeles
+  - name: Vassilis Angelopoulos
+    orcid: 0000-0001-7024-1561
+    affiliation: University of California, Los Angeles
+  - name: Shi Chen
+    orcid: 0000-0002-2582-7085
+    affiliation: University of California, Los Angeles
+code-links:
+  - repo
+  - href: https://app.tana.inc?nodeid=PZ6j7iriic2l
+    text: Tana
+  - href: zotero://select/library/collections/L9JC7XAI
+    text: Zotero
 ---
 
-![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png) ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
-
-## Updates
+# Updates
 
 ![](images/paste-11.png)
 
-## ![](images/paste-12.png)
+![](images/paste-12.png)
 
-## PSP Encounter Infos
+# References
+
+- @velliUnderstandingOriginsHeliosphere2020
+- @artemyevDynamicsIntenseCurrents2018 examined the evolution of transient currents in the solar wind using a data set compiled from observations of the same solar wind ﬂow at Earth’s and Mars's orbits.
+    - > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensiﬁcation of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
+
+# PSP Encounter Infos
 
 [PSP Science Planning](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters)
 
-| Event | Distance                    | Time                         |
-|-------|-----------------------------|------------------------------|
-| E1    | 35.6 $R_{\odot}$            | Perihelion: 2018-11-06 03:27 |
-| E2    | 35.6 $R_{\odot}$            | Perihelion: 2019-04-04 22:39 |
-| E3    | 35.6 $R_{\odot}$            | Perihelion: 2019-09-01 17:50 |
-| E4    | 27.8 $R_{\odot}$            | Perihelion: 2020-01-29 09:37 |
-| E5    | 27.8 $R_{\odot}$            | Perihelion: 2020-06-07 08:23 |
-| E6    | 20.3 $R_{\odot}$            | Perihelion: 2020-09-27 09:16 |
-| E7    | 20.3 $R_{\odot}$            | Perihelion: 2021-01-17 17:40 |
-| E8    | 0.074 AU (15.9 $R_{\odot}$) | Perihelion: 2021-04-29 08:48 |
-| E9    | 15.9 $R_{\odot}$            | Perihelion: 2021-08-09 19:11 |
-| E10   | 13.3 $R_{\odot}$            | Perihelion: 2021-11-21 08:23 |
-| E11   | 13.3 $R_{\odot}$            | Perihelion: 2022-02-25 15:38 |
-| E12   | 13.3 $R_{\odot}$            | Perihelion: 2022-06-01 22:51 |
-| E13   | 13.3 $R_{\odot}$            | Perihelion: 2022-09-06 06:04 |
-| E14   | 13.3 $R_{\odot}$            | Perihelion: 2022-12-11 13:16 |
-| E15   | 13.3 $R_{\odot}$            | Perihelion: 2023-03-17 20:30 |
-| E16   | 13.3 $R_{\odot}$            | Perihelion: 2023-06-22 03:46 |
-| E17   | 11.4 $R_{\odot}$            | Perihelion: 2023-09-27 23:28 |
-| E18   | 11.4 $R_{\odot}$            | Perihelion: 2023-12-29 00:54 |
-| E19   | 11.4 $R_{\odot}$            | Perihelion: 2024-03-30 02:20 |
-| E20   | 11.4 $R_{\odot}$            | Perihelion: 2024-06-30 03:46 |
-| E21   | 11.4 $R_{\odot}$            | Perihelion: 2024-09-30 05:13 |
-| E22   | 9.9 $R_{\odot}$             | Perihelion: 2024-12-24 11:41 |
-| E23   | 9.9 $R_{\odot}$             | Perihelion: 2025-03-22 22:25 |
-| E24   | 9.9 $R_{\odot}$             | Perihelion: 2025-06-19 09:09 |
+{{< embed notebooks/00_notes.ipynb#tbl-events >}}
 
 > Using a nominal 400 km/s solar wind velocity, the following figures show the ballistic mapping in a helioprojective and heliographic frame, followed by an ecliptic view of the trajectory in the frame rotating with the Earth. Several Parker spirals are drawn, showing the possible magnetic connection to the Earth near May 9th.
 
 ## Trange: Encounter 8
+
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png) ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
 
 > E8, C2, Q4, Q5, 24 April–1 May, 2021. Throughout this period SO will be in quadrature with Earth, appearing from Earth on the solar east limb. In rapid succession over E8, PSP will appear in quadrature from SO on the east limb (trailing), then in conjunction with SO at perihelion on 28 April, with PSP at a distance of 15.5RS, then in conjunction with STEREO-A on 29 April and with Earth on 30 April. STEREO-A will be positioned trailing Earth by 45◦ midway to SO in longitude. This PSP encounter is extremely favorable to a potential joint in situ–remote-sensing campaign comprising PSP, SO, STEREOA, SDO, Hinode, and ground-based instrumentation.
 
