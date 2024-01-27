@@ -1,8 +1,10 @@
 preview:
    quarto preview --no-render
 
-publish:
+publish: update
+   quarto publish gh-pages --no-render --no-prompt
+
+update:
    git add .
    -git commit -am "update"
    git push
-   quarto publish gh-pages --no-render --no-prompt
