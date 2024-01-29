@@ -1,0 +1,5 @@
+[deps]
+pytables = ""
+
+[pip.deps]
+pyspedas = ""

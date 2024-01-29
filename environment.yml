@@ -1,0 +1,15 @@
+name: psp_conjunction
+channels:
+  - conda-forge
+dependencies:
+  - jupyter
+  - pydantic
+  - polars
+  - pyarrow
+  - pytables # used in `pyspedas`
+  - sunpy
+  - hvplot
+  - dcor
+  - pip
+  - pip:
+    - pyspedas

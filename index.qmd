@@ -28,15 +28,21 @@ code-links:
 
 # Updates
 
+Given timeseries $(R_a, \phi_a$, $R_b(t)$,
+
 ![](images/paste-11.png)
 
 ![](images/paste-12.png)
 
 # References
 
-- @velliUnderstandingOriginsHeliosphere2020
-- @artemyevDynamicsIntenseCurrents2018 examined the evolution of transient currents in the solar wind using a data set compiled from observations of the same solar wind ﬂow at Earth’s and Mars's orbits.
-    - > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensiﬁcation of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
+-   @velliUnderstandingOriginsHeliosphere2020
+
+-   @artemyevDynamicsIntenseCurrents2018 examined the evolution of transient currents in the solar wind using a data set compiled from observations of the same solar wind ﬂow at Earth’s and Mars's orbits.
+
+    ```         
+    > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensiﬁcation of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
+    ```
 
 # PSP Encounter Infos
 
@@ -44,13 +50,51 @@ code-links:
 
 {{< embed notebooks/00_notes.ipynb#tbl-events >}}
 
+## Events
+
+2018∕10∕24 PSP Earth
+
+```         
+file:/Users/zijin/projects/psp_conjunction/files/psp_v.vap?timerange=2018-10-23+through+2018-10-25
+```
+
+PSP plasma data is very sparse (6 data point/day)
+
+![](images/paste-13.png)
+
+### 2019∕04∕07
+
+``` txt
+file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-06+through+2019-04-08
+file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14
+file:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10
+```
+
+[ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 02](http://helioweather.net/missions/psp/per02/)
+
+::: {.column-page layout-nrow="1"}
+{{< video http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4 >}}
+
+{{< video http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4 >}}
+:::
+
+![](images/paste-15.png)
+
+![](images/paste-18.png)
+
+::: {.column-page layout-nrow="1"}
+![](images/paste-16.png)
+
+![](images/paste-17.png)
+:::
 
 ## Trange: Encounter 8
 
 ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png) ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
 
 > Using a nominal 400 km/s solar wind velocity, the following figures show the ballistic mapping in a helioprojective and heliographic frame, followed by an ecliptic view of the trajectory in the frame rotating with the Earth. Several Parker spirals are drawn, showing the possible magnetic connection to the Earth near May 9th.
-
 
 > E8, C2, Q4, Q5, 24 April–1 May, 2021. Throughout this period SO will be in quadrature with Earth, appearing from Earth on the solar east limb. In rapid succession over E8, PSP will appear in quadrature from SO on the east limb (trailing), then in conjunction with SO at perihelion on 28 April, with PSP at a distance of 15.5RS, then in conjunction with STEREO-A on 29 April and with Earth on 30 April. STEREO-A will be positioned trailing Earth by 45◦ midway to SO in longitude. This PSP encounter is extremely favorable to a potential joint in situ–remote-sensing campaign comprising PSP, SO, STEREOA, SDO, Hinode, and ground-based instrumentation.
 

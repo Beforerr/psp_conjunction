@@ -14,3 +14,4 @@ _proc/
 /_site/
 
 .DS_Store
+.CondaPkg
