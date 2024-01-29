@@ -1,0 +1,22 @@
+
+
+
+```{julia}
+using Pkg
+Pkg.activate(".")
+Pkg.add(["PythonCall", "CondaPkg"])
+```
+
+```{julia}
+using PythonCall
+using CondaPkg
+```
+
+```{julia}
+CondaPkg.add("pytables")
+CondaPkg.add_pip("pyspedas")
+```
+
+```{julia}
+pyspedas = pyimport("pyspedas")
+```
