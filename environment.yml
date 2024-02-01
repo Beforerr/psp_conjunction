@@ -13,4 +13,6 @@ dependencies:
   - pip
   - pip:
     - pyspedas
-    - pycdfpp
+    - ../space_analysis
+    - ../ids_finder
+    - ../beforerr_dev
