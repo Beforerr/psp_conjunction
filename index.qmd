@@ -28,6 +28,10 @@ code-links:
 
 # Updates
 
+![](images/paste-20.png)
+
+![](images/paste-21.png)
+
 Given timeseries $(R_a, \phi_a$, $R_b(t)$,
 
 ![](images/paste-11.png)
