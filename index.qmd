@@ -32,6 +32,8 @@ code-links:
 
 ![](images/paste-21.png)
 
+![](images/psp_dscovr.png)
+
 Given timeseries $(R_a, \phi_a$, $R_b(t)$,
 
 ![](images/paste-11.png)
