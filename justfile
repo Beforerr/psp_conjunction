@@ -1,9 +1,6 @@
 env-install:
    micromamba env create --file environment.yml
 
-   # micromamba activate psp_conjunction
-   # pip install ../space_analysis
-
 env-update:
    micromamba install --file environment.yml
 
