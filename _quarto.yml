@@ -1,10 +1,20 @@
 project:
-  type: manuscript
+  type: website
+  render: 
+    - "*.qmd"
+    - "!notebooks/"
   preview: 
     port: 4003
 
-manuscript:
-  article: index.qmd
+website:
+  sidebar:
+    contents: auto
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Manuscript"
+        href: _manuscript/index.html
 
 format:
   html:

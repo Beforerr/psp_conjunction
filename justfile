@@ -5,17 +5,21 @@ env-update:
    micromamba install --file environment.yml
 
 preview:
-   quarto preview --no-render
+   quarto preview --no-render --profile web
 
 publish: update
    quarto publish gh-pages --no-render --no-prompt
 
 render:
-   quarto render presentations --to revealjs --profile dev
-   cp _site/presentations/*revealjs.html _manuscript/presentations/
-   cp -r _site/site_libs/revealjs _manuscript/site_libs/
+   quarto render --profile man
+   quarto render --profile web
+   cp -r _manuscript _site/
 
 update:
    git add .
    -git commit -am "update"
    git push
+
+download:
+   wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4
+   wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4

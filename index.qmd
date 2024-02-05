@@ -85,7 +85,7 @@ file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+20
 
 ![](images/paste-15.png)
 
-![](images/paste-19.png)
+![PSP Observation Overvall](images/paste-19.png)
 
 ::: {.column-page layout-nrow="1"}
 ![PSP observation](images/paste-18.png)

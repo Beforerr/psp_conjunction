@@ -1,19 +1,83 @@
 ---
-title: Presentation
+title: Group Meeting
 format:
-  html: default
-  revealjs:
-    output-file: 'grp-revealjs.html'
-code-links: 
-  - href: ./grp-revealjs.html
-    text: Slides
-format-links: [revealjs]
+  dashboard:
+    nav-buttons: [github]
+navbar: false
 ---
 
-## Plasma Adiabatic Evolution
+# #1 Overview {orientation="columns"}
 
-![](../figures/evolution/plasma-adiabatic-evolution-previous.svg)
+## Orbits
+
+::: {.card title="Orbit in Heliographic Coordinates"}
+![](../images/paste-15.png)
+:::
+
+## ENLIL simulation
+
+::: {.card title="ENLIL simulation"}
+### Normalized solar wind density at the ecliptic and the IMF lines
+
+![](../images/enlil/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4){width="80%"}
+
+### Radial solar wind velocity at the ecliptic on the global and detail regions together with the temporal profile at spacecraft
+
+![](../images/enlil/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4){width="80%"}
+:::
+
+# #2 Observation
+
+##  {.tabset}
+
+::: {.column-page layout-nrow="1"}
+![PSP Observation Overvall](../images/paste-19.png)
+
+![PSP observation](../images/paste-18.png){width="50%"}
+:::
+
+::: {.column-page layout-nrow="1"}
+![PSP observation](../images/paste-18.png)
+
+![ACE observation](../images/paste-16.png)
+
+![ACE observation (continued)](../images/paste-17.png)
+:::
+
+# #3 Plasma Adiabatic Evolution {orientation="columns"}
+
+##  {width="50%"}
 
 ![](../figures/evolution/plasma-adiabatic-evolution.svg)
 
+###  {.tabset}
+
 ![](../figures/evolution/plasma-adiabatic-evolution-next.svg)
+
+![](../figures/evolution/plasma-adiabatic-evolution-previous.svg)
+
+##  {.tabset}
+
+::: card
+### @perroneRadialEvolutionSolar2019
+
+The radial dependence of the proton number density, $n_p$ and magnetic ﬁeld magnitude, $B$, is given by
+
+$$n_p = (2.4 ± 0.1)(R/R_0)^{−(1.96±0.07)} cm^{−3}$$
+
+$$B = (5.7 ± 0.2)(R/R_0)^{−(1.59±0.06)} nT$$
+
+The faster decrease of the magnetic than kinetic pressure is reﬂected in the radial proton plasma beta variation
+
+$$β_p = P_k/P_B = (0.55 ± 0.04)(R/R_0)^{(0.4±0.1)}.$$
+:::
+
+![](../images/sty3348fig5.jpeg){width="50%"}
+
+# #4 Examples of Discontinuities
+
+![](images/paste-1.png)
+
+![](images/paste-2.png)
+
+![](images/paste-3.png)
