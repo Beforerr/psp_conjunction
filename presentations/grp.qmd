@@ -4,7 +4,13 @@ format:
   html: default
   revealjs:
     output-file: 'grp-revealjs.html'
+code-links: 
+  - href: ./grp-revealjs.html
+    text: Slides
+format-links: [revealjs]
 ---
+
+## Plasma Adiabatic Evolution
 
 ![](../figures/evolution/plasma-adiabatic-evolution-previous.svg)
 

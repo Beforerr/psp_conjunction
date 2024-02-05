@@ -4,4 +4,7 @@ project:
 website: 
   sidebar:
     contents: auto
-  navbar: true
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
