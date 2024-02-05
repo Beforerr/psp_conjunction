@@ -1,0 +1,13 @@
+---
+title: Presentation
+format:
+  html: default
+  revealjs:
+    output-file: 'grp-revealjs.html'
+---
+
+![](../figures/evolution/plasma-adiabatic-evolution-previous.svg)
+
+![](../figures/evolution/plasma-adiabatic-evolution.svg)
+
+![](../figures/evolution/plasma-adiabatic-evolution-next.svg)

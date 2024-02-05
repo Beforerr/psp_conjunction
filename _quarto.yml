@@ -16,8 +16,6 @@ format:
   # (other formats)
   # pdf: default
 
-execute:
-  freeze: true
 
 bibliography:
   - ../research.bib
