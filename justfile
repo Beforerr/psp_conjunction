@@ -5,7 +5,7 @@ env-update:
    micromamba install --file environment.yml
 
 preview:
-   quarto preview --no-render --profile web
+   quarto preview --no-render
 
 publish: update
    quarto publish gh-pages --no-render --no-prompt

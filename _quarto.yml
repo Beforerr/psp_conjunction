@@ -1,7 +1,5 @@
 project:
   type: website
-  render: 
-    - "*.qmd"
   preview: 
     port: 4003
 
@@ -17,14 +15,7 @@ website:
 
 format:
   html:
-    comments:
-      hypothesis: true
-  # docx: default
-  # jats: default
-
-  # (other formats)
-  # pdf: default
-
+    toc: true
 
 bibliography:
   - ../research.bib
