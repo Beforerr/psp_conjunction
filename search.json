@@ -1,40 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
-    "section": "",
-    "text": "Given timeseries \\((R_a, \\phi_a\\), \\(R_b(t)\\),"
-  },
-  {
-    "objectID": "index.html#psp-earth",
-    "href": "index.html#psp-earth",
-    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
-    "section": "2018-10-24 PSP Earth",
-    "text": "2018-10-24 PSP Earth\nfile:/Users/zijin/projects/psp_conjunction/files/psp_v.vap?timerange=2018-10-23+through+2018-10-25\nPSP plasma data is very sparse (6 data point/day)"
-  },
-  {
-    "objectID": "index.html#section",
-    "href": "index.html#section",
-    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
-    "section": "2019-04-07",
-    "text": "2019-04-07\nfile:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-01+through+2019-04-15\nfile:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-06+through+2019-04-08\nfile:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10\nfile:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14\nfile:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10\nfile:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10\nENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 02\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPSP Observation Overvall\n\n\n\n\n\n\n\n\n\n\n\nPSP observation\n\n\n\n\n\n\n\nACE observation\n\n\n\n\n\n\n\nACE observation (continued)\n\n\n\n\n\nSummary plot"
-  },
-  {
-    "objectID": "index.html#trange",
-    "href": "index.html#trange",
-    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
-    "section": "Trange",
-    "text": "Trange\n\nC4, 18 September, b 2021. This will be an inferior triple SO–PSP–STEREO-A conjunction, with SO inside the orbit of Venus around 0.6 AU, PSP at about 0.7 AU, and STEREO-A at 0.9 AU. This will be an occasion for joint in situ studies of the properties of turbulence and dynamics of a solar wind stream between 0.5 and 1 AU.\n\nhttps://solar-mach.streamlit.app/?embedded=true&date=20210925&time=0000&coord_sys=0&plot_spirals=1&plot_sun_body_line=1&plot_trans=0&plot_markers=Numbers&long_offset=270&bodies=STEREO+A&bodies=Earth&bodies=BepiColombo&bodies=Parker+Solar+Probe&bodies=Solar+Orbiter&speeds=346&speeds=485&speeds=400&speeds=300&speeds=287&"
-  },
-  {
-    "objectID": "index.html#trange-encounter-11-2022-02",
-    "href": "index.html#trange-encounter-11-2022-02",
-    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
-    "section": "Trange: Encounter 11, 2022-02",
-    "text": "Trange: Encounter 11, 2022-02\n\nE11, C6, Q8, Q9 23–27 February, 2022. PSP approaches encounter E11 beginning with a trailing quadrature Q8 on 23 February, 2022, appearing on the east limb of the Sun from SO, before rapidly going through conjunction with STEREO-A and then SO and Earth (24 and 25 February, respectively) at perihe- lion with the Earth–Sun–STEREO-A angle ’40◦ and the Earth–"
-  },
-  {
     "objectID": "notebooks/00_calc.html",
     "href": "notebooks/00_calc.html",
     "title": "Time of arrival",
@@ -117,6 +82,41 @@
       "Notebooks",
       "Estimate of arrival time"
     ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
+    "section": "",
+    "text": "Given timeseries \\((R_a, \\phi_a\\), \\(R_b(t)\\),"
+  },
+  {
+    "objectID": "index.html#psp-earth",
+    "href": "index.html#psp-earth",
+    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
+    "section": "2018-10-24 PSP Earth",
+    "text": "2018-10-24 PSP Earth\nfile:/Users/zijin/projects/psp_conjunction/files/psp_v.vap?timerange=2018-10-23+through+2018-10-25\nPSP plasma data is very sparse (6 data point/day)"
+  },
+  {
+    "objectID": "index.html#section",
+    "href": "index.html#section",
+    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
+    "section": "2019-04-07",
+    "text": "2019-04-07\nfile:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-01+through+2019-04-15\nfile:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-06+through+2019-04-08\nfile:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10\nfile:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14\nfile:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10\nfile:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10\nENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 02\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPSP Observation Overvall\n\n\n\n\n\n\n\n\n\n\n\nPSP observation\n\n\n\n\n\n\n\nACE observation\n\n\n\n\n\n\n\nACE observation (continued)\n\n\n\n\n\nSummary plot"
+  },
+  {
+    "objectID": "index.html#trange",
+    "href": "index.html#trange",
+    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
+    "section": "Trange",
+    "text": "Trange\n\nC4, 18 September, b 2021. This will be an inferior triple SO–PSP–STEREO-A conjunction, with SO inside the orbit of Venus around 0.6 AU, PSP at about 0.7 AU, and STEREO-A at 0.9 AU. This will be an occasion for joint in situ studies of the properties of turbulence and dynamics of a solar wind stream between 0.5 and 1 AU.\n\nhttps://solar-mach.streamlit.app/?embedded=true&date=20210925&time=0000&coord_sys=0&plot_spirals=1&plot_sun_body_line=1&plot_trans=0&plot_markers=Numbers&long_offset=270&bodies=STEREO+A&bodies=Earth&bodies=BepiColombo&bodies=Parker+Solar+Probe&bodies=Solar+Orbiter&speeds=346&speeds=485&speeds=400&speeds=300&speeds=287&"
+  },
+  {
+    "objectID": "index.html#trange-encounter-11-2022-02",
+    "href": "index.html#trange-encounter-11-2022-02",
+    "title": "Evolution of solar wind discontinuities in the inner heliosphere",
+    "section": "Trange: Encounter 11, 2022-02",
+    "text": "Trange: Encounter 11, 2022-02\n\nE11, C6, Q8, Q9 23–27 February, 2022. PSP approaches encounter E11 beginning with a trailing quadrature Q8 on 23 February, 2022, appearing on the east limb of the Sun from SO, before rapidly going through conjunction with STEREO-A and then SO and Earth (24 and 25 February, respectively) at perihe- lion with the Earth–Sun–STEREO-A angle ’40◦ and the Earth–"
   },
   {
     "objectID": "notebooks/00_notes.html",
