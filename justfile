@@ -12,7 +12,7 @@ publish: update
 
 render:
    quarto render --profile man
-   quarto render --profile web
+   quarto render
    cp -r _manuscript _site/
 
 update:
