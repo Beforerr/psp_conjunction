@@ -1,0 +1,32 @@
+---
+title: Evolution of solar wind discontinuities in the inner heliosphere
+subtitle: PSP and Earth conjunctions and alignments
+author:
+  - name: Zijin Zhang
+    email: zijin@ucla.edu
+    orcid: 0000-0002-9968-067X
+    affiliation: University of California, Los Angeles
+    roles: writing
+    corresponding: true
+  - name: Anton V. Artemyev
+    email: aartemyev@igpp.ucla.edu
+    orcid: 0000-0001-8823-4474
+    affiliation: University of California, Los Angeles
+  - name: Vassilis Angelopoulos
+    orcid: 0000-0001-7024-1561
+    affiliation: University of California, Los Angeles
+affiliations:
+  - id: ucla
+    name: University of California, Los Angeles
+---
+
+![](./figures/density_distribution){#fig-distribution}
+
+![](./figures/thickness_current){#fig-thickness-current}
+
+
+::: {.column-page}
+{{< embed notebooks/10_results.ipynb#fig-dn-db >}}
+
+{{< embed notebooks/10_results.ipynb#fig-dv >}}
+:::

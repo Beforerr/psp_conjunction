@@ -3,7 +3,6 @@ title: Group Meeting
 format:
   dashboard:
     nav-buttons: [github]
-navbar: false
 ---
 
 # #1 Overview {orientation="columns"}

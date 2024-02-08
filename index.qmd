@@ -15,9 +15,6 @@ author:
   - name: Vassilis Angelopoulos
     orcid: 0000-0001-7024-1561
     affiliation: University of California, Los Angeles
-  - name: Shi Chen
-    orcid: 0000-0002-2582-7085
-    affiliation: University of California, Los Angeles
 code-links:
   - repo
   - href: https://app.tana.inc?nodeid=PZ6j7iriic2l
@@ -27,6 +24,22 @@ code-links:
 ---
 
 # Updates
+
+## 02/08/2024
+
+![](./figures/density_distribution){#fig-distribution}
+
+![](./figures/thickness_current){#fig-thickness-current}
+
+
+::: {.column-page}
+{{< embed notebooks/10_results.ipynb#fig-dn-db >}}
+
+{{< embed notebooks/10_results.ipynb#fig-dv >}}
+:::
+
+
+## 
 
 ![](images/paste-20.png)
 

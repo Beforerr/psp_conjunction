@@ -12,10 +12,15 @@ website:
         href: index.qmd
       - text: "Manuscript"
         href: _manuscript/index.html
+      - text: "Presentation"
+        menu: 
+          - href: presentations/grp.qmd
+            text: Group Meeting
 
 format:
   html:
     toc: true
+    lightbox: auto
 
 bibliography:
   - ../research.bib

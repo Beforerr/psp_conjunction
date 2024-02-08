@@ -4,4 +4,4 @@ project:
     - "!presentations/"
 
 manuscript:
-  article: index.qmd
+  article: article.qmd
