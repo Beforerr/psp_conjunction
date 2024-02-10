@@ -7,7 +7,7 @@ env-update:
 preview:
    quarto preview --no-render
 
-publish: update
+publish: update render
    quarto publish gh-pages --no-render --no-prompt
 
 render:

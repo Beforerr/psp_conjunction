@@ -25,6 +25,17 @@ code-links:
 
 # Updates
 
+Why ARTEMIS electron data and Wind ion data?
+
+## 02/09/2024
+
+{{< embed notebooks/10_results.ipynb#fig-dvl >}}
+
+{{< embed notebooks/10_results.ipynb#fig-dn-dT >}}
+
+{{< embed notebooks/10_results.ipynb#fig-dT-dB >}}
+
+
 ## 02/08/2024
 
 ![](./figures/density_distribution){#fig-distribution}
@@ -33,7 +44,7 @@ code-links:
 
 
 ::: {.column-page}
-{{< embed notebooks/10_results.ipynb#fig-dn-db >}}
+{{< embed notebooks/10_results.ipynb#fig-dn-dB >}}
 
 {{< embed notebooks/10_results.ipynb#fig-dv >}}
 :::
