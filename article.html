@@ -187,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notebooks/02_psp_events.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Wind dataset</span></a>
+ <span class="menu-text">Events</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -196,17 +196,34 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">10 Results</span></a>
   </div>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./notebooks/events/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Events</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/events/01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2019-04-07</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
  <span class="menu-text">Presentations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./presentations/grp.html" class="sidebar-item-text sidebar-link">
@@ -297,7 +314,7 @@ Figure&nbsp;2
 </div>
 <div class="column-page">
 <div class="quarto-embed-nb-cell">
-<div id="cell-fig-dn-dB" class="cell" data-execution_count="10">
+<div id="cell-fig-dn-dB" class="cell" data-execution_count="51">
 <div id="fig-dn-db" class="cell-output cell-output-display quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-dn-db-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -311,7 +328,7 @@ Figure&nbsp;3
 </div>
 <a class="quarto-notebook-link" id="nblink-1" href="notebooks/10_results-preview.html#cell-fig-dn-dB">Source: 10_results.ipynb</a></div>
 <div class="quarto-embed-nb-cell">
-<div id="cell-fig-dv" class="cell" data-execution_count="19">
+<div id="cell-fig-dv" class="cell" data-execution_count="56">
 <div id="fig-dv" class="cell-output cell-output-display quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-dv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -721,7 +738,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
