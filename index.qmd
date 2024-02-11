@@ -27,28 +27,49 @@ code-links:
 
 Why ARTEMIS electron data and Wind ion data?
 
-## 02/09/2024
+## 02/11/2024 (Encounter 4)
 
-{{< embed notebooks/10_results.ipynb#fig-dvl >}}
+::: {.column-screen-inset layout-nrow="1"}
 
-{{< embed notebooks/10_results.ipynb#fig-dn-dT >}}
+![](figures/enc4/thickness_current)
 
-{{< embed notebooks/10_results.ipynb#fig-dT-dB >}}
+![](figures/enc4/density_distribution)
 
-
-## 02/08/2024
-
-![](./figures/density_distribution){#fig-distribution}
-
-![](./figures/thickness_current){#fig-thickness-current}
-
-
-::: {.column-page}
-{{< embed notebooks/10_results.ipynb#fig-dn-dB >}}
-
-{{< embed notebooks/10_results.ipynb#fig-dv >}}
+![](figures/enc4/dvl)
 :::
 
+
+::: {.column-screen-inset layout-nrow="1"}
+
+![](figures/enc4/dn-dT)
+
+![](figures/enc4/dT-dB)
+
+![](figures/enc4/dn-dB)
+:::
+
+
+## 02/09/2024 (Encounter 2)
+
+::: {.column-screen-inset layout-nrow="1"}
+
+![](figures/enc2/thickness_current)
+
+![](figures/enc2/density_distribution)
+
+![](figures/enc2/dvl)
+:::
+
+Pair plot
+
+::: {.column-screen-inset layout-nrow="1"}
+
+![](figures/enc2/dn-dT)
+
+![](figures/enc2/dT-dB)
+
+![](figures/enc2/dn-dB)
+:::
 
 ## 
 
@@ -69,154 +90,3 @@ Given timeseries $(R_a, \phi_a$, $R_b(t)$,
     ```         
     > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensiﬁcation of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
     ```
-
-# PSP Encounter Infos
-
-[PSP Science Planning](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters)
-
-{{< embed notebooks/00_notes.ipynb#tbl-events >}}
-
-# Events
-
-## 2018-10-24 PSP Earth
-
-```         
-file:/Users/zijin/projects/psp_conjunction/files/psp_v.vap?timerange=2018-10-23+through+2018-10-25
-```
-
-PSP plasma data is very sparse (6 data point/day)
-
-![](images/paste-13.png)
-
-## 2019-04-07
-
-``` txt
-file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-01+through+2019-04-15
-file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-06+through+2019-04-08
-file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10
-file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14
-file:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10
-file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10
-```
-
-[ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 02](http://helioweather.net/missions/psp/per02/)
-
-::: {.column-page layout-nrow="1"}
-{{< video http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4 >}}
-
-{{< video http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4 >}}
-:::
-
-![](images/paste-15.png)
-
-![PSP Observation Overvall](images/paste-19.png)
-
-::: {.column-page layout-nrow="1"}
-![PSP observation](images/paste-18.png)
-
-![ACE observation](images/paste-16.png)
-
-![ACE observation (continued)](images/paste-17.png)
-:::
-
-Summary plot
-
-::: {.column-screen-inset layout-nrow="1"}
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190405.png)
-
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190406.png)
-
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190407.png)
-
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190408.png)
-:::
-
-# Trange: Encounter 8
-
-![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png) ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
-
-> Using a nominal 400 km/s solar wind velocity, the following figures show the ballistic mapping in a helioprojective and heliographic frame, followed by an ecliptic view of the trajectory in the frame rotating with the Earth. Several Parker spirals are drawn, showing the possible magnetic connection to the Earth near May 9th.
-
-> E8, C2, Q4, Q5, 24 April–1 May, 2021. Throughout this period SO will be in quadrature with Earth, appearing from Earth on the solar east limb. In rapid succession over E8, PSP will appear in quadrature from SO on the east limb (trailing), then in conjunction with SO at perihelion on 28 April, with PSP at a distance of 15.5RS, then in conjunction with STEREO-A on 29 April and with Earth on 30 April. STEREO-A will be positioned trailing Earth by 45◦ midway to SO in longitude. This PSP encounter is extremely favorable to a potential joint in situ–remote-sensing campaign comprising PSP, SO, STEREOA, SDO, Hinode, and ground-based instrumentation.
-
--   [WHPI - Campaign: PSP 8th Perhihelion](https://whpi.hao.ucar.edu/whpi_campaign-psp8p.php)
--   [WHPI - Campaign: PSP 15th Perhihelion](https://whpi.hao.ucar.edu/whpi_campaign-psp15p.php)
-
-2021-05-09
-
-05/09/2021
-
-![](images/wind.png)
-
-![](images/psp.png)
-
-vap+cdaweb:ds=PSP_SWP_SPC_L3I&filter=psp&id=vp_moment_RTN\[:,0\];vp_moment_RTN\[:,1\];vp_moment_RTN\[:,2\]&timerange=2021-05-07+through+2021-05-08
-
-\|rebundle(vp_moment_R,vp_moment_T,vp_moment_N)\|magnitude()
-
-\|rebundle(psp_fld_l2_mag_RTN_1min\_\_0,psp_fld_l2_mag_RTN_1min\_\_0,psp_fld_l2_mag_RTN_1min\_\_0)\|magnitude()
-
--   ops: "\|rebundle(vp_moment_R,vp_moment_T,vp_moment_N)\|magnitude()" title: "PSP/SWP_SPC Proton bulk velocity from the 1st moment of the reduced distribution function in \[inertial\] RTN coordinate system (All Qualities)" y: label: V (km/s)
--   ops: "\|rebundle(B_R,B_T,B_N)\|magnitude()" y: label: B (nT) title: PSP_FLD/MAG_RTN_1min Magnetic field in RTN coordinates (1 minute cadence)
-
-PSP/PSP/SWEAP/SPAN Partial Moment Velocity in RTN Coordinates and Sun reference frame \|rebundle(Vx RTN,Vy RTN,Vz RTN)\|magnitude()
-
-Wind or ACE
-
-![](images/paste-2.png)
-
-![](images/paste-1.png)
-
-<!-- ![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_1day_plots/2021/05/20210509-day.png) -->
-
-::: {.column-page layout-nrow="1"}
-![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png)
-
-![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png)
-:::
-
-tr = '2021-05-06 22:46 to 2021-05-15 22:46' vp = getDataSet( 'vap+cdaweb:ds=PSP_SWP_SPC_L3I&filter=psp_SW&id=vp_moment_RTN', tr ) plot( 0, vp )
-
-density5min= getDataSet( 'http://cdaweb.gsfc.nasa.gov/pub/data/ace/mag/level_2_cdaweb/mfi_k0/2017/ac_k0_mfi_20170117_v01.cdf?Magnitude') dst60min= getDataSet( 'http://cdaweb.gsfc.nasa.gov/pub/data/omni/omni_cdaweb/hourly/2017/omni2_h0_mrg1hr_20170101_v01.cdf?DST')
-
-t5min= density5min.property(QDataSet.DEPEND_0)
-
-( density, flux, dst ) = synchronize( t5min, density5min, flux4min, dst60min, nn=1 ) \# experimental function (note there is a built-in function in Autoplot v2017a. plot( 1, flux ) plot( 2, dst )
-
-## Trange
-
-> C4, 18 September, b 2021. This will be an inferior triple SO–PSP–STEREO-A conjunction, with SO inside the orbit of Venus around 0.6 AU, PSP at about 0.7 AU, and STEREO-A at 0.9 AU. This will be an occasion for joint in situ studies of the properties of turbulence and dynamics of a solar wind stream between 0.5 and 1 AU.
-
-https://solar-mach.streamlit.app/?embedded=true&date=20210925&time=0000&coord_sys=0&plot_spirals=1&plot_sun_body_line=1&plot_trans=0&plot_markers=Numbers&long_offset=270&bodies=STEREO+A&bodies=Earth&bodies=BepiColombo&bodies=Parker+Solar+Probe&bodies=Solar+Orbiter&speeds=346&speeds=485&speeds=400&speeds=300&speeds=287&
-
-![](images/paste-8.png)
-
-![](images/paste-9.png)
-
-![](images/paste-7.png)
-
-![](images/paste-6.png)
-
-![](images/paste-10.png)
-
-::: {.column-page layout-nrow="1"}
-![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210802-3day.png)
-
-![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210805-3day.png)
-:::
-
-## Trange: Encounter 11, 2022-02
-
-> E11, C6, Q8, Q9 23–27 February, 2022. PSP approaches encounter E11 beginning with a trailing quadrature Q8 on 23 February, 2022, appearing on the east limb of the Sun from SO, before rapidly going through conjunction with STEREO-A and then SO and Earth (24 and 25 February, respectively) at perihe- lion with the Earth–Sun–STEREO-A angle '40◦ and the Earth–
-
-![](images/paste-3.png)
-
-[![](images/paste-4.png)](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E11_HEE.png)
-
-![](images/paste-5.png)
-
-::: {.column-page layout-nrow="1"}
-![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220225-3day.png)
-
-![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220228-3day.png)
-:::
