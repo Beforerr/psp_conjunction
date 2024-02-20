@@ -28,5 +28,5 @@ affiliations:
 ::: {.column-page}
 {{< embed notebooks/10_results.ipynb#fig-dn-db >}}
 
-{{< embed notebooks/10_results.ipynb#fig-dv >}}
+{{< embed notebooks/10_results.ipynb#fig-dvl >}}
 :::
