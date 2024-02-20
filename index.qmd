@@ -25,7 +25,22 @@ code-links:
 
 # Updates
 
-Why ARTEMIS electron data and Wind ion data?
+- [x] Why ARTEMIS electron data and Wind ion data?
+
+## 02/20/2024
+
+{{< embed notebooks/02_psp_events.ipynb#fig-data-products >}}
+
+{{< embed notebooks/10_results.ipynb#fig-anisotropy >}}
+
+{{< embed notebooks/10_results.ipynb#fig-dvl >}}
+
+::: {.column-screen-inset layout-nrow="1"}
+{{< embed notebooks/10_results.ipynb#fig-dn-dT >}}
+{{< embed notebooks/10_results.ipynb#fig-dT-dB >}}
+{{< embed notebooks/10_results.ipynb#fig-dn-dB >}}
+:::
+
 
 ## 02/11/2024 (Encounter 4)
 
