@@ -1,63 +1,151 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.4.547">
 
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.547">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Events</title>
-<style>
-code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
-div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-ul.task-list{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-  width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
-  vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+    <title>Events</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = '/';
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -76,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
-<script id="quarto-search-options" type="application/json">{
+     <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -102,18 +190,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+}</script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>  
+      </head>
 
+  <body class="nav-sidebar floating nav-fixed quarto-notebook">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link"><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> Events</h6>
 
-</head>
+            <a href="../notebooks/02_psp_events.ipynb" class="btn btn-primary quarto-download-embed" download="02_psp_events.ipynb">Download Notebook</a>
+          </div>
 
-<body class="nav-sidebar floating nav-fixed">
-
-<div id="quarto-search-results"></div>
+     <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
@@ -272,29 +364,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
     </ul>
     </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#events" id="toc-events" class="nav-link active" data-scroll-target="#events">Events</a></li>
+  <li><a href="#anisotropy" id="toc-anisotropy" class="nav-link" data-scroll-target="#anisotropy">Anisotropy</a></li>
+  <li><a href="#process" id="toc-process" class="nav-link" data-scroll-target="#process">Process</a></li>
+  <li><a href="#wind-dataset" id="toc-wind-dataset" class="nav-link" data-scroll-target="#wind-dataset">Wind dataset</a></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#events" id="toc-events" class="nav-link active" data-scroll-target="#events">Events</a>
-  <ul class="collapse">
-  <li><a href="#anisotropy" id="toc-anisotropy" class="nav-link" data-scroll-target="#anisotropy">Anisotropy</a>
-  <ul class="collapse">
-  <li><a href="#process" id="toc-process" class="nav-link" data-scroll-target="#process">Process</a></li>
-  </ul></li>
-  <li><a href="#wind-dataset" id="toc-wind-dataset" class="nav-link" data-scroll-target="#wind-dataset">Wind dataset</a></li>
-  </ul></li>
-  </ul>
-</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/00_calc.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/02_psp_events.html">Events</a></li></ol></nav>
+<main class="content" id="quarto-document-content">      <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/00_calc.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/02_psp_events.html">Events</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Events</h1>
 </div>
@@ -310,11 +396,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header>
-
-
+</header>     <div id="cell-0" class="cell markdown">
 <section id="events" class="level1">
 <h1>Events</h1>
+</section>
+</div>
+<div id="cell-1" class="cell markdown">
 <section id="anisotropy" class="level2">
 <h2 class="anchored" data-anchor-id="anisotropy">Anisotropy</h2>
 <ul>
@@ -349,11 +436,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><code>thb_peim_t3_magQ</code> —–Ion Temperature, Field Aligned (TprpFA1, TprpFA2, TparFA)</p></li>
 </ul></li>
 </ul>
-<div id="cell-2" class="cell" data-execution_count="1">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-3" class="cell" data-execution_count="2">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="cell-3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> discontinuitypy.datasets <span class="im">import</span> IDsDataset</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> beforerr.polars <span class="im">import</span> pl_norm</span>
@@ -998,12 +1087,12 @@ ModuleNotFoundError: No module named 'nltk'
 19-Feb-24 15:57:02: UserWarning: pdpipe: nltk import failed. nltk-dependent  pipeline stages will not be loaded.
 </code></pre>
 </div>
-</div>
-<div id="cell-4" class="cell" data-execution_count="3">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>enc <span class="op">=</span> <span class="st">"enc2"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># enc = "enc4"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-5" class="cell" data-execution_count="50">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [50]:</pre></div><div id="cell-5" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>AvailableInstrs <span class="op">=</span> Literal[<span class="st">"spi"</span>, <span class="st">"spc"</span>, <span class="st">"sqtn"</span>, <span class="st">"qtn"</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Config(BaseModel):</span>
@@ -1022,8 +1111,8 @@ ModuleNotFoundError: No module named 'nltk'
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    instr_p<span class="op">=</span><span class="st">"spi"</span>,</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    instr_p_den<span class="op">=</span><span class="st">"spi"</span>,</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-6" class="cell" data-execution_count="51">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [51]:</pre></div><div id="cell-6" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span> <span class="op">=</span> <span class="st">"../data"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tau <span class="op">=</span> timedelta(seconds<span class="op">=</span><span class="dv">16</span>)</span>
@@ -1033,8 +1122,8 @@ ModuleNotFoundError: No module named 'nltk'
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>instr_p_den <span class="op">=</span> config.instr_p_den</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>mag_dataset <span class="op">=</span> config.mag_dataset</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>mag_parameters <span class="op">=</span> config.mag_parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-7" class="cell" data-execution_count="52">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [52]:</pre></div><div id="cell-7" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> enc:</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"enc2"</span>: <span class="co"># Encounter 2</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        start <span class="op">=</span> <span class="st">"2019-04-07T01:00"</span></span>
@@ -1049,8 +1138,8 @@ ModuleNotFoundError: No module named 'nltk'
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        earth_start <span class="op">=</span> <span class="st">'2020-01-29'</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        earth_end <span class="op">=</span> <span class="st">'2020-01-31'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-8" class="cell" data-execution_count="53">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [53]:</pre></div><div id="cell-8" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> astropy.units <span class="im">as</span> u</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> astropy.constants <span class="im">import</span> m_p</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1063,14 +1152,16 @@ ModuleNotFoundError: No module named 'nltk'
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df.with_columns(</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        plasma_temperature<span class="op">=</span>thermal_spd2temp(df[speed_col].to_numpy(), speed_unit)</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    ).lazy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</div></div>
+<div id="cell-9" class="cell markdown">
 <p>Q: What is the time scale for change in magnetic field, density and velocity?</p>
 <ul>
 <li>Different dataset comes with different time resolution.</li>
 <li>Mangnetic field data has the highest time resolution.</li>
 </ul>
 <p>method 1: directly interpolate density and velocity into magnetic field data respectively method 2: interpolate density into velocity data first</p>
-<div id="cell-10" class="cell" data-execution_count="54">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [54]:</pre></div><div id="cell-10" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> discontinuitypy.utils.basic <span class="im">import</span> resample</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1138,17 +1229,17 @@ ModuleNotFoundError: No module named 'nltk'
 <span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>        speed_col<span class="op">=</span><span class="st">"plasma_speed"</span>,</span>
 <span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>        temperature_col<span class="op">=</span><span class="st">"plasma_temperature"</span>,</span>
 <span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-11" class="cell" data-execution_count="55">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [55]:</pre></div><div id="cell-11" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>psp_timerange <span class="op">=</span> TimeRange(start, end)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>earth_timerange <span class="op">=</span> TimeRange(earth_start, earth_end)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-12" class="cell" data-execution_count="56">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [56]:</pre></div><div id="cell-12" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validate(timerange):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(timerange, TimeRange):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [timerange.start.to_string(), timerange.end.to_string()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-13" class="cell" data-execution_count="57">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [57]:</pre></div><div id="cell-13" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>timerange <span class="op">=</span> validate(psp_timerange)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>p_vars <span class="op">=</span> Variables(timerange<span class="op">=</span>timerange)</span>
@@ -1176,12 +1267,15 @@ ModuleNotFoundError: No module named 'nltk'
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>p_vars.products.insert(<span class="dv">0</span>, den_product)</span>
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>fname <span class="op">=</span>  <span class="ss">f"</span><span class="sc">{</span><span class="bu">dir</span><span class="sc">}</span><span class="ss">/psp_ids_dataset_</span><span class="sc">{</span>enc<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>psp_p_instr<span class="sc">}</span><span class="ss">_n_</span><span class="sc">{</span>instr_p_den<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>config<span class="sc">.</span>fmt<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</div></div>
+<div id="cell-14" class="cell markdown">
 <section id="check-different-density-product" class="level4">
 <h4 class="anchored" data-anchor-id="check-different-density-product">Check Different Density Product</h4>
 <p>Time resolution (from high to low): SPC, SPI, SQTN, QTN Quality (fluctuating, from high to low): SQTN, QTN, SPC/SPI</p>
 <p>So we use <code>SQTN</code> dataset for density variables.</p>
-<div id="fig-data-products" class="cell" data-execution_count="58">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [58]:</pre></div><div id="fig-data-products" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> speasy <span class="im">import</span> get_data, SpeasyVariable</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
@@ -1614,8 +1708,8 @@ ModuleNotFoundError: No module named 'nltk'
 <div class="cell-output cell-output-display">
 <div id="fig-data-products-5" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-data-products-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_psp_events_files/figure-html/fig-data-products-output-5.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="02_psp_events_files/figure-html/fig-data-products-output-5.png" id="fig-data-products-5" class="img-fluid figure-img"></a>
+<div aria-describedby="fig-data-products-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
+<a href="02_psp_events_files/figure-html/fig-data-products-output-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="02_psp_events_files/figure-html/fig-data-products-output-5.png" id="fig-data-products-5" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-data-products-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1
@@ -1623,11 +1717,13 @@ Figure&nbsp;1
 </figure>
 </div>
 </div>
-</div>
-</section>
+</div></div>
+<div id="cell-16" class="cell markdown">
 <section id="process" class="level3">
 <h3 class="anchored" data-anchor-id="process">Process</h3>
-<div id="cell-17" class="cell" data-execution_count="59">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [59]:</pre></div><div id="cell-17" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>psp_ids_dataset <span class="op">=</span> (</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    get_and_process_data(mag_dataset, mag_parameters, timerange, tau, ts, p_vars<span class="op">=</span>p_vars)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    .find_events()</span>
@@ -1648,14 +1744,14 @@ Figure&nbsp;1
 {"model_id":"ea66b18cd3274d0cb73468f931106a79","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
-</div>
-<div id="cell-18" class="cell" data-execution_count="38">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [38]:</pre></div><div id="cell-18" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>psp_ids_dataset.events.drop_nulls().height</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>33</code></pre>
 </div>
-</div>
-<div id="cell-19" class="cell" data-execution_count="83">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [83]:</pre></div><div id="cell-19" class="cell" data-execution_count="83">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>psp_ids_dataset.events.<span class="bu">filter</span>(</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">'time'</span>).is_duplicated()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3370,14 +3466,14 @@ Figure&nbsp;1
 </table>
 </div>
 </div>
-</div>
-<div id="cell-20" class="cell" data-execution_count="82">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [82]:</pre></div><div id="cell-20" class="cell" data-execution_count="82">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>psp_ids_dataset.plot(offset<span class="op">=</span>timedelta(seconds<span class="op">=</span><span class="dv">15</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>ValueError: ClassSelector parameter 'VLine.x' value must be an instance of (Number, datetime64, datetime, date, time, Timestamp, DatetimeTZDtype, Period, datetime), not None.</code></pre>
 </div>
-</div>
-<div id="cell-21" class="cell" data-execution_count="15">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-21" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> timedelta(seconds<span class="op">=</span><span class="dv">1</span> <span class="op">/</span> <span class="dv">11</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fname <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span><span class="bu">dir</span><span class="sc">}</span><span class="ss">/psp_ids_dataset_</span><span class="sc">{</span>enc<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>psp_p_instr<span class="sc">}</span><span class="ss">_r.</span><span class="sc">{</span>fmt<span class="sc">}</span><span class="ss">"</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3520,12 +3616,13 @@ Distributing Dataframe: 100%██████████ Elapsed time: 00:00, 
 │ 11:59:28   ┆       ┆           ┆           ┆   ┆            ┆           ┆            ┆ 1         │
 └────────────┴───────┴───────────┴───────────┴───┴────────────┴───────────┴────────────┴───────────┘, data=&lt;LazyFrame [4 cols, {"time": Datetime(time_unit='us', time_zone=None) … "B_N": Float64}] at 0x2A520FC10&gt;, ts=datetime.timedelta(microseconds=90909), tau=datetime.timedelta(seconds=16), plasma_data=&lt;LazyFrame [8 cols, {"plasma_density": Float64 … "plasma_speed": Float64}] at 0x2A4FCEE90&gt;, bcols=['B_R', 'B_T', 'B_N'], vec_cols=['Vx RTN', 'Vy RTN', 'Vz RTN'], density_col='plasma_density', speed_col='plasma_speed', temperature_col='plasma_temperature', plasma_meta=None)</code></pre>
 </div>
-</div>
-</section>
-</section>
+</div></div>
+<div id="cell-22" class="cell markdown">
 <section id="wind-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="wind-dataset">Wind dataset</h2>
-<div id="cell-23" class="cell" data-execution_count="16">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div id="cell-23" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> timedelta(seconds<span class="op">=</span><span class="dv">1</span> <span class="op">/</span> <span class="dv">11</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>tau <span class="op">=</span> timedelta(seconds<span class="op">=</span><span class="dv">30</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3541,8 +3638,8 @@ Distributing Dataframe: 100%██████████ Elapsed time: 00:00, 
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>timerange <span class="op">=</span> validate(earth_timerange)</span>
 <span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>fname <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span><span class="bu">dir</span><span class="sc">}</span><span class="ss">/wind_ids_dataset_</span><span class="sc">{</span>enc<span class="sc">}</span><span class="ss">_r.</span><span class="sc">{</span>fmt<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-24" class="cell" data-execution_count="17">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [17]:</pre></div><div id="cell-24" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>wind_ids_dataset <span class="op">=</span> get_and_process_data(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    mag_dataset, mag_parameters, plasma_dataset, plasma_parameters, timerange, tau, ts</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>).find_events().update_candidates_with_plasma_data().export(fname)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3561,11 +3658,11 @@ Distributing Dataframe: 100%██████████ Elapsed time: 00:00, 
 {"model_id":"1029e4ceb67b4e5e95d355c347a72252","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
-</div>
-<div id="cell-25" class="cell" data-execution_count="18">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [18]:</pre></div><div id="cell-25" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.polars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-26" class="cell" data-execution_count="19">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [19]:</pre></div><div id="cell-26" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>wind_ids_dataset.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>2024-02-11 12:51:03.398 | INFO     | discontinuitypy.datasets:overview_plot:172 - Overview plot: 2020-01-29 23:40:15 - 2020-01-29 23:40:45
@@ -3648,21 +3745,17 @@ Distributing Dataframe: 100%██████████ Elapsed time: 00:00, 
   }
 })(window);</script>
 </div>
-</div>
-<div id="cell-27" class="cell">
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bokeh.io <span class="im">import</span> output_notebook</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>output_notebook()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</div></div>
 
 
 <div class="hidden" aria-hidden="true">
 <span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: </span>
 </div>
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+     </main> <!-- /main -->  <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -4048,9 +4141,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-</div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
@@ -4074,9 +4165,6 @@ window.onload = () => {
   });
 
 };
-          </script>
-
-
-
-
+          </script> 
+  
 </body></html>
