@@ -379,7 +379,7 @@
     "href": "notebooks/10_results.html#anistropy",
     "title": "Anistropy",
     "section": "Anistropy",
-    "text": "Anistropy\n\nfunction plot_anistropy()\n    fname = \"anisotropy\"\n\n    Λ_map = :Λ =&gt; L\"\\Lambda\"\n\n    plt = data_layer_a * mapping(Λ_map)\n\n    fig = Figure(size=(1000, 500))\n    grid1 = plt * density() |&gt; draw!$fig[2, 1]\n    grid2 = plt * histogram() |&gt; draw!$fig[2, 2]\n\n    # easy_save(\"$(fname)_$psp_p_instr\")\n    # legend!(fig[1, 1:2], grid, titleposition=:left, orientation=:horizontal)\n    pretty_legend!(fig, grid1)\n\n    fig\nend\n\n\n\nplot_anistropy (generic function with 1 method)\n\n\nFigure 5\n\n\n\n\n\nplot_anistropy()",
+    "text": "Anistropy\n\nfunction plot_anistropy()\n    fname = \"anisotropy\"\n\n    Λ_map = :Λ =&gt; L\"\\Lambda\"\n\n    plt = data_layer_a * mapping(Λ_map)\n\n    fig = Figure(size=(1000, 500))\n    grid1 = plt * density() |&gt; draw!$fig[2, 1]\n    grid2 = plt * histogram() |&gt; draw!$fig[2, 2]\n\n    # easy_save(\"$(fname)_$psp_p_instr\")\n    # legend!(fig[1, 1:2], grid, titleposition=:left, orientation=:horizontal)\n    pretty_legend!(fig, grid1)\n\n    fig\nend\n\nplot_anistropy (generic function with 1 method)\n\n\n\nplot_anistropy()\n\n\n\n\n\n\nFigure 5",
     "crumbs": [
       "Home",
       "Notebooks",
