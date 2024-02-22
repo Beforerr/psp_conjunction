@@ -1,13 +1,4 @@
-# 2019-04-07
-
-``` txt
-file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-01+through+2019-04-15
-file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-06+through+2019-04-08
-file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10
-file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14
-file:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10
-file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10
-```
+# Encounter2 (2019-04-07)
 
 [ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 02](http://helioweather.net/missions/psp/per02/)
 
@@ -19,6 +10,9 @@ file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+20
 
 ![](../../images/paste-15.png)
 
+
+## Observations
+
 ![PSP Observation Overvall](../../images/paste-19.png)
 
 ::: {.column-page layout-nrow="1"}
@@ -29,14 +23,34 @@ file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+20
 ![ACE observation (continued)](../../images/paste-17.png)
 :::
 
-Summary plot
+
+### Summary plot
 
 ::: {.column-screen-inset layout-nrow="1"}
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190405.png)
+![2019-04-05](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190405.png)
 
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190406.png)
+![2019-04-06](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190406.png)
 
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190407.png)
+![2019-04-07](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190407.png)
 
-![](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190408.png)
+![2019-04-08](https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190408.png)
 :::
+
+## ARTEMIS
+
+::: {.column-page layout-nrow="1"}
+![](http://themis.ssl.berkeley.edu/themisdata/thg/l0/asi/2019/04/orbit_moon_2019-04-09_0024.gif)
+
+![](http://themis.ssl.berkeley.edu/themisdata/thg/l0/asi/2019/04/orbit_moon_2019-04-12_0024.gif)
+:::
+
+## Scripts
+
+``` txt
+file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-01+through+2019-04-15
+file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2019-04-06+through+2019-04-08
+file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14
+file:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10
+```

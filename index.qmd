@@ -26,12 +26,26 @@ code-links:
 # Updates
 
 - [x] Why ARTEMIS electron data and Wind ion data?
+- [ ] Disagreement between anisotropy observed and predicted by the theory
+
+## 02/22/2024
+
+::: {.column-screen-inset layout-nrow="1"}
+{{< embed notebooks/10_results.ipynb#fig-anisotropy >}}
+
+{{< embed notebooks/10_results.ipynb#fig-anisotropy-comp >}}
+:::
+
+::: {.column-screen-inset layout-nrow="1"}
+{{< embed notebooks/10_results.ipynb#fig-anisotropy-comp-2d >}}
+
+{{< embed notebooks/10_results.ipynb#fig-anisotropy-comp-i-e >}}
+:::
+
 
 ## 02/20/2024
 
 {{< embed notebooks/02_psp_events.ipynb#fig-data-products >}}
-
-{{< embed notebooks/10_results.ipynb#fig-anisotropy >}}
 
 {{< embed notebooks/10_results.ipynb#fig-dvl >}}
 

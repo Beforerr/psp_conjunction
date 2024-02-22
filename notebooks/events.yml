@@ -1,0 +1,13 @@
+enc2:
+  name: Encounter 2
+  start: 2019-04-07T01:00
+  end: 2019-04-07T12:00
+  earth_start: "2019-04-09"
+  earth_end: "2019-04-12"
+
+enc4:
+  name: Encounter 4
+  start: 2020-01-27T00:00
+  end: 2020-01-29T00:00
+  earth_start: 2020-01-29T00:00
+  earth_end: 2020-01-31T00:00
