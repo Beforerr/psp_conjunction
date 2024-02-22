@@ -273,12 +273,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/01_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">01 Cor</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../notebooks/01_psp_cor.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Estimate of arrival time</span></a>
   </div>
@@ -303,8 +297,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../notebooks/04_artemis_events.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04 Artemis Events</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../notebooks/10_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10 Results</span></a>
+ <span class="menu-text">Anistropy</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -1194,7 +1194,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
