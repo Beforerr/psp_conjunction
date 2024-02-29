@@ -16,6 +16,8 @@ website:
         menu: 
           - href: presentations/grp.qmd
             text: Group Meeting
+          - href: presentations/sparthb.qmd
+            text: SPARTHB
 
 format:
   html:

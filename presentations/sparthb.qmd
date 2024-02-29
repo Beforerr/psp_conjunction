@@ -1,0 +1,166 @@
+---
+title: "Solar Wind Discontinuities: Parker Solar Probe vs ARTEMIS Observations"
+subtitle: SPARTHB
+author:
+  - name: Zijin Zhang
+  - name: Anton V. Artemyev
+  - name: Vassilis Angelopoulos
+  - name: Chen Shi
+  - name: Zesen Huang
+# format: revealjs
+format:
+  pptx:
+    slide-level: 2
+  html: default
+  revealjs:
+    output-file: 'sparthb.revealjs.html'
+slide-number: true
+---
+
+## Solar wind discontinuities (SWD)
+
+Discontinuous changes in plasmas parameters and magnetic fields
+
+## Formation of SWD
+
+Turbulent ion heating by reconnection of tangential discontinuities. (a) Current density (color) and magnetic field lines, possible reconnection sites are indicated by crosses. (b) The proton temperature anisotropy (color) that indicates acceleration
+
+Alfven wave steepening results in the discontinuity formation: magnetic energy transport from large scale (Alfven waves generated in the solar corona) to small (ion kinetic) scales of discontinuities, where this energy can be dissipated to particle heating
+
+## Motivation
+
+Studying the radial distribution of occurrence rate, as well as the properties of solar wind discontinuities may help answer the following questions:
+
+- How does the discontinuities change with the radial distance from the Sun?
+
+- How is solar wind discontinuities formed? What is the physical mechanisms?
+
+  - Generated at or near the sun?
+
+  - Locally generated in the interplanetary space by turbulence?
+
+## Evolution with radial distance
+
+## Orbits
+
+:::: {.columns}
+
+::: {.column}
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E4_orbit.png)
+:::
+
+::: {.column}
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/Lag_from_PSP_to_STA_and_Earth.png)
+
+![](../notebooks/events/images/paste-1.png)
+:::
+
+::::
+
+## ENLIL simulation
+
+<!-- ![Normalized solar wind density at the ecliptic and the IMF lines](../images/enlil/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4) -->
+
+<!-- ![Radial solar wind velocity at the ecliptic on the global and detail regions together with the temporal profile at spacecraft](../images/enlil/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4) -->
+
+## Observation
+
+:::: {.columns}
+
+::: {.column}
+![PSP Observation Overvall](../images/paste-19.png)
+:::
+
+::: {.column}
+![PSP observation](../images/paste-18.png)
+:::
+
+::::
+
+
+## Observation (continued)
+
+:::: {.columns}
+
+::: {.column}
+![PSP observation](../images/paste-18.png)
+:::
+
+::: {.column}
+![ACE observation](../images/paste-16.png)
+:::
+
+::: {.column}
+![ACE observation (continued)](../images/paste-17.png)
+:::
+
+::::
+
+## Examples of discontinuities
+
+![](../figures/examples/psp_e2_example.png)
+
+Solar wind discontinuities examples observed by PSP and ARTEMIS fitted by a logistic function in LMN coordinates.
+
+In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density.
+
+## Identification/Detection method
+
+
+## Properties of discontinuities
+
+![](../figures/examples/psp_e2_example.png)
+
+Every discontinuity's L component is fitted by a tanh (logistic) function.
+
+$L$: thickness of the discontinuity
+
+$J_0$: maxium current density
+
+$\Delta v_l$
+
+
+## Plasma adiabatic evolution
+
+:::: {.columns}
+::: {.column}
+![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
+
+![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
+
+![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-previous.svg)
+:::
+
+::: {.column}
+
+![](../images/sty3348fig5.jpeg)
+
+@perroneRadialEvolutionSolar2019
+:::
+::::
+
+
+<!-- 
+The radial dependence of the proton number density, $n_p$ and magnetic ﬁeld magnitude, $B$, is given by
+
+$$
+n_p = (2.4 ± 0.1)(R/R_0)^{−(1.96±0.07)} cm^{−3}
+$$
+
+$$
+B = (5.7 ± 0.2)(R/R_0)^{−(1.59±0.06)} nT
+$$
+
+The faster decrease of the magnetic than kinetic pressure is reﬂected in the radial proton plasma beta variation
+
+$$
+β_p = P_k/P_B = (0.55 ± 0.04)(R/R_0)^{(0.4±0.1)}
+$$ -->
+
+## Comparison with discontinuities properties
+
+## Comparison with Alfven speed and plasma speed change
+
+## Comparison with anisotropy
+
+## Conclusion

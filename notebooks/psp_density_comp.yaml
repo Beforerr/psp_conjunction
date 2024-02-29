@@ -1,0 +1,40 @@
+timerange:
+  - "2019-04-07T01:00:00"
+  - "2019-04-07T12:00:00"
+variables:
+  - name: "RFS LFR QTN
+
+      Electron Density
+
+      [$cm^{{-3}}$]"
+    product: cda/PSP_FLD_L3_RFS_LFR_QTN/N_elec
+    timerange:
+      - "2019-04-07T01:00:00"
+      - "2019-04-07T12:00:00"
+  - name: "RFS SQTN
+
+      Electron Density
+
+      [$cm^{{-3}}$]"
+    product: cda/PSP_FLD_L3_SQTN_RFS_V1V2/electron_density
+    timerange:
+      - "2019-04-07T01:00:00"
+      - "2019-04-07T12:00:00"
+  - name: "SPC
+
+      Proton Density
+
+      [$cm^{{-3}}$]"
+    product: cda/PSP_SWP_SPC_L3I/np_moment_gd
+    timerange:
+      - "2019-04-07T01:00:00"
+      - "2019-04-07T12:00:00"
+  - name: "SPI
+
+      Proton Density
+
+      [$cm^{{-3}}$]"
+    product: cda/PSP_SWP_SPI_SF00_L3_MOM/DENS
+    timerange:
+      - "2019-04-07T01:00:00"
+      - "2019-04-07T12:00:00"

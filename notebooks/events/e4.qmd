@@ -1,1 +1,40 @@
+# Encounter 4 (2020-01-28)
 
+-   [WHPI - Campaign: 2226](https://whpi.hao.ucar.edu/whpi_campaign-cr2226.php)
+    -   [WHPI - Parker Perihelion 4 Campaign Highlights](https://whpi.hao.ucar.edu/whpi_campaign-cr2226-highlights.php)
+-   [ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 04](http://helioweather.net/missions/psp/per04/)
+
+> The orbit of Parker Solar Probe (Parker) during the 4th encounter with the Sun presented a unique opportunity for a multi-mission and multi-observatory collaboration as the 4th perihelion occurred nearly at the ***Sun-Earth*** line. This unprecedented configuration allowed ground-based solar observatories to measure the solar surface that Parker was magnetically connected to while Parker simultaneously measured the near-Sun environment at the closest distance to the Sun recorded to date (27.8 RS). Additionally, near-Earth missions (e.g., ACE, ARTEMIS, and MMS) could then measure this solar wind once it reached 1 au to study the evolution of solar wind structures as they propagate radially outward from the Sun. Probes within the magnetosphere of Earth, and observatories focused on the ionosphere, could then study how these structures affect the near-Earth environment. To take advantage of this great opportunity for large-scale coordinated science, the Parker Project Science team and the Whole Heliosphere and Planetary Interactions (WHPI) group organized a campaign that has brought together observatories and missions from across the world. This page is meant to contain information and links relevant to the Parker Solar Probe Encounter 4 campaign. For more information, please contact Robert C. Allen (Robert.Allen\@jhuapl.edu), the Parker Project Science team coordinator for this effort.
+
+Conjunction with In Situ Observations
+
+> In addition to magnetic footpoint mapping for solar observers, ballistic mappings were performed to estimate when solar wind observed at Parker may reach 1 au at either STEREO-A or near-Earth observers. This shows that the footpoints of STEREO-A and Parker may have been near each other from Jan 26th, 2020 to Jan 28th, 2020 (where the red lines cross the black horizontal line at 0), while the footpoints of Earth and Parker may have been close *from Jan 29th, 2020 until Jan 31st, 2020* (where the blue lines cross the zero-line).
+
+::: {.column-page layout-nrow="1"}
+![](images/paste-1.png)
+
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E4_orbit.png)
+:::
+
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/Lag_from_PSP_to_STA_and_Earth.png)
+
+Start Date: 20200125
+
+End Date: 20200131
+
+``` txt
+file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2020-01-20+through+2020-01-31
+file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2020-01-27+through+2020-01-31
+file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14
+file:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10
+```
+
+![](images/paste-2.png)
+
+## 
+
+![](images/paste-5.png)
+
+![](images/paste-4.png)

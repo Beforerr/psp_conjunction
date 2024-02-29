@@ -1,10 +1,11 @@
 from datetime import timedelta
 from sunpy.time import TimeRange
-from pydantic import BaseModel
 from typing import Literal
 
 from discontinuitypy.datasets import IDsDataset
 from space_analysis.utils.speasy import Variables
+from space_analysis.ds.meta import Meta, PlasmaMeta, TempMeta
+from discontinuitypy.config import SpeasyIDsConfig
 from beforerr.polars import pl_norm
 import polars as pl
 
@@ -15,26 +16,6 @@ from loguru import logger
 
 import astropy.units as u
 from astropy.constants import m_p, mu0
-
-from typing_extensions import TypedDict
-
-
-# class Meta(TypedDict):
-class Meta(BaseModel):
-    dataset: str = None
-    parameters: list[str] = None
-
-
-class PlasmaMeta(Meta):
-    density_col: str = None
-    velocity_cols: list[str] = None
-    speed_col: str = None
-    temperature_col: str = None
-
-
-class TempMeta(Meta):
-    para_col: str = None
-    perp_cols: list[str] = None
 
 
 def thermal_spd2temp(speed, speed_unit=u.km / u.s):
@@ -69,7 +50,7 @@ def _standardize_plasma_temperature(data: pl.LazyFrame, s_var: SpeasyVariable):
         return data.rename({temperature_col: "plasma_temperature"})
 
 
-def standardize_plasma_data(data: pl.LazyFrame, p_vars: Variables):
+def standardize_plasma_data(data: pl.LazyFrame, p_vars: Variables, meta: Meta = None):
 
     density_col = p_vars.data[0].columns[0]
     vec_cols = p_vars.data[1].columns
@@ -83,59 +64,9 @@ def standardize_plasma_data(data: pl.LazyFrame, p_vars: Variables):
     else:
         return data
 
-
-class IDsConfig(BaseModel):
-
-    tau: timedelta = None
-    ts: timedelta = None
-    timerange: list[str] = None
-
-    mag_meta: Meta = None
-    plasma_meta: PlasmaMeta = None
-    ion_temp_meta: TempMeta = None
-    e_temp_meta: TempMeta = None
+class IDsConfig(SpeasyIDsConfig):
 
     fname: str = "ids_ds"
-    fmt: str = "arrow"
-
-    _cached_vars: dict[str, Variables] = {}
-
-    def get_cached_vars(self, vars: str):
-        if vars not in self._cached_vars:
-            meta: Meta = getattr(self, f"{vars}_meta")
-            self._cached_vars[vars] = Variables(
-                dataset=meta.dataset,
-                parameters=meta.parameters,
-                timerange=self.timerange,
-            )
-        return self._cached_vars[vars]
-
-    @property
-    def mag_vars(self):
-        return self.get_cached_vars("mag")
-
-    @property
-    def plasma_vars(self):
-        return self.get_cached_vars("plasma")
-
-    @property
-    def ion_temp_var(self):
-        return self.get_cached_vars("ion_temp")
-
-    @property
-    def e_temp_var(self):
-        return self.get_cached_vars("e_temp")
-
-    def get_vars_df(self, vars: str):
-        return self.get_cached_vars(vars).retrieve_data().to_polars()
-
-    @property
-    def mag_df(self):
-        return self.get_vars_df("mag")
-
-    @property
-    def plasma_df(self):
-        return self.get_vars_df("plasma")
 
     @property
     def ion_temp_df(self):
@@ -154,6 +85,7 @@ class IDsConfig(BaseModel):
                 data: SpeasyVariable
                 print(data.name, data.columns, data.unit)
 
+    # TODO
     def get_and_process_data(self, **kwargs):
         mag_vars = self.mag_vars.retrieve_data()
         p_vars = self.plasma_vars.retrieve_data()
@@ -180,6 +112,8 @@ class IDsConfig(BaseModel):
         )
 
 
+
+
 AvailableInstrs = Literal["spi", "spc", "sqtn", "qtn"]
 
 
@@ -188,8 +122,10 @@ class PSPConfig(IDsConfig):
     instr_p: AvailableInstrs = "spc"
     instr_p_den: AvailableInstrs = "sqtn"
 
-    mag_dataset: str = "PSP_FLD_L2_MAG_RTN"
-    mag_parameters: list[str] = ["psp_fld_l2_mag_RTN"]
+    mag_meta: Meta = Meta(
+        dataset="PSP_FLD_L2_MAG_RTN",
+        parameters=["psp_fld_l2_mag_RTN"],
+    )
 
 
 class WindConfig(IDsConfig):
