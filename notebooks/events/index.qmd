@@ -27,7 +27,9 @@ PSP plasma data is very sparse (6 data point/day)
 
 ## Trange: Encounter 8
 
-![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png) ![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png)
+
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
 
 > Using a nominal 400 km/s solar wind velocity, the following figures show the ballistic mapping in a helioprojective and heliographic frame, followed by an ecliptic view of the trajectory in the frame rotating with the Earth. Several Parker spirals are drawn, showing the possible magnetic connection to the Earth near May 9th.
 

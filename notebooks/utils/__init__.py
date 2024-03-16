@@ -2,7 +2,6 @@ from datetime import timedelta
 from sunpy.time import TimeRange
 from typing import Literal
 
-from discontinuitypy.datasets import IDsDataset
 from space_analysis.utils.speasy import Variables
 from space_analysis.ds.meta import Meta, PlasmaMeta, TempMeta
 from discontinuitypy.config import SpeasyIDsConfig
@@ -13,6 +12,8 @@ from speasy import SpeasyVariable
 from rich import print
 
 from loguru import logger
+
+from pathlib import Path
 
 import astropy.units as u
 from astropy.constants import m_p, mu0
@@ -64,9 +65,39 @@ def standardize_plasma_data(data: pl.LazyFrame, p_vars: Variables, meta: Meta = 
     else:
         return data
 
+def get_timerange(enc: int) -> list[str]:
+    match enc:
+        case 2: # Encounter 2
+            start = "2019-04-07T01:00"
+            end = "2019-04-07T12:00" 
+
+            earth_start = "2019-04-09"
+            earth_end = "2019-04-12"
+        case 4: # Encounter 4
+            start = '2020-01-27'
+            end = '2020-01-29'
+
+            earth_start = '2020-01-29'
+            earth_end = '2020-01-31'
+
+    psp_timerange = [start, end]
+    earth_timerange = [earth_start, earth_end]
+    return psp_timerange, earth_timerange
+
+
 class IDsConfig(SpeasyIDsConfig):
 
-    fname: str = "ids_ds"
+    enc: int = 2
+
+    def model_post_init(self, __context):
+        super().model_post_init(__context)
+        self._data_dir = Path(f"../data/enc{self.enc}")
+        self.data = self.get_vars_df("mag")
+        self.plasma_data = self.get_vars_df("plasma")
+        
+    @property
+    def fname(self):
+        return f"events.{self.name}.{self.fmt}"
 
     @property
     def ion_temp_df(self):
@@ -85,53 +116,90 @@ class IDsConfig(SpeasyIDsConfig):
                 data: SpeasyVariable
                 print(data.name, data.columns, data.unit)
 
-    # TODO
-    def get_and_process_data(self, **kwargs):
-        mag_vars = self.mag_vars.retrieve_data()
-        p_vars = self.plasma_vars.retrieve_data()
+    # # TODO
+    # def get_and_process_data(self, **kwargs):
+    #     mag_vars = self.mag_vars.retrieve_data()
+    #     p_vars = self.plasma_vars.retrieve_data()
 
-        bcols = mag_vars.data[0].columns
-        vec_cols = p_vars.data[1].columns
+    #     bcols = mag_vars.data[0].columns
+    #     vec_cols = p_vars.data[1].columns
 
-        mag_data = self.mag_df.unique("time")
+    #     mag_data = self.mag_df.unique("time")
 
-        plasma_data = (
-            p_vars.to_polars().unique("time").pipe(standardize_plasma_data, p_vars)
-        )
+    #     plasma_data = (
+    #         p_vars.to_polars().unique("time").pipe(standardize_plasma_data, p_vars)
+    #     )
 
-        return IDsDataset(
-            mag_data=mag_data,
-            plasma_data=plasma_data,
-            tau=self.tau,
-            ts=self.ts,
-            bcols=bcols,
-            vec_cols=vec_cols,
-            density_col="plasma_density",
-            speed_col="plasma_speed",
-            temperature_col="plasma_temperature",
-        )
-
-
+    #     return IDsDataset(
+    #         mag_data=mag_data,
+    #         plasma_data=plasma_data,
+    #         tau=self.tau,
+    #         ts=self.ts,
+    #         bcols=bcols,
+    #         vec_cols=vec_cols,
+    #         density_col="plasma_density",
+    #         speed_col="plasma_speed",
+    #         temperature_col="plasma_temperature",
+    #     )
 
 
 AvailableInstrs = Literal["spi", "spc", "sqtn", "qtn"]
 
+def get_psp_plasma_meta(instr_p: AvailableInstrs, instr_p_den: AvailableInstrs):
+    match instr_p:
+        case "spi":
+            dataset = "PSP_SWP_SPI_SF00_L3_MOM"
+            parameters = ["VEL_RTN_SUN", "TEMP", "SUN_DIST"]
+        case "spc":
+            dataset = "PSP_SWP_SPC_L3I"
+            parameters = ["vp_moment_RTN_gd", "wp_moment_gd"]
+    
+    products = [ f"cda/{dataset}/{p}" for p in parameters]
+
+    match instr_p_den:
+        case "sqtn":
+            den_product = "cda/PSP_FLD_L3_SQTN_RFS_V1V2/electron_density"
+        case "qtn":
+            den_product = "cda/PSP_FLD_L3_RFS_LFR_QTN/N_elec"
+        case "spc":
+            den_product = "cda/PSP_SWP_SPC_L3I/np_moment_gd"
+        case "spi":
+            den_product = "cda/PSP_SWP_SPI_SF00_L3_MOM/DENS"
+    
+    products.insert(0, den_product)
+    
+    return PlasmaMeta(
+        products=products,
+    )
 
 class PSPConfig(IDsConfig):
-
-    instr_p: AvailableInstrs = "spc"
-    instr_p_den: AvailableInstrs = "sqtn"
+    name: str = "PSP"
 
     mag_meta: Meta = Meta(
         dataset="PSP_FLD_L2_MAG_RTN",
         parameters=["psp_fld_l2_mag_RTN"],
     )
+    
+    tau: timedelta = timedelta(seconds=16)
+    ts: timedelta = timedelta(seconds=1 / 180)
+    
+    instr_p: AvailableInstrs = "spi"
+    instr_p_den: AvailableInstrs = "spi"
+    
+    def model_post_init(self, __context):
+        super().model_post_init(__context)
+        self.plasma_meta = get_psp_plasma_meta(self.instr_p, self.instr_p_den)
+        
+    @property
+    def fname(self):
+        return f"events.{self.name}.{self.instr_p}_n_{self.instr_p_den}.{self.fmt}"
 
 
 class WindConfig(IDsConfig):
 
-    ts: timedelta = timedelta(seconds=1 / 11)
+    name: str = "Wind"
 
+    ts: timedelta = timedelta(seconds=1 / 11)
     mag_meta: Meta = Meta(
         dataset="WI_H2_MFI",
         parameters=["BGSE"],
@@ -156,13 +224,12 @@ class WindConfig(IDsConfig):
         parameters=["MAGT3"],
         para_col="electron_MagT3_Para",
         perp_cols=["electron_MagT3_Perp1", "electron_MagT3_Perp2"],
-    )
+    )   
 
-    fname: str = "wind_ids_ds"
 
 
 class THEMISConfig(IDsConfig):
-
+    name: str = "THM"
     ts: timedelta = timedelta(seconds=1)
 
     plasma_meta: PlasmaMeta = PlasmaMeta(
@@ -198,8 +265,6 @@ class THEMISConfig(IDsConfig):
         para_col="Tz_elec FA MOM ESA-B",
         perp_cols=["Tx_elec FA MOM ESA-B", "Ty_elec FA MOM ESA-B"],
     )
-
-    fname: str = "thm_ids_ds"
 
 
 # e_temp = conf.e_temp_var.to_polars().collect()

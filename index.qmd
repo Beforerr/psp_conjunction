@@ -45,8 +45,6 @@ code-links:
 
 ## 02/20/2024
 
-{{< embed notebooks/02_psp_events.ipynb#fig-data-products >}}
-
 {{< embed notebooks/10_results.ipynb#fig-dvl >}}
 
 ::: {.column-screen-inset layout-nrow="1"}
@@ -110,6 +108,13 @@ Given timeseries $(R_a, \phi_a$, $R_b(t)$,
 
 ![](images/paste-12.png)
 
+# Alignment
+
+Composition and ionization state should remain invariant.
+
+PSP_ISOIS-EPILO_L2-IC:   Info  Metadata
+Parker Solar Probe ISOIS EPI-Lo Level 2 Ion Composition - David McComas (Princeton University)
+
 # References
 
 -   @velliUnderstandingOriginsHeliosphere2020
@@ -119,3 +124,9 @@ Given timeseries $(R_a, \phi_a$, $R_b(t)$,
     ```         
     > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensiﬁcation of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
     ```
+
+## Anistropy
+
+@shenComparingPlasmaAnisotropy2024
+
+pressure anisotropy is defined as $Λ = \mu (P_∥ - P_⊥) / B^2$.
