@@ -1,0 +1,28 @@
+# Encounter 7 (2021-01-17)
+
+-   [WHPI - Campaign: PSP 7th Perhihelion](https://whpi.hao.ucar.edu/whpi_campaign-psp7p.php)
+-   [ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 04](http://helioweather.net/missions/psp/per04/)
+
+> The seventh encounter of Parker Solar Probe provides observations down to 0.09 au (20.3 RS). Because of the favorable alignment between Parker and Earth, the Parker mission has teamed with theWhole Heliosphere and Planetary Interactions (WHPI) group to orgnanize another multi-observatory campaign similar to the fourth encounter of Parker. From 2021 January 10 - 20, Parker footpoint predictions will be issued on a daily basis to the community.
+
+https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E7_ParkerSpiral_mapping.png
+
+> During the 7th PSP perihelion passage (January 17, 2021) the Earth and many space observatories were near-radially aligned with PSP, and STEREO A was along the Parker spiral from PSP.
+
+------------------------------------------------------------------------
+
+![](images/paste-6.png)
+
+Start Date: 20210114 End Date: 20210121
+
+``` txt
+file:///Users/zijin/projects/autoplot/scripts/psp_mag_sw.vap?timerange=2021-01-14+through+2021-01-21
+file:///Users/zijin/projects/autoplot/scripts/ace.vap?timerange=2021-01-15+through+2021-01-22
+file:///Users/zijin/projects/autoplot/scripts/ace.vap?timerange=2019-04-11+through+2019-04-14
+file:///Users/zijin/projects/autoplot/scripts/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/scripts/dscovr.vap?timerange=2019-04-08+through+2019-04-10
+```
+
+![](images/paste-7.png)
+
+![](images/paste-9.png)
