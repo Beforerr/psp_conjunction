@@ -1,4 +1,4 @@
-name: psp_conjunction
+name: psp_alignment
 channels:
   - conda-forge
 dependencies:
@@ -13,6 +13,6 @@ dependencies:
   - pip
   - pip:
     - pyspedas @ git+https://github.com/Beforerr/pyspedas.git
-    - ../space_analysis
+    - ../space-analysis.py
     - ../ids_finder
     - ../beforerr_dev

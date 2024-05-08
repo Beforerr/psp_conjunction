@@ -79,6 +79,13 @@ def get_timerange(enc: int) -> list[str]:
 
             earth_start = '2020-01-29'
             earth_end = '2020-01-31'
+        
+        case 7:
+            start = '2021-01-14'
+            end = '2021-01-21'
+
+            earth_start = '2021-01-15'
+            earth_end = '2021-01-23'
 
     psp_timerange = [start, end]
     earth_timerange = [earth_start, earth_end]

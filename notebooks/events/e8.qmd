@@ -1,0 +1,39 @@
+# Encounter 8
+
+-   Perihelion: 2021-04-29
+-   Start Date: 20210426 End Date: 20210503
+
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png)
+
+![](https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png)
+
+-   [WHPI - Campaign: PSP 8th Perhihelion](https://whpi.hao.ucar.edu/whpi_campaign-psp8p.php)
+
+> Using a nominal 400 km/s solar wind velocity, the following figures show the ballistic mapping in a helioprojective and heliographic frame, followed by an ecliptic view of the trajectory in the frame rotating with the Earth. Several Parker spirals are drawn, showing the possible magnetic connection to the Earth near May 9th.
+
+> E8, C2, Q4, Q5, 24 April–1 May, 2021. Throughout this period SO will be in quadrature with Earth, appearing from Earth on the solar east limb. In rapid succession over E8, PSP will appear in quadrature from SO on the east limb (trailing), then in conjunction with SO at perihelion on 28 April, with PSP at a distance of 15.5RS, then in conjunction with STEREO-A on 29 April and with Earth on 30 April. STEREO-A will be positioned trailing Earth by 45◦ midway to SO in longitude. This PSP encounter is extremely favorable to a potential joint in situ–remote-sensing campaign comprising PSP, SO, STEREOA, SDO, Hinode, and ground-based instrumentation.
+
+![](images/paste-10.png)
+
+Start Date: 20210426 End Date: 20210503
+
+``` txt
+file:///Users/zijin/projects/autoplot/scripts/psp_mag_sw.vap?timerange=2021-04-26+through+2021-05-03
+file:///Users/zijin/projects/autoplot/scripts/ace.vap?timerange=2021-04-27+through+2021-05-04
+```
+
+![](images/paste-11.png)
+
+![](images/paste-12.png)
+
+------------------------------------------------------------------------
+
+```         
+file:///Users/zijin/projects/autoplot/scripts/ace.vap?timerange=2019-04-11+through+2019-04-14
+file:///Users/zijin/projects/autoplot/scripts/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10
+file:///Users/zijin/projects/autoplot/scripts/dscovr.vap?timerange=2019-04-08+through+2019-04-10
+```
+
+![](images/paste-7.png)
+
+![](images/paste-9.png)

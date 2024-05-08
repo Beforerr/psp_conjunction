@@ -3,6 +3,10 @@
 -   [WHPI - Campaign: PSP 7th Perhihelion](https://whpi.hao.ucar.edu/whpi_campaign-psp7p.php)
 -   [ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 04](http://helioweather.net/missions/psp/per04/)
 
+> E7 and Q3, 14–18 January, 2021.
+>
+> During this interval, STEREO-A, Earth, and SO will provide 360◦ coverage of the heliosphere, and just before E7, on 14 January, 2021, PSP will be in conjunction with STEREO-A, followed by conjunction with Earth on 16, E7 on 17, and quadrature Q3 on the east limb (trailing) with SO on 18 January, 2021. Synergies here arise mostly from potential remote-sensing measurements from SO and STEREO-A and from assets on the PSP–Earth line (SDO, Hinode) and ground-based instrumentation.
+
 > The seventh encounter of Parker Solar Probe provides observations down to 0.09 au (20.3 RS). Because of the favorable alignment between Parker and Earth, the Parker mission has teamed with theWhole Heliosphere and Planetary Interactions (WHPI) group to orgnanize another multi-observatory campaign similar to the fourth encounter of Parker. From 2021 January 10 - 20, Parker footpoint predictions will be issued on a daily basis to the community.
 
 https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E7_ParkerSpiral_mapping.png
