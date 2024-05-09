@@ -27,6 +27,11 @@ code-links:
 
 - [x] Why ARTEMIS electron data and Wind ion data?
 - [ ] Disagreement between anisotropy observed and predicted by the theory
+  - maybe just too localized anisotropy that is not well measured with available time resolution... 
+  - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy
+# TODO
+
+- [ ] Plot Bl(t), jm(l) and ion anisotropy for these cases?
 
 ## 02/22/2024
 

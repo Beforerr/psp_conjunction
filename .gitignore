@@ -15,3 +15,5 @@ _proc/
 
 .DS_Store
 .CondaPkg
+
+__pycache__

@@ -3,6 +3,7 @@ using Logging
 
 function easy_save(name, fig; dir="$fig_dir/$enc")
     path = "$dir/$name"
+    mkpath(dir)
 
     save("$path.png", fig, px_per_unit=4)
     save("$path.pdf", fig)

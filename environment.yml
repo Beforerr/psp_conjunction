@@ -12,7 +12,7 @@ dependencies:
   - dcor
   - pip
   - pip:
-    - pyspedas @ git+https://github.com/Beforerr/pyspedas.git
-    - ../space-analysis.py
+    - pyspedas
+    - ../space_analysis
     - ../ids_finder
     - ../beforerr_dev
