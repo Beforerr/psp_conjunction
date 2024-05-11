@@ -25,4 +25,4 @@ format:
     lightbox: auto
 
 bibliography:
-  - ../research.bib
+  - ../share/bibliography/research.bib
