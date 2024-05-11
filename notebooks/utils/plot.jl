@@ -1,3 +1,7 @@
+include("anisotry.jl")
+
+fig_dir = "../figures"
+
 # %%
 # Define the labels for the plots
 j_lab = L"Current Density ($nA/m^2$)"
@@ -35,7 +39,28 @@ v_ion_map = "v.ion.change.l" => L"\Delta V_{i,l}"
 
 # %%
 
-function plot_dvl()
+function plot_dvl(; legend=(position=:top, titleposition=:left))
+    fname = "dvl"
+
+    # plt = data_layer_a * mapping(v_Alfven_map, v_ion_map) * (linear(interval=nothing) + mapping())
+    plt = data_layer_a * mapping(v_Alfven_map, v_ion_map)
+
+    limit_axis = (; limits=((2, 400), (2, 400)))
+    axis = merge(log_axis, limit_axis)
+
+    fg = draw(plt, axis=axis, legend=legend)
+
+    slopes = [1.0, 0.7, 0.4, 0.1]
+    lns = [lines!(1 .. 1000, (*) $ s, linestyle=:dash, label = "$s") for s in slopes]
+    axislegend("slope", position = :ct)
+
+    easy_save(fname)
+    fg
+end
+
+
+
+function plot_dvl_c()
     fname = "dvl"
 
     # plt = data_layer_a * mapping(v_Alfven_map, v_ion_map) * (linear(interval=nothing) + mapping())
@@ -66,7 +91,9 @@ function plot_dvl()
     add_labels!([fig[1, 1], fig[1, 2]]; )
     pretty_legend!(fig, grid2)
 
-    easy_save("$(fname)$psp_p_instr", fig)
+    easy_save(fname)
 
     fig
 end
+
+

@@ -1,16 +1,16 @@
 import AlgebraOfGraphics: draw!
 using Logging
 
-function easy_save(name, fig; dir="$fig_dir/$enc")
-    path = "$dir/$name"
-    mkpath(dir)
+# function easy_save(name, fig; dir="$fig_dir/$enc")
+#     path = "$dir/$name"
+#     mkpath(dir)
 
-    save("$path.png", fig, px_per_unit=4)
-    save("$path.pdf", fig)
+#     save("$path.png", fig, px_per_unit=4)
+#     save("$path.pdf", fig)
     
-    # log the path saved
-    @info "Saved $path"
-end
+#     # log the path saved
+#     @info "Saved $path"
+# end
 
 function load(path::String)
     df = path |> Arrow.Table |> DataFrame |> dropmissing
@@ -19,9 +19,15 @@ function load(path::String)
     filter(row -> all(x -> !(x isa Number && isnan(x)), row), df)
 end
 
-function load(enc, name; suffix="", data_dir= "../data", fmt = "arrow")
+function load(enc, name; dataset=missing,suffix="", data_dir= "../data", fmt = "arrow")
     path = "$data_dir/$enc/events.$name$suffix.$fmt"
-    load(path)
+    df = load(path)
+
+    # add dataset column with the name of the dataset
+    if !ismissing(dataset)
+        df.dataset .= dataset
+    end
+    df |> process
 end
 
 function process(df)
@@ -53,8 +59,6 @@ function keep_good_fit(df)
         filter(:"fit.stat.rsquared" => >(0.9), _)
     end
 end
-
-
 
 log_axis = (yscale=log10, xscale=log10)
 
