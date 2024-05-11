@@ -127,8 +127,8 @@ class IDsConfig(SpeasyIDsConfig):
     def model_post_init(self, __context):
         super().model_post_init(__context)
         self._data_dir = Path(f"../data/enc{self.enc}")
-        self.data = self.get_vars_df("mag")
-        self.plasma_data = self.get_vars_df("plasma")
+        # self.data = self.get_vars_df("mag")
+        # self.plasma_data = self.get_vars_df("plasma")
         
     @property
     def fname(self):
@@ -225,9 +225,9 @@ class PSPConfig(IDsConfig):
         super().model_post_init(__context)
         self.plasma_meta = get_psp_plasma_meta(self.instr_p, self.instr_p_den)
         
-    @property
-    def fname(self):
-        return f"events.{self.name}.{self.instr_p}_n_{self.instr_p_den}.{self.fmt}"
+    # @property
+    # def fname(self):
+        # return f"events.{self.name}.{self.instr_p}_n_{self.instr_p_den}.{self.fmt}"
 
 
 class WindConfig(IDsConfig):

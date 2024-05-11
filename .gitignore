@@ -2,6 +2,7 @@
 /_manuscript/
 *_files/
 
+# temporarily ignore all figures
 figures/
 
 *.html

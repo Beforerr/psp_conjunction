@@ -1,3 +1,6 @@
+default:
+   just --list
+
 env-install:
    micromamba env create --file environment.yml
 

@@ -1,16 +1,4 @@
-import AlgebraOfGraphics: draw!
 using Logging
-
-# function easy_save(name, fig; dir="$fig_dir/$enc")
-#     path = "$dir/$name"
-#     mkpath(dir)
-
-#     save("$path.png", fig, px_per_unit=4)
-#     save("$path.pdf", fig)
-    
-#     # log the path saved
-#     @info "Saved $path"
-# end
 
 function load(path::String)
     df = path |> Arrow.Table |> DataFrame |> dropmissing
@@ -58,10 +46,4 @@ function keep_good_fit(df)
     df = @chain df begin
         filter(:"fit.stat.rsquared" => >(0.9), _)
     end
-end
-
-log_axis = (yscale=log10, xscale=log10)
-
-function draw!(grid; axis=NamedTuple(), palettes=NamedTuple())
-    plt -> draw!(grid, plt; axis=axis, palettes=palettes)
 end
