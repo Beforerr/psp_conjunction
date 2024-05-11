@@ -10,10 +10,10 @@ env-update:
 preview:
    quarto preview --no-render
 
-publish: update render
+publish: update
    quarto publish gh-pages --no-render --no-prompt
 
-render:
+render-man:
    quarto render --profile man
    cp -r _manuscript _site/
 
