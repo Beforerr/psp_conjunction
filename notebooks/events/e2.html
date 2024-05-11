@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.547">
+<meta name="generator" content="quarto-1.5.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -146,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -197,7 +197,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/01_psp_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Estimate of arrival time</span></a>
+ <span class="menu-text">Time series correlation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -209,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/01_swd_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Examples of discontinuities observed by PSP</span></a>
+ <span class="menu-text">Examples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -226,14 +226,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/10_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Results</span></a>
+  <a href="../../notebooks/05_psp_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/11_anisotropy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Anisotropy</span></a>
+  <a href="../../notebooks/06_psp_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe Examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/10_results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Results</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -245,6 +251,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/events/e11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 11</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/events/e2.html" class="sidebar-item-text sidebar-link active">
@@ -261,6 +273,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/events/e7.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Encounter 7 (2021-01-17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/events/e8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 8</span></a>
   </div>
 </li>
       </ul>
@@ -339,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="observations">Observations</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../images/paste-19.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="PSP Observation Overvall"><img src="../../images/paste-19.png" class="img-fluid figure-img" alt="PSP Observation Overvall"></a></p>
+<p><a href="../../images/paste-19.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="PSP Observation Overvall"><img src="../../images/paste-19.png" class="img-fluid figure-img" alt="PSP Observation Overvall"></a></p>
 <figcaption>PSP Observation Overvall</figcaption>
 </figure>
 </div>
@@ -351,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../images/paste-18.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3" title="PSP observation"><img src="../../images/paste-18.png" class="img-fluid figure-img" alt="PSP observation"></a></p>
+<p><a href="../../images/paste-18.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="PSP observation"><img src="../../images/paste-18.png" class="img-fluid figure-img" alt="PSP observation"></a></p>
 <figcaption>PSP observation</figcaption>
 </figure>
 </div>
@@ -359,7 +377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../images/paste-16.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4" title="ACE observation"><img src="../../images/paste-16.png" class="img-fluid figure-img" alt="ACE observation"></a></p>
+<p><a href="../../images/paste-16.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="ACE observation"><img src="../../images/paste-16.png" class="img-fluid figure-img" alt="ACE observation"></a></p>
 <figcaption>ACE observation</figcaption>
 </figure>
 </div>
@@ -367,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../../images/paste-17.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" data-glightbox="description: .lightbox-desc-5" title="ACE observation (continued)"><img src="../../images/paste-17.png" class="img-fluid figure-img" alt="ACE observation (continued)"></a></p>
+<p><a href="../../images/paste-17.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="ACE observation (continued)"><img src="../../images/paste-17.png" class="img-fluid figure-img" alt="ACE observation (continued)"></a></p>
 <figcaption>ACE observation (continued)</figcaption>
 </figure>
 </div>
@@ -384,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190405.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6" title="2019-04-05"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190405.png" class="img-fluid figure-img" alt="2019-04-05"></a></p>
+<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190405.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="2019-04-05"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190405.png" class="img-fluid figure-img" alt="2019-04-05"></a></p>
 <figcaption>2019-04-05</figcaption>
 </figure>
 </div>
@@ -392,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190406.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7" title="2019-04-06"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190406.png" class="img-fluid figure-img" alt="2019-04-06"></a></p>
+<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190406.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="2019-04-06"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190406.png" class="img-fluid figure-img" alt="2019-04-06"></a></p>
 <figcaption>2019-04-06</figcaption>
 </figure>
 </div>
@@ -400,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190407.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8" title="2019-04-07"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190407.png" class="img-fluid figure-img" alt="2019-04-07"></a></p>
+<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190407.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="2019-04-07"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190407.png" class="img-fluid figure-img" alt="2019-04-07"></a></p>
 <figcaption>2019-04-07</figcaption>
 </figure>
 </div>
@@ -408,7 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190408.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" data-glightbox="description: .lightbox-desc-9" title="2019-04-08"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190408.png" class="img-fluid figure-img" alt="2019-04-08"></a></p>
+<p><a href="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190408.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="2019-04-08"><img src="https://psp-gateway.jhuapl.edu/backend/data/summary_plots/Summary_Plot_20190408.png" class="img-fluid figure-img" alt="2019-04-08"></a></p>
 <figcaption>2019-04-08</figcaption>
 </figure>
 </div>
@@ -443,16 +461,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-2">PSP Observation Overvall</span>
-<span class="glightbox-desc lightbox-desc-3">PSP observation</span>
-<span class="glightbox-desc lightbox-desc-4">ACE observation</span>
-<span class="glightbox-desc lightbox-desc-5">ACE observation (continued)</span>
-<span class="glightbox-desc lightbox-desc-6">2019-04-05</span>
-<span class="glightbox-desc lightbox-desc-7">2019-04-06</span>
-<span class="glightbox-desc lightbox-desc-8">2019-04-07</span>
-<span class="glightbox-desc lightbox-desc-9">2019-04-08</span>
-</div>
 </section>
 </section>
 
@@ -492,18 +500,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -535,7 +532,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -570,7 +607,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -847,7 +888,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <script>videojs(video_shortcode_videojs_video1);</script>
 <script>videojs(video_shortcode_videojs_video2);</script>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","loop":false,"selector":".lightbox","openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

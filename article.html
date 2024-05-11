@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.547">
+<meta name="generator" content="quarto-1.5.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -142,7 +142,7 @@ window.Quarto = {
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -193,7 +193,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notebooks/01_psp_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Estimate of arrival time</span></a>
+ <span class="menu-text">Time series correlation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -205,7 +205,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notebooks/01_swd_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Examples of discontinuities observed by PSP</span></a>
+ <span class="menu-text">Examples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -222,14 +222,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notebooks/10_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Results</span></a>
+  <a href="./notebooks/05_psp_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notebooks/11_anisotropy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Anisotropy</span></a>
+  <a href="./notebooks/06_psp_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe Examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/10_results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Results</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -243,7 +249,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notebooks/events/01.html" class="sidebar-item-text sidebar-link">
+  <a href="./notebooks/events/e11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/events/e2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Encounter 2 (2019-04-07)</span></a>
   </div>
 </li>
@@ -251,6 +263,18 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./notebooks/events/e4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Encounter 4 (2020-01-28)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/events/e7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 7 (2021-01-17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/events/e8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 8</span></a>
   </div>
 </li>
       </ul>
@@ -285,7 +309,7 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
     </div>
 <!-- main -->
@@ -340,56 +364,38 @@ window.Quarto = {
 </header>
 
 
-<div id="fig-distribution" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="figures/density_distribution.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="figures/density_distribution.png" id="fig-distribution" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1
-</figcaption>
-</figure>
-</div>
-<div id="fig-thickness-current" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-thickness-current-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="figures/thickness_current.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="figures/thickness_current.png" id="fig-thickness-current" class="img-fluid figure-img"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-thickness-current-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2
-</figcaption>
-</figure>
-</div>
+<p>![](figures/density_distribution.png</p>
+<p><a href="figures/enc2/thickness_current.spc_n_spc.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figures/enc2/thickness_current.spc_n_spc.png" class="img-fluid"></a></p>
 <div id="fig-plasma-adiabatic-evolution" class="column-page quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-plasma-adiabatic-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<p><a href="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg" class="img-fluid figure-img"></a></p>
-<p><a href="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg" class="img-fluid figure-img"></a></p>
+<p><a href="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: "><img src="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg" class="img-fluid figure-img"></a></p>
+<p><a href="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;1: "><img src="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg" class="img-fluid figure-img"></a></p>
 <!-- Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019. -->
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-plasma-adiabatic-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3
+Figure&nbsp;1
 </figcaption>
 </figure>
 </div>
 <div id="fig-examples" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<p class="page-columns page-full"><a href="figures/examples/psp_e2_example.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5"><img src="figures/examples/psp_e2_example.png" class="img-fluid figure-img column-page"></a></p>
+<p class="page-columns page-full"><a href="figures/examples/psp_e2_example.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;2: In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density."><img src="figures/examples/psp_e2_example.png" class="img-fluid figure-img column-page"></a></p>
 <p>Solar wind discontinuities examples observed by PSP and ARTEMIS fitted by a logistic function in LMN coordinates.</p>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density.
+Figure&nbsp;2: In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density.
 </figcaption>
 </figure>
 </div>
 <div id="fig-comp-map" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comp-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="figures/enc2/thickness_current_spc_n_spc.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="figures/enc2/thickness_current_spc_n_spc.png" class="img-fluid figure-img"></a>
+<a href="figures/enc2/thickness_current.spc_n_spc.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;3: Comparision map of (normalized) thickness and (normalized) current density"><img src="figures/enc2/thickness_current.spc_n_spc.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comp-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Comparision map of (normalized) thickness and (normalized) current density
+Figure&nbsp;3: Comparision map of (normalized) thickness and (normalized) current density
 </figcaption>
 </figure>
 </div>
@@ -397,14 +403,6 @@ Figure&nbsp;5: Comparision map of (normalized) thickness and (normalized) curren
 <p>L: j: <span class="math inline">\(\Delta v_l\)</span></p>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: </span>
-<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: </span>
-<span class="glightbox-desc lightbox-desc-3">Figure&nbsp;3: </span>
-<span class="glightbox-desc lightbox-desc-4">Figure&nbsp;3: </span>
-<span class="glightbox-desc lightbox-desc-5">Figure&nbsp;4: In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density.</span>
-<span class="glightbox-desc lightbox-desc-6">Figure&nbsp;5: Comparision map of (normalized) thickness and (normalized) current density</span>
-</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -442,18 +440,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -485,7 +472,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -520,7 +547,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -795,7 +826,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
