@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.547">
+<meta name="generator" content="quarto-1.5.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -158,7 +124,7 @@ div.csl-indent {
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -219,11 +185,15 @@ window.Quarto = {
     <a class="dropdown-item" href="../../presentations/grp.html">
  <span class="dropdown-text">Group Meeting</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../presentations/sparthb.html">
+ <span class="dropdown-text">SPARTHB</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -274,19 +244,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/01_psp_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Estimate of arrival time</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../notebooks/01_psp_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Examples of discontinuities observed by PSP</span></a>
+ <span class="menu-text">Time series correlation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/01_psp_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview of the event</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/01_swd_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Examples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -298,13 +268,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/04_artemis_events.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">04 Artemis Events</span></a>
+ <span class="menu-text">ARTEMIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/05_psp_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/06_psp_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe Examples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/10_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Anistropy</span></a>
+ <span class="menu-text">Results</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -318,14 +300,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/events/01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2019-04-07</span></a>
+  <a href="../../notebooks/events/e11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/events/e2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 2 (2019-04-07)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/events/e4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">E4</span></a>
+ <span class="menu-text">Encounter 4 (2020-01-28)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/events/e7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 7 (2021-01-17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/events/e8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 8</span></a>
   </div>
 </li>
       </ul>
@@ -347,6 +347,12 @@ window.Quarto = {
  <span class="menu-text">Group Meeting</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../presentations/sparthb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Solar Wind Discontinuities: Parker Solar Probe vs ARTEMIS Observations</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -359,14 +365,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#psp-earth-e4" id="toc-psp-earth-e4" class="nav-link active" data-scroll-target="#psp-earth-e4">2020-01-28 PSP-Earth, E4</a></li>
-  <li><a href="#psp-encounter-infos" id="toc-psp-encounter-infos" class="nav-link" data-scroll-target="#psp-encounter-infos"><img src="images/paste-5.png" class="img-fluid"><img src="images/paste-4.png" class="img-fluid">PSP Encounter Infos</a></li>
-  <li><a href="#psp-earth" id="toc-psp-earth" class="nav-link" data-scroll-target="#psp-earth">2018-10-24 PSP Earth</a></li>
-  <li><a href="#trange-encounter-8" id="toc-trange-encounter-8" class="nav-link" data-scroll-target="#trange-encounter-8">Trange: Encounter 8</a>
-  <ul class="collapse">
+  <li><a href="#psp-earth" id="toc-psp-earth" class="nav-link active" data-scroll-target="#psp-earth">2018-10-24 PSP Earth</a></li>
+  <li><a href="#trange-encounter-8" id="toc-trange-encounter-8" class="nav-link" data-scroll-target="#trange-encounter-8">Trange: Encounter 8</a></li>
   <li><a href="#trange" id="toc-trange" class="nav-link" data-scroll-target="#trange">Trange</a></li>
   <li><a href="#trange-encounter-11-2022-02" id="toc-trange-encounter-11-2022-02" class="nav-link" data-scroll-target="#trange-encounter-11-2022-02">Trange: Encounter 11, 2022-02</a></li>
-  </ul></li>
   </ul>
 <div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="../00_notes-preview.html"><i class="bi bi-journal-code"></i>Notes</a></li></ul></div></nav>
     </div>
@@ -397,50 +399,8 @@ window.Quarto = {
 <li><span class="citation" data-cites="telloniSpacecraftRadialAlignments2023">Telloni (<a href="#ref-telloniSpacecraftRadialAlignments2023" role="doc-biblioref">2023</a>)</span></li>
 <li><span class="citation" data-cites="velliUnderstandingOriginsHeliosphere2020">Velli et al. (<a href="#ref-velliUnderstandingOriginsHeliosphere2020" role="doc-biblioref">2020</a>)</span></li>
 </ul>
-<p><a href="https://psp-gateway.jhuapl.edu/website/Tools/OrbitPlotter">Orbit Plotter - PSP Science Gateway</a></p>
-<section id="psp-earth-e4" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="psp-earth-e4">2020-01-28 PSP-Earth, E4</h2>
-<ul>
-<li><a href="https://whpi.hao.ucar.edu/whpi_campaign-cr2226.php">WHPI - Campaign: 2226</a>
-<ul>
-<li><a href="https://whpi.hao.ucar.edu/whpi_campaign-cr2226-highlights.php">WHPI - Parker Perihelion 4 Campaign Highlights</a></li>
-</ul></li>
-<li><a href="http://helioweather.net/missions/psp/per04/">ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 04</a></li>
-</ul>
-<blockquote class="blockquote">
-<p>The orbit of Parker Solar Probe (Parker) during the 4th encounter with the Sun presented a unique opportunity for a multi-mission and multi-observatory collaboration as the 4th perihelion occurred nearly at the <strong><em>Sun-Earth</em></strong> line. This unprecedented configuration allowed ground-based solar observatories to measure the solar surface that Parker was magnetically connected to while Parker simultaneously measured the near-Sun environment at the closest distance to the Sun recorded to date (27.8 RS). Additionally, near-Earth missions (e.g., ACE, ARTEMIS, and MMS) could then measure this solar wind once it reached 1 au to study the evolution of solar wind structures as they propagate radially outward from the Sun. Probes within the magnetosphere of Earth, and observatories focused on the ionosphere, could then study how these structures affect the near-Earth environment. To take advantage of this great opportunity for large-scale coordinated science, the Parker Project Science team and the Whole Heliosphere and Planetary Interactions (WHPI) group organized a campaign that has brought together observatories and missions from across the world. This page is meant to contain information and links relevant to the Parker Solar Probe Encounter 4 campaign. For more information, please contact Robert C. Allen (Robert.Allen@jhuapl.edu), the Parker Project Science team coordinator for this effort.</p>
-</blockquote>
-<p>Conjunction with In Situ Observations</p>
-<blockquote class="blockquote">
-<p>In addition to magnetic footpoint mapping for solar observers, ballistic mappings were performed to estimate when solar wind observed at Parker may reach 1 au at either STEREO-A or near-Earth observers. This shows that the footpoints of STEREO-A and Parker may have been near each other from Jan 26th, 2020 to Jan 28th, 2020 (where the red lines cross the black horizontal line at 0), while the footpoints of Earth and Parker may have been close <em>from Jan 29th, 2020 until Jan 31st, 2020</em> (where the blue lines cross the zero-line).</p>
-</blockquote>
-<div>
-
-</div>
-<div class="column-page quarto-layout-panel" data-layout-nrow="1">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/paste-1.png" class="img-fluid"></a></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E4_orbit.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E4_orbit.png" class="img-fluid"></a></p>
-</div>
-</div>
-</div>
-<p><a href="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/Lag_from_PSP_to_STA_and_Earth.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/Lag_from_PSP_to_STA_and_Earth.png" class="img-fluid"></a></p>
-<p>Start Date: 20200125</p>
-<p>End Date: 20200131</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2020-01-20+through+2020-01-31</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2020-01-27+through+2020-01-31</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/paste-2.png" class="img-fluid"></a></p>
-</section>
-<section id="psp-encounter-infos" class="level2">
-<h2 class="anchored" data-anchor-id="psp-encounter-infos"><img src="images/paste-5.png" class="img-fluid"><img src="images/paste-4.png" class="img-fluid">PSP Encounter Infos</h2>
 <p><a href="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters">PSP Science Planning</a></p>
+<p><a href="https://psp-gateway.jhuapl.edu/website/Tools/OrbitPlotter">Orbit Plotter - PSP Science Gateway</a></p>
 <div class="quarto-embed-nb-cell">
 <div class="cell" data-execution_count="3">
 <div id="tbl-events" class="cell quarto-float anchored" data-execution_count="3">
@@ -450,6 +410,7 @@ Table&nbsp;1: PSP events
 </figcaption>
 <div aria-describedby="tbl-events-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 <div>
 
 
@@ -638,34 +599,25 @@ Table&nbsp;1: PSP events
 </div>
 </div>
 </div>
+</div>
 </figure>
 </div>
 </div>
 <a class="quarto-notebook-link" id="nblink-1" href="../00_notes-preview.html#cell-tbl-events">Source: Notes</a></div>
-</section>
 <section id="psp-earth" class="level2">
 <h2 class="anchored" data-anchor-id="psp-earth">2018-10-24 PSP Earth</h2>
 <pre><code>file:/Users/zijin/projects/psp_conjunction/files/psp_v.vap?timerange=2018-10-23+through+2018-10-25</code></pre>
 <p>PSP plasma data is very sparse (6 data point/day)</p>
-<p><a href="images/paste-13.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/paste-13.png" class="img-fluid"></a></p>
+<p><a href="images/paste-13.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/paste-13.png" class="img-fluid"></a></p>
 </section>
-<section id="trange-encounter-8" class="level1 page-columns page-full">
-<h1>Trange: Encounter 8</h1>
-<p><img src="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_orbit.png" class="img-fluid"> <img src="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E8_HEE.png" class="img-fluid"></p>
-<blockquote class="blockquote">
-<p>Using a nominal 400 km/s solar wind velocity, the following figures show the ballistic mapping in a helioprojective and heliographic frame, followed by an ecliptic view of the trajectory in the frame rotating with the Earth. Several Parker spirals are drawn, showing the possible magnetic connection to the Earth near May 9th.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>E8, C2, Q4, Q5, 24 April–1 May, 2021. Throughout this period SO will be in quadrature with Earth, appearing from Earth on the solar east limb. In rapid succession over E8, PSP will appear in quadrature from SO on the east limb (trailing), then in conjunction with SO at perihelion on 28 April, with PSP at a distance of 15.5RS, then in conjunction with STEREO-A on 29 April and with Earth on 30 April. STEREO-A will be positioned trailing Earth by 45◦ midway to SO in longitude. This PSP encounter is extremely favorable to a potential joint in situ–remote-sensing campaign comprising PSP, SO, STEREOA, SDO, Hinode, and ground-based instrumentation.</p>
-</blockquote>
+<section id="trange-encounter-8" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="trange-encounter-8">Trange: Encounter 8</h2>
 <ul>
-<li><a href="https://whpi.hao.ucar.edu/whpi_campaign-psp8p.php">WHPI - Campaign: PSP 8th Perhihelion</a></li>
 <li><a href="https://whpi.hao.ucar.edu/whpi_campaign-psp15p.php">WHPI - Campaign: PSP 15th Perhihelion</a></li>
 </ul>
 <p>2021-05-09</p>
-<p>05/09/2021</p>
-<p><a href="images/wind.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/wind.png" class="img-fluid"></a></p>
-<p><a href="images/psp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="images/psp.png" class="img-fluid"></a></p>
+<p><a href="images/wind.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/wind.png" class="img-fluid"></a></p>
+<p><a href="images/psp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/psp.png" class="img-fluid"></a></p>
 <p>vap+cdaweb:ds=PSP_SWP_SPC_L3I&amp;filter=psp&amp;id=vp_moment_RTN[:,0];vp_moment_RTN[:,1];vp_moment_RTN[:,2]&amp;timerange=2021-05-07+through+2021-05-08</p>
 <p>|rebundle(vp_moment_R,vp_moment_T,vp_moment_N)|magnitude()</p>
 <p>|rebundle(psp_fld_l2_mag_RTN_1min__0,psp_fld_l2_mag_RTN_1min__0,psp_fld_l2_mag_RTN_1min__0)|magnitude()</p>
@@ -675,8 +627,8 @@ Table&nbsp;1: PSP events
 </ul>
 <p>PSP/PSP/SWEAP/SPAN Partial Moment Velocity in RTN Coordinates and Sun reference frame |rebundle(Vx RTN,Vy RTN,Vz RTN)|magnitude()</p>
 <p>Wind or ACE</p>
-<p><a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/paste-2.png" class="img-fluid"></a></p>
-<p><a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/paste-1.png" class="img-fluid"></a></p>
+<p><a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/paste-2.png" class="img-fluid"></a></p>
+<p><a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/paste-1.png" class="img-fluid"></a></p>
 <!-- ![](https://www.ngdc.noaa.gov/dscovr/plots/dscovr_1day_plots/2021/05/20210509-day.png) -->
 <div>
 
@@ -684,10 +636,10 @@ Table&nbsp;1: PSP events
 <div class="column-page quarto-layout-panel" data-layout-nrow="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png" class="img-fluid"></a></p>
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210510-3day.png" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png" class="img-fluid"></a></p>
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210513-3day.png" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -695,27 +647,28 @@ Table&nbsp;1: PSP events
 <p>density5min= getDataSet( ‘http://cdaweb.gsfc.nasa.gov/pub/data/ace/mag/level_2_cdaweb/mfi_k0/2017/ac_k0_mfi_20170117_v01.cdf?Magnitude’) dst60min= getDataSet( ‘http://cdaweb.gsfc.nasa.gov/pub/data/omni/omni_cdaweb/hourly/2017/omni2_h0_mrg1hr_20170101_v01.cdf?DST’)</p>
 <p>t5min= density5min.property(QDataSet.DEPEND_0)</p>
 <p>( density, flux, dst ) = synchronize( t5min, density5min, flux4min, dst60min, nn=1 ) # experimental function (note there is a built-in function in Autoplot v2017a. plot( 1, flux ) plot( 2, dst )</p>
+</section>
 <section id="trange" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="trange">Trange</h2>
 <blockquote class="blockquote">
 <p>C4, 18 September, b 2021. This will be an inferior triple SO–PSP–STEREO-A conjunction, with SO inside the orbit of Venus around 0.6 AU, PSP at about 0.7 AU, and STEREO-A at 0.9 AU. This will be an occasion for joint in situ studies of the properties of turbulence and dynamics of a solar wind stream between 0.5 and 1 AU.</p>
 </blockquote>
 <p>https://solar-mach.streamlit.app/?embedded=true&amp;date=20210925&amp;time=0000&amp;coord_sys=0&amp;plot_spirals=1&amp;plot_sun_body_line=1&amp;plot_trans=0&amp;plot_markers=Numbers&amp;long_offset=270&amp;bodies=STEREO+A&amp;bodies=Earth&amp;bodies=BepiColombo&amp;bodies=Parker+Solar+Probe&amp;bodies=Solar+Orbiter&amp;speeds=346&amp;speeds=485&amp;speeds=400&amp;speeds=300&amp;speeds=287&amp;</p>
-<p><a href="images/paste-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="images/paste-8.png" class="img-fluid"></a></p>
-<p><a href="images/paste-9.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="images/paste-9.png" class="img-fluid"></a></p>
-<p><a href="images/paste-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="images/paste-7.png" class="img-fluid"></a></p>
-<p><a href="images/paste-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="images/paste-6.png" class="img-fluid"></a></p>
-<p><a href="images/paste-10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="images/paste-10.png" class="img-fluid"></a></p>
+<p><a href="images/paste-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/paste-8.png" class="img-fluid"></a></p>
+<p><a href="images/paste-9.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/paste-9.png" class="img-fluid"></a></p>
+<p><a href="images/paste-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="images/paste-7.png" class="img-fluid"></a></p>
+<p><a href="images/paste-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="images/paste-6.png" class="img-fluid"></a></p>
+<p><a href="images/paste-10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="images/paste-10.png" class="img-fluid"></a></p>
 <div>
 
 </div>
 <div class="column-page quarto-layout-panel" data-layout-nrow="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210802-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210802-3day.png" class="img-fluid"></a></p>
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210802-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210802-3day.png" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210805-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210805-3day.png" class="img-fluid"></a></p>
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210805-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2021/20210805-3day.png" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -725,19 +678,19 @@ Table&nbsp;1: PSP events
 <blockquote class="blockquote">
 <p>E11, C6, Q8, Q9 23–27 February, 2022. PSP approaches encounter E11 beginning with a trailing quadrature Q8 on 23 February, 2022, appearing on the east limb of the Sun from SO, before rapidly going through conjunction with STEREO-A and then SO and Earth (24 and 25 February, respectively) at perihe- lion with the Earth–Sun–STEREO-A angle ’40◦ and the Earth–</p>
 </blockquote>
-<p><a href="images/paste-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="images/paste-3.png" class="img-fluid"></a></p>
+<p><a href="images/paste-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="images/paste-3.png" class="img-fluid"></a></p>
 <p><a href="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E11_HEE.png"><img src="images/paste-4.png" class="img-fluid"></a></p>
-<p><a href="images/paste-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="images/paste-5.png" class="img-fluid"></a></p>
+<p><a href="images/paste-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="images/paste-5.png" class="img-fluid"></a></p>
 <div>
 
 </div>
 <div class="column-page quarto-layout-panel" data-layout-nrow="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220225-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220225-3day.png" class="img-fluid"></a></p>
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220225-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220225-3day.png" class="img-fluid"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220228-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220228-3day.png" class="img-fluid"></a></p>
+<p><a href="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220228-3day.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="https://www.ngdc.noaa.gov/dscovr/plots/dscovr_3day_plots/2022/20220228-3day.png" class="img-fluid"></a></p>
 </div>
 </div>
 </div>
@@ -745,34 +698,55 @@ Table&nbsp;1: PSP events
 
 
 
-</section>
 </section>
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1707618258672" data-listing-reading-time-sort="1" data-listing-word-count-sort="31">
+<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1715226373733" data-listing-reading-time-sort="3" data-listing-word-count-sort="408">
 <div class="thumbnail">
-<p><a href="../../notebooks/events/01.html" class="no-external"></a></p><a href="../../notebooks/events/01.html" class="no-external">
-<!-- img(9CEB782EFEE6)[progressive=false, height=]:notebooks/events/01.html -->
-</a><p><a href="../../notebooks/events/01.html" class="no-external"></a></p>
+<p><a href="../../notebooks/events/e11.html" class="no-external"></a></p><a href="../../notebooks/events/e11.html" class="no-external">
+<!-- img(9CEB782EFEE6)[progressive=false, height=]:notebooks/events/e11.html -->
+</a><p><a href="../../notebooks/events/e11.html" class="no-external"></a></p>
 </div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="../../notebooks/events/01.html" class="no-external">2019-04-07</a>
+<a href="../../notebooks/events/e11.html" class="no-external">Encounter 11</a>
 </h3>
 <div class="listing-subtitle">
-<a href="../../notebooks/events/01.html" class="no-external"></a>
+<a href="../../notebooks/events/e11.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<a href="../../notebooks/events/01.html" class="no-external"><!-- desc(5A0113B34292)[max=175]:notebooks/events/01.html --></a>
+<a href="../../notebooks/events/e11.html" class="no-external"><!-- desc(5A0113B34292)[max=175]:notebooks/events/e11.html --></a>
 </div>
 </div>
 <div class="metadata">
-<p><a href="../../notebooks/events/01.html" class="no-external"></a></p><a href="../../notebooks/events/01.html" class="no-external">
+<p><a href="../../notebooks/events/e11.html" class="no-external"></a></p><a href="../../notebooks/events/e11.html" class="no-external">
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1707673614739" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1711550397345" data-listing-reading-time-sort="1" data-listing-word-count-sort="37">
+<div class="thumbnail">
+<p><a href="../../notebooks/events/e2.html" class="no-external"></a></p><a href="../../notebooks/events/e2.html" class="no-external">
+<!-- img(9CEB782EFEE6)[progressive=false, height=]:notebooks/events/e2.html -->
+</a><p><a href="../../notebooks/events/e2.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../../notebooks/events/e2.html" class="no-external">Encounter 2 (2019-04-07)</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../../notebooks/events/e2.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../../notebooks/events/e2.html" class="no-external"><!-- desc(5A0113B34292)[max=175]:notebooks/events/e2.html --></a>
+</div>
+</div>
+<div class="metadata">
+<p><a href="../../notebooks/events/e2.html" class="no-external"></a></p><a href="../../notebooks/events/e2.html" class="no-external">
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-listing-file-modified-sort="1711550367636" data-listing-reading-time-sort="2" data-listing-word-count-sort="339">
 <div class="thumbnail">
 <p><a href="../../notebooks/events/e4.html" class="no-external"></a></p><a href="../../notebooks/events/e4.html" class="no-external">
 <!-- img(9CEB782EFEE6)[progressive=false, height=]:notebooks/events/e4.html -->
@@ -780,7 +754,7 @@ Table&nbsp;1: PSP events
 </div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="../../notebooks/events/e4.html" class="no-external"></a>
+<a href="../../notebooks/events/e4.html" class="no-external">Encounter 4 (2020-01-28)</a>
 </h3>
 <div class="listing-subtitle">
 <a href="../../notebooks/events/e4.html" class="no-external"></a>
@@ -791,6 +765,50 @@ Table&nbsp;1: PSP events
 </div>
 <div class="metadata">
 <p><a href="../../notebooks/events/e4.html" class="no-external"></a></p><a href="../../notebooks/events/e4.html" class="no-external">
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-listing-file-modified-sort="1715226373735" data-listing-reading-time-sort="2" data-listing-word-count-sort="209">
+<div class="thumbnail">
+<p><a href="../../notebooks/events/e7.html" class="no-external"></a></p><a href="../../notebooks/events/e7.html" class="no-external">
+<!-- img(9CEB782EFEE6)[progressive=false, height=]:notebooks/events/e7.html -->
+</a><p><a href="../../notebooks/events/e7.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../../notebooks/events/e7.html" class="no-external">Encounter 7 (2021-01-17)</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../../notebooks/events/e7.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../../notebooks/events/e7.html" class="no-external"><!-- desc(5A0113B34292)[max=175]:notebooks/events/e7.html --></a>
+</div>
+</div>
+<div class="metadata">
+<p><a href="../../notebooks/events/e7.html" class="no-external"></a></p><a href="../../notebooks/events/e7.html" class="no-external">
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-listing-file-modified-sort="1715226373735" data-listing-reading-time-sort="1" data-listing-word-count-sort="197">
+<div class="thumbnail">
+<p><a href="../../notebooks/events/e8.html" class="no-external"></a></p><a href="../../notebooks/events/e8.html" class="no-external">
+<!-- img(9CEB782EFEE6)[progressive=false, height=]:notebooks/events/e8.html -->
+</a><p><a href="../../notebooks/events/e8.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../../notebooks/events/e8.html" class="no-external">Encounter 8</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../../notebooks/events/e8.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../../notebooks/events/e8.html" class="no-external"><!-- desc(5A0113B34292)[max=175]:notebooks/events/e8.html --></a>
+</div>
+</div>
+<div class="metadata">
+<p><a href="../../notebooks/events/e8.html" class="no-external"></a></p><a href="../../notebooks/events/e8.html" class="no-external">
 </a>
 </div>
 </div>
@@ -841,18 +859,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -884,7 +891,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -919,7 +966,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1194,7 +1245,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

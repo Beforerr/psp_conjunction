@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -39,6 +73,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -99,6 +136,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../presentations/grp.html">
  <span class="dropdown-text">Group Meeting</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../presentations/sparthb.html">
+ <span class="dropdown-text">SPARTHB</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -112,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../notebooks/00_calc.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../../notebooks/events/index.html">Events</a></li><li class="breadcrumb-item"><a href="../../notebooks/events/e4.html">E4</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../notebooks/00_calc.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../../notebooks/events/index.html">Events</a></li><li class="breadcrumb-item"><a href="../../notebooks/events/e4.html">Encounter 4 (2020-01-28)</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -153,20 +194,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/01_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">01 Cor</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../notebooks/01_psp_cor.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Estimate of arrival time</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../notebooks/01_psp_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Examples of discontinuities observed by PSP</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -177,14 +206,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../notebooks/01_swd_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Examples of discontinuities observed by PSP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../notebooks/02_psp_events.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Events</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../notebooks/04_artemis_events.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ARTEMIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../notebooks/10_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10 Results</span></a>
+ <span class="menu-text">Results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/11_anisotropy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Anisotropy</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -198,14 +245,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/events/01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2019-04-07</span></a>
+  <a href="../../notebooks/events/e2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 2 (2019-04-07)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../notebooks/events/e4.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">E4</span></a>
+ <span class="menu-text">Encounter 4 (2020-01-28)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/events/e7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 7 (2021-01-17)</span></a>
   </div>
 </li>
       </ul>
@@ -227,6 +280,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Group Meeting</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../presentations/sparthb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Solar Wind Discontinuities: Parker Solar Probe vs ARTEMIS Observations</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -235,16 +294,70 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#encounter-4-2020-01-28" id="toc-encounter-4-2020-01-28" class="nav-link active" data-scroll-target="#encounter-4-2020-01-28">Encounter 4 (2020-01-28)</a>
+  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 
 
 
+<section id="encounter-4-2020-01-28" class="level1 page-columns page-full">
+<h1>Encounter 4 (2020-01-28)</h1>
+<ul>
+<li><a href="https://whpi.hao.ucar.edu/whpi_campaign-cr2226.php">WHPI - Campaign: 2226</a>
+<ul>
+<li><a href="https://whpi.hao.ucar.edu/whpi_campaign-cr2226-highlights.php">WHPI - Parker Perihelion 4 Campaign Highlights</a></li>
+</ul></li>
+<li><a href="http://helioweather.net/missions/psp/per04/">ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 04</a></li>
+</ul>
+<blockquote class="blockquote">
+<p>The orbit of Parker Solar Probe (Parker) during the 4th encounter with the Sun presented a unique opportunity for a multi-mission and multi-observatory collaboration as the 4th perihelion occurred nearly at the <strong><em>Sun-Earth</em></strong> line. This unprecedented configuration allowed ground-based solar observatories to measure the solar surface that Parker was magnetically connected to while Parker simultaneously measured the near-Sun environment at the closest distance to the Sun recorded to date (27.8 RS). Additionally, near-Earth missions (e.g., ACE, ARTEMIS, and MMS) could then measure this solar wind once it reached 1 au to study the evolution of solar wind structures as they propagate radially outward from the Sun. Probes within the magnetosphere of Earth, and observatories focused on the ionosphere, could then study how these structures affect the near-Earth environment. To take advantage of this great opportunity for large-scale coordinated science, the Parker Project Science team and the Whole Heliosphere and Planetary Interactions (WHPI) group organized a campaign that has brought together observatories and missions from across the world. This page is meant to contain information and links relevant to the Parker Solar Probe Encounter 4 campaign. For more information, please contact Robert C. Allen (Robert.Allen@jhuapl.edu), the Parker Project Science team coordinator for this effort.</p>
+</blockquote>
+<p>Conjunction with In Situ Observations</p>
+<blockquote class="blockquote">
+<p>In addition to magnetic footpoint mapping for solar observers, ballistic mappings were performed to estimate when solar wind observed at Parker may reach 1 au at either STEREO-A or near-Earth observers. This shows that the footpoints of STEREO-A and Parker may have been near each other from Jan 26th, 2020 to Jan 28th, 2020 (where the red lines cross the black horizontal line at 0), while the footpoints of Earth and Parker may have been close <em>from Jan 29th, 2020 until Jan 31st, 2020</em> (where the blue lines cross the zero-line).</p>
+</blockquote>
+<div>
+
+</div>
+<div class="column-page quarto-layout-panel" data-layout-nrow="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/paste-1.png" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E4_orbit.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/E4_orbit.png" class="img-fluid"></a></p>
+</div>
+</div>
+</div>
+<p><a href="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/Lag_from_PSP_to_STA_and_Earth.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://psp-gateway.jhuapl.edu/website/SciencePlanning/Encounters/Lag_from_PSP_to_STA_and_Earth.png" class="img-fluid"></a></p>
+<p>Start Date: 20200125</p>
+<p>End Date: 20200131</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2020-01-20+through+2020-01-31</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/psp_mag_sw.vap?timerange=2020-01-27+through+2020-01-31</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-08+through+2019-04-10</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/ace.vap?timerange=2019-04-11+through+2019-04-14</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/wind_plasma.vap?timerange=2019-04-08+through+2019-04-10</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>file:///Users/zijin/projects/autoplot/dscovr.vap?timerange=2019-04-08+through+2019-04-10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/paste-2.png" class="img-fluid"></a></p>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<p><a href="images/paste-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/paste-5.png" class="img-fluid"></a></p>
+<p><a href="images/paste-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="images/paste-4.png" class="img-fluid"></a></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -635,6 +748,31 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
 
 
 

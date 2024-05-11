@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
     <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.4.547">
+    <meta name="generator" content="quarto-1.5.31">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -32,7 +32,7 @@
       }
       @media print {
       pre > code.sourceCode { white-space: pre-wrap; }
-      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
       }
       pre.numberSource code
         { counter-reset: source-line 0; }
@@ -228,11 +228,15 @@
     <a class="dropdown-item" href="../presentations/grp.html">
  <span class="dropdown-text">Group Meeting</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../presentations/sparthb.html">
+ <span class="dropdown-text">SPARTHB</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -282,20 +286,8 @@
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/01_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">01 Cor</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../notebooks/01_psp_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Estimate of arrival time</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../notebooks/01_psp_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Examples of discontinuities observed by PSP</span></a>
+ <span class="menu-text">Time series correlation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -306,42 +298,119 @@
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../notebooks/01_swd_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../notebooks/02_psp_events.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Wind dataset</span></a>
+ <span class="menu-text">Events</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/04_artemis_events.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ARTEMIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/05_psp_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/06_psp_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parker Solar Probe Examples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/10_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10 Results</span></a>
+ <span class="menu-text">Results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../notebooks/events/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Events</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/events/e11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/events/e2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 2 (2019-04-07)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/events/e4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 4 (2020-01-28)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/events/e7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 7 (2021-01-17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/events/e8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Encounter 8</span></a>
   </div>
 </li>
       </ul>
   </li>
+      </ul>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
  <span class="menu-text">Presentations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../presentations/grp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Group Meeting</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../presentations/sparthb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Solar Wind Discontinuities: Parker Solar Probe vs ARTEMIS Observations</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
     </div>
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#anisotropy" id="toc-anisotropy" class="nav-link active" data-scroll-target="#anisotropy">Anisotropy</a></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">      <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/00_calc.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/00_notes.html">Notes</a></li></ol></nav>
@@ -360,7 +429,7 @@
   
 
 
-</header>   <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="cell-1" class="cell">
+</header>     <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="cell-1" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell" data-execution_count="3">
@@ -373,6 +442,7 @@ Table&nbsp;1: PSP events
 </figcaption>
 <div aria-describedby="tbl-events-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 <div>
 
 
@@ -561,9 +631,47 @@ Table&nbsp;1: PSP events
 </div>
 </div>
 </div>
+</div>
 </figure>
 </div></div></div>
 </div></div>
+<div id="cell-3" class="cell markdown">
+<section id="anisotropy" class="level1">
+<h1>Anisotropy</h1>
+<ul>
+<li><p>PSP_SWP_SPI_SF00_L3_MOM</p>
+<ul>
+<li><p>Notes: Partial moments of the Proton distribution function in the SPAN-Ion instrument, PSP spacecraft, and RTN coordinate systems. User should be aware that the full ion distribution is typically NOT in the FOV of the instrument.</p></li>
+<li><p><code>T_TENSOR</code> Partial Moment Temperature Tensor in instrument frame</p></li>
+</ul></li>
+<li><p>WI_H0_SWE</p>
+<ul>
+<li><code>Te_anisotropy</code> Temperature anisotropy = Te_para / Te_perp</li>
+</ul></li>
+<li><p>WI_PLSP_3DP</p>
+<ul>
+<li><code>MOM.P.MAGT3</code> —&gt; [P.SYMM_MAGT3] Proton temperature tensor… rotated into a field-aligned coordinate basis and then taking the diagonal elements only</li>
+</ul></li>
+<li><p>WI_ELM2_3DP : Wind 3dp, PESA Low (~24 sec resolution) energy spectra with ion moments</p>
+<ul>
+<li><code>MAGT3</code> —&gt; [MAGT3] electron temperature tensor… rotated into a field-aligned coordinate basis and then taking the diagonal elements only</li>
+</ul></li>
+<li><p>THB_L2_ESA</p>
+<ul>
+<li><p><code>thb_peeb_magt3Q</code> —–Electron Temperature, Field Aligned (Tprp1FA, Tprp2FA, TparFA)</p></li>
+<li><p><code>thb_peef_magt3Q</code> —–Electron Temperature, Field Aligned (Tprp1FA, Tprp2FA, TparFA)</p></li>
+<li><p><code>thb_peif_magt3Q</code> —–Temperature, Field Aligned (TprpFA1, TprpFA2, TparFA)</p></li>
+</ul></li>
+<li><p>THB_L2_MOM</p>
+<ul>
+<li><p><code>thb_peem_ptens_magQ</code> —–Electron Pressure Tensor, Field Aligned</p></li>
+<li><p><code>thb_peem_t3_magQ</code> —–Electron Temperature, Field Aligned (TprpFA1, TprpFA2, TparFA)</p></li>
+<li><p><code>thb_peim_ptens_magQ</code> —–Ion Pressure Tensor, Field Aligned</p></li>
+<li><p><code>thb_peim_t3_magQ</code> —–Ion Temperature, Field Aligned (TprpFA1, TprpFA2, TparFA)</p></li>
+</ul></li>
+</ul>
+</section>
+</div>
 
 
      </main> <!-- /main -->  <script id="quarto-html-after-body" type="application/javascript">
@@ -601,18 +709,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -644,7 +741,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -679,7 +816,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
