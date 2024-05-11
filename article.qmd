@@ -20,9 +20,9 @@ affiliations:
     name: University of California, Los Angeles
 ---
 
-![](figures/density_distribution){#fig-distribution}
+![](figures/density_distribution.png
 
-![](figures/thickness_current){#fig-thickness-current}
+![](figures/enc2/thickness_current.spc_n_spc.png)
 
 ::: {#fig-plasma-adiabatic-evolution .column-page}
 ![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
@@ -42,7 +42,7 @@ In general discontinuities observed by PSP is much shorter (1~5 secs) with large
 :::
 
 
-![Comparision map of (normalized) thickness and (normalized) current density](figures/enc2/thickness_current_spc_n_spc.png){#fig-comp-map}
+![Comparision map of (normalized) thickness and (normalized) current density](figures/enc2/thickness_current.spc_n_spc.png){#fig-comp-map}
 
 Solar wind properties
 
