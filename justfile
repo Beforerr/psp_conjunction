@@ -11,6 +11,7 @@ preview:
    quarto preview --no-render
 
 publish: update
+   quarto render
    quarto publish gh-pages --no-render --no-prompt
 
 render-man:
