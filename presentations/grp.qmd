@@ -3,6 +3,7 @@ title: Group Meeting
 format:
   dashboard:
     nav-buttons: [github]
+date: "2024-02"
 ---
 
 # #1 Overview {orientation="columns"}

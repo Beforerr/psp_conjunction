@@ -1,0 +1,67 @@
+# Updates
+
+- [x] Why ARTEMIS electron data and Wind ion data?
+- [ ] Disagreement between anisotropy observed and predicted by the theory
+  - maybe just too localized anisotropy that is not well measured with available time resolution... 
+  - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy
+# TODO
+
+- [ ] Plot Bl(t), jm(l) and ion anisotropy for these cases?
+
+
+## 02/11/2024 (Encounter 4)
+
+::: {.column-screen-inset layout-nrow="1"}
+
+![](figures/enc4/thickness_current)
+
+![](figures/enc4/density_distribution)
+
+![](figures/enc4/dvl)
+:::
+
+
+::: {.column-screen-inset layout-nrow="1"}
+
+![](figures/enc4/dn-dT)
+
+![](figures/enc4/dT-dB)
+
+![](figures/enc4/dn-dB)
+:::
+
+
+## 02/09/2024 (Encounter 2)
+
+::: {.column-screen-inset layout-nrow="1"}
+
+![](figures/enc2/thickness_current)
+
+![](figures/enc2/density_distribution)
+
+![](figures/enc2/dvl)
+:::
+
+Pair plot
+
+::: {.column-screen-inset layout-nrow="1"}
+
+![](figures/enc2/dn-dT)
+
+![](figures/enc2/dT-dB)
+
+![](figures/enc2/dn-dB)
+:::
+
+## 
+
+![](images/paste-20.png)
+
+Given timeseries $(R_a, \phi_a$, $R_b(t)$,
+
+![](images/paste-11.png)
+
+![](images/paste-12.png)
+
+
+

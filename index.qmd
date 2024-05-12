@@ -23,77 +23,38 @@ code-links:
     text: Zotero
 ---
 
-# Updates
+# Motivation
 
-- [x] Why ARTEMIS electron data and Wind ion data?
-- [ ] Disagreement between anisotropy observed and predicted by the theory
-  - maybe just too localized anisotropy that is not well measured with available time resolution... 
-  - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy
-# TODO
+Studying the radial evolution of solar wind discontinuities from synergistic observations of PSP and Earth-orbiting missions (ARTEMIS, Wind) during aligned intervals.
 
-- [ ] Plot Bl(t), jm(l) and ion anisotropy for these cases?
+- How does the discontinuities change with the radial distance from the Sun?
 
+- How is solar wind discontinuities formed? What is the physical mechanisms?
 
-## 02/11/2024 (Encounter 4)
+  - Generated at or near the sun?
 
-::: {.column-screen-inset layout-nrow="1"}
+  - Locally generated in the interplanetary space by turbulence?
 
-![](figures/enc4/thickness_current)
+# Methods
 
-![](figures/enc4/density_distribution)
+## In-situ synergistic observations (Alignment)
 
-![](figures/enc4/dvl)
-:::
+**Similar** type of solar wind or **Same** solar solar wind
 
+How to define alignment?
 
-::: {.column-screen-inset layout-nrow="1"}
+- Trajectory & Orbits (theory): ballistic approximation of Parker spiral
 
-![](figures/enc4/dn-dT)
+- Plasma properties (observation): 
 
-![](figures/enc4/dT-dB)
+  - Invariants: plasma composition, ionization states, mass flux $n u r^2$
 
-![](figures/enc4/dn-dB)
-:::
+  - Correlation: magnetic field / plasma velocity
 
+- Simulation: Trace plasma parcels evolution
 
-## 02/09/2024 (Encounter 2)
+<!-- sensing solar wind emitted from the same region on the solar surface, with the caveat that dynamical processes at the chromosphere–corona interface have not dramatically altered the solar footpoint within the time corresponding to the radial propagation from the measurement of one spacecraft to that of the other. -->
 
-::: {.column-screen-inset layout-nrow="1"}
-
-![](figures/enc2/thickness_current)
-
-![](figures/enc2/density_distribution)
-
-![](figures/enc2/dvl)
-:::
-
-Pair plot
-
-::: {.column-screen-inset layout-nrow="1"}
-
-![](figures/enc2/dn-dT)
-
-![](figures/enc2/dT-dB)
-
-![](figures/enc2/dn-dB)
-:::
-
-## 
-
-![](images/paste-20.png)
-
-Given timeseries $(R_a, \phi_a$, $R_b(t)$,
-
-![](images/paste-11.png)
-
-![](images/paste-12.png)
-
-# Alignment
-
-Composition and ionization state should remain invariant.
-
-PSP_ISOIS-EPILO_L2-IC:   Info  Metadata
-Parker Solar Probe ISOIS EPI-Lo Level 2 Ion Composition - David McComas (Princeton University)
 
 # References
 

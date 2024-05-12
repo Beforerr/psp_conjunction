@@ -15,6 +15,7 @@ format:
   revealjs:
     output-file: 'sparthb.revealjs.html'
 slide-number: true
+date: "2024-03"
 ---
 
 ## Solar wind discontinuities (SWD)
