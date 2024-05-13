@@ -109,9 +109,9 @@ In general discontinuities observed by PSP are with
 
 ## Comparison of Discontinuity Properties
 
-![](../figures/enc2/thickness_current.spi_n_spi.png)
+![](figures/enc2/thickness_current.spi_n_spi.png)
 
-![](../figures/enc2/density_distribution.spi_n_spi.png)
+![](figures/enc2/density_distribution.spi_n_spi.png)
 
 K1: Normalized discontinuities properties does not vary much with radial distance
 
@@ -119,7 +119,7 @@ K1: Normalized discontinuities properties does not vary much with radial distanc
 
 For rotational discontinuities, the plasma velocity jump across them: the plasma flow velocity $v_l$ (the solar wind velocity projected onto $l$) changes due to changes in $B_l$, $Δv_l=±Δv_A$ with $v_A= B_l / \sqrt{4 n m}$.
 
-![](figures/dvl.spi_n_spi.png)
+![](figures/enc7/dvl.png)
 
 K2: $Δv_l$,l demonstrates a strong correlation with $Δv_{A}$, albeit being consistently smaller.
 
@@ -129,11 +129,11 @@ The equation for $Δv_A$ includes a factor depending on the anisotropy of the pl
 
 Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
 
-![](figures/anisotropy_theory.png)
+![](figures/enc7/anisotropy_theory.png)
 
 ## Comparison between Estimated and Observed Anisotropy
 
-![](figures/anisotropy_comparison_2d.png)
+![](figures/enc7/anisotropy_comparison_2d.png)
 
 # Conclusion
 
