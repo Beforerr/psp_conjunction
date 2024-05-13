@@ -82,8 +82,6 @@ function plot_dvl(; legend=(position=:top, titleposition=:left))
     fg
 end
 
-
-
 function plot_dvl_c()
     fname = "dvl"
 
