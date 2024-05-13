@@ -55,6 +55,95 @@ How to define alignment?
 
 <!-- sensing solar wind emitted from the same region on the solar surface, with the caveat that dynamical processes at the chromosphere–corona interface have not dramatically altered the solar footpoint within the time corresponding to the radial propagation from the measurement of one spacecraft to that of the other. -->
 
+### High-speed solar wind radial evolution
+
+:::: {.columns}
+::: {.column}
+![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
+
+![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
+
+![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-previous.svg)
+:::
+
+::: {.column}
+
+![](../images/sty3348fig5.jpeg)
+
+@perroneRadialEvolutionSolar2019
+:::
+::::
+
+::: {.notes}
+The radial dependence of the proton number density, $n_p$ and magnetic ﬁeld magnitude, $B$, is given by
+
+$$
+n_p = (2.4 ± 0.1)(R/R_0)^{−(1.96±0.07)} cm^{−3}
+\\
+B = (5.7 ± 0.2)(R/R_0)^{−(1.59±0.06)} nT
+$$
+
+The faster decrease of the magnetic than kinetic pressure is reﬂected in the radial proton plasma beta variation
+
+$$
+β_p = P_k/P_B = (0.55 ± 0.04)(R/R_0)^{(0.4±0.1)}
+$$ 
+:::
+
+
+## Examples of discontinuities
+
+![](../figures/examples/psp_e2_example.png)
+
+In general discontinuities observed by PSP are with
+
+- shorter duration (1~5 secs)
+  
+  compared with 5-10 secs
+
+- large current density (100-1000 nA/m^2)
+  
+  compared with 1-10 nA/m^2
+
+# Results
+
+## Comparison of Discontinuity Properties
+
+![](../figures/enc2/thickness_current.spi_n_spi.png)
+
+![](../figures/enc2/density_distribution.spi_n_spi.png)
+
+K1: Normalized discontinuities properties does not vary much with radial distance
+
+## Comparison between Alfven speed and plasma speed change
+
+For rotational discontinuities, the plasma velocity jump across them: the plasma flow velocity $v_l$ (the solar wind velocity projected onto $l$) changes due to changes in $B_l$, $Δv_l=±Δv_A$ with $v_A= B_l / \sqrt{4 n m}$.
+
+![](figures/dvl.spi_n_spi.png)
+
+K2: $Δv_l$,l demonstrates a strong correlation with $Δv_{A}$, albeit being consistently smaller.
+
+## Estimated Anisotropy
+
+The equation for $Δv_A$ includes a factor depending on the anisotropy of the plasma.
+
+Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
+
+![](figures/anisotropy_theory.png)
+
+## Comparison between Estimated and Observed Anisotropy
+
+![](figures/anisotropy_comparison_2d.png)
+
+# Conclusion
+
+- The properties of the discontinuities is related to the local plasma parameters
+  - Thickness => ion inertial length
+  - Current density => Alfven velocity (current density)
+- Normalized thickness and current density of discontinuities remain constant with radial distance
+- Anisotropy of the plasma is expected to be larger near the sun to explain the observed speed change ratio $Δv_i/Δv_A$.
+
+
 
 # References
 
