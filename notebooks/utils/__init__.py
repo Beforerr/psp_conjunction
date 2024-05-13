@@ -2,6 +2,9 @@ import polars as pl
 import astropy.units as u
 from astropy.constants import mu0
 
+td_start_c = "t.d_start"
+td_stop_c = "t.d_end"
+
 def get_timerange(enc: int) -> list[str]:
     match enc:
         case 2: # Encounter 2

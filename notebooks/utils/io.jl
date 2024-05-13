@@ -18,6 +18,12 @@ function load(enc, name; dataset=missing,suffix="", data_dir= "../data", fmt = "
     df |> process
 end
 
+function keep_good_fit(df)
+    df = @chain df begin
+        filter(:"fit.stat.rsquared" => >(0.9), _)
+    end
+end
+
 function process(df)
     df = @chain df begin
         @transform(
@@ -39,11 +45,5 @@ function process(df)
         end
     end
 
-    return df
-end
-
-function keep_good_fit(df)
-    df = @chain df begin
-        filter(:"fit.stat.rsquared" => >(0.9), _)
-    end
+    df |> keep_good_fit
 end

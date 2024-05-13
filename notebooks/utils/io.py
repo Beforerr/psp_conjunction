@@ -1,8 +1,6 @@
 from pytplot import tplot_restore, tplot_names, get_data, options
 import polars as pl
 
-
-
 def time_stamp(ts):
     "Return POSIX timestamp as float."
     import pandas as pd
