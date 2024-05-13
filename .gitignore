@@ -3,7 +3,8 @@
 *_files/
 
 # temporarily ignore all figures
-figures/
+# figures/
+*.pdf
 
 *.html
 
