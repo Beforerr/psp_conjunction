@@ -1,5 +1,6 @@
 from space_analysis.ds.meta import Meta, PlasmaMeta, TempMeta
 from discontinuitypy.config import SpeasyIDsConfig
+from discontinuitypy.missions import WindMeta
 from pathlib import Path
 
 from datetime import timedelta
@@ -230,38 +231,8 @@ class PSPConfig(IDsConfig):
         # return f"events.{self.name}.{self.instr_p}_n_{self.instr_p_den}.{self.fmt}"
 
 
-class WindConfig(IDsConfig):
-
-    name: str = "Wind"
-
-    ts: timedelta = timedelta(seconds=1 / 11)
-    mag_meta: Meta = Meta(
-        dataset="WI_H2_MFI",
-        parameters=["BGSE"],
-    )
-
-    plasma_meta: PlasmaMeta = PlasmaMeta(
-        dataset="WI_PM_3DP",
-        parameters=["P_DENS", "P_VELS", "P_TEMP"],  # Proton velocity vector (GSE)
-        # dataset="WI_K0_SWE",
-        # parameters=["Np", "V_GSE", "THERMAL_SPD"],
-    )
-
-    ion_temp_meta: TempMeta = TempMeta(
-        dataset="WI_PLSP_3DP",
-        parameters=["MOM.P.MAGT3"],  # T_perp = (MAGT3[0] + MAGT3[1])/2
-        para_col="proton_MagT3_Z",
-        perp_cols=["proton_MagT3_X", "proton_MagT3_Y"],
-    )
-
-    e_temp_meta: TempMeta = TempMeta(
-        dataset="WI_ELM2_3DP",
-        parameters=["MAGT3"],
-        para_col="electron_MagT3_Para",
-        perp_cols=["electron_MagT3_Perp1", "electron_MagT3_Perp2"],
-    )   
-
-
+class WindConfig(WindMeta, IDsConfig):
+    pass
 
 class THEMISConfig(IDsConfig):
     name: str = "THM"
