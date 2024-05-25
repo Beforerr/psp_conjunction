@@ -1,24 +1,11 @@
+import 'files/quarto.just'
+overleaf_repo := "https://git@git.overleaf.com/664f7b472768760cf7d6321c"
+
 default:
    just --list
 
 env-install:
-   micromamba env create --file environment.yml
-
-env-update:
-   micromamba install --file environment.yml
-
-preview:
-   quarto preview --no-render
-
-publish: update
-   quarto publish gh-pages --no-render --no-prompt
-
-clone-overleaf:
-   git clone https://git@git.overleaf.com/664f7b472768760cf7d6321c overleaf
-
-render-man:
-   quarto render --profile man
-   cp -r _manuscript _site/
+   pixi install
 
 update:
    git add .
