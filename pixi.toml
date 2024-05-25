@@ -9,6 +9,7 @@ platforms = ["osx-arm64"]
 [tasks]
 
 [dependencies]
+python = "<3.11"
 jupyter = "*"
 pydantic = "*"
 polars = "*"
@@ -22,4 +23,4 @@ dcor = "*"
 pyspedas = "*"
 discontinuitypy = { path = "../ids_finder", editable = true}
 beforerr = { path = "../beforerr_dev", editable = true}
-space_analysis = { path = "../space_analysis", editable = true}
+space_analysis = { path = "../space-analysis.py", editable = true}
