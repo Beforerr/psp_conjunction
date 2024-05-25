@@ -22,7 +22,10 @@ website:
 format:
   html:
     toc: true
+    code-fold: true
     lightbox: auto
 
 bibliography:
   - ../share/bibliography/research.bib
+
+wrap: preserve

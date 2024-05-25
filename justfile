@@ -13,6 +13,9 @@ preview:
 publish: update
    quarto publish gh-pages --no-render --no-prompt
 
+clone-overleaf:
+   git clone https://git@git.overleaf.com/664f7b472768760cf7d6321c overleaf
+
 render-man:
    quarto render --profile man
    cp -r _manuscript _site/
