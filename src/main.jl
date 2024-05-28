@@ -1,13 +1,13 @@
+using DrWatson
+@quickactivate
 using AlgebraOfGraphics,
     CairoMakie
 using AlgebraOfGraphics: density
-using DataFrames,
-    DataFramesMeta,
-    CategoricalArrays
 using Arrow
 using PartialFunctions
 using LaTeXStrings
 using beforerr
+using Discontinuity
 
 include("utils/io.jl")
 include("utils/plot.jl")

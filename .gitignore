@@ -20,7 +20,8 @@ _proc/
 .DS_Store
 .CondaPkg
 
-__pycache__# pixi environments
+__pycache__ 
+# pixi environments
 .pixi
 *.egg-info
-
+.vscode
