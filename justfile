@@ -1,5 +1,5 @@
 import 'files/quarto.just'
-overleaf_repo := "https://git@git.overleaf.com/664f7b472768760cf7d6321c"
+import 'files/overleaf.just'
 
 default:
    just --list
