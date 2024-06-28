@@ -9,7 +9,8 @@
 *.html
 
 # data/
-*.arrow
+# *.arrow
+data/archive
 *.cdf
 
 _docs/
