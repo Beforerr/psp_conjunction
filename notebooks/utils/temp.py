@@ -10,6 +10,7 @@ def calc_pressure_anisotropy(
     ion_temp_perp_col: str = "ion_temp_perp",
     e_temp_para_col: str = "e_temp_para",
     e_temp_perp_col: str = "e_temp_perp",
+    temp_unit: u.Unit = u.eV,
 ):
     if density_col not in df.columns:
         logger.warning(f"{density_col} not in dataframe")
@@ -20,8 +21,8 @@ def calc_pressure_anisotropy(
     n = df[density_col].to_numpy() * u.cm**-3
     
     if ion_temp_para_col in df.columns and ion_temp_perp_col in df.columns:
-        ion_temp_para = df[ion_temp_para_col].to_numpy() * u.eV
-        ion_temp_perp = df[ion_temp_perp_col].to_numpy() * u.eV
+        ion_temp_para = df[ion_temp_para_col].to_numpy() * temp_unit
+        ion_temp_perp = df[ion_temp_perp_col].to_numpy() * temp_unit
         Λ_ion = (mu0 * n * (ion_temp_para - ion_temp_perp) / B**2).to(
             u.dimensionless_unscaled
         )
@@ -31,8 +32,8 @@ def calc_pressure_anisotropy(
         logger.info("Ion temperature columns not found")
         
     if e_temp_para_col in df.columns and e_temp_perp_col in df.columns:
-        e_temp_para = df[e_temp_para_col].to_numpy() * u.eV
-        e_temp_perp = df[e_temp_perp_col].to_numpy() * u.eV
+        e_temp_para = df[e_temp_para_col].to_numpy() * temp_unit
+        e_temp_perp = df[e_temp_perp_col].to_numpy() * temp_unit
         Λ_e = (mu0 * n * (e_temp_para - e_temp_perp) / B**2).to(u.dimensionless_unscaled)
         df = df.with_columns(Λ_e=Λ_e)
     else:
