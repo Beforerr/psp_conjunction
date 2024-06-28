@@ -4,8 +4,9 @@ import 'files/overleaf.just'
 default:
    just --list
 
-env-install:
+ensure_env:
    pixi install
+   pre-commit install
 
 update:
    git add .
