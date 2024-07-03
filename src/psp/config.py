@@ -1,6 +1,6 @@
+from beforerr.project import datadir
 from space_analysis.meta import PlasmaDataset, TempDataset, MagDataset
 from discontinuitypy.config import SpeasyIDsConfig
-from pathlib import Path
 
 from datetime import timedelta
 from typing import Literal
@@ -15,9 +15,7 @@ class IDsConfig(SpeasyIDsConfig):
 
     def model_post_init(self, __context):
         super().model_post_init(__context)
-        self._data_dir = Path(f"../data/enc{self.enc}")
-        # self.data = self.get_vars_df("mag")
-        # self.plasma_data = self.get_vars_df("plasma")
+        self._data_dir = datadir() / f"enc{self.enc}"
         
     @property
     def fname(self):

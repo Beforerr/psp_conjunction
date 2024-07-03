@@ -28,5 +28,6 @@ pytables = "*"   # for `pyspedas`
 psp = { path = ".", editable = true }
 great_tables = "*"
 beforerr = "*"
+matplotlib = "*"
 discontinuitypy = { path = "../discontinuitypy", editable = true }
 space_analysis = { path = "../../src/space-analysis.py", editable = true, extras = ["io"] }
