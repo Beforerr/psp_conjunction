@@ -15,11 +15,7 @@ class IDsConfig(SpeasyIDsConfig):
 
     def model_post_init(self, __context):
         super().model_post_init(__context)
-        self._data_dir = datadir() / f"enc{self.enc}"
-        
-    @property
-    def fname(self):
-        return f"events.{self.name}.{self.fmt}"
+        self.data_dir = datadir() / f"enc{self.enc}"
 
     @property
     def ion_temp_df(self):
