@@ -30,9 +30,6 @@ j_log_map = :j0_k => log10 => L"Log %$j_lab"
 j_norm_map = :j0_k_norm => j_norm_lab
 j_norm_log_map = :j0_k_norm => log10 => L"Log %$j_norm_lab"
 
-v_Alfven_map = "v.Alfven.change.l" => L"\Delta V_{A,l}"
-v_ion_map = "v.ion.change.l" => L"\Delta V_{i,l}"
-
 ds_mapping = :dataset => sorter(["Parker Solar Probe", "ARTEMIS", "Wind"])
 
 log_axis = (yscale=log10, xscale=log10)
