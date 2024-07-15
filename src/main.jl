@@ -7,7 +7,7 @@ using AlgebraOfGraphics: density
 using Arrow
 using PartialFunctions
 using LaTeXStrings
-using beforerr
+using Beforerr
 using Discontinuity
 
 include("io.jl")

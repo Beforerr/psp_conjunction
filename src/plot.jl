@@ -30,7 +30,8 @@ j_log_map = :j0_k => log10 => L"Log %$j_lab"
 j_norm_map = :j0_k_norm => j_norm_lab
 j_norm_log_map = :j0_k_norm => log10 => L"Log %$j_norm_lab"
 
-ds_mapping = :dataset => sorter(["Parker Solar Probe", "ARTEMIS", "Wind"])
+ds_order = ["Parker Solar Probe", "ARTEMIS", "Wind"]
+ds_mapping = :dataset => sorter(ds_order)
 
 log_axis = (yscale=log10, xscale=log10)
 
@@ -40,9 +41,25 @@ end
 
 # %%
 
-function plot_dvl(df ; legend=(position=:top, titleposition=:left))
-    fname = "dvl"
+legend_kwargs = (position=:top, titleposition=:left)
 
+function plot_vl_ratio(
+    df;
+    datalimits=x -> quantile(x, [0.01, 0.99]),
+    legend=legend_kwargs,
+    fname="vl_ratio",
+)
+    plt = data(df) * mapping(v_l_ratio_map) * density(datalimits=datalimits) * mapping(color=ds_mapping)
+    fg = draw(plt, legend=legend)
+    easy_save(fname; dir="$fig_dir/$enc")
+    fg
+end
+
+function plot_dvl(
+    df;
+    legend=legend_kwargs,
+    fname="dvl"
+)
     plt = data(df) * mapping(v_Alfven_map, v_ion_map, color=ds_mapping)
 
     limit_axis = (; limits=((2, 400), (2, 400)))
@@ -51,15 +68,17 @@ function plot_dvl(df ; legend=(position=:top, titleposition=:left))
     fg = draw(plt, axis=axis, legend=legend)
 
     slopes = [1.0, 0.7, 0.4, 0.1]
-    lns = [lines!(1 .. 1000, (*) $ s, linestyle=:dash, label = "$s") for s in slopes]
-    axislegend("slope", position = :ct)
+    map(slopes) do s
+        lines!(1 .. 1000, (*)$s, linestyle=:dash, label="$s")
+    end
+    axislegend("slope", position=:ct)
 
     easy_save(fname; dir="$fig_dir/$enc")
     fg
 end
 
 
-function plot_dvl(; legend=(position=:top, titleposition=:left))
+function plot_dvl(; legend=legend_kwargs)
     fname = "dvl"
 
     plt = data_layer_a * mapping(v_Alfven_map, v_ion_map)
@@ -70,8 +89,10 @@ function plot_dvl(; legend=(position=:top, titleposition=:left))
     fg = draw(plt, axis=axis, legend=legend)
 
     slopes = [1.0, 0.7, 0.4, 0.1]
-    map(slopes) do s lines!(1 .. 1000, (*) $ s, linestyle=:dash, label = "$s") end
-    axislegend("slope", position = :ct)
+    map(slopes) do s
+        lines!(1 .. 1000, (*)$s, linestyle=:dash, label="$s")
+    end
+    axislegend("slope", position=:ct)
 
     easy_save(fname; dir="$fig_dir/$enc")
     fg
@@ -97,14 +118,14 @@ function plot_dvl_c()
     grid2 = plt |> draw!(fig[1, 2]; axis=axis)
     # ax2 = Axis(fig[1, 2]; axis...)
     # grid2 = draw!(ax2, plt)
-    
+
     for s in slopes
-        lines!(1 .. 1000, (*) $ s, linestyle=:dash, label = "$s")
+        lines!(1 .. 1000, (*)$s, linestyle=:dash, label="$s")
     end
-    axislegend("slope", position = :ct)
+    axislegend("slope", position=:ct)
 
     # add labels
-    add_labels!([fig[1, 1], fig[1, 2]]; )
+    add_labels!([fig[1, 1], fig[1, 2]];)
     pretty_legend!(fig, grid2)
 
     easy_save(fname)

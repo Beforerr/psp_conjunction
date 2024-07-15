@@ -1,3 +1,5 @@
+from datetime import datetime
+
 td_start_c = "t.d_start"
 td_stop_c = "t.d_end"
 
@@ -22,6 +24,14 @@ def get_timerange(enc: int) -> list[str]:
 
             earth_start = '2021-01-15'
             earth_end = '2021-01-23'
+            
+        case _: # Encounter 1
+            raise ValueError("Invalid encounter")
+
+    start = datetime.fromisoformat(start)
+    end = datetime.fromisoformat(end)
+    earth_start = datetime.fromisoformat(earth_start)
+    earth_end = datetime.fromisoformat(earth_end)
 
     psp_timerange = [start, end]
     earth_timerange = [earth_start, earth_end]

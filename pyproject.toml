@@ -27,7 +27,8 @@ pytables = "*"   # for `pyspedas`
 [tool.pixi.pypi-dependencies]
 psp = { path = ".", editable = true }
 great_tables = "*"
-beforerr = "*"
+# beforerr = "*"
 matplotlib = "*"
+beforerr = { path = "../../src/beforerr_dev", editable = true }
 discontinuitypy = { path = "../discontinuitypy", editable = true }
 space_analysis = { path = "../../src/space-analysis.py", editable = true, extras = ["io"] }

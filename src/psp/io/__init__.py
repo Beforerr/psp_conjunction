@@ -13,5 +13,5 @@ def get_data_lf(name):
     da = get_data(name, xarray=True)
     df = da.to_pandas().reset_index()
     return pl.LazyFrame(df).with_columns(
-        pl.col("time").dt.cast_time_unit("us"),
+        pl.col("time").dt.cast_time_unit("ns"),
     )
