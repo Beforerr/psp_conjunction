@@ -52,7 +52,7 @@ function plot_anistropy_theory(df)
     add_labels!([fig[1, 1], fig[1, 2]])
     pretty_legend!(fig, grid1)
     easy_save(fname; dir="$fig_dir/$enc")
-    
+
     fig
 end
 
@@ -74,6 +74,6 @@ function plot_anistropy(df)
     add_labels!([fig[1, 1], fig[1, 2]])
     pretty_legend!(fig, grid1)
     easy_save("$(fname)$psp_p_instr", fig)
-    
+
     fig
 end

@@ -9,6 +9,7 @@ using PartialFunctions
 using LaTeXStrings
 using Beforerr
 using Discontinuity
+using Discontinuity.DefaultMapping
 
 include("io.jl")
 include("plot.jl")

@@ -68,7 +68,7 @@ class PSPConfig(IDsConfig):
         else:
             load_psp_data(enc=self.enc)
 
-            density_col = "plasma_density"
+            density_col = "n"
             velocity_cols = ["v_R", "v_T", "v_N"]
 
             mag_data = get_psp_data("mag")

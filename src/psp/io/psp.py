@@ -6,7 +6,7 @@ from psp.io import get_data_lf
 PSP_MAG_TNAME = "psp_fld_l2_mag_RTN_4_Sa_per_Cyc"
 PSP_DEN_TNAME = "psp_swp_spi_af00_L3_DENS"
 PSP_VEL_TNAME = "psp_swp_spi_af00_L3_VEL_RTN"
-PSP_TEMP_TNAME = "Tp_spani_b"
+PSP_TEMP_TNAME = "Tp_spanib_b"
 
 
 def set_psp_options(tnames):

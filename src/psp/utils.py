@@ -38,7 +38,7 @@ def _standardize_plasma_temperature(data: pl.LazyFrame, s_var):
     if s_var.unit == "km/s":
         return data.pipe(df_thermal_spd2temp, temperature_col)
     elif s_var.unit == "eV/cm^3":
-        return data.pipe(df_p2temp, temperature_col, "plasma_density")
+        return data.pipe(df_p2temp, temperature_col, "n")
     else:
         return data.rename({temperature_col: "plasma_temperature"})
 
@@ -49,7 +49,7 @@ def standardize_plasma_data(data: pl.LazyFrame, p_vars: Variables, meta = None):
     vec_cols = p_vars.data[1].columns
 
     data = data.with_columns(plasma_speed=pl_norm(vec_cols)).rename(
-        {density_col: "plasma_density"}
+        {density_col: "n"}
     )
 
     if len(p_vars.data) > 2:
