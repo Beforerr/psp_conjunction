@@ -5,3 +5,9 @@ project:
 
 manuscript:
   article: article.qmd
+
+format:
+  agu-pdf:
+    cite-method: natbib # biblatex is not supported
+    keep-tex: true
+    latex-clean: false

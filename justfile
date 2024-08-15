@@ -7,6 +7,7 @@ default:
 ensure_env:
    pixi install
    pre-commit install
+   quarto add quarto-journals/agu
 
 update:
    git add .

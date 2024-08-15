@@ -20,7 +20,7 @@ affiliations:
     name: University of California, Los Angeles
 ---
 
-![](figures/density_distribution.png
+![](figures/density_distribution.png)
 
 ![](figures/enc2/thickness_current.spc_n_spc.png)
 
