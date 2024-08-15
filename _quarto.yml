@@ -26,6 +26,6 @@ format:
     lightbox: auto
 
 bibliography:
-  - ../share/bibliography/research.bib
+  - files/bibliography/research.bib
 
 wrap: preserve

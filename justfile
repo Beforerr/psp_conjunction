@@ -7,7 +7,8 @@ default:
 ensure_env:
    pixi install
    pre-commit install
-   quarto add quarto-journals/agu
+   quarto add quarto-journals/agu --no-prompt
+   just ln-bib
 
 update:
    git add .

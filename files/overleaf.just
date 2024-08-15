@@ -11,11 +11,15 @@ sync-overleaf:
   set -eo pipefail
   command -v bibexport >/dev/null || tlmgr install bibexport
   touch files/bibexport.bib
-  quarto render --profile man --to pdf
+  quarto render --profile man --to agu-pdf
   bibexport -o files/bibexport.bib --nosave article.aux   
   rsync _manuscript/_tex/ overleaf/ -r
   rsync article_files overleaf -r
   just clean-man
+
+ln-bib:
+  mkdir -p files/bibliography
+  ln -s ~/projects/share/bibliography/research.bib files/bibliography/research.bib
 
 [private]
 clean-man:
