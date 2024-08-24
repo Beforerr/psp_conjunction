@@ -5,8 +5,6 @@ from discontinuitypy.mission import WindConfigBase, ThemisConfigBase
 
 from datetime import timedelta
 
-from rich import print
-
 from ..utils import standardize_ion_temp_df, standardize_e_temp_df
 from .. import get_timerange
 
