@@ -11,3 +11,6 @@ format:
     cite-method: natbib # biblatex is not supported
     keep-tex: true
     latex-clean: false
+
+citation:
+  container-title: "JGR: Space Physics"

@@ -59,16 +59,16 @@ How to define alignment?
 
 :::: {.columns}
 ::: {.column}
-![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
 
-![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
 
-![](../figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-previous.svg)
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-previous.svg)
 :::
 
 ::: {.column}
 
-![](../images/sty3348fig5.jpeg)
+![](images/sty3348fig5.jpeg)
 
 @perroneRadialEvolutionSolar2019
 :::
@@ -93,7 +93,7 @@ $$
 
 ## Examples of discontinuities
 
-![](../figures/examples/psp_e2_example.png)
+![](figures/examples/psp_e2_example.png)
 
 In general discontinuities observed by PSP are with
 
@@ -152,7 +152,7 @@ Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
 -   @artemyevDynamicsIntenseCurrents2018 examined the evolution of transient currents in the solar wind using a data set compiled from observations of the same solar wind ﬂow at Earth’s and Mars's orbits.
 
     ```         
-    > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensiﬁcation of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
+    > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensification of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
     ```
 
 ## Anistropy

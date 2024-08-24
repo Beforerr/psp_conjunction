@@ -13,16 +13,57 @@ author:
     orcid: 0000-0001-8823-4474
     affiliation: University of California, Los Angeles
   - name: Vassilis Angelopoulos
+    email: vassilis@ucla.edu
     orcid: 0000-0001-7024-1561
     affiliation: University of California, Los Angeles
-affiliations:
-  - id: ucla
-    name: University of California, Los Angeles
+  - name: Tai Phan
+    email: phan@ssl.berkeley.edu
+    orcid: 0000-0002-6924-9408
+    affiliation: Space Sciences Laboratory, University of California, Berkeley
 ---
 
-![](figures/density_distribution.png)
+# Plain Language Summary
 
-![](figures/enc2/thickness_current.spc_n_spc.png)
+# Introduction
+
+The study of the spatial evolution of solar wind discontinuities is important for understanding the dynamics of the solar wind
+
+Previous statistical studies of solar wind discontinuities in the inner heliosphere @marianiStatisticalStudyMagnetohydrodynamic1983 @liuCharacteristicsInterplanetaryDiscontinuities2021
+
+Alignement study of solar wind discontinuities @artemyevDynamicsIntenseCurrents2018
+
+By indentifying the periods of conjunctions and alignments between PSP and Earth-orbiting missions
+
+@hudsonDiscontinuitiesAnisotropicPlasma1970
+
+
+# Dataset and method
+
+## Dataset
+
+### PSP
+
+We use the high-resolution magnetic field and plasma data from the FIELDS and SWEAP instruments on board the Parker Solar Probe (PSP).
+
+Solar Probe ANalyzer (SPAN) is 
+
+We also use dataset from Solar Probe Cup (SPC) and 
+sqtn data from Radio Frequency Spectrometer (RFS) and Low Frequency Reciever (LFR) for density measurements. And in general, we find the results are consistent with the FIELDS and SPAN-i data.
+
+ARTEMIS: 
+
+<!-- 
+@shenComparingPlasmaAnisotropy2024
+-->
+
+
+## Method
+
+TODO: define alignmetn / conjunction
+
+Statistical alignment study ... where the solar wind parcels pass through one spacecraft and then the other. During this process, the solar wind parcels are expected to evolve due to expansion, heating, and other processes.
+
+@velliUnderstandingOriginsHeliosphere2020
 
 ::: {#fig-plasma-adiabatic-evolution .column-page}
 ![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
@@ -31,6 +72,12 @@ affiliations:
 
 <!-- Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019. -->
 :::
+
+@schwartzRadialEvolutionSingle1983
+
+## Identification and characterization of discontinuities
+
+TODO: We use the same process described in @??? to identify and characterize discontinuities in the solar wind.
 
 ::: {#fig-examples .column-page}
 
@@ -41,11 +88,74 @@ Solar wind discontinuities examples observed by PSP and ARTEMIS fitted by a logi
 In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density.
 :::
 
+# Results
+
+![](figures/density_distribution.png)
+
+## Comparison of Discontinuity Properties
 
 ![Comparision map of (normalized) thickness and (normalized) current density](figures/enc2/thickness_current.spc_n_spc.png){#fig-comp-map}
+
+![](figures/enc2/density_distribution.spi_n_spi.png)
+
 
 Solar wind properties
 
 L:
 j:
 $\Delta v_l$
+
+
+![](figures/enc2/thickness_current.spi_n_spi.png)
+
+Scale-dependent properties of current sheets in the solar wind
+
+@vaskoKineticscaleCurrentSheets2022
+
+
+## Comparison between Alfven speed and plasma speed change
+
+For rotational discontinuities, the plasma velocity jump across them: the plasma flow velocity $v_l$ (the solar wind velocity projected onto $l$) changes due to changes in $B_l$, $Δv_l=±Δv_A$ with $v_A= B_l / \sqrt{4 n m}$.
+
+![](figures/enc7/dvl.png)
+
+K2: $Δv_l$,l demonstrates a strong correlation with $Δv_{A}$, albeit being consistently smaller.
+
+## Estimated Anisotropy
+
+The equation for $Δv_A$ includes a factor depending on the anisotropy of the plasma.
+
+Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
+
+![](figures/enc7/anisotropy_theory.png)
+
+## Comparison between Estimated and Observed Anisotropy
+
+![](figures/enc7/anisotropy_comparison_2d.png)
+
+# Discussion
+
+
+- The properties of the discontinuities is related to the local plasma parameters
+  - Thickness => ion inertial length
+  - Current density => Alfven velocity (current density)
+
+- Normalized thickness and current density of discontinuities remain constant with radial distance. In contrast to @artemyevDynamicsIntenseCurrents2018 results that show a decrease  in normalized thickness and increase in normalized current density with radial distance.
+
+Assuming the 
+Anisotropy of the plasma is expected to be larger near the sun to explain the observed speed change ratio $Δv_i/Δv_A$.
+
+# Conclusion
+
+# References
+
+---
+
+@marianiStatisticalStudyMagnetohydrodynamic1983
+
+- Statistical study of magnetic field discontinuities in the inner solar system
+- ⭐️ Findings Strong day-to-day variations in occurrence rates of discontinuities
+- ✏️ Morphology Orientation of discontinuities strongly organized by the average magnetic field
+- 💡 Implications Interpretation of evidence of crossing of flux tubes
+
+---
