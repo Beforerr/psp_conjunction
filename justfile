@@ -1,3 +1,5 @@
+set allow-duplicate-recipes
+
 import 'files/quarto.just'
 import 'files/overleaf.just'
 
@@ -9,6 +11,8 @@ ensure_env:
    pre-commit install
    quarto add quarto-journals/agu --no-prompt
    just ln-bib
+
+sync_overleaf: tex_render tex_clean
 
 update:
    git add .
