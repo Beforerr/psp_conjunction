@@ -20,6 +20,11 @@ author:
     email: phan@ssl.berkeley.edu
     orcid: 0000-0002-6924-9408
     affiliation: Space Sciences Laboratory, University of California, Berkeley
+code-links:
+  - href: https://www.overleaf.com/project/664f7b472768760cf7d6321c
+    text: Overleaf
+  - href: zotero://select/library/collections/L9JC7XAI
+    text: Zotero
 ---
 
 # Plain Language Summary
@@ -39,27 +44,43 @@ By indentifying the periods of conjunctions and alignments between PSP and Earth
 
 # Dataset and method
 
+We use the datasets from PSP and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR and Wind) to study the evolution of solar wind discontinuities in the inner heliosphere, focusing on the periods of conjunctions and alignments between PSP and Earth-orbiting missions.
+
 ## Dataset
 
-### PSP
-
-We use the high-resolution magnetic field and plasma data from the FIELDS and SWEAP instruments on board the Parker Solar Probe (PSP).
-
-Solar Probe ANalyzer (SPAN) is 
-
-We also use dataset from Solar Probe Cup (SPC) and 
-sqtn data from Radio Frequency Spectrometer (RFS) and Low Frequency Reciever (LFR) for density measurements. And in general, we find the results are consistent with the FIELDS and SPAN-i data.
-
-ARTEMIS: 
-
 <!-- 
-@shenComparingPlasmaAnisotropy2024
+PSP:
+SWEAP consists of four separate sensors that measure the ions and electrons that make up the plasma in the solar wind and solar corona. The Solar Probe ANalyzer (SPAN) instruments are electrostatic analyzers (ESAs) that use curved plates to measure the 3-D particle distribution from within the shadow cast by the spacecraft thermal shield. Two of the sensors are co-located on the ram side of the spacecraft: SPAN-Ai measures ions, and SPAN-Ae measures electrons. SPAN-B measures electrons and is on the anti-ram side of the spacecraft. The Solar Probe Cup (SPC) is a Faraday Cup instrument that is directly illuminated by the Sun and measures both ions and electrons.
 -->
 
+We utilized high-resolution magnetic field and plasma data from the FIELDS and SWEAP instruments aboard the Parker Solar Probe (PSP). For the plasma data presented in the figures of this paper, we used the dataset from SPAN-i, which measures ions in the solar wind. Although ion data is also available from SPC, the SPAN-i data was chosen due to its higher temporal resolution, making it more suitable for analyzing discontinuities. Our analysis confirms that the results obtained from SPC are consistent with those derived from SPAN-i data. It is also worth noting that sqtn data from the Radio Frequency Spectrometer (RFS) and Low-Frequency Receiver (LFR) for density measurements is available. However, we generally find that the results obtained from RFS/LFR do not differ significantly from those derived from SPAN-i data.
+
+<!-- 
+ARTEMIS:
+We use the following data collected by ARTEMIS P1: magnetic fields with a ∼4s spin resolution (Auster et al. 2008), the ion bulk velocity v, and the ion (assumed to be proton) temperature (scalar) Tp calculated from velocity distributions measured at spin resolution by the Electrostatic Analyzer (ESA; McFadden et al. 2008). Being designed for measurements of a hot, rarefied plasma in Earth’s magnetosphere, ESA typically overestimates the proton temperature in the solar wind, because the solar wind proton beam is narrower than ESA’s energy and angular resolution.
+TODO: check if the ESA is in solar wind mode
+-->
+
+We utilized data collected by ARTEMIS, including magnetic fields measured at approximately 5 Hz resolution by the Fluxgate Magnetometer [@austerTHEMISFluxgateMagnetometer2008], as well as plasma velocity ($v$) and density ($n$), which were derived from velocity distribution data obtained by the Electrostatic Analyzer with a resolution of around 4 seconds [@mcfaddenTHEMISESAPlasma2009]. It is important to note that the ESA tends to overestimate proton temperature in the solar wind due to the narrower proton beam compared to the ESA’s energy and angular resolution. Therefore, any findings related to temperature anisotropy should be interpreted with caution.
+
+<!-- 
+WIND:
+Wind 3dp, PESA LOW 1 spin resolution ion (proton and alpha) moments
+Wind 3D Plasma Analyzer
+Instrument Description
+The Wind 3DP instrument consists of six different sensors. There are two electron (EESA) and two ion (PESA) electrostatic analyzers with different geometrical factors and field-of-views covering the energy range from 3 eV to 30 keV. There are also a pair of solid state telescopes (SST) that measure electrons with energies up to 400 keV and protons with energie
+-->
+
+The following data collected by Wind are used: magnetic fields with a $\sim 11$ Hz resolution measured by the Magnetic Field Investigation (MFI) [@leppingWINDMagneticField1995], the ion (proton and alpha) moments measured by ion (PESA) electrostatic analyzers of the 3D Plasma Analyzer (3DP) [@linThreedimensionalPlasmaEnergetic1995].
+
+<!--
+References:
+- @shenComparingPlasmaAnisotropy2024
+-->
 
 ## Method
 
-TODO: define alignmetn / conjunction
+TODO: define alignment / conjunction
 
 Statistical alignment study ... where the solar wind parcels pass through one spacecraft and then the other. During this process, the solar wind parcels are expected to evolve due to expansion, heating, and other processes.
 

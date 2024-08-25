@@ -8,7 +8,6 @@ from datetime import timedelta
 from ..utils import standardize_ion_temp_df, standardize_e_temp_df
 from .. import get_timerange
 
-
 class Config(BaseModel):
     enc: int = 7
     tau: timedelta = timedelta(seconds=30)
