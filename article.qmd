@@ -44,16 +44,50 @@ By indentifying the periods of conjunctions and alignments between PSP and Earth
 
 # Dataset and method
 
-We use the datasets from PSP and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR and Wind) to study the evolution of solar wind discontinuities in the inner heliosphere, focusing on the periods of conjunctions and alignments between PSP and Earth-orbiting missions.
+<!-- 
+References:
+- @velliUnderstandingOriginsHeliosphere2020
+- @berriotIdentificationSinglePlasma2024
+- @telloniSpacecraftRadialAlignments2023
+-->
 
-## Dataset
+TODO: define alignment / conjunction
+
+Our study focuses on the evolution of solar wind discontinuities within plasma parcels as they undergo expansion. We analyze datasets from the Parker Solar Probe (PSP) and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR, and Wind) at various radial distances in the inner heliosphere, during periods of conjunctions and alignments between PSP and these Earth-orbiting missions.
+
+To achieve this, we utilize a configuration where two spacecraft are radially aligned in the Heliographic (HG) frame, with the longitude fixed on the Sun. It is important to note that the plasma parcels observed by the two spacecraft may differ in composition, as solar wind particles propagate at varying velocities. For instance, protons often exhibit a beam in their velocity distribution function, while the thermal speed of electrons is much higher than their bulk speed. Nonetheless, observing plasma that passes through both spacecraft offers the best opportunity to study the evolution of solar wind discontinuities with minimal influence from other processes during propagation. It is also expected that these plasma parcels evolve due to heating and other processes. 
+
+<!-- ::: {#fig-plasma-adiabatic-evolution .column-page}
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
+
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
+
+Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019.
+
+@schwartzRadialEvolutionSingle1983
+::: -->
+
+The plasma parcels in question are large-scale structures. As the scale size decreases below the mesoscale [@viallMesoscaleStructureSolar2021] (with radial sizes ranging from approximately 5 × 10³ km to 10⁷ km), it becomes increasingly unlikely to identify the same structure, depending on the latitude difference between the two spacecraft. Furthermore, although large-scale structures (especially density enhancements) can be identified as passing through both spacecraft [@berriotIdentificationSinglePlasma2024], it is nearly impossible to detect kinetic-scale structures, such as solar wind discontinuities (with time scales on the order of seconds), by both spacecraft simultaneously. Therefore, our study focuses on the statistical properties of solar wind discontinuities within the "same" large-scale structures that pass through both spacecraft.
+
+After identifying the periods of conjunctions and alignments between PSP and Earth-orbiting missions, we apply the methodology described in [@???] to identify and characterize solar wind discontinuities. Generally, discontinuities observed by PSP are shorter (1-5 seconds) and exhibit higher current density. Consequently, we use different time windows for identifying discontinuities: 15 seconds for PSP and 30 seconds for Earth-orbiting missions. A example of the discontinuities observed by PSP is shown in @fig-examples.
+
+::: {#fig-examples .column-page}
+
+![](figures/examples/psp_e2_example.png)
+
+Solar wind discontinuities examples observed by PSP fitted by a logistic function in LMN coordinates.
+:::
 
 <!-- 
 PSP:
 SWEAP consists of four separate sensors that measure the ions and electrons that make up the plasma in the solar wind and solar corona. The Solar Probe ANalyzer (SPAN) instruments are electrostatic analyzers (ESAs) that use curved plates to measure the 3-D particle distribution from within the shadow cast by the spacecraft thermal shield. Two of the sensors are co-located on the ram side of the spacecraft: SPAN-Ai measures ions, and SPAN-Ae measures electrons. SPAN-B measures electrons and is on the anti-ram side of the spacecraft. The Solar Probe Cup (SPC) is a Faraday Cup instrument that is directly illuminated by the Sun and measures both ions and electrons.
+
+"Looking at your intervals, which occurred during the early phase of the mission when PSP was far from the Sun, I realize that the plasma data wasn't good for your purpose because (1) SPAN-ion during at least the first 3-4 orbits did not measure the solar wind well, since a good portion of the solar wind distributions was out of view of that instrument, and (2) data from SPC (Farady Cup) does not give good temperature data. I am wondering if you have conjunction events that occurred later, say starting Encounter 7, when data from SPAN would be accurate. If not, some parts of Encounters 4-6 might be OK."
 -->
 
-We utilized high-resolution magnetic field and plasma data from the FIELDS and SWEAP instruments aboard the Parker Solar Probe (PSP). For the plasma data presented in the figures of this paper, we used the dataset from SPAN-i, which measures ions in the solar wind. Although ion data is also available from SPC, the SPAN-i data was chosen due to its higher temporal resolution, making it more suitable for analyzing discontinuities. Our analysis confirms that the results obtained from SPC are consistent with those derived from SPAN-i data. It is also worth noting that sqtn data from the Radio Frequency Spectrometer (RFS) and Low-Frequency Receiver (LFR) for density measurements is available. However, we generally find that the results obtained from RFS/LFR do not differ significantly from those derived from SPAN-i data.
+For this study
+
+We utilized high-resolution magnetic field and plasma data from the FIELDS and SWEAP instruments aboard the Parker Solar Probe (PSP). For the plasma data presented in the figures of this paper, we used the dataset from SPAN-i, which measures ions in the solar wind. Although ion data is also available from SPC, the SPAN-i data was chosen due to its higher temporal resolution, making it more suitable for analyzing discontinuities. Our analysis confirms that the results obtained from SPC are consistent with those derived from SPAN-i data. It is also worth noting that sqtn data from the Radio Frequency Spectrometer (RFS) and Low-Frequency Receiver (LFR) for density measurements is available. However, we generally find that the results obtained from RFS/LFR do not differ significantly from those derived from SPAN-i data. Due to the limitations of SPAN-i data during the early mission phases, when a significant portion of the solar wind distributions was out of the instrument’s view, our study concentrates on data beginning with Encounter 7, where SPAN-i provides more accurate measurements.
 
 <!-- 
 ARTEMIS:
@@ -78,40 +112,9 @@ References:
 - @shenComparingPlasmaAnisotropy2024
 -->
 
-## Method
-
-TODO: define alignment / conjunction
-
-Statistical alignment study ... where the solar wind parcels pass through one spacecraft and then the other. During this process, the solar wind parcels are expected to evolve due to expansion, heating, and other processes.
-
-@velliUnderstandingOriginsHeliosphere2020
-
-::: {#fig-plasma-adiabatic-evolution .column-page}
-![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
-
-![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
-
-<!-- Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019. -->
-:::
-
-@schwartzRadialEvolutionSingle1983
-
-## Identification and characterization of discontinuities
-
-TODO: We use the same process described in @??? to identify and characterize discontinuities in the solar wind.
-
-::: {#fig-examples .column-page}
-
-![](figures/examples/psp_e2_example.png)
-
-Solar wind discontinuities examples observed by PSP and ARTEMIS fitted by a logistic function in LMN coordinates.
-
-In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density.
-:::
-
 # Results
 
-![](figures/density_distribution.png)
+<!-- ![](figures/density_distribution.png) -->
 
 ## Comparison of Discontinuity Properties
 
@@ -180,3 +183,21 @@ Anisotropy of the plasma is expected to be larger near the sun to explain the ob
 - 💡 Implications Interpretation of evidence of crossing of flux tubes
 
 ---
+
+<!--
+- Citation Key:: @berriotIdentificationSinglePlasma2024
+- Title:: Identification of a single plasma parcel during a radial alignment of the Parker Solar Probe and Solar Orbiter
+- Author(s):: 
+  - Etienne Berriot
+  - Pascal Démoulin
+  - Olga Alexandrova
+- Year:: 2024
+- Publication:: Astronomy & Astrophysics
+- Links:: 
+  - [DOI](https://doi.org/10.1051/0004-6361/202449285)
+  - [Connected Papers](https://connectedpapers.com/api/redirect/doi/10.1051/0004-6361/202449285)
+- Abstract:: Configurations in which two spacecraft, such as the Parker Solar Probe (PSP) and Solar Orbiter, are radially aligned provide opportunities for studying the evolution of a single solar wind parcel during so-called plasma line-ups. The most critical part of these studies arguably is the identification of what can be considered the same plasma crossing both spacecraft. We present here a method that allowed us to determine what we think to be the same plasma parcel that passed through PSP (∼0.075 au) and Solar Orbiter (∼0.9 au) after their radial alignment on April 29, 2021. We started by modeling the plasma propagation in order to obtain a first estimation of the plasma line-up intervals. The identification of the same density structure (with a crossing duration ∼1.5 h) that passed through the two spacecraft allowed us to specify and confirm this estimate. Our main finding is that the density structure was very stable and remained well recognizable from PSP to Solar Orbiter despite its journey of ∼137 hours in the inner heliosphere. We found, moreover, that the slow solar wind plasma parcel was significantly accelerated (from ∼200 to ∼300 km s<sup>−1<sup/>) during its propagation.
+
+- Quotes::
+  - Moreover, the terms “plasma line-up” and “plasma parcel” are somewhat ill-defined, as discussed in Schwartz & Marsch (1983). For example, the particle populations of the solar wind tend to propagate with different velocities. The protons often exhibit a beam in their velocity distribution function, the thermal speed of the electrons is much higher than their bulk speed, and alpha particles usually have a different bulk speed than protons (see Marsch 2012, and references therein). Furthermore, halo electrons are probably governed by nonlocal scattering mechanisms (Zaslavsky et al. 2024). We prefer to keep the general terminology “plasma parcel” and “line-up” throughout this study, however.
+-->
