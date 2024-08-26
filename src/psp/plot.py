@@ -8,12 +8,12 @@ from discontinuitypy.plot import tplot_Alvenicity
 
 from psp.io.psp import PSP_MAG_TNAME, PSP_DEN_TNAME, PSP_VEL_TNAME, PSP_TEMP_TNAME
 
-psp_tnames2plot = [
-    PSP_MAG_TNAME,
-    PSP_DEN_TNAME,
-    PSP_VEL_TNAME,
-    PSP_TEMP_TNAME,
-]
+psp_tnames2plot = [PSP_MAG_TNAME, PSP_DEN_TNAME, PSP_VEL_TNAME, PSP_TEMP_TNAME]
+
+
+def preview_psp_data(tnames=psp_tnames2plot, **kwargs):
+    # TODO: remove spike in time series
+    return tplot(tnames, **kwargs)
 
 
 def tlimit(arg, **kwargs):
@@ -53,6 +53,7 @@ def plot_event(
 
     return tplot(tnames2plot, return_plot_objects=True)
 
+
 def plot_candidate_tplot(
     event,
     mag_tname: str = PSP_MAG_TNAME,
@@ -64,5 +65,5 @@ def plot_candidate_tplot(
 
     start = event[start_col]
     end = event[end_col]
-    
+
     return tplot_Alvenicity(start, end, mag_tname, vec_tname, den_tname, offset)

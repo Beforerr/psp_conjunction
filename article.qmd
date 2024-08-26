@@ -114,28 +114,19 @@ References:
 
 # Results
 
-<!-- ![](figures/density_distribution.png) -->
+TODO: how does the results depend on the period selected for the conjunctions and alignments?
 
 ## Comparison of Discontinuity Properties
 
-![Comparision map of (normalized) thickness and (normalized) current density](figures/enc2/thickness_current.spc_n_spc.png){#fig-comp-map}
-
-![](figures/enc2/density_distribution.spi_n_spi.png)
+![](figures/enc7/properties_distribution.svg)
 
 
-Solar wind properties
-
-L:
-j:
-$\Delta v_l$
-
-
-![](figures/enc2/thickness_current.spi_n_spi.png)
-
+Thickness and current density relationship
 Scale-dependent properties of current sheets in the solar wind
 
-@vaskoKineticscaleCurrentSheets2022
+![Comparision map of (normalized) thickness and (normalized) current density](figures/enc7/thickness_current.svg){#fig-comp-map}
 
+@vaskoKineticscaleCurrentSheets2022
 
 ## Comparison between Alfven speed and plasma speed change
 

@@ -11,11 +11,12 @@ using Beforerr
 using Discontinuity
 using Discontinuity.DefaultMapping
 
+ds_order = ["Parker Solar Probe", "ARTEMIS", "Wind"]
+
 include("io.jl")
 include("plot.jl")
 
 set_aog_theme!()
-
 
 dn_over_n = ("n.change", "n.mean") => (/) => L"\Delta n/n"
 dB_over_B = ("B.change", "b_mag") => (/) => L"\Delta B/B"

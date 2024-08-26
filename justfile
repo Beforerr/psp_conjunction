@@ -10,7 +10,6 @@ ensure_env:
    pixi install
    pre-commit install
    quarto add quarto-journals/agu --no-prompt
-   just ln-bib
 
 sync_overleaf: tex_render tex_clean
 

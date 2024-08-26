@@ -6,7 +6,6 @@ include("anisotry.jl")
 # %%
 legend_kwargs = (position=:top, titleposition=:left)
 
-ds_order = ["Parker Solar Probe", "ARTEMIS", "Wind"]
 ds_mapping = :dataset => sorter(ds_order)
 
 log_axis = (yscale=log10, xscale=log10)
@@ -48,7 +47,7 @@ function plot_dvl(
     end
     axislegend("slope", position=:ct)
 
-    easy_save(fname; dir="$fig_dir/$enc")
+    easy_save(fname)
 end
 
 
@@ -68,7 +67,7 @@ function plot_dvl(; legend=legend_kwargs)
     end
     axislegend("slope", position=:ct)
 
-    easy_save(fname; dir="$fig_dir/$enc")
+    easy_save(fname)
 end
 
 function plot_dvl_c()

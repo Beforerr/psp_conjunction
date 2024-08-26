@@ -32,7 +32,7 @@ def get_psp_data(kind):
     match kind:
         case "mag":
             data = get_data_lf(PSP_MAG_TNAME)
-        case "den": 
+        case "den":
             data = get_data_lf(PSP_DEN_TNAME)
         case "vel":
             data = get_data_lf(PSP_VEL_TNAME)
