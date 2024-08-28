@@ -2,13 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.31">
+<meta name="generator" content="quarto-1.5.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Zijin Zhang">
 <meta name="author" content="Anton V. Artemyev">
 <meta name="author" content="Vassilis Angelopoulos">
+<meta name="author" content="Tai Phan">
 
 <title>Evolution of solar wind discontinuities in the inner heliosphere</title>
 <style>
@@ -23,7 +24,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -112,7 +133,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -126,7 +147,7 @@ window.Quarto = {
 <span class="menu-text">Manuscript</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-presentation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-presentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Presentation</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-presentation">    
@@ -148,11 +169,11 @@ window.Quarto = {
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./article.html">Evolution of solar wind discontinuities in the inner heliosphere</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -169,15 +190,49 @@ window.Quarto = {
  <span class="menu-text">Evolution of solar wind discontinuities in the inner heliosphere</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Updates</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Notebooks</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">1cc9a4820ad4da96</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1cc9a4820ad4da96/notebooks/00_notes.out.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notebooks/00_calc.html" class="sidebar-item-text sidebar-link">
@@ -204,26 +259,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notebooks/01_swd_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Examples</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./notebooks/02_psp_events.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Events</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./notebooks/04_artemis_events.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ARTEMIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./notebooks/05_psp_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parker Solar Probe data</span></a>
+  <a href="./notebooks/05_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -242,11 +279,11 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./notebooks/events/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Events</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notebooks/events/e11.html" class="sidebar-item-text sidebar-link">
@@ -283,17 +320,23 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Presentations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./presentations/grp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Group Meeting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./presentations/rMeeting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current Sheets in the Solar Wind: Parker Solar Probe Observations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -309,8 +352,26 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#plain-language-summary" id="toc-plain-language-summary" class="nav-link active" data-scroll-target="#plain-language-summary">Plain Language Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#dataset-and-method" id="toc-dataset-and-method" class="nav-link" data-scroll-target="#dataset-and-method">Dataset and method</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#comparison-of-discontinuity-properties" id="toc-comparison-of-discontinuity-properties" class="nav-link" data-scroll-target="#comparison-of-discontinuity-properties">Comparison of Discontinuity Properties</a></li>
+  <li><a href="#comparison-between-alfven-speed-and-plasma-speed-change" id="toc-comparison-between-alfven-speed-and-plasma-speed-change" class="nav-link" data-scroll-target="#comparison-between-alfven-speed-and-plasma-speed-change">Comparison between Alfven speed and plasma speed change</a></li>
+  <li><a href="#estimated-anisotropy" id="toc-estimated-anisotropy" class="nav-link" data-scroll-target="#estimated-anisotropy">Estimated Anisotropy</a></li>
+  <li><a href="#comparison-between-estimated-and-observed-anisotropy" id="toc-comparison-between-estimated-and-observed-anisotropy" class="nav-link" data-scroll-target="#comparison-between-estimated-and-observed-anisotropy">Comparison between Estimated and Observed Anisotropy</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://www.overleaf.com/project/664f7b472768760cf7d6321c"><i class="bi bi-link-45deg"></i>Overleaf</a></li><li><a href="zotero://select/library/collections/L9JC7XAI"><i class="bi bi-link-45deg"></i>Zotero</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -324,7 +385,7 @@ window.Quarto = {
 
 <div class="quarto-title-meta-author">
   <div class="quarto-title-meta-heading">Authors</div>
-  <div class="quarto-title-meta-heading">Affiliation</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
     <p class="author">Zijin Zhang <a href="mailto:zijin@ucla.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-9968-067X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
@@ -343,11 +404,19 @@ window.Quarto = {
           </p>
       </div>
     <div class="quarto-title-meta-contents">
-    <p class="author">Vassilis Angelopoulos <a href="https://orcid.org/0000-0001-7024-1561" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    <p class="author">Vassilis Angelopoulos <a href="mailto:vassilis@ucla.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0001-7024-1561" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
             University of California, Los Angeles
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Tai Phan <a href="mailto:phan@ssl.berkeley.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-6924-9408" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Space Sciences Laboratory, University of California, Berkeley
           </p>
       </div>
   </div>
@@ -364,47 +433,198 @@ window.Quarto = {
 </header>
 
 
-<p>![](figures/density_distribution.png</p>
-<p><a href="figures/enc2/thickness_current.spc_n_spc.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figures/enc2/thickness_current.spc_n_spc.png" class="img-fluid"></a></p>
-<div id="fig-plasma-adiabatic-evolution" class="column-page quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-plasma-adiabatic-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<p><a href="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: "><img src="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg" class="img-fluid figure-img"></a></p>
-<p><a href="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;1: "><img src="figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg" class="img-fluid figure-img"></a></p>
-<!-- Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019. -->
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-plasma-adiabatic-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1
-</figcaption>
-</figure>
-</div>
-<div id="fig-examples" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<section id="plain-language-summary" class="level1">
+<h1>Plain Language Summary</h1>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The study of the spatial evolution of solar wind discontinuities is important for understanding the dynamics of the solar wind</p>
+<p>Previous statistical studies of solar wind discontinuities in the inner heliosphere <span class="citation" data-cites="marianiStatisticalStudyMagnetohydrodynamic1983">Mariani, Bavassano, and Villante (<a href="#ref-marianiStatisticalStudyMagnetohydrodynamic1983" role="doc-biblioref">1983</a>)</span> <span class="citation" data-cites="liuCharacteristicsInterplanetaryDiscontinuities2021">Liu et al. (<a href="#ref-liuCharacteristicsInterplanetaryDiscontinuities2021" role="doc-biblioref">2021</a>)</span></p>
+<p>Alignement study of solar wind discontinuities <span class="citation" data-cites="artemyevDynamicsIntenseCurrents2018">Artemyev et al. (<a href="#ref-artemyevDynamicsIntenseCurrents2018" role="doc-biblioref">2018</a>)</span></p>
+<p>By indentifying the periods of conjunctions and alignments between PSP and Earth-orbiting missions</p>
+<p><span class="citation" data-cites="hudsonDiscontinuitiesAnisotropicPlasma1970">Hudson (<a href="#ref-hudsonDiscontinuitiesAnisotropicPlasma1970" role="doc-biblioref">1970</a>)</span></p>
+</section>
+<section id="dataset-and-method" class="level1 page-columns page-full">
+<h1>Dataset and method</h1>
+<!-- 
+References:
+- @velliUnderstandingOriginsHeliosphere2020
+- @berriotIdentificationSinglePlasma2024
+- @telloniSpacecraftRadialAlignments2023
+
+- Alignment study
+  - @schwartzRadialEvolutionSingle1983
+-->
+<p>TODO: define alignment / conjunction</p>
+<p>Our study focuses on the evolution of solar wind discontinuities within plasma parcels as they undergo expansion. We analyze datasets from the Parker Solar Probe (PSP) and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR, and Wind) at various radial distances in the inner heliosphere, during periods of conjunctions and alignments between PSP and these Earth-orbiting missions.</p>
+<p>To achieve this, we utilize a configuration where two spacecraft are radially aligned in the Heliographic (HG) frame, with the longitude fixed on the Sun. It is important to note that the plasma parcels observed by the two spacecraft may differ in composition, as solar wind particles propagate at varying velocities. For instance, protons often exhibit a beam in their velocity distribution function, while the thermal speed of electrons is much higher than their bulk speed. Nonetheless, observing plasma that passes through both spacecraft offers the best opportunity to study the evolution of solar wind discontinuities with minimal influence from other processes during propagation. It is also expected that these plasma parcels evolve due to heating and other processes.</p>
+<!-- ::: {#fig-plasma-adiabatic-evolution .column-page}
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
+
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
+
+Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019.
+::: -->
+<p>The plasma parcels in question are large-scale structures. As the scale size decreases below the mesoscale <span class="citation" data-cites="viallMesoscaleStructureSolar2021">(<a href="#ref-viallMesoscaleStructureSolar2021" role="doc-biblioref">Viall, DeForest, and Kepko 2021</a>)</span> (with radial sizes ranging from approximately 5 × 10³ km to 10⁷ km), it becomes increasingly unlikely to identify the same structure, depending on the latitude difference between the two spacecraft. Furthermore, although large-scale structures (especially density enhancements) can be identified as passing through both spacecraft <span class="citation" data-cites="berriotIdentificationSinglePlasma2024">(<a href="#ref-berriotIdentificationSinglePlasma2024" role="doc-biblioref">Berriot et al. 2024</a>)</span>, it is nearly impossible to detect kinetic-scale structures, such as solar wind discontinuities (with time scales on the order of seconds), by both spacecraft simultaneously. Therefore, our study focuses on the statistical properties of solar wind discontinuities within the “same” large-scale structures that pass through both spacecraft.</p>
+<p>After identifying the periods of conjunctions and alignments between PSP and Earth-orbiting missions, we apply the methodology described in [@???] to identify and characterize solar wind discontinuities. Generally, discontinuities observed by PSP are shorter (1-5 seconds) and exhibit higher current density. Consequently, we use different time windows for identifying discontinuities: 15 seconds for PSP and 30 seconds for Earth-orbiting missions. A example of the discontinuities observed by PSP is shown in <a href="#fig-examples" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<div id="fig-examples" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<p class="page-columns page-full"><a href="figures/examples/psp_e2_example.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;2: In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density."><img src="figures/examples/psp_e2_example.png" class="img-fluid figure-img column-page"></a></p>
-<p>Solar wind discontinuities examples observed by PSP and ARTEMIS fitted by a logistic function in LMN coordinates.</p>
+<a href="figures/examples/psp_e2_example.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Solar wind discontinuities examples observed by PSP fitted by a logistic function in LMN coordinates."><img src="figures/examples/psp_e2_example.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: In general discontinuities observed by PSP is much shorter (1~5 secs) with larger current density.
+Figure&nbsp;1: Solar wind discontinuities examples observed by PSP fitted by a logistic function in LMN coordinates.
 </figcaption>
 </figure>
 </div>
-<div id="fig-comp-map" class="quarto-figure quarto-figure-center quarto-float anchored">
+<!-- 
+PSP:
+SWEAP consists of four separate sensors that measure the ions and electrons that make up the plasma in the solar wind and solar corona. The Solar Probe ANalyzer (SPAN) instruments are electrostatic analyzers (ESAs) that use curved plates to measure the 3-D particle distribution from within the shadow cast by the spacecraft thermal shield. Two of the sensors are co-located on the ram side of the spacecraft: SPAN-Ai measures ions, and SPAN-Ae measures electrons. SPAN-B measures electrons and is on the anti-ram side of the spacecraft. The Solar Probe Cup (SPC) is a Faraday Cup instrument that is directly illuminated by the Sun and measures both ions and electrons.
+
+"Looking at your intervals, which occurred during the early phase of the mission when PSP was far from the Sun, I realize that the plasma data wasn't good for your purpose because (1) SPAN-ion during at least the first 3-4 orbits did not measure the solar wind well, since a good portion of the solar wind distributions was out of view of that instrument, and (2) data from SPC (Farady Cup) does not give good temperature data. I am wondering if you have conjunction events that occurred later, say starting Encounter 7, when data from SPAN would be accurate. If not, some parts of Encounters 4-6 might be OK."
+-->
+<p>For this study</p>
+<p>We utilized high-resolution magnetic field and plasma data from the FIELDS and SWEAP instruments aboard the Parker Solar Probe (PSP). For the plasma data presented in the figures of this paper, we used the dataset from SPAN-i, which measures ions in the solar wind. Although ion data is also available from SPC, the SPAN-i data was chosen due to its higher temporal resolution, making it more suitable for analyzing discontinuities. Our analysis confirms that the results obtained from SPC are consistent with those derived from SPAN-i data. It is also worth noting that sqtn data from the Radio Frequency Spectrometer (RFS) and Low-Frequency Receiver (LFR) for density measurements is available. However, we generally find that the results obtained from RFS/LFR do not differ significantly from those derived from SPAN-i data. Due to the limitations of SPAN-i data during the early mission phases, when a significant portion of the solar wind distributions was out of the instrument’s view, our study concentrates on data beginning with Encounter 7, where SPAN-i provides more accurate measurements.</p>
+<!-- 
+ARTEMIS:
+We use the following data collected by ARTEMIS P1: magnetic fields with a ∼4s spin resolution (Auster et al. 2008), the ion bulk velocity v, and the ion (assumed to be proton) temperature (scalar) Tp calculated from velocity distributions measured at spin resolution by the Electrostatic Analyzer (ESA; McFadden et al. 2008). Being designed for measurements of a hot, rarefied plasma in Earth’s magnetosphere, ESA typically overestimates the proton temperature in the solar wind, because the solar wind proton beam is narrower than ESA’s energy and angular resolution.
+TODO: check if the ESA is in solar wind mode
+-->
+<p>We utilized data collected by ARTEMIS, including magnetic fields measured at approximately 5 Hz resolution by the Fluxgate Magnetometer <span class="citation" data-cites="austerTHEMISFluxgateMagnetometer2008">(<a href="#ref-austerTHEMISFluxgateMagnetometer2008" role="doc-biblioref">Auster et al. 2008</a>)</span>, as well as plasma velocity (<span class="math inline">\(v\)</span>) and density (<span class="math inline">\(n\)</span>), which were derived from velocity distribution data obtained by the Electrostatic Analyzer with a resolution of around 4 seconds <span class="citation" data-cites="mcfaddenTHEMISESAPlasma2009">(<a href="#ref-mcfaddenTHEMISESAPlasma2009" role="doc-biblioref">McFadden et al. 2009</a>)</span>. It is important to note that the ESA tends to overestimate proton temperature in the solar wind due to the narrower proton beam compared to the ESA’s energy and angular resolution. Therefore, any findings related to temperature anisotropy should be interpreted with caution.</p>
+<!-- 
+WIND:
+Wind 3dp, PESA LOW 1 spin resolution ion (proton and alpha) moments
+Wind 3D Plasma Analyzer
+Instrument Description
+The Wind 3DP instrument consists of six different sensors. There are two electron (EESA) and two ion (PESA) electrostatic analyzers with different geometrical factors and field-of-views covering the energy range from 3 eV to 30 keV. There are also a pair of solid state telescopes (SST) that measure electrons with energies up to 400 keV and protons with energie
+-->
+<p>The following data collected by Wind are used: magnetic fields with a <span class="math inline">\(\sim 11\)</span> Hz resolution measured by the Magnetic Field Investigation (MFI) <span class="citation" data-cites="leppingWINDMagneticField1995">(<a href="#ref-leppingWINDMagneticField1995" role="doc-biblioref">Lepping et al. 1995</a>)</span>, the ion (proton and alpha) moments measured by ion (PESA) electrostatic analyzers of the 3D Plasma Analyzer (3DP) <span class="citation" data-cites="linThreedimensionalPlasmaEnergetic1995">(<a href="#ref-linThreedimensionalPlasmaEnergetic1995" role="doc-biblioref">Lin et al. 1995</a>)</span>.</p>
+<!--
+References:
+- @shenComparingPlasmaAnisotropy2024
+-->
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>TODO: how does the results depend on the period selected for the conjunctions and alignments?</p>
+<section id="comparison-of-discontinuity-properties" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-of-discontinuity-properties">Comparison of Discontinuity Properties</h2>
+<p><a href="figures/enc7/properties_distribution.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figures/enc7/properties_distribution.svg" class="img-fluid"></a></p>
+<p>Thickness and current density relationship
+Scale-dependent properties of current sheets in the solar wind</p>
+<div id="fig-comp-map" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comp-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="figures/enc2/thickness_current.spc_n_spc.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;3: Comparision map of (normalized) thickness and (normalized) current density"><img src="figures/enc2/thickness_current.spc_n_spc.png" class="img-fluid figure-img"></a>
+<a href="figures/enc7/thickness_current.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;2: Comparision map of (normalized) thickness and (normalized) current density"><img src="figures/enc7/thickness_current.svg" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comp-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Comparision map of (normalized) thickness and (normalized) current density
+Figure&nbsp;2: Comparision map of (normalized) thickness and (normalized) current density
 </figcaption>
 </figure>
 </div>
-<p>Solar wind properties</p>
-<p>L: j: <span class="math inline">\(\Delta v_l\)</span></p>
+<p><span class="citation" data-cites="vaskoKineticscaleCurrentSheets2022">Vasko et al. (<a href="#ref-vaskoKineticscaleCurrentSheets2022" role="doc-biblioref">2022</a>)</span></p>
+</section>
+<section id="comparison-between-alfven-speed-and-plasma-speed-change" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-between-alfven-speed-and-plasma-speed-change">Comparison between Alfven speed and plasma speed change</h2>
+<p>For rotational discontinuities, the plasma velocity jump across them: the plasma flow velocity <span class="math inline">\(v_l\)</span> (the solar wind velocity projected onto <span class="math inline">\(l\)</span>) changes due to changes in <span class="math inline">\(B_l\)</span>, <span class="math inline">\(Δv_l=±Δv_A\)</span> with <span class="math inline">\(v_A= B_l / \sqrt{4 n m}\)</span>.</p>
+<p><a href="figures/enc7/dvl.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="figures/enc7/dvl.png" class="img-fluid"></a></p>
+<p>K2: <span class="math inline">\(Δv_l\)</span>,l demonstrates a strong correlation with <span class="math inline">\(Δv_{A}\)</span>, albeit being consistently smaller.</p>
+</section>
+<section id="estimated-anisotropy" class="level2">
+<h2 class="anchored" data-anchor-id="estimated-anisotropy">Estimated Anisotropy</h2>
+<p>The equation for <span class="math inline">\(Δv_A\)</span> includes a factor depending on the anisotropy of the plasma.</p>
+<p>Pressure anisotropy <span class="math inline">\(Λ = \mu (P_∥ - P_⊥) / B^2\)</span>.</p>
+<p><a href="figures/enc7/anisotropy_theory.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="figures/enc7/anisotropy_theory.png" class="img-fluid"></a></p>
+</section>
+<section id="comparison-between-estimated-and-observed-anisotropy" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-between-estimated-and-observed-anisotropy">Comparison between Estimated and Observed Anisotropy</h2>
+<p><a href="figures/enc7/anisotropy_comparison_2d.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="figures/enc7/anisotropy_comparison_2d.png" class="img-fluid"></a></p>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<ul>
+<li>The properties of the discontinuities is related to the local plasma parameters
+<ul>
+<li>Thickness =&gt; ion inertial length</li>
+<li>Current density =&gt; Alfven velocity (current density)</li>
+</ul></li>
+<li>Normalized thickness and current density of discontinuities remain constant with radial distance. In contrast to <span class="citation" data-cites="artemyevDynamicsIntenseCurrents2018">Artemyev et al. (<a href="#ref-artemyevDynamicsIntenseCurrents2018" role="doc-biblioref">2018</a>)</span> results that show a decrease in normalized thickness and increase in normalized current density with radial distance.</li>
+</ul>
+<p>Assuming the
+Anisotropy of the plasma is expected to be larger near the sun to explain the observed speed change ratio <span class="math inline">\(Δv_i/Δv_A\)</span>.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<hr>
+<p><span class="citation" data-cites="marianiStatisticalStudyMagnetohydrodynamic1983">Mariani, Bavassano, and Villante (<a href="#ref-marianiStatisticalStudyMagnetohydrodynamic1983" role="doc-biblioref">1983</a>)</span></p>
+<ul>
+<li>Statistical study of magnetic field discontinuities in the inner solar system</li>
+<li>⭐️ Findings Strong day-to-day variations in occurrence rates of discontinuities</li>
+<li>✏️ Morphology Orientation of discontinuities strongly organized by the average magnetic field</li>
+<li>💡 Implications Interpretation of evidence of crossing of flux tubes</li>
+</ul>
+<hr>
+<!--
+- Citation Key:: @berriotIdentificationSinglePlasma2024
+- Title:: Identification of a single plasma parcel during a radial alignment of the Parker Solar Probe and Solar Orbiter
+- Author(s):: 
+  - Etienne Berriot
+  - Pascal Démoulin
+  - Olga Alexandrova
+- Year:: 2024
+- Publication:: Astronomy & Astrophysics
+- Links:: 
+  - [DOI](https://doi.org/10.1051/0004-6361/202449285)
+  - [Connected Papers](https://connectedpapers.com/api/redirect/doi/10.1051/0004-6361/202449285)
+- Abstract:: Configurations in which two spacecraft, such as the Parker Solar Probe (PSP) and Solar Orbiter, are radially aligned provide opportunities for studying the evolution of a single solar wind parcel during so-called plasma line-ups. The most critical part of these studies arguably is the identification of what can be considered the same plasma crossing both spacecraft. We present here a method that allowed us to determine what we think to be the same plasma parcel that passed through PSP (∼0.075 au) and Solar Orbiter (∼0.9 au) after their radial alignment on April 29, 2021. We started by modeling the plasma propagation in order to obtain a first estimation of the plasma line-up intervals. The identification of the same density structure (with a crossing duration ∼1.5 h) that passed through the two spacecraft allowed us to specify and confirm this estimate. Our main finding is that the density structure was very stable and remained well recognizable from PSP to Solar Orbiter despite its journey of ∼137 hours in the inner heliosphere. We found, moreover, that the slow solar wind plasma parcel was significantly accelerated (from ∼200 to ∼300 km s<sup>−1<sup/>) during its propagation.
+
+- Quotes::
+  - Moreover, the terms “plasma line-up” and “plasma parcel” are somewhat ill-defined, as discussed in Schwartz & Marsch (1983). For example, the particle populations of the solar wind tend to propagate with different velocities. The protons often exhibit a beam in their velocity distribution function, the thermal speed of the electrons is much higher than their bulk speed, and alpha particles usually have a different bulk speed than protons (see Marsch 2012, and references therein). Furthermore, halo electrons are probably governed by nonlocal scattering mechanisms (Zaslavsky et al. 2024). We prefer to keep the general terminology “plasma parcel” and “line-up” throughout this study, however.
+-->
 
 
 
-</main> <!-- /main -->
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-artemyevDynamicsIntenseCurrents2018" class="csl-entry" role="listitem">
+Artemyev, Anton V., Vassilis Angelopoulos, Jasper S. Halekas, Alexander A. Vinogradov, Ivan Y. Vasko, and Lev M. Zelenyi. 2018. <span>“Dynamics of Intense Currents in the Solar Wind.”</span> <em>Astrophysical Journal</em> 859 (2): 95. <a href="https://doi.org/10.3847/1538-4357/aabe89">https://doi.org/10.3847/1538-4357/aabe89</a>.
+</div>
+<div id="ref-austerTHEMISFluxgateMagnetometer2008" class="csl-entry" role="listitem">
+Auster, H. U., K. H. Glassmeier, W. Magnes, O. Aydogar, W. Baumjohann, D. Constantinescu, D. Fischer, et al. 2008. <span>“The <span>THEMIS</span> Fluxgate Magnetometer.”</span> <em>Space Science Reviews</em> 141 (1): 235–64. <a href="https://doi.org/10.1007/s11214-008-9365-9">https://doi.org/10.1007/s11214-008-9365-9</a>.
+</div>
+<div id="ref-berriotIdentificationSinglePlasma2024" class="csl-entry" role="listitem">
+Berriot, Etienne, Pascal Démoulin, Olga Alexandrova, Arnaud Zaslavsky, and Milan Maksimovic. 2024. <span>“Identification of a Single Plasma Parcel During a Radial Alignment of the <span>Parker Solar Probe</span> and <span>Solar Orbiter</span>.”</span> <em>Astronomy &amp; Astrophysics</em> 686 (June): A114. <a href="https://doi.org/10.1051/0004-6361/202449285">https://doi.org/10.1051/0004-6361/202449285</a>.
+</div>
+<div id="ref-hudsonDiscontinuitiesAnisotropicPlasma1970" class="csl-entry" role="listitem">
+Hudson, P. D. 1970. <span>“Discontinuities in an Anisotropic Plasma and Their Identification in the Solar Wind.”</span> <em>Planetary and Space Science</em> 18 (11): 1611–22. <a href="https://doi.org/10.1016/0032-0633(70)90036-X">https://doi.org/10.1016/0032-0633(70)90036-X</a>.
+</div>
+<div id="ref-leppingWINDMagneticField1995" class="csl-entry" role="listitem">
+Lepping, R. P., M. H. Acũna, L. F. Burlaga, W. M. Farrell, J. A. Slavin, K. H. Schatten, F. Mariani, et al. 1995. <span>“The <span>WIND</span> Magnetic Field Investigation.”</span> <em>Space Science Reviews</em> 71 (1): 207–29. <a href="https://doi.org/10.1007/BF00751330">https://doi.org/10.1007/BF00751330</a>.
+</div>
+<div id="ref-linThreedimensionalPlasmaEnergetic1995" class="csl-entry" role="listitem">
+Lin, R. P., K. A. Anderson, S. Ashford, C. Carlson, D. Curtis, R. Ergun, D. Larson, et al. 1995. <span>“A Three-Dimensional Plasma and Energetic Particle Investigation for the Wind Spacecraft.”</span> <em>Space Science Reviews</em> 71 (1): 125–53. <a href="https://doi.org/10.1007/BF00751328">https://doi.org/10.1007/BF00751328</a>.
+</div>
+<div id="ref-liuCharacteristicsInterplanetaryDiscontinuities2021" class="csl-entry" role="listitem">
+Liu, Y. Y., H. S. Fu, J. B. Cao, C. M. Liu, Z. Wang, Z. Z. Guo, Y. Xu, S. D. Bale, and J. C. Kasper. 2021. <span>“Characteristics of Interplanetary Discontinuities in the Inner Heliosphere Revealed by Parker Solar Probe.”</span> <em>Astrophysical Journal</em> 916 (2): 65. <a href="https://doi.org/10.3847/1538-4357/ac06a1">https://doi.org/10.3847/1538-4357/ac06a1</a>.
+</div>
+<div id="ref-marianiStatisticalStudyMagnetohydrodynamic1983" class="csl-entry" role="listitem">
+Mariani, F., B. Bavassano, and U. Villante. 1983. <span>“A <span>Statistical Study</span> of <span>Magnetohydrodynamic Discontinuities</span> in the <span>Inner Solar System</span> - <span>HELIOS-1</span> and <span>HELIOS-2</span>.”</span> <em>Solar Physics</em> 83 (March): 349–65. <a href="https://doi.org/10.1007/BF00148285">https://doi.org/10.1007/BF00148285</a>.
+</div>
+<div id="ref-mcfaddenTHEMISESAPlasma2009" class="csl-entry" role="listitem">
+McFadden, J. P., C. W. Carlson, D. Larson, M. Ludlam, R. Abiad, B. Elliott, P. Turin, M. Marckwordt, and V. Angelopoulos. 2009. <span>“The <span>THEMIS ESA</span> Plasma Instrument and <span class="nocase">In-flight</span> Calibration.”</span> In <em>The <span>THEMIS Mission</span></em>, edited by J. L. Burch and V. Angelopoulos, 277–302. New York, NY: Springer. <a href="https://doi.org/10.1007/978-0-387-89820-9_13">https://doi.org/10.1007/978-0-387-89820-9_13</a>.
+</div>
+<div id="ref-vaskoKineticscaleCurrentSheets2022" class="csl-entry" role="listitem">
+Vasko, I. Y., K. Alimov, T. Phan, S. D. Bale, F. S. Mozer, and A. V. Artemyev. 2022. <span>“Kinetic-Scale Current Sheets in the Solar Wind at 1 Au: Scale-Dependent Properties and Critical Current Density.”</span> <em>Astrophysical Journal Letters</em> 926 (2): L19. <a href="https://doi.org/10.3847/2041-8213/ac4fc4">https://doi.org/10.3847/2041-8213/ac4fc4</a>.
+</div>
+<div id="ref-viallMesoscaleStructureSolar2021" class="csl-entry" role="listitem">
+Viall, N. M., C. E. DeForest, and L. Kepko. 2021. <span>“Mesoscale <span>Structure</span> in the <span>Solar Wind</span>.”</span> <em>Frontiers in Astronomy and Space Sciences</em> 8 (August): 139. <a href="https://doi.org/10.3389/fspas.2021.735034">https://doi.org/10.3389/fspas.2021.735034</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -497,7 +717,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/Beforerr\.github\.io\/psp_conjunction\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -826,7 +1046,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","loop":false,"openEffect":"zoom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
