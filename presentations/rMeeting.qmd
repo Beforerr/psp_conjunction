@@ -1,15 +1,9 @@
 ---
 title: "Current Sheets in the Solar Wind: Parker Solar Probe Observations"
-subtitle: SPARTHB
 author:
   - name: Zijin Zhang
   - name: Anton V. Artemyev
   - name: Vassilis Angelopoulos
-format:
-  html: default
-  pptx:
-    slide-level: 2
-slide-number: true
 date: "2024-05"
 ---
 
