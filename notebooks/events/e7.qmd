@@ -1,7 +1,7 @@
 # Encounter 7 (2021-01-17)
 
 -   [WHPI - Campaign: PSP 7th Perhihelion](https://whpi.hao.ucar.edu/whpi_campaign-psp7p.php)
--   [ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 04](http://helioweather.net/missions/psp/per04/)
+-   [ENLIL Solar Wind Prediction - Parker Solar Probe - Perihelion 07](http://helioweather.net/missions/psp/per07/)
 
 > E7 and Q3, 14–18 January, 2021.
 >

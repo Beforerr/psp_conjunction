@@ -72,7 +72,8 @@ function calc_vl_ratio!(df)
     if "Λ_ion" in names(df)
         @chain df begin
             @transform!(
-                :"v.Alfven.change.l.fit.Λ_ion" = @. sqrt(1 - :"Λ_ion") * :"v.Alfven.change.l.fit"
+                :"v.Alfven.change.l.fit.Λ_ion" =
+                    @. ifelse(:Λ_ion > 1, missing, sqrt(max(0, 1 - :Λ_ion)) * :"v.Alfven.change.l.fit")
             )
             @transform!(
                 :"v_l_ratio.fit.Λ_ion" = :"v.ion.change.l" ./ :"v.Alfven.change.l.fit.Λ_ion"

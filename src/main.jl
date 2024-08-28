@@ -11,7 +11,7 @@ using Beforerr
 using Discontinuity
 using Discontinuity.DefaultMapping
 
-ds_order = ["Parker Solar Probe", "ARTEMIS", "Wind"]
+ds_order = ["Parker Solar Probe", "Solar Orbiter", "ARTEMIS", "Wind"]
 
 include("io.jl")
 include("plot.jl")

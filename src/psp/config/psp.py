@@ -59,7 +59,7 @@ class PSPConfig(IDsConfig):
     def model_post_init(self, __context):
         super().model_post_init(__context)
 
-        self.timerange = get_timerange(self.enc)[0]
+        self.timerange = get_timerange(self.enc)["psp"]
 
         if self.enc not in TPLOT_ENCS:
             self.plasma_meta = get_psp_plasma_meta(self.instr_p, self.instr_p_den)

@@ -41,7 +41,6 @@ By indentifying the periods of conjunctions and alignments between PSP and Earth
 
 @hudsonDiscontinuitiesAnisotropicPlasma1970
 
-
 # Dataset and method
 
 <!-- 
@@ -49,6 +48,9 @@ References:
 - @velliUnderstandingOriginsHeliosphere2020
 - @berriotIdentificationSinglePlasma2024
 - @telloniSpacecraftRadialAlignments2023
+
+- Alignment study
+  - @schwartzRadialEvolutionSingle1983
 -->
 
 TODO: define alignment / conjunction
@@ -63,8 +65,6 @@ To achieve this, we utilize a configuration where two spacecraft are radially al
 ![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
 
 Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019.
-
-@schwartzRadialEvolutionSingle1983
 ::: -->
 
 The plasma parcels in question are large-scale structures. As the scale size decreases below the mesoscale [@viallMesoscaleStructureSolar2021] (with radial sizes ranging from approximately 5 × 10³ km to 10⁷ km), it becomes increasingly unlikely to identify the same structure, depending on the latitude difference between the two spacecraft. Furthermore, although large-scale structures (especially density enhancements) can be identified as passing through both spacecraft [@berriotIdentificationSinglePlasma2024], it is nearly impossible to detect kinetic-scale structures, such as solar wind discontinuities (with time scales on the order of seconds), by both spacecraft simultaneously. Therefore, our study focuses on the statistical properties of solar wind discontinuities within the "same" large-scale structures that pass through both spacecraft.

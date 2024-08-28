@@ -3,36 +3,34 @@ from datetime import datetime
 td_start_c = "t.d_start"
 td_stop_c = "t.d_end"
 
-def get_timerange(enc: int) -> list[str]:
-    match enc:
-        case 2: # Encounter 2
-            start = "2019-04-07T01:00"
-            end = "2019-04-07T12:00" 
+def get_timerange(enc: int):
+    encounter_map = {
+        2: {
+            "psp": ["2019-04-07T01:00", "2019-04-07T12:00"],
+            "earth": ["2019-04-09", "2019-04-12"]
+        },
+        4: {
+            "psp": ["2020-01-27", "2020-01-29"],
+            "earth": ["2020-01-29", "2020-01-31"]
+        },
+        7: {
+            "psp": ["2021-01-14", "2021-01-21"],
+            "earth": ["2021-01-15", "2021-01-23"]
+        },
+        8: {
+            "psp": ["2021-04-28", "2021-04-30"],
+            "solo": ["2021-05-03", "2021-05-06"],
+            "earth": ["2021-05-03", "2021-05-06"] #TODO: Check
+        }
+    }
 
-            earth_start = "2019-04-09"
-            earth_end = "2019-04-12"
-        case 4: # Encounter 4
-            start = '2020-01-27'
-            end = '2020-01-29'
+    if enc not in encounter_map:
+        raise ValueError("Invalid encounter")
 
-            earth_start = '2020-01-29'
-            earth_end = '2020-01-31'
-        
-        case 7:
-            start = '2021-01-14'
-            end = '2021-01-21'
+    timerange = encounter_map[enc]
 
-            earth_start = '2021-01-15'
-            earth_end = '2021-01-23'
-            
-        case _: # Encounter 1
-            raise ValueError("Invalid encounter")
+    # Convert string times to datetime objects
+    for key, times in timerange.items():
+        timerange[key] = [datetime.fromisoformat(t) for t in times]
 
-    start = datetime.fromisoformat(start)
-    end = datetime.fromisoformat(end)
-    earth_start = datetime.fromisoformat(earth_start)
-    earth_end = datetime.fromisoformat(earth_end)
-
-    psp_timerange = [start, end]
-    earth_timerange = [earth_start, earth_end]
-    return psp_timerange, earth_timerange
+    return timerange

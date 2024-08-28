@@ -4,7 +4,7 @@ import pytplot
 from pytplot import tplot
 
 from discontinuitypy.naming import start_col, end_col
-from discontinuitypy.plot import tplot_Alvenicity
+from discontinuitypy.plot.alfvenicity import tplot_Alfvenicity
 
 from psp.io.psp import PSP_MAG_TNAME, PSP_DEN_TNAME, PSP_VEL_TNAME, PSP_TEMP_TNAME
 
@@ -66,4 +66,4 @@ def plot_candidate_tplot(
     start = event[start_col]
     end = event[end_col]
 
-    return tplot_Alvenicity(start, end, mag_tname, vec_tname, den_tname, offset)
+    return tplot_Alfvenicity(start, end, mag_tname, vec_tname, den_tname, offset)
