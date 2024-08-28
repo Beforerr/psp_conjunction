@@ -8,7 +8,7 @@ default:
 
 ensure_env:
    pixi install
-   pre-commit install
+   pre-commit install --allow-missing-config
    quarto add quarto-journals/agu --no-prompt
 
 sync_overleaf: tex_render tex_clean
