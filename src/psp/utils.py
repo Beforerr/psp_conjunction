@@ -11,6 +11,7 @@ from astropy.constants import m_p
 
 from loguru import logger
 
+
 def thermal_spd2temp(speed, speed_unit=u.km / u.s):
     return (m_p * (speed * speed_unit) ** 2 / 2).to("eV").value
 
@@ -43,34 +44,32 @@ def _standardize_plasma_temperature(data: pl.LazyFrame, s_var):
         return data.rename({temperature_col: "plasma_temperature"})
 
 
-def standardize_plasma_data(data: pl.LazyFrame, p_vars: Variables, meta = None):
-
+def standardize_plasma_data(data: pl.LazyFrame, p_vars: Variables, meta=None):
     density_col = p_vars.data[0].columns[0]
     vec_cols = p_vars.data[1].columns
 
-    data = data.with_columns(plasma_speed=pl_norm(vec_cols)).rename(
-        {density_col: "n"}
-    )
+    data = data.with_columns(plasma_speed=pl_norm(vec_cols)).rename({density_col: "n"})
 
     if len(p_vars.data) > 2:
         return data.pipe(_standardize_plasma_temperature, p_vars.data[2])
     else:
         return data
 
+
 def get_timerange(enc: int) -> list[str]:
     match enc:
-        case 2: # Encounter 2
+        case 2:  # Encounter 2
             start = "2019-04-07T01:00"
-            end = "2019-04-07T12:00" 
+            end = "2019-04-07T12:00"
 
             earth_start = "2019-04-09"
             earth_end = "2019-04-12"
-        case 4: # Encounter 4
-            start = '2020-01-27'
-            end = '2020-01-29'
+        case 4:  # Encounter 4
+            start = "2020-01-27"
+            end = "2020-01-29"
 
-            earth_start = '2020-01-29'
-            earth_end = '2020-01-31'
+            earth_start = "2020-01-29"
+            earth_end = "2020-01-31"
 
     psp_timerange = [start, end]
     earth_timerange = [earth_start, earth_end]

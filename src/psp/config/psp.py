@@ -18,6 +18,7 @@ def remove(list: list, item):
     temp_list.remove(item)
     return temp_list
 
+
 def get_psp_plasma_meta(instr_p: AvailableInstrs, instr_p_den: AvailableInstrs):
     match instr_p:
         case "spi":
@@ -50,8 +51,7 @@ class PSPConfig(IDsConfig):
     name: str = "PSP"
 
     tau: timedelta = timedelta(seconds=16)
-    ts: timedelta = timedelta(seconds=1 / 180) # TODO: improve this
-    
+    ts: timedelta = timedelta(seconds=1 / 180)  # TODO: improve this
 
     instr_p: AvailableInstrs = "spi"
     instr_p_den: AvailableInstrs = "spi"
@@ -64,7 +64,7 @@ class PSPConfig(IDsConfig):
         if self.enc not in TPLOT_ENCS:
             self.plasma_meta = get_psp_plasma_meta(self.instr_p, self.instr_p_den)
             self.mag_meta = psp_fld_l2_mag_rtn
-            self.ts: timedelta = timedelta(seconds=1 / 180) # TODO: improve this
+            self.ts: timedelta = timedelta(seconds=1 / 180)  # TODO: improve this
         else:
             load_psp_data(enc=self.enc)
 
@@ -77,10 +77,12 @@ class PSPConfig(IDsConfig):
                 dict(zip(["0", "1", "2"], velocity_cols))
             )
             ion_temp_data = get_psp_data("temp")
-            
+
             time = mag_data.collect().get_column("time").to_numpy()
-            self.ts = timedelta(microseconds=np.median(np.diff(time)).item()/1000) # Related: https://github.com/python/cpython/issues/59648
-            
+            self.ts = timedelta(
+                microseconds=np.median(np.diff(time)).item() / 1000
+            )  # Related: https://github.com/python/cpython/issues/59648
+
             self.data = mag_data
             self.plasma_data = density_data.join(velocity_data, on="time")
             self.ion_temp_data = ion_temp_data
