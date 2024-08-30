@@ -21,6 +21,7 @@ platforms = ["osx-arm64"]
 ipykernel = "*"
 polars = "*"
 xarray = "*"
+numpy = "<2" # AttributeError: `newbyteorder` was removed from the ndarray class in NumPy 2.0. Use `arr.view(arr.dtype.newbyteorder(order))` instead.
 pydantic = "*"
 netcdf4 = "*"
 
