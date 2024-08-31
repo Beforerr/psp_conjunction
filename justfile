@@ -8,6 +8,7 @@ default:
 
 ensure_env:
    pixi install
+   julia --project -e 'using Pkg; Pkg.develop(["Discontinuity", "Beforerr"]); Pkg.instantiate()'
    pre-commit install --allow-missing-config
    quarto add quarto-journals/agu --no-prompt
 
