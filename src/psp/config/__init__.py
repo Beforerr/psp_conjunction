@@ -1,7 +1,12 @@
 from pydantic import BaseModel
 from beforerr.project import datadir
 from discontinuitypy.config import SpeasyIDsConfig
-from discontinuitypy.mission import WindConfigBase, ThemisConfigBase, SoloConfigBase
+from discontinuitypy.mission import (
+    WindConfigBase,
+    ThemisConfigBase,
+    SoloConfigBase,
+    StereoConfigBase,
+)
 
 from datetime import timedelta
 
@@ -35,6 +40,12 @@ class SoloConfig(Config, SoloConfigBase, SpeasyIDsConfig):
 class THEMISConfig(Config, ThemisConfigBase, SpeasyIDsConfig):
     ts: timedelta = timedelta(seconds=1)
 
+    def model_post_init(self, __context):
+        super().model_post_init(__context)
+        self.timerange = get_timerange(self.enc)["earth"]
+
+
+class StereoConfig(Config, StereoConfigBase, SpeasyIDsConfig):
     def model_post_init(self, __context):
         super().model_post_init(__context)
         self.timerange = get_timerange(self.enc)["earth"]

@@ -1,8 +1,6 @@
 from space_analysis.meta import TempDataset
 from space_analysis.utils.speasy import Variables
 
-from sunpy.time import TimeRange
-
 from beforerr.polars import pl_norm
 import polars as pl
 
@@ -29,6 +27,8 @@ def df_p2temp(ldf: pl.LazyFrame, p_col, density_col):
 
 
 def validate(timerange):
+    from sunpy.time import TimeRange
+    
     if isinstance(timerange, TimeRange):
         return [timerange.start.to_string(), timerange.end.to_string()]
 

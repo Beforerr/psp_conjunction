@@ -25,6 +25,10 @@ numpy = "<2" # AttributeError: `newbyteorder` was removed from the ndarray class
 pydantic = "*"
 netcdf4 = "*"
 
+hvplot = ">=0.10.0"
+jupyter_bokeh = "*"
+bokeh = "*"
+
 [tool.pixi.pypi-dependencies]
 psp = { path = ".", editable = true }
 great_tables = "*"
