@@ -6,13 +6,16 @@ import 'files/overleaf.just'
 default:
    just --list
 
-ensure_env:
+ensure-env:
    pixi install
    julia --project -e 'using Pkg; Pkg.develop(["Discontinuity", "Beforerr"]); Pkg.instantiate()'
    pre-commit install --allow-missing-config
    quarto add quarto-journals/agu --no-prompt
 
-sync_overleaf: tex_render tex_clean
+sync-overleaf: tex_render tex_clean
+
+exec-scripts:
+   python scripts/data.py
 
 update:
    git add .
