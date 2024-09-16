@@ -4,12 +4,14 @@ using Unitful
 using Unitful: μ0
 using Logging
 
+DEFAULT_ENC = 8
+
 function load(enc, name; dataset=missing, data_dir=datadir())
-    dir = "$data_dir/$enc"
+    dir = "$data_dir/enc$enc"
     filename = filter(contains(Regex("updated_events_$name")), readdir(dir, join=true))[1]
     @info "Loading $filename"
     df = Discontinuity.load(filename)
-
+    @info "Loaded $(size(df, 1)) data points"
     # add dataset column with the name of the dataset
     dataset = ismissing(dataset) ? name : dataset
     df.dataset .= dataset
@@ -17,10 +19,23 @@ function load(enc, name; dataset=missing, data_dir=datadir())
     return df |> calc_pressure_anisotropy! |> calc_vl_ratio!
 end
 
+load_psp(enc=DEFAULT_ENC) = load(enc, "PSP"; dataset="Parker Solar Probe")
+
+function load_all(enc)
+    dfs = [
+        load_psp(enc),
+        load(enc, "THEMIS"; dataset="ARTEMIS"),
+        load(enc, "Wind"),
+        # load(enc, "Solo"; dataset="Solar Orbiter")
+    ]
+    df = reduce(vcat, dfs, cols=:intersect)
+    levels!(df.dataset, ds_order)
+    return df
+end
+
 DEFAULT_B_UNIT = u"nT"
 DEFAULT_DENSITY_UNIT = u"cm^-3"
 DEFAULT_TEMP_UNIT = u"eV"
-
 
 function anisotropy(B, density, para_temp, perp_temp)
     Λ = @. (μ0 * density * (para_temp - perp_temp) / B^2) |> NoUnits

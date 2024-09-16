@@ -9,18 +9,6 @@ import Base.copy
 
 Base.copy(x::Figure) = x
 
-function load_all(enc)
-    dfs = [
-        load(enc, "PSP"; dataset="Parker Solar Probe"),
-        load(enc, "THEMIS"; dataset="ARTEMIS"),
-        load(enc, "Wind"),
-        # load(enc, "Solo"; dataset="Solar Orbiter")
-    ]
-    df = reduce(vcat, dfs, cols=:intersect)
-    levels!(df.dataset, ds_order)
-    return df
-end
-
 # plot the density distribution of the thickness and current density
 function plot_l_j_dist(config)
     @unpack df = config
