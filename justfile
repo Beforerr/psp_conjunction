@@ -6,11 +6,18 @@ import 'files/overleaf.just'
 default:
    just --list
 
-ensure-env: clone-overleaf
+ensure-env: clone-overleaf install-julia-deps
    pixi install
-   julia --project -e 'using Pkg; Pkg.develop(["Discontinuity", "Beforerr"]); Pkg.instantiate()'
    pre-commit install --allow-missing-config
    quarto add quarto-journals/agu --no-prompt
+
+install-julia-deps:
+   #!/usr/bin/env -S julia --project
+   using Pkg;
+   Beforerr = PackageSpec(url="https://github.com/Beforerr/beforerr.jl");
+   PlasmaFormulary = PackageSpec(url="https://github.com/Beforerr/PlasmaFormulary.jl");
+   Pkg.develop([Beforerr, PlasmaFormulary]);
+   Pkg.instantiate();
 
 sync-overleaf: tex_render tex_clean
 
