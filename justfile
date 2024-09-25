@@ -1,35 +1,38 @@
-set allow-duplicate-recipes
+set allow-duplicate-recipes := true
 
 import 'files/quarto.just'
 import 'files/overleaf.just'
 
 default:
-   just --list
+    just --list
 
-ensure-env: clone-overleaf install-julia-deps
-   pixi install
-   pre-commit install --allow-missing-config
-   quarto add quarto-journals/agu --no-prompt
+ensure-env: install-julia-deps
+    pixi install
+    pre-commit install --allow-missing-config
+    quarto add quarto-journals/agu --no-prompt
 
 install-julia-deps:
-   #!/usr/bin/env -S julia --project
-   using Pkg;
-   Beforerr = PackageSpec(url="https://github.com/Beforerr/beforerr.jl");
-   PlasmaFormulary = PackageSpec(url="https://github.com/Beforerr/PlasmaFormulary.jl");
-   Pkg.develop([Beforerr, PlasmaFormulary]);
-   Pkg.instantiate();
+    #!/usr/bin/env -S julia --project
+    using Pkg;
+    Beforerr = PackageSpec(url="https://github.com/Beforerr/beforerr.jl");
+    PlasmaFormulary = PackageSpec(url="https://github.com/Beforerr/PlasmaFormulary.jl");
+    Pkg.develop([Beforerr, PlasmaFormulary]);
+    Pkg.instantiate();
+
+format:
+    just --fmt --unstable
 
 sync-overleaf: tex_render tex_clean
 
 exec-scripts:
-   python scripts/data.py
+    python scripts/data.py
 
 update:
-   git add .
-   -git commit -am "update"
-   git push
+    git add .
+    -git commit -am "update"
+    git push
 
 download:
-   wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4
-   wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4
-   wget -P images/enlil/ http://helioweather.net/missions/psp/per04/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_202001-202002.mp4
+    wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4
+    wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4
+    wget -P images/enlil/ http://helioweather.net/missions/psp/per04/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_202001-202002.mp4
