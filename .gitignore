@@ -30,4 +30,5 @@ pixi.lock
 *.egg-info
 .vscode
 
+# julia environments
 Manifest.toml
