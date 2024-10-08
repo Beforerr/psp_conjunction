@@ -29,3 +29,5 @@ pixi.lock
 
 *.egg-info
 .vscode
+
+Manifest.toml
