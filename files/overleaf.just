@@ -1,7 +1,8 @@
 overleaf_repo := x'https://git@git.overleaf.com/$OVERLEAF_ID'
 
-clone_overleaf:
-  git clone {{overleaf_repo}} overleaf
+[private]
+clone-overleaf:
+  [ -d overleaf ] || git clone {{overleaf_repo}} overleaf
 
 update_overleaf: sync_overleaf
   cd overleaf; git add .; git commit -am "update"; git push

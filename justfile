@@ -6,7 +6,7 @@ import 'files/overleaf.just'
 default:
    just --list
 
-ensure-env:
+ensure-env: clone-overleaf
    pixi install
    julia --project -e 'using Pkg; Pkg.develop(["Discontinuity", "Beforerr"]); Pkg.instantiate()'
    pre-commit install --allow-missing-config
