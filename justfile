@@ -14,13 +14,6 @@ ensure-env: install-julia-deps clone-overleaf
 install-julia-deps:
     julia --project -e 'using Pkg; Pkg.update();'
 
-install-julia-deps-dev:
-    #!/usr/bin/env -S julia --project
-    using Pkg;
-    Pkg.rm("Discontinuity")
-    Discontinuity = PackageSpec(url="https://github.com/Beforerr/Discontinuity.jl");
-    Pkg.develop([Discontinuity]);
-
 format:
     just --fmt --unstable
 
