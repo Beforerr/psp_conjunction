@@ -12,13 +12,14 @@ ensure-env: install-julia-deps clone-overleaf
     quarto add quarto-journals/agu --no-prompt
 
 install-julia-deps:
+    julia --project -e 'using Pkg; Pkg.update();'
+
+install-julia-deps-dev:
     #!/usr/bin/env -S julia --project
     using Pkg;
-    Beforerr = PackageSpec(url="https://github.com/Beforerr/beforerr.jl");
-    PlasmaFormulary = PackageSpec(url="https://github.com/Beforerr/PlasmaFormulary.jl");
+    Pkg.rm("Discontinuity")
     Discontinuity = PackageSpec(url="https://github.com/Beforerr/Discontinuity.jl");
-    Pkg.develop([Beforerr, PlasmaFormulary, Discontinuity]);
-    Pkg.instantiate();
+    Pkg.develop([Discontinuity]);
 
 format:
     just --fmt --unstable
