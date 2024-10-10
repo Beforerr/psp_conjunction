@@ -6,12 +6,12 @@ import 'files/overleaf.just'
 default:
     just --list
 
-ensure-env: install-julia-deps clone-overleaf
-    pixi install
+ensure-env: install-deps clone-overleaf
     pre-commit install --allow-missing-config
     quarto add quarto-journals/agu --no-prompt
 
-install-julia-deps:
+install-deps: 
+    pixi install --frozen
     julia --project -e 'using Pkg; Pkg.update();'
 
 format:
