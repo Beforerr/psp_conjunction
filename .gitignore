@@ -25,7 +25,6 @@ _proc/
 __pycache__ 
 # pixi environments
 .pixi
-pixi.lock
 
 *.egg-info
 .vscode
