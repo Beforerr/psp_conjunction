@@ -43,16 +43,6 @@ By indentifying the periods of conjunctions and alignments between PSP and Earth
 
 # Dataset and method
 
-<!-- 
-References:
-- @velliUnderstandingOriginsHeliosphere2020
-- @berriotIdentificationSinglePlasma2024
-- @telloniSpacecraftRadialAlignments2023
-
-- Alignment study
-  - @schwartzRadialEvolutionSingle1983
--->
-
 TODO: define alignment / conjunction
 
 Our study focuses on the evolution of solar wind discontinuities within plasma parcels as they undergo expansion. We analyze datasets from the Parker Solar Probe (PSP) and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR, and Wind) at various radial distances in the inner heliosphere, during periods of conjunctions and alignments between PSP and these Earth-orbiting missions.
@@ -126,8 +116,6 @@ Scale-dependent properties of current sheets in the solar wind
 
 ![Comparision map of (normalized) thickness and (normalized) current density](figures/enc7/thickness_current.svg){#fig-comp-map}
 
-@vaskoKineticscaleCurrentSheets2022
-
 ## Comparison between Alfven speed and plasma speed change
 
 For rotational discontinuities, the plasma velocity jump across them: the plasma flow velocity $v_l$ (the solar wind velocity projected onto $l$) changes due to changes in $B_l$, $Δv_l=±Δv_A$ with $v_A= B_l / \sqrt{4 n m}$.
@@ -158,37 +146,6 @@ Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
 - Normalized thickness and current density of discontinuities remain constant with radial distance. In contrast to @artemyevDynamicsIntenseCurrents2018 results that show a decrease  in normalized thickness and increase in normalized current density with radial distance.
 
 Assuming the 
-Anisotropy of the plasma is expected to be larger near the sun to explain the observed speed change ratio $Δv_i/Δv_A$.
+Anisotropy of tAzdhe plasma is expected to be larger near the sun to explain the observed speed change ratio $Δv_i/Δv_A$.
 
 # Conclusion
-
-# References
-
----
-
-@marianiStatisticalStudyMagnetohydrodynamic1983
-
-- Statistical study of magnetic field discontinuities in the inner solar system
-- ⭐️ Findings Strong day-to-day variations in occurrence rates of discontinuities
-- ✏️ Morphology Orientation of discontinuities strongly organized by the average magnetic field
-- 💡 Implications Interpretation of evidence of crossing of flux tubes
-
----
-
-<!--
-- Citation Key:: @berriotIdentificationSinglePlasma2024
-- Title:: Identification of a single plasma parcel during a radial alignment of the Parker Solar Probe and Solar Orbiter
-- Author(s):: 
-  - Etienne Berriot
-  - Pascal Démoulin
-  - Olga Alexandrova
-- Year:: 2024
-- Publication:: Astronomy & Astrophysics
-- Links:: 
-  - [DOI](https://doi.org/10.1051/0004-6361/202449285)
-  - [Connected Papers](https://connectedpapers.com/api/redirect/doi/10.1051/0004-6361/202449285)
-- Abstract:: Configurations in which two spacecraft, such as the Parker Solar Probe (PSP) and Solar Orbiter, are radially aligned provide opportunities for studying the evolution of a single solar wind parcel during so-called plasma line-ups. The most critical part of these studies arguably is the identification of what can be considered the same plasma crossing both spacecraft. We present here a method that allowed us to determine what we think to be the same plasma parcel that passed through PSP (∼0.075 au) and Solar Orbiter (∼0.9 au) after their radial alignment on April 29, 2021. We started by modeling the plasma propagation in order to obtain a first estimation of the plasma line-up intervals. The identification of the same density structure (with a crossing duration ∼1.5 h) that passed through the two spacecraft allowed us to specify and confirm this estimate. Our main finding is that the density structure was very stable and remained well recognizable from PSP to Solar Orbiter despite its journey of ∼137 hours in the inner heliosphere. We found, moreover, that the slow solar wind plasma parcel was significantly accelerated (from ∼200 to ∼300 km s<sup>−1<sup/>) during its propagation.
-
-- Quotes::
-  - Moreover, the terms “plasma line-up” and “plasma parcel” are somewhat ill-defined, as discussed in Schwartz & Marsch (1983). For example, the particle populations of the solar wind tend to propagate with different velocities. The protons often exhibit a beam in their velocity distribution function, the thermal speed of the electrons is much higher than their bulk speed, and alpha particles usually have a different bulk speed than protons (see Marsch 2012, and references therein). Furthermore, halo electrons are probably governed by nonlocal scattering mechanisms (Zaslavsky et al. 2024). We prefer to keep the general terminology “plasma parcel” and “line-up” throughout this study, however.
--->
