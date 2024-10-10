@@ -16,7 +16,9 @@ function load(enc, name; dataset=missing, data_dir=datadir())
     dataset = ismissing(dataset) ? name : dataset
     df.dataset .= dataset
     df.dataset = categorical(df.dataset)
-    return df |> calc_pressure_anisotropy! |> calc_vl_ratio!
+    df.enc .= enc
+    df.enc = categorical(df.enc)
+    return df |> process! |> calc_pressure_anisotropy! |> calc_vl_ratio!
 end
 
 load_psp(enc=DEFAULT_ENC) = load(enc, "PSP"; dataset="Parker Solar Probe")

@@ -24,3 +24,5 @@ dB_over_B = ("B.change", "b_mag") => (/) => L"\Delta B/B"
 dT_over_T = ("T.change", "T.mean") => (/) => L"\Delta T/T"
 
 fig_dir = projectdir("figures")
+
+datalimits_f = x -> quantile(x, [0.02, 0.98])
