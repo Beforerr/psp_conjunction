@@ -6,7 +6,10 @@ include("anisotry.jl")
 # %%
 legend_kwargs = (position=:top, titleposition=:left)
 
-ds_mapping = :dataset => sorter(ds_order)
+begin
+    ds_mapping = :dataset => sorter(ds_order)
+    enc_m = :enc => x -> "Enc $x" 
+end
 
 log_axis = (yscale=log10, xscale=log10)
 

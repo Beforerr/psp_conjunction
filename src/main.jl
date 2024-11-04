@@ -26,3 +26,5 @@ dT_over_T = ("T.change", "T.mean") => (/) => L"\Delta T/T"
 fig_dir = projectdir("figures")
 
 datalimits_f = x -> quantile(x, [0.02, 0.98])
+
+M = var_mapping()
