@@ -1,0 +1,58 @@
+## Effect of alignment on discontinuity properties
+
+```{julia}
+include("../src/main.jl")
+using CairoMakie
+using Beforerr
+
+df_enc_7 = load_all(7);
+df_enc_8 = load_all(8);
+df_enc_9 = load_all(9);
+df = reduce(vcat, [df_enc_7, df_enc_8, df_enc_9], cols=:intersect);
+```
+
+```{julia}
+layer = data(df) * mapping(color=:dataset, col=enc_m)
+
+function plot_p1()
+    maps = [l_log_map, l_norm_log_map, j_log_map, j_norm_log_map]
+    figure = (size=(450, 800),)
+    f = plot_dist(layer, maps; figure, axis)
+
+    # fine tune the plot
+    for i in 1:4
+        axs = contents(f[i, 1][:, :])
+        ylims!.(axs; low=1e-3)
+    end
+    axs = contents(f[1, 1][:, :])
+    xlims!.(axs; low=-1)
+    axs = contents(f[2, 1][:, :])
+    xlims!.(axs; low=-1.5)
+    axs = contents(f[4, 1][:, :])
+    xlims!.(axs; high=1)
+
+    easy_save("thickness_current")
+end
+```
+
+![](../figures/thickness_current.png)
+
+```{julia}
+function plot_B_angle(; figure=(size=(450, 800),), name = "B_angle")
+    maps = [M.dB_norm_over_B, M.bn, ω_map, M.ω_in]
+    f = plot_dist(layer, maps; figure)
+
+    # fine tune the plot
+    gl3_axs = contents(f[3, 1][:, :])
+    gl4_axs = contents(f[4, 1][:, :])
+    foreach(vcat(gl3_axs, gl4_axs)) do ax
+        vlines!(ax, [30]; color=:gray, linestyle=:dash)
+    end
+
+    easy_save(name)
+end
+
+f = plot_B_angle()
+```
+
+![](../figures/B_angle.png)

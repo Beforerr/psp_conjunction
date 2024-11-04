@@ -1,0 +1,19 @@
+---
+title: "Current Sheets in the Solar Wind: Parker Solar Probe Observations"
+author:
+  - name: Zijin Zhang
+  - name: Anton V. Artemyev
+  - name: Vassilis Angelopoulos
+format:
+  pptx: default
+---
+
+## Effect of alignment on discontinuity properties
+
+![](../figures/thickness_current.png)
+
+![](../figures/B_angle.png)
+
+$|\Delta \mathbf{B}/B|$
+
+$B_N/B$

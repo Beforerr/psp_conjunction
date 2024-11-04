@@ -136,6 +136,14 @@ Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
 
 ![](figures/enc7/anisotropy_comparison_2d.png)
 
+## The effect of alignment on discontinuity properties
+
+![](figures/thickness_current.png)
+
+![](figures/B_angle.png)
+
+
+
 # Discussion
 
 
@@ -143,7 +151,10 @@ Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
   - Thickness => ion inertial length
   - Current density => Alfven velocity (current density)
 
-- Normalized thickness and current density of discontinuities remain constant with radial distance. In contrast to @artemyevDynamicsIntenseCurrents2018 results that show a decrease  in normalized thickness and increase in normalized current density with radial distance.
+- Normalized thickness and current density of discontinuities remain constant with radial distance (negligible change compared to their spread). In contrast to @artemyevDynamicsIntenseCurrents2018 results that show a decrease in normalized thickness and increase in normalized current density with radial distance.
+
+- Better alignment period has a slightly better agreement of the properties of the discontinuities (normalized thickness, current density, $|\Delta \mathbf{B}/B|$ and rotation angle) between PSP and Earth-orbiting missions.
+- $B_N/B$ and in-plane rotation angle are significantly different between PSP and Earth-orbiting missions independent of the alignment period.
 
 Assuming the 
 Anisotropy of tAzdhe plasma is expected to be larger near the sun to explain the observed speed change ratio $Δv_i/Δv_A$.
