@@ -17,6 +17,9 @@ install-deps:
 format:
     just --fmt --unstable
 
+render:
+    quarto render presentations/index.qmd --to pptx
+
 sync-overleaf: tex-render tex-clean
 
 exec-scripts:
