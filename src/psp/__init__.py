@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 
 td_start_c = "t.d_start"
 td_stop_c = "t.d_end"
@@ -36,3 +37,6 @@ def get_timerange(enc: int):
         timerange[key] = [datetime.fromisoformat(t) for t in times]
 
     return timerange
+
+def datadir():
+    return Path(__file__).parents[2] / "data"

@@ -1,7 +1,10 @@
+import pytplot
 from pytplot import options
 from pytplot import tplot_restore, tplot_names
-from beforerr.project import datadir
+from psp import datadir
 from psp.io import get_data_lf
+import xarray as xr
+from loguru import logger
 
 PSP_MAG_TNAME = "psp_fld_l2_mag_RTN_4_Sa_per_Cyc"
 PSP_DEN_TNAME = "psp_swp_spi_af00_L3_DENS"
@@ -27,6 +30,23 @@ def load_psp_data(enc: int = 7):
     set_psp_options(tnames)
     return tnames
 
+
+def determine_enc(timerange):
+    return 7
+
+def drop_duplicates(da: xr.DataArray, dim = "time"):
+    """Drop duplicates from a DataArray."""
+    if not da.get_index(dim).is_unique:
+        logger.warning(f"{da.name} {dim} is not unique, dropping duplicates")
+        da = da.drop_duplicates(dim=dim)
+    return da
+
+
+def get_data(product, timerange):
+    enc = determine_enc(timerange)
+    load_psp_data(enc)
+    da = pytplot.get_data(product, xarray=True)
+    return drop_duplicates(da.sel(time=slice(*timerange)))
 
 def get_psp_data(kind):
     match kind:
