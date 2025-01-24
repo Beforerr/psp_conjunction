@@ -20,8 +20,6 @@ format:
 render:
     quarto render presentations/index.qmd --to pptx
 
-sync-overleaf: tex-render tex-clean
-
 exec-scripts:
     python scripts/data.py
 

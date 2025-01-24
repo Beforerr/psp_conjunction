@@ -4,9 +4,45 @@
 - [ ] Disagreement between anisotropy observed and predicted by the theory
   - maybe just too localized anisotropy that is not well measured with available time resolution... 
   - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy
+
 # TODO
 
 - [ ] Plot Bl(t), jm(l) and ion anisotropy for these cases?
+
+## High-speed solar wind radial evolution
+
+:::: {.columns}
+::: {.column}
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
+
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
+
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-previous.svg)
+:::
+
+::: {.column}
+
+![](images/sty3348fig5.jpeg)
+
+@perroneRadialEvolutionSolar2019
+:::
+::::
+
+::: {.notes}
+The radial dependence of the proton number density, $n_p$ and magnetic ﬁeld magnitude, $B$, is given by
+
+$$
+n_p = (2.4 ± 0.1)(R/R_0)^{−(1.96±0.07)} cm^{−3}
+\\
+B = (5.7 ± 0.2)(R/R_0)^{−(1.59±0.06)} nT
+$$
+
+The faster decrease of the magnetic than kinetic pressure is reflected in the radial proton plasma beta variation
+
+$$
+β_p = P_k/P_B = (0.55 ± 0.04)(R/R_0)^{(0.4±0.1)}
+$$ 
+:::
 
 
 ## 02/11/2024 (Encounter 4)
