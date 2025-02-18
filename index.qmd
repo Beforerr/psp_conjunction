@@ -36,6 +36,9 @@ Studying the radial evolution of solar wind discontinuities from synergistic obs
 
 # Introduction
 
+
+@lotekarKineticscaleCurrentSheets2022
+
 The study of the spatial evolution of solar wind discontinuities is important for understanding the dynamics of the solar wind
 
 Previous statistical studies of solar wind discontinuities in the inner heliosphere @marianiStatisticalStudyMagnetohydrodynamic1983 @liuCharacteristicsInterplanetaryDiscontinuities2021
@@ -45,6 +48,8 @@ Alignement study of solar wind discontinuities @artemyevDynamicsIntenseCurrents2
 By indentifying the periods of conjunctions and alignments between PSP and Earth-orbiting missions
 
 @hudsonDiscontinuitiesAnisotropicPlasma1970
+
+- Alfvénicity
 
 # Dataset and method
 

@@ -4,7 +4,6 @@ using AlgebraOfGraphics,
     CairoMakie
 using DataFrames, DataFramesMeta
 using AlgebraOfGraphics: density
-using Arrow
 using PartialFunctions
 using LaTeXStrings
 using Beforerr
