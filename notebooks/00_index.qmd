@@ -5,12 +5,10 @@ Interactively exploring the quantities of solar wind.
 - [PSP/FIELDS Level 2 and higher data](https://fields.ssl.berkeley.edu/data/), [SPDF - Coordinated Data Analysis Web (CDAWeb)](https://cdaweb.gsfc.nasa.gov/cgi-bin/eval2.cgi?dataset=PSP_FLD_L2_MAG_RTN&index=sp_phys)
 
 ```{julia}
-using Speasy
-speasy()
-
-using DimensionalData
 using SpaceTools
+using DimensionalData
 using GLMakie
+# using CairoMakie
 using Dates
 ```
 
@@ -24,15 +22,16 @@ density_tvar = SpaceTools.DataSet(
         "cda/PSP_SWP_SPI_SF00_L3_MOM/DENS",
         "cda/PSP_FLD_L3_RFS_LFR_QTN/N_elec",
         "cda/PSP_FLD_L3_SQTN_RFS_V1V2/electron_density"
-    ]
+    ],
+    (title="Density", labels=["SPI", "RFS"])
 )
 
-# tvars_psp = [
-#     "cda/PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_Cyc",
-#     density_tvar,
-#     "cda/PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN",
-#     "cda/PSP_SWP_SPI_SF00_L3_MOM/TEMP",
-# ]
+tvars_psp = [
+    "cda/PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_Cyc",
+    density_tvar,
+    "cda/PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN",
+    "cda/PSP_SWP_SPI_SF00_L3_MOM/TEMP",
+]
 
 tvars_wind = [
     "cda/WI_H2_MFI/BGSE",
@@ -40,9 +39,9 @@ tvars_wind = [
     "cda/WI_PM_3DP/P_VELS",
 ]
 
-f = Figure()
+f = Figure(; size=(1200, 800))
 add_title = true
-# tplot(f[1, 1], tvars_psp, tmin, tmax; add_title)
+tplot(f[1, 1], tvars_psp, tmin, tmax; add_title)
 tplot(f[1, 2], tvars_wind, tmin, tmax; add_title)
 add_labels!()
 f
