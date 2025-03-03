@@ -12,7 +12,7 @@ ensure-env: install-deps clone-overleaf
 
 install-deps: 
     pixi install --frozen
-    julia --project -e 'using Pkg; Pkg.update();'
+    julia --project -e 'using Pkg; Pkg.develop([(;name="Beforerr"), (;name="Speasy"), (;name="SpaceTools"), (;name="PlasmaFormulary"), (;name="Discontinuity")]); Pkg.update();'
 
 format:
     just --fmt --unstable
