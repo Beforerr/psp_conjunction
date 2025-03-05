@@ -12,7 +12,18 @@ ensure-env: install-deps clone-overleaf
 
 install-deps: 
     pixi install --frozen
-    julia --project -e 'using Pkg; Pkg.develop([(;name="Beforerr"), (;name="Speasy"), (;name="SpaceTools"), (;name="PlasmaFormulary"), (;name="Discontinuity")]); Pkg.update();'
+
+install-julia-deps:
+    #!/usr/bin/env -S julia --threads=auto --project=.
+    using Pkg
+    Pkg.develop([
+        PackageSpec(url="https://github.com/Beforerr/Beforerr.jl"),
+        PackageSpec(url="https://github.com/Beforerr/SpaceTools.jl"),
+        PackageSpec(url="https://github.com/SciQLop/Speasy.jl"),
+        PackageSpec(url="https://github.com/Beforerr/Discontinuity.jl"),
+        PackageSpec(url="https://github.com/JuliaPlasma/PlasmaFormulary.jl"),
+    ])
+    Pkg.instantiate()
 
 format:
     just --fmt --unstable
