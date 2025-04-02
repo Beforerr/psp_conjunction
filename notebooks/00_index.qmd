@@ -6,21 +6,24 @@ Interactively exploring the quantities of solar wind.
 
 ```{julia}
 using Speasy
-using SpaceTools
+using SPEDAS
 using DimensionalData
 using GLMakie
 # using CairoMakie
 using Dates
+using PartialFunctions
 ```
 
 ```{julia}
-
 tmin_psp = DateTime("2021-01-14")
 tmax_psp = DateTime("2021-01-21")
 tmin_wind = DateTime("2021-01-15")
 tmax_wind = DateTime("2021-01-23")
 
-density_tvar = SpaceTools.DataSet(
+tmin_wind = DateTime("2021-01-17")
+tmax_wind = DateTime("2021-01-19")
+
+density_tvar = SPEDAS.DataSet(
     "Density",
     [
         "cda/PSP_SWP_SPI_SF00_L3_MOM/DENS",
@@ -37,19 +40,28 @@ tvars_psp = [
     "cda/PSP_SWP_SPI_SF00_L3_MOM/TEMP",
 ]
 
-tvars_wind = [
+wind_B = tnorm_combine ∘ SpeasyProduct(
     "cda/WI_H2_MFI/BGSE",
+    (; ylabel="B (nT)", labels=["Bx", "By", "Bz", "Magnitude"])
+)
+
+wind_vel = tnorm_combine ∘ SpeasyProduct(
+    "cda/WI_K0_SWE_RTN/V_RTN"
+    # "cda/WI_PM_3DP/P_VELS"
+)
+
+tvars_wind = [
+    wind_B,
     "cda/WI_PM_3DP/P_DENS",
-    tnorm_combine ∘ SpeasyProduct("cda/WI_PM_3DP/P_VELS"),
-    tnorm_combine ∘ SpeasyProduct("cda/WI_K0_SWE_RTN/V_RTN"),
+    "cda/WI_K0_SWE_RTN/V_RTN",
+    wind_vel,
     "cda/WI_PM_3DP/P_TEMP",
-    # ("cda/WI_PM_3DP/P_DENS", "cda/WI_PM_3DP/P_TEMP")
 ]
 
 f = Figure(; size=(1200, 800))
-add_title = true
-tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; add_title)
-# tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; add_title)
-add_labels!()
+add_title = false
+# tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; add_title)
+tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; add_title)
+add_labels!(; position=Left(), valign=:top, halign=:left, padding=(10, 10, 10, 0));
 f
 ```
