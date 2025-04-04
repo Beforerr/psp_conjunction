@@ -15,7 +15,7 @@ WI_H1_SWE	Proton_Wpar_nonlin	    Proton thermal speed parallel to the magnetic f
 ```{julia}
 using Speasy
 using SPEDAS
-using SPEDAS: ulabel
+using SPEDAS: ulabel, smooth
 using DimensionalData
 using GLMakie
 # using CairoMakie
@@ -60,13 +60,13 @@ psp_temp = SPEDAS.DataSet(
     "Temperature",
     [
         SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/TEMP"; labels=["SPI Proton"]),
-        SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_core_temperature"; labels=["SQTN Electron core"]),
+        smooth(30u"s") ∘ SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_core_temperature"; labels=["SQTN Electron core"]),
     ];
     ylabel=Temp_ylabel
 )
 
 tvars_psp = [
-    tnorm_combine ∘ SpeasyProduct("PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_Cyc"; ylabel=B_ylabel, labels=B_labels),
+    smooth(30u"s") ∘ tnorm_combine ∘ SpeasyProduct("PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_Cyc"; ylabel=B_ylabel, labels=B_labels),
     psp_n,
     SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN"; ylabel=V_ylabel, labels=V_labels),
     psp_temp,
@@ -113,10 +113,12 @@ f = Figure(; size=(1200, 800))
 add_title = false
 legend = (; position=Top())
 tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; add_title, legend)
-tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; add_title, legend)
-tplot(f[1, 3], tvars_themis, tmin_wind, tmax_wind; add_title, legend)
 add_labels!(f[1, 1]; labels='1':'9', open="(a.")
+
+tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; add_title, legend)
 add_labels!(f[1, 2]; labels='1':'9', open="(b.")
+
+tplot(f[1, 3], tvars_themis, tmin_wind, tmax_wind; add_title, legend)
 add_labels!(f[1, 3]; labels='1':'9', open="(c.")
 f
 ```
