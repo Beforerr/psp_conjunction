@@ -21,7 +21,6 @@ using GLMakie
 # using CairoMakie
 using Dates
 using PartialFunctions
-using Unitful, Latexify, UnitfulLatexify, LaTeXStrings
 using Beforerr: _theme_legend
 
 update_theme!(_theme_legend(; padding=(0, 0, 0, 0)))
@@ -40,6 +39,7 @@ tmax_wind = DateTime("2021-01-18")
 
 B_ylabel = "B (nT)"
 B_labels = ["Bx", "By", "Bz", "Magnitude"]
+n_ylabel = ulabel("Density", "cm^-3")
 V_ylabel = "Velocity (km/s)"
 V_labels = ["Vx", "Vy", "Vz", "Magnitude"]
 Temp_ylabel = "Temperature (eV)"
@@ -53,7 +53,7 @@ psp_n = SPEDAS.DataSet(
         SpeasyProduct("PSP_FLD_L3_RFS_LFR_QTN/N_elec"; labels=["RFS Electron"]),
         SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_density"; labels=["SQTN Electron"])
     ];
-    ylabel=ulabel("Density", "cm^-3")
+    ylabel=n_ylabel
 )
 
 psp_temp = SPEDAS.DataSet(
@@ -78,7 +78,7 @@ wind_n = SPEDAS.DataSet(
         SpeasyProduct("WI_PM_3DP/P_DENS"; labels=WI_PM_3DP_labels),
         SpeasyProduct("WI_ELM2_3DP/DENSITY"; labels=WI_ELM2_3DP_labels)
     ];
-    ylabel=ulabel("Density", "cm^-3")
+    ylabel=n_ylabel
 )
 
 
