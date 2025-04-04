@@ -18,7 +18,7 @@ install-julia-deps:
     using Pkg
     Pkg.develop([
         PackageSpec(url="https://github.com/Beforerr/Beforerr.jl"),
-        PackageSpec(url="https://github.com/Beforerr/SpaceTools.jl"),
+        PackageSpec(url="https://github.com/Beforerr/SPEDAS.jl"),
         PackageSpec(url="https://github.com/SciQLop/Speasy.jl"),
         PackageSpec(url="https://github.com/Beforerr/Discontinuity.jl"),
         PackageSpec(url="https://github.com/JuliaPlasma/PlasmaFormulary.jl"),
