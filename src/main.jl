@@ -8,7 +8,6 @@ using PartialFunctions
 using LaTeXStrings
 using Beforerr
 using Discontinuity
-using Discontinuity.DefaultMapping
 
 ds_order = ["Parker Solar Probe", "Solar Orbiter", "ARTEMIS", "Wind"]
 
