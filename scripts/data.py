@@ -2,6 +2,8 @@ from psp.config import WindConfig, THEMISConfig, SoloConfig
 from psp.config.psp import PSPConfig
 from speasy.core.requests_scheduling.request_dispatch import init_cdaweb
 from loguru import logger
+from psp.io.psp import load_psp_data
+from psp.io import save_to_hdf5
 
 init_cdaweb()
 
@@ -16,3 +18,9 @@ for enc in encs:
             logger.warning(
                 f"Failed to produce {cls.__name__} for enc={enc} due to {e} not found in timerange"
             )
+
+
+for enc in encs:
+    # convert .tplot file to hdf5
+    tnames = load_psp_data(enc)
+    save_to_hdf5(["Tp_spani_b", "Tp_spanib_b"], f"data/psp_e{enc:02}.nc")
