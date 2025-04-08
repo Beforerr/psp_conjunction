@@ -37,6 +37,9 @@ update_theme!(_theme_legend(; padding=(0, 0, 0, 0)))
 function tTemp(x; dims=Ti)
     return mean.(eachslice(x; dims))
 end
+
+_unitify(u) = x -> x * u
+mva_transform((V, B), tmin, tmax) = mva(V(tmin, tmax), B(tmin, tmax))
 ```
 
 
@@ -68,6 +71,8 @@ V_labels = ["Vx", "Vy", "Vz", "Magnitude"]
 Temp_ylabel = "Temperature (eV)"
 WI_PM_3DP_labels = ["Proton"] # "Proton (3DP, PESA Low)"
 WI_ELM2_3DP_labels = ["Electron"] # "Electron (3DP, EESA Low)"
+
+mva_V_labels = ["V_L", "V_M", "V_N"]
 ```
 
 ```{julia}
@@ -77,6 +82,7 @@ psp_n = SPEDAS.DataSet(
     "Density",
     [
         SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/DENS"; labels=["SPI Proton"]),
+        _unitify(u"cm^-3") ∘ SpeasyProduct("PSP_SWP_SPC_L3I/np_moment"; labels=["SPC Proton"]),
         SpeasyProduct("PSP_FLD_L3_RFS_LFR_QTN/N_elec"; labels=["RFS Electron"]),
         SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_density"; labels=["SQTN Electron"])
     ];
@@ -92,15 +98,14 @@ psp_temp = SPEDAS.DataSet(
     ylabel=Temp_ylabel
 )
 
+psp_V = SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN"; ylabel=V_ylabel, labels=V_labels)
+
 tvars_psp = [
     tnorm_combine ∘ psp_B,
     psp_n,
-    SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN"; ylabel=V_ylabel, labels=V_labels),
-    psp_temp,
+    psp_V,
+    psp_temp
 ]
-
-mva_B = set(mva ∘ psp_B; name="mva_B", labels=["B_L", "B_M", "B_N"])
-mva_V_labels = ["V_L", "V_M", "V_N"]
 ```
 
 ```{julia}
@@ -179,9 +184,11 @@ function plot_candidate(event, ts)
     tplot(ts, event["tstart"], event["tstop"])
 end
 
+psp_B_mva = set(mva ∘ psp_B; name="mva_B", labels=["B_L", "B_M", "B_N"])
+psp_V_mva = Product("mva_V", (psp_V, psp_B), mva_transform; ylabel=V_ylabel, labels=mva_V_labels)
+
 event = psp_events[2, :]
-# psp_ds(event["tstart"], event["tstop"])
-plot_candidate(event, [tvars_psp; mva_B])
+plot_candidate(event, [tvars_psp; [psp_B_mva, psp_V_mva]])
 ```
 
 ### Plot
