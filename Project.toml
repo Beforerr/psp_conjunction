@@ -1,3 +1,8 @@
+name = "PSPAnisotropy"
+uuid = "d27cda01-26a9-4a6e-9ee9-f5867542b9ea"
+authors = ["Zijin Zhang <zzj956959688@gmail.com> and contributors"]
+version = "0.1.0"
+
 [deps]
 AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
 Beforerr = "49aed396-608e-4c3f-b6d6-a749216c9ea7"
@@ -9,9 +14,11 @@ DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
 DimensionalData = "0703355e-b756-11e9-17c0-8b28908087d0"
 Discontinuity = "b54b658d-ecbf-47cc-8c7f-673f5d2a4b30"
 DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
 InteractiveViz = "d14badfc-0adb-4d57-980e-37858d990fa5"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 NCDatasets = "85f8d34a-cbdd-5861-8df4-14fed0d494ab"
 NetCDF = "30363a11-5582-574a-97bb-aa9a979735b9"
 PartialFunctions = "570af359-4316-4cb7-8c74-252c00c2016b"
@@ -19,5 +26,11 @@ PlasmaFormulary = "d26ff896-aba2-4e70-a0a6-448627456efe"
 SPEDAS = "3930f61c-4d81-4846-ab8f-357babe068a6"
 Speasy = "09b745ad-c67d-442f-94a6-c7f4d1e4d861"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
 YAXArrays = "c21b50f5-aa40-41ea-b809-c0f5e47bfa5c"
+Zarr = "0a941bbe-ad1d-11e8-39d9-ab76183a1d99"
+
+[compat]
+StatsBase = "0.34.4"

@@ -10,6 +10,8 @@ WI_H1_SWE	Proton_Wpar_moment	    Proton thermal speed Wparallel (km/s) from bima
 
 WI_H1_SWE	Proton_Wperp_nonlin	    Proton thermal speed perpendicular to the magnetic field direction [km/s].
 WI_H1_SWE	Proton_Wpar_nonlin	    Proton thermal speed parallel to the magnetic field direction [km/s].
+WI_PLSP_3DP	Ion omnidirectional fluxes 0.4-3 keV and moments, often at ~24 second resolution, PESA Low, Wind 3DP
+WI_PM_3DP	Ion moments (computed on-board) @ 3 second (spin) resolution, PESA LOW, Wind 3DP
 
 Notes: `thb_peim_t3_magQ` is not accurate in solar wind mode.
 
@@ -28,7 +30,9 @@ using PartialFunctions
 using Unitful
 using Beforerr: _theme_legend
 using SPEDAS.SpaceDataModel: set
+using PSPAnisotropy
 include("../src/psp_temp.jl")
+using PSPAnisotropy: Wind, PSP, THEMIS
 
 update_theme!(_theme_legend(; padding=(0, 0, 0, 0)))
 ```
@@ -61,87 +65,36 @@ n_ylabel = ulabel("Density", "cm^-3")
 V_ylabel = "Velocity (km/s)"
 V_labels = ["Vx", "Vy", "Vz", "Magnitude"]
 Temp_ylabel = "Temperature (eV)"
-WI_PM_3DP_labels = ["Proton"] # "Proton (3DP, PESA Low)"
-WI_ELM2_3DP_labels = ["Electron"] # "Electron (3DP, EESA Low)"
 
-mva_V_labels = ["V_L", "V_M", "V_N"]
+V_mva_labels = ["V_L", "V_M", "V_N"]
+B_mva_labels = ["B_L", "B_M", "B_N"]
 ```
 
 ```{julia}
-psp_B = SpeasyProduct("PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_Cyc"; ylabel=B_ylabel, labels=B_labels)
-
-psp_n = SPEDAS.DataSet(
-    "Density",
-    [
-        SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/DENS"; labels=["SPI Proton"]),
-        _unitify(u"cm^-3") ∘ SpeasyProduct("PSP_SWP_SPC_L3I/np_moment"; labels=["SPC Proton"]),
-        SpeasyProduct("PSP_FLD_L3_RFS_LFR_QTN/N_elec"; labels=["RFS Electron"]),
-        SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_density"; labels=["SQTN Electron"])
-    ];
-    ylabel=n_ylabel
-)
-
-psp_temp = SPEDAS.DataSet(
-    "Temperature",
-    [
-        SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/TEMP"; labels=["SPI Proton"]),
-        smooth(30u"s") ∘ SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_core_temperature"; labels=["SQTN Electron core"]),
-    ];
-    ylabel=Temp_ylabel
-)
-
-psp_V = SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN"; ylabel=V_ylabel, labels=V_labels)
-
 tvars_psp = [
-    tnorm_combine ∘ psp_B,
-    psp_n,
-    psp_V,
-    psp_temp
+    tnorm_combine ∘ PSP.B,
+    PSP.n,
+    PSP.V,
+    PSP.T
 ]
 ```
 
 ```{julia}
-wind_n = SPEDAS.DataSet(
-    "Density",
-    [
-        SpeasyProduct("WI_PM_3DP/P_DENS"; labels=WI_PM_3DP_labels),
-        SpeasyProduct("WI_ELM2_3DP/DENSITY"; labels=WI_ELM2_3DP_labels)
-    ];
-    ylabel=n_ylabel
-)
-
-wind_temp = SPEDAS.DataSet(
-    "Temperature",
-    [
-        SpeasyProduct("WI_PM_3DP/P_TEMP"; labels=WI_PM_3DP_labels),
-        SpeasyProduct("WI_ELM2_3DP/AVGTEMP"; labels=WI_ELM2_3DP_labels),
-    ];
-    ylabel=Temp_ylabel
-)
-
 tvars_wind = [
-    tnorm_combine ∘ SpeasyProduct("WI_H3-RTN_MFI/BRTN"; ylabel=B_ylabel, labels=B_labels),
-    wind_n,
-    tsubtract ∘ SpeasyProduct("WI_K0_SWE_RTN/V_RTN"; ylabel=V_ylabel, labels=V_labels),
+    tnorm_combine ∘ Wind.B,
+    Wind.n,
+    # tsubtract ∘ SpeasyProduct("WI_K0_SWE_RTN/V_RTN"; ylabel=V_ylabel, labels=V_labels),
+    tsubtract ∘ Wind.V,
     wind_temp
 ]
 ```
 
 ```{julia}
-thm_temp = SPEDAS.DataSet(
-    "Temperature",
-    [
-        "THB_L2_ESA/thb_peif_avgtempQ",
-        tTemp ∘ SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; label="Electron")
-    ];
-    ylabel=Temp_ylabel
-)
-
 tvars_themis = [
-    tnorm_combine ∘ SpeasyProduct("THB_L2_FGM/thb_fgs_gseQ"; ylabel=B_ylabel, labels=B_labels),
-    ["THB_L2_MOM/thb_peim_densityQ", "THB_L2_MOM/thb_peem_densityQ"],
-    SpeasyProduct("THB_L2_MOM/thb_peim_velocity_gseQ"; ylabel=V_ylabel, labels=V_labels),
-    thm_temp,
+    tnorm_combine ∘ THEMIS.B,
+    THEMIS.n,
+    THEMIS.V_GSE,
+    THEMIS.T,
 ]
 ```
 
@@ -168,41 +121,67 @@ f
 using Discontinuity
 
 tau = Second(30)
-psp_events = detect_variance(psp_B(tmin_psp, tmax_psp), tau)
+psp_events = detect_variance(PSP.B(tmin_psp, tmax_psp), tau)
+wind_events = detect_variance(Wind.B(tmin_wind, tmax_wind), tau)
+thm_events = detect_variance(THEMIS.B_FGL_GSE(tmin_wind, tmax_wind), tau)
 ```
 
 ```{julia}
-function plot_candidate(event, ts)
-    tplot(ts, event["tstart"], event["tstop"])
-end
-
-psp_B_mva = set(mva ∘ psp_B; name="mva_B", labels=["B_L", "B_M", "B_N"])
-psp_V_mva = Product((psp_V, psp_B), mva_transform; ylabel=V_ylabel, labels=mva_V_labels)
+psp_B_mva = set(mva ∘ PSP.B; name="mva_B", labels=B_mva_labels)
+psp_V_mva = Product((PSP.V, PSP.B), mva_transform; ylabel=V_ylabel, labels=V_mva_labels)
 psp_eTemp_ani = Product(read_electron_temperature(), tview; labels=["Electron (parallel)", "Electron (perpendicular)"])
 psp_pTemp_ani = Product(read_proton_temperature(), tview; labels=["Proton (parallel)", "Proton (perpendicular)"])
 psp_Temp_ani = [psp_eTemp_ani, psp_pTemp_ani]
+psp_mva_all = [psp_B_mva, psp_V_mva, psp_Temp_ani]
 
-event = psp_events[2, :]
-plot_candidate(event, [tvars_psp; [psp_B_mva, psp_V_mva, psp_Temp_ani]])
+wind_B_mva = set(mva ∘ Wind.B; name="mva_B", labels=B_mva_labels)
+wind_V_mva = Product((Wind.V_GSE, Wind.B_GSE), mva_transform; ylabel=V_ylabel, labels=V_mva_labels)
+wind_mva_all = [wind_B_mva, wind_V_mva, Wind.Temp_ani]
+
+thm_B_mva = set(mva ∘ THEMIS.B_FGL_GSE; name="mva_B", labels=B_mva_labels)
+thm_V_mva = Product((THEMIS.V_GSE, THEMIS.B_FGL_GSE), mva_transform; ylabel=V_ylabel, labels=V_mva_labels)
+thm_mva_all = [thm_B_mva, thm_V_mva, THEMIS.T_ani]
 ```
 
-### Plot
-
 ```{julia}
-wind_proton_T3 = SPEDAS.DataSet("Thermal speed",
-    ["WI_H1_SWE/Proton_Wperp_nonlin", "WI_H1_SWE/Proton_Wpar_nonlin", "WI_H1_SWE/Proton_Wperp_moment", "WI_H1_SWE/Proton_Wpar_moment"]
-)
+using DataFrames
 
-tvars_wind2 = tvars_wind + [
-    wind_proton_T3,
-    "WI_ELM2_3DP/MAGT3"
-]
+@kwdef struct Event
+    start
+    stop
+    metadata = Dict()
+end
 
-tvars_themis2 = tvars_themis + [
-    # SpeasyProduct("THB_L2_MOM/thb_peim_t3_magQ"; yscale=identity),
-    SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; yscale=identity),
-]
+Event(df::DataFrame, i) = Event(df.tstart[i], df.tstop[i], Dict())
+
+(P::AbstractProduct)(e::Event) = P(e.start, e.stop)
 ```
 
 
 ```{julia}
+function plot_candidate(f, event, ts, toffset=Second(0); kwargs...)
+    tplot(f, ts, event.tstart - toffset, event.tstop + toffset; kwargs...)
+end
+
+let link_xaxes = false
+    tvars_wind = [
+        tnorm_combine ∘ Wind.B,
+        Wind.n,
+        Wind.V_GSE,
+        Wind.temp,
+        wind_B_mva,
+        wind_V_mva,
+        Wind.Temp_ani
+    ]
+
+    tvars_themis2 = [[THEMIS.B_FGL_GSE, THEMIS.n, THEMIS.V_GSE, THEMIS.T]; thm_mva_all]
+
+    f = Figure(; size=(1200, 800))
+    plot_candidate(f[1, 1], Event(psp_events, 2), [tvars_psp; psp_mva_all]; link_xaxes)
+    wind_plots = plot_candidate(f[1, 2], Event(wind_events, 3), tvars_wind, Minute(1); link_xaxes)
+    themis_plots = plot_candidate(f[1, 3], Event(thm_events, 3), tvars_themis2, Minute(1); link_xaxes)
+    # hideydecorations!(wind_plots)
+    # hideydecorations!(themis_plots)
+    f
+end
+```
