@@ -37,7 +37,7 @@ def save_tnames(tnames, path, format="netcdf"):
         da = get_data(tname, xarray=True)
         da = convert_time(clean_attributes(da)).drop_duplicates(dim="time").to_dataset()
         if format == "netcdf":
-            da.to_netcdf(path + "/" + tname + ".nc", group=tname)
+            da.to_netcdf(path + "/" + tname + ".nc")
         elif format == "zarr":
             da.to_zarr(path + "/" + tname + ".zarr", mode="w-")
 

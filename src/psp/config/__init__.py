@@ -17,7 +17,7 @@ from os import makedirs
 
 class Config(BaseModel):
     enc: int = 7
-    tau: timedelta = timedelta(seconds=30)
+    detect_kwargs: dict = {"tau": timedelta(seconds=30)}
 
     def model_post_init(self, __context):
         super().model_post_init(__context)

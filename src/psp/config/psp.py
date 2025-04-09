@@ -71,14 +71,14 @@ class PSPConfig(IDsConfig):
             density_col = "n"
             velocity_cols = ["v_R", "v_T", "v_N"]
 
-            mag_data = get_psp_data("mag").collect()
+            mag_data = get_psp_data("mag")
             density_data = get_psp_data("den").rename({"0": density_col})
             velocity_data = get_psp_data("vel").rename(
                 dict(zip(["0", "1", "2"], velocity_cols))
             )
             ion_temp_data = get_psp_data("temp")
 
-            time = mag_data.get_column("time").to_numpy()
+            time = mag_data.collect().get_column("time").to_numpy()
             self.ts = timedelta(
                 microseconds=np.median(np.diff(time)).item() / 1000
             )  # Related: https://github.com/python/cpython/issues/59648

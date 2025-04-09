@@ -23,7 +23,7 @@ for enc in encs:
             )
 
 # %%
-for enc in encs:
+for enc in [7, 8, 11]:
     # convert .tplot file to hdf5
     tnames = load_psp_data(enc)
     save_tnames(["Tp_spani_b", "Tp_spanib_b"], f"../data/psp_e{enc:02}")

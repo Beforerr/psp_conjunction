@@ -10,7 +10,7 @@ dependencies = [
     "speasy",
     "beforerr",
     "space_analysis",
-    "discontinuitypy[plot]",
+    # "discontinuitypy[plot]",
 ]
 
 [project.optional-dependencies]
