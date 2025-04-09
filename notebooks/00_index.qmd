@@ -28,6 +28,7 @@ using PartialFunctions
 using Unitful
 using Beforerr: _theme_legend
 using SPEDAS.SpaceDataModel: set
+include("../src/psp_temp.jl")
 
 update_theme!(_theme_legend(; padding=(0, 0, 0, 0)))
 ```
@@ -42,15 +43,6 @@ _unitify(u) = x -> x * u
 mva_transform((V, B), tmin, tmax) = mva(V(tmin, tmax), B(tmin, tmax))
 ```
 
-
-
-```{julia}
-using NCDatasets
-using YAXArrays
-path = "data/psp_e07.nc"
-# ds = NCDataset(path)
-ds = YAXArrays.open_dataset(path)
-```
 
 ```{julia}
 tmin_psp = DateTime("2021-01-14")
@@ -185,10 +177,13 @@ function plot_candidate(event, ts)
 end
 
 psp_B_mva = set(mva ∘ psp_B; name="mva_B", labels=["B_L", "B_M", "B_N"])
-psp_V_mva = Product("mva_V", (psp_V, psp_B), mva_transform; ylabel=V_ylabel, labels=mva_V_labels)
+psp_V_mva = Product((psp_V, psp_B), mva_transform; ylabel=V_ylabel, labels=mva_V_labels)
+psp_eTemp_ani = Product(read_electron_temperature(), tview; labels=["Electron (parallel)", "Electron (perpendicular)"])
+psp_pTemp_ani = Product(read_proton_temperature(), tview; labels=["Proton (parallel)", "Proton (perpendicular)"])
+psp_Temp_ani = [psp_eTemp_ani, psp_pTemp_ani]
 
 event = psp_events[2, :]
-plot_candidate(event, [tvars_psp; [psp_B_mva, psp_V_mva]])
+plot_candidate(event, [tvars_psp; [psp_B_mva, psp_V_mva, psp_Temp_ani]])
 ```
 
 ### Plot
@@ -208,3 +203,6 @@ tvars_themis2 = tvars_themis + [
     SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; yscale=identity),
 ]
 ```
+
+
+```{julia}

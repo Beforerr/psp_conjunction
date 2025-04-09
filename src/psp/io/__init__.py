@@ -3,6 +3,7 @@ import polars as pl
 from numbers import Number
 import xarray
 import numpy as np
+import os
 
 
 def time_stamp(ts):
@@ -29,15 +30,16 @@ def clean_attributes(da):
     return da
 
 
-def save_to_hdf5(tnames, path):
-    data_dict = {
-        tname: convert_time(
-            clean_attributes(get_data(tname, xarray=True))
-        ).drop_duplicates(dim="time")
-        for tname in tnames
-    }
-    ds = xarray.Dataset(data_dict)
-    ds.to_netcdf(path)
+def save_tnames(tnames, path, format="netcdf"):
+    os.makedirs(path, exist_ok=True)
+
+    for tname in tnames:
+        da = get_data(tname, xarray=True)
+        da = convert_time(clean_attributes(da)).drop_duplicates(dim="time").to_dataset()
+        if format == "netcdf":
+            da.to_netcdf(path + "/" + tname + ".nc", group=tname)
+        elif format == "zarr":
+            da.to_zarr(path + "/" + tname + ".zarr", mode="w-")
 
 
 def convert_time(da: xarray.DataArray, type="ms"):

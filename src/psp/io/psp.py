@@ -26,7 +26,7 @@ def set_psp_options(tnames):
 def load_psp_data(enc: int = 7):
     file_name = datadir() / f"psp_e{enc:02}.tplot"
     tplot_restore(str(file_name))
-    tnames = tplot_names()
+    tnames = tplot_names(quiet=True)
     set_psp_options(tnames)
     return tnames
 
