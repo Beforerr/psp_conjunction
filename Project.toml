@@ -30,7 +30,6 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
 YAXArrays = "c21b50f5-aa40-41ea-b809-c0f5e47bfa5c"
-Zarr = "0a941bbe-ad1d-11e8-39d9-ab76183a1d99"
 
 [compat]
 StatsBase = "0.34.4"

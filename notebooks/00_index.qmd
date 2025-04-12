@@ -44,51 +44,7 @@ function tTemp(x; dims=Ti)
 end
 
 mva_transform((V, B), tmin, tmax) = mva(V(tmin, tmax), B(tmin, tmax))
-
-
 ```
-
-```{julia}
-using SPEDAS: timedim
-
-function tdiff(x; dims=Ti)
-    times = SPEDAS.times(x)
-    return diff(x; dims) ./ diff(times)
-end
-```
-
-```{julia}
-using Unitful: μ0
-using LinearAlgebra: norm
-
-"""
-    current_density(B, V)
-
-Calculate the current density time series from the magnetic field (B) and plasma velocity (V) time series.
-"""
-@views function current_density(B, V)
-    _B_in = tview(B, timerange(V))
-    dBdt = tdiff(_B_in)
-
-    dBxdt = dBdt[:, 1]
-    dBydt = dBdt[:, 2]
-    ts = SPEDAS.times(dBdt)
-    Vn = tinterp(V[:, 3], ts)
-    Jx = @. upreferred(dBydt / (μ0 * Vn))
-    Jy = @. upreferred(-dBxdt / (μ0 * Vn))
-
-    B_in = _B_in[1:end-1, :]
-    Bx = B_in[:, 1]
-    By = B_in[:, 2]
-    Bmag = norm.(eachrow(B_in))
-    Jpara = @. (Jx * Bx + Jy * By) / Bmag
-    Jperp = @. (Jy * Bx - Jx * By) / Bmag
-    return (; Jx, Jy, Jpara, Jperp)
-end
-
-@b current_density(B, V)
-```
-
 
 ```{julia}
 tmin_psp = DateTime("2021-01-14")
@@ -111,6 +67,12 @@ Temp_ylabel = "Temperature (eV)"
 
 V_mva_labels = ["V_L", "V_M", "V_N"]
 B_mva_labels = ["B_L", "B_M", "B_N"]
+```
+
+```{julia}
+B = PSP.B(tmin_psp, tmin_psp + Hour(1))
+V = PSP.V(tmin_psp, tmin_psp + Hour(1))
+current_density(B, V)
 ```
 
 ```{julia}
