@@ -29,9 +29,10 @@ using Dates
 using PartialFunctions
 using Unitful
 using Beforerr: _theme_legend
-using SPEDAS.SpaceDataModel: set
+using SPEDAS.SpaceDataModel: set, extend, @set
 using PSPAnisotropy
 include("../src/psp_temp.jl")
+include("../src/calc.jl")
 using PSPAnisotropy: Wind, PSP, THEMIS
 
 update_theme!(_theme_legend(; padding=(0, 0, 0, 0)))
@@ -43,7 +44,10 @@ function tTemp(x; dims=Ti)
     return mean.(eachslice(x; dims))
 end
 
-mva_transform((V, B), tmin, tmax) = mva(V(tmin, tmax), B(tmin, tmax))
+mva_transform((V, B), tmin, tmax; tb_min=tmin, tb_max=tmax) = mva(V(tmin, tmax), B(tb_min, tb_max))
+make_mva_transform(tb_min, tb_max) = mva_transform$(; tb_min, tb_max)
+
+j_transform((V, B), tmin, tmax) = current_density(B(tmin, tmax), V(tmin, tmax))
 ```
 
 ```{julia}
@@ -51,7 +55,6 @@ tmin_psp = DateTime("2021-01-14")
 tmax_psp = DateTime("2021-01-21")
 tmin_wind = DateTime("2021-01-15")
 tmax_wind = DateTime("2021-01-23")
-tmax_wind = DateTime("2021-02-15")
 
 tmin_psp = DateTime("2021-01-16")
 tmax_psp = DateTime("2021-01-19")
@@ -61,18 +64,13 @@ tmax_psp = DateTime("2021-01-19")
 B_ylabel = "B (nT)"
 B_labels = ["Bx", "By", "Bz", "Magnitude"]
 n_ylabel = ulabel("Density", "cm^-3")
-V_ylabel = "Velocity (km/s)"
+V_ylabel = "V (km/s)"
+ΔV_ylabel = "ΔV (km/s)"
 V_labels = ["Vx", "Vy", "Vz", "Magnitude"]
 Temp_ylabel = "Temperature (eV)"
 
 V_mva_labels = ["V_L", "V_M", "V_N"]
 B_mva_labels = ["B_L", "B_M", "B_N"]
-```
-
-```{julia}
-B = PSP.B(tmin_psp, tmin_psp + Hour(1))
-V = PSP.V(tmin_psp, tmin_psp + Hour(1))
-current_density(B, V)
 ```
 
 ```{julia}
@@ -90,13 +88,13 @@ tvars_wind = [
     Wind.n,
     # tsubtract ∘ SpeasyProduct("WI_K0_SWE_RTN/V_RTN"; ylabel=V_ylabel, labels=V_labels),
     tsubtract ∘ Wind.V,
-    wind_temp
+    Wind.temp
 ]
 ```
 
 ```{julia}
 tvars_themis = [
-    tnorm_combine ∘ THEMIS.B,
+    tnorm_combine ∘ THEMIS.B_GSE,
     THEMIS.n,
     THEMIS.V_GSE,
     THEMIS.T,
@@ -124,11 +122,10 @@ f
 
 ```{julia}
 using Discontinuity
-
 tau = Second(30)
 # psp_events = detect_variance(PSP.B, tmin_psp, tmax_psp, tau)
-# wind_events = detect_variance(Wind.B, tmin_wind, tmax_wind, tau)
-thm_events = detect_variance(Wind.B, tmin_wind, tmax_wind, tau; split=Day(1))
+wind_events = ids_finder(Wind.B, tmin_wind, tmax_wind, tau)
+# thm_events = detect_variance(Wind.B, tmin_wind, tmax_wind, tau; split=Day(1))
 ```
 
 ```{julia}
@@ -139,54 +136,72 @@ psp_pTemp_ani = Product(read_proton_temperature(), tview; labels=["Proton (paral
 psp_Temp_ani = [psp_eTemp_ani, psp_pTemp_ani]
 psp_mva_all = [psp_B_mva, psp_V_mva, psp_Temp_ani]
 
-wind_B_mva = set(mva ∘ Wind.B; name="mva_B", labels=B_mva_labels)
-wind_V_mva = Product((Wind.V_GSE, Wind.B_GSE), mva_transform; ylabel=V_ylabel, labels=V_mva_labels)
-wind_mva_all = [wind_B_mva, wind_V_mva, Wind.Temp_ani]
-
 thm_B_mva = set(mva ∘ THEMIS.B_FGL_GSE; name="mva_B", labels=B_mva_labels)
 thm_V_mva = Product((THEMIS.V_GSE, THEMIS.B_FGL_GSE), mva_transform; ylabel=V_ylabel, labels=V_mva_labels)
 thm_mva_all = [thm_B_mva, thm_V_mva, THEMIS.T_ani]
 ```
 
 ```{julia}
-using DataFrames
-
-@kwdef struct Event
-    start
-    stop
-    metadata = Dict()
+function make_mva_product(event, V, B=V; kwargs...)
+    mva_transform = make_mva_transform(t_us_ds(event)...)
+    return Product((V, B), mva_transform; kwargs...)
 end
 
-Event(df::DataFrame, i) = Event(df.tstart[i], df.tstop[i], Dict())
-
-(P::AbstractProduct)(e::Event) = P(e.start, e.stop)
+function make_mva_products(event, B, V, n=nothing, T3=nothing)
+    B_mva = make_mva_product(event, B, B; labels=B_mva_labels, ylabel=B_ylabel)
+    V_mva = make_mva_product(event, V, B; labels=V_mva_labels, ylabel=V_ylabel)
+    J = Product((V_mva, B_mva), j_transform)
+    result = [tnorm_combine ∘ B, V, B_mva, set(tsubtract ∘ V_mva; ylabel=ΔV_ylabel), J]
+    isnothing(n) || push!(result, set(
+        tsubtract ∘ Product((B_mva, n), alfven_velocity_ts);
+        ylabel=ΔV_ylabel, labels=["Va_L", "Va_M", "Va_N"]
+    ))
+    isnothing(T3) || begin
+        Λ = Product((B_mva, n, T3), anisotropy_ts; ylabel="Λ")
+        Va_Λ = set(
+            tsubtract ∘ Product((B_mva, n, T3), alfven_velocity_ani_ts);
+            ylabel=ΔV_ylabel, labels=["Va*_L", "Va*_M", "Va*_N"]
+        )
+        push!(result, Λ, Va_Λ)
+    end
+    return result
+end
 ```
 
+```{julia}
+tvars2_wind = [
+    tnorm_combine ∘ Wind.B,
+    Wind.n,
+    Wind.V_GSE,
+    Wind.temp,
+    Wind.Temp_ani
+]
+
+tvars_themis2 = [[THEMIS.B_FGL_GSE, THEMIS.n, THEMIS.V_GSE, THEMIS.T]; thm_mva_all]
+```
 
 ```{julia}
 function plot_candidate(f, event, ts, toffset=Second(0); kwargs...)
-    tplot(f, ts, event.tstart - toffset, event.tstop + toffset; kwargs...)
+    tmin, tmax = t_us_ds(event)
+    f = tplot(f, ts, tmin - toffset, tmax + toffset; kwargs...)
+    tlines!(f, [tmin, tmax])
+    f
 end
 
-let link_xaxes = false
-    tvars_wind = [
-        tnorm_combine ∘ Wind.B,
-        Wind.n,
-        Wind.V_GSE,
-        Wind.temp,
-        wind_B_mva,
-        wind_V_mva,
-        Wind.Temp_ani
-    ]
-
-    tvars_themis2 = [[THEMIS.B_FGL_GSE, THEMIS.n, THEMIS.V_GSE, THEMIS.T]; thm_mva_all]
-
+f = let
     f = Figure(; size=(1200, 800))
-    plot_candidate(f[1, 1], Event(psp_events, 2), [tvars_psp; psp_mva_all]; link_xaxes)
-    wind_plots = plot_candidate(f[1, 2], Event(wind_events, 3), tvars_wind, Minute(1); link_xaxes)
-    themis_plots = plot_candidate(f[1, 3], Event(thm_events, 3), tvars_themis2, Minute(1); link_xaxes)
+    # plot_candidate(f[1, 1], Event(psp_events, 2), [tvars_psp; psp_mva_all]; link_xaxes)
+
+    wind_event = Event(wind_events, 9) # 300
+    wind_T3 = extend(Wind.pTemp_ani, Second(20))
+    wind_tvars = make_mva_products(wind_event, Wind.B_GSE, Wind.V_GSE, Wind.n_p, wind_T3)
+    wind_tvars = [wind_tvars[3:end]; Wind.Temp_ani; Wind.n; Wind.Temp]
+    for p in Wind.Temp_ani
+        @info "$p" data = p(wind_event)
+    end
+    wind_plots = plot_candidate(f, wind_event, wind_tvars, tau)
+    # themis_plots = plot_candidate(f[1, 3], Event(thm_events, 3), tvars_themis2, Minute(1); link_xaxes)
     # hideydecorations!(wind_plots)
     # hideydecorations!(themis_plots)
-    f
 end
 ```

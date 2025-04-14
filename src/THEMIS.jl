@@ -1,7 +1,8 @@
 module THEMIS
 using StatsBase
 using DimensionalData
-using SPEDAS: SpeasyProduct, DataSet
+using Speasy: SpeasyProduct
+using SPEDAS: DataSet
 
 function tTemp(x; dims=Ti)
     return mean.(eachslice(x; dims))
