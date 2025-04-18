@@ -28,7 +28,7 @@ def df_p2temp(ldf: pl.LazyFrame, p_col, density_col):
 
 def validate(timerange):
     from sunpy.time import TimeRange
-    
+
     if isinstance(timerange, TimeRange):
         return [timerange.start.to_string(), timerange.end.to_string()]
 
