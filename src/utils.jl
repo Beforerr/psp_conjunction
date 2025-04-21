@@ -16,7 +16,7 @@ subset_timerange(df, timerange::Tuple) = subset_timerange(df, timerange...)
 
 import SPEDAS: Event
 
-SPEDAS.Event(df::DataFrame) = (i = rand(1:size(df, 1)); @info i; Event(df, i))
-SPEDAS.Event(df::DataFrame, i) = Event(df.tstart[i], df.tstop[i], Dict(:t_us_ds => df.t_us_ds[i]))
+AniEvent(df::DataFrame) = (i = rand(1:size(df, 1)); @info i; Event(df, i))
+AniEvent(df::DataFrame, i) = Event(df.tstart[i], df.tstop[i], Dict(:data => df[i, :]))
 (P::AbstractProduct)(e::Event) = P(e.start, e.stop)
-t_us_ds(e::Event) = e.metadata[:t_us_ds]
+t_us_ds(e::Event) = e.metadata[:data].t_us_ds

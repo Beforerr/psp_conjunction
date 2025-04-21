@@ -55,6 +55,7 @@ tmin_psp = DateTime("2021-01-14")
 tmax_psp = DateTime("2021-01-21")
 tmin_wind = DateTime("2021-01-15")
 tmax_wind = DateTime("2021-01-23")
+_tmax_wind = DateTime("2021-01-15T02")
 
 tmin_psp = DateTime("2021-01-16")
 tmax_psp = DateTime("2021-01-19")
@@ -121,10 +122,10 @@ f
 ## Event example (with pressure anisotropy)
 
 ```{julia}
-using Discontinuity
+using Discontinuity: ids_finder
 tau = Second(30)
 # psp_events = detect_variance(PSP.B, tmin_psp, tmax_psp, tau)
-wind_events = ids_finder(Wind.B, tmin_wind, tmax_wind, tau)
+wind_events = ids_finder(Wind.B_GSE, tmin_wind, tmax_wind, tau, Wind.V_GSE, Wind.n_p)
 # thm_events = detect_variance(Wind.B, tmin_wind, tmax_wind, tau; split=Day(1))
 ```
 
@@ -151,7 +152,7 @@ function make_mva_products(event, B, V, n=nothing, T3=nothing)
     B_mva = make_mva_product(event, B, B; labels=B_mva_labels, ylabel=B_ylabel)
     V_mva = make_mva_product(event, V, B; labels=V_mva_labels, ylabel=V_ylabel)
     J = Product((V_mva, B_mva), j_transform)
-    result = [tnorm_combine ∘ B, V, B_mva, set(tsubtract ∘ V_mva; ylabel=ΔV_ylabel), J]
+    result = [tnorm_combine ∘ B, V, tnorm_combine ∘ B_mva, set(tsubtract ∘ V_mva; ylabel=ΔV_ylabel), J]
     isnothing(n) || push!(result, set(
         tsubtract ∘ Product((B_mva, n), alfven_velocity_ts);
         ylabel=ΔV_ylabel, labels=["Va_L", "Va_M", "Va_N"]
@@ -173,7 +174,7 @@ tvars2_wind = [
     tnorm_combine ∘ Wind.B,
     Wind.n,
     Wind.V_GSE,
-    Wind.temp,
+    Wind.Temp,
     Wind.Temp_ani
 ]
 
@@ -192,7 +193,7 @@ f = let
     f = Figure(; size=(1200, 800))
     # plot_candidate(f[1, 1], Event(psp_events, 2), [tvars_psp; psp_mva_all]; link_xaxes)
 
-    wind_event = Event(wind_events, 9) # 300
+    wind_event = AniEvent(wind_events, 1) # 300
     wind_T3 = extend(Wind.pTemp_ani, Second(20))
     wind_tvars = make_mva_products(wind_event, Wind.B_GSE, Wind.V_GSE, Wind.n_p, wind_T3)
     wind_tvars = [wind_tvars[3:end]; Wind.Temp_ani; Wind.n; Wind.Temp]

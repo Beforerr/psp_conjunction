@@ -3,8 +3,7 @@ using Discontinuity: anisotropy
 
 function alfven_velocity_ts(B, n)
     n_mean = mean(parent(n))
-    mass_number = 1
-    return uconvert.(u"km/s", alfven_velocity.(B, n_mean, Ref(mass_number)))
+    return alfven_velocity.(B, n_mean)
 end
 
 function anisotropy_ts(B, n, T3; kw...)
@@ -21,8 +20,4 @@ end
 
 for f in (:alfven_velocity_ts, :anisotropy_ts, :alfven_velocity_ani_ts)
     @eval $f(args::Tuple, tmin, tmax) = $f(map(p -> p(tmin, tmax), args)...)
-end
-
-function tmaterialize(p::AbstractProduct, tmin, tmax)
-    # @set p(tmin, tmax)
 end
