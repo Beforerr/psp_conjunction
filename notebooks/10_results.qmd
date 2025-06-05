@@ -5,14 +5,11 @@ engine: julia
 
 ```{julia}
 using DrWatson
-@quickactivate
-include(srcdir("main.jl"))
+using PSPAnisotropy.Dataset: load_all
+using Discontinuity: var_mapping
 import Beforerr: easy_save
-```
-
-```{julia}
-enc = 8 # event id (encounter id)    
-easy_save(fname; enc=enc) = Beforerr.easy_save(fname; dir="$fig_dir/enc$enc", formats=[:svg, :pdf])
+using GLMakie, AlgebraOfGraphics
+m = var_mapping()
 ```
 
 ```{julia}
@@ -141,7 +138,7 @@ begin
 end;
 ```
 
-## Discontinuities' properties
+## Current sheet's properties
 
 ```{julia}
 # velocity v is normalized to $l Ω$, where $l$ represents the width of the RD and $Ω = q B/(mpc)$ is the cyclotron frequency.
@@ -232,28 +229,31 @@ end
 df |> plot_l_j_local_comp
 ```
 
+### Thickness and current density comparison
+
 ```{julia}
 begin
-    fname = "thickness_current"
-
-    plt = data_layer_a * visual(Scatter)
+    fname = "thickness_current_xy_comp"
+    data_layer = data(df)
+    plt = data_layer * visual(Scatter)
 
     fig = Figure(size=(1000, 500))
-    axis = log_axis
+    axis = (; yscale=log10, xscale=log10)
 
     ga = fig[1, 1]
     gb = fig[1, 2]
 
-    grid1 = plt * mapping(l_map, j_map) |> draw!(ga; axis=axis)
-    grid2 = plt * mapping(l_norm_map, j_norm_map) |> draw!(gb; axis=axis)
+    spec1 = plt * mapping(m.l, m.j)
+    spec2 = plt * mapping(m.l_norm, m.j_norm)
+
+    draw!(ga, spec1; axis)
+    draw!(gb, spec2; axis)
 
     pretty_legend!(fig, grid1)
     add_labels!([ga, gb])
     easy_save(fname)
 end
 ```
-
-`ggscatterhist` can not handle log scale well
 
 ```{julia}
 #| label: fig-dn-dB

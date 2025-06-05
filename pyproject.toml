@@ -33,6 +33,7 @@ platforms = ["osx-arm64"]
 
 [tool.pixi.dependencies]
 netcdf4 = "*"
+memory_profiler = ">=0.61.0,<0.62"
 
 [tool.pixi.feature.local.pypi-dependencies]
 psp = { path = ".", editable = true }

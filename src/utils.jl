@@ -1,3 +1,4 @@
+using SpaceDataModel: AbstractProduct
 using Dates
 
 # select the time range of interest "2021-04-29T00:45" to "2021-04-29T01:15"

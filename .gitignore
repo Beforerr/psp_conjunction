@@ -18,6 +18,7 @@ _proc/
 
 /.quarto/
 /_site/
+*.quarto_ipynb
 
 .DS_Store
 .CondaPkg
@@ -32,3 +33,6 @@ pixi.lock
 
 # julia environments
 Manifest.toml
+
+# uv environments
+uv.lock

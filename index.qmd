@@ -49,8 +49,6 @@ By indentifying the periods of conjunctions and alignments between PSP and Earth
 
 @hudsonDiscontinuitiesAnisotropicPlasma1970
 
-- Alfvénicity
-
 # Dataset and method
 
 TODO: define alignment / conjunction
@@ -107,6 +105,10 @@ The Wind 3DP instrument consists of six different sensors. There are two electro
 
 The following data collected by Wind are used: magnetic fields with a $\sim 11$ Hz resolution measured by the Magnetic Field Investigation (MFI) [@leppingWINDMagneticField1995], the ion (proton and alpha) moments measured by ion (PESA) electrostatic analyzers of the 3D Plasma Analyzer (3DP) [@linThreedimensionalPlasmaEnergetic1995].
 
+> We will also present plasma density estimates delivered by the quasi-thermal noise spectroscopy available at about 7 s cadence (Moncuquet et al. 2020).
+> The procedure of CS selection and methodology, briefly described below, is equivalent to those used in the paper 
+
+
 ## In-situ synergistic observations (Alignment)
 
 **Similar** type of solar wind or **Same** solar solar wind
@@ -123,7 +125,14 @@ How to define alignment?
 
 - Simulation: Trace plasma parcels evolution
 
+@telloniSpacecraftRadialAlignments2023
+
 <!-- sensing solar wind emitted from the same region on the solar surface, with the caveat that dynamical processes at the chromosphere–corona interface have not dramatically altered the solar footpoint within the time corresponding to the radial propagation from the measurement of one spacecraft to that of the other. -->
+
+# Overview and Example of Current Sheets
+
+> @lotekarKineticscaleCurrentSheets2022 Figure 1 presents an overview of the considered 10 day interval. Over this interval, the spacecraft was at radial distances from 0.17 to 0.24 au, that is, from 35 to 50 solar radii, and remained within the inward magnetic field sector without crossing the heliospheric current sheet (Phan et al. 2020; Szabo et al. 2020). No coronal mass ejections were observed in the considered interval (Phan et al. 2020; Szabo et al. 2020). The spacecraft was approximately corotating with the Sun and connected to the same coronal hole (Bale et al. 2019; Badman et al. 2020). Panels (a)–(d) present 1 minute averages of the magnetic field magnitude, proton flow velocity, densities, and temperatures of protons and electrons as well as plasma density estimates provided by the quasi-thermal noise spectroscopy. The magnetic field magnitude was about 100 nT at the perihelion on November 6, and around 50 nT as the spacecraft moved to a radial distance of 50 solar radii from the Sun on November 1 and 10. The solar wind was typically slow  with a proton flow velocity below 400 km s−1, except for the ≈20 hr period of fast solar wind between November 9 and 10. The three plasma density estimates in panel (c) are consistent with each other within a few tens of percent over the entire interval, except for the fast solar wind interval, where the proton densities were about 4 times smaller than the plasma density estimates provided by the quasi-thermal noise spectroscopy. We will use the electron density estimates, calibrated to best match proton densities and the results of quasi-thermal noise spectroscopy, as plasma density estimates. The proton temperature during the considered interval varied between about 10 and 100 eV, while the electron temperature remained around 30 eV. Panel (e) presents 1 minute averages of proton and electron betas and shows that both quantities varied in the range from 0.1 to 5.
+> Figure 2 presents several CSs from our data set.
 
 ## Examples of discontinuities
 
@@ -141,23 +150,7 @@ In general discontinuities observed by PSP are with
 
 # Results
 
-## Comparison of Discontinuity Properties
-
-![](figures/enc2/thickness_current.spi_n_spi.png)
-
-![](figures/enc2/density_distribution.spi_n_spi.png)
-
-K1: Normalized discontinuities properties does not vary much with radial distance
-
-![](figures/enc7/properties_distribution.svg)
-
-
-Thickness and current density relationship
-Scale-dependent properties of current sheets in the solar wind
-
 ![Comparision map of (normalized) thickness and (normalized) current density](figures/enc7/thickness_current.svg){#fig-comp-map}
-
-## Alfvénicity
 
 Comparison between Alfven speed and plasma speed change
 
@@ -167,7 +160,7 @@ For rotational discontinuities, the plasma velocity jump across them: the plasma
 
 K2: $Δv_l$,l demonstrates a strong correlation with $Δv_{A}$, albeit being consistently smaller.
 
-### Estimated Anisotropy
+## Estimated Anisotropy
 
 The equation for $Δv_A$ includes a factor depending on the anisotropy of the plasma.
 
@@ -184,6 +177,13 @@ Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
 ![](figures/thickness_current.png)
 
 ![](figures/B_angle.png)
+
+# Discussion
+
+K1: Normalized discontinuities properties does not vary much with radial distance
+
+Thickness and current density relationship, scale-dependent properties of current sheets in the solar wind
+
 
 # Conclusion
 
