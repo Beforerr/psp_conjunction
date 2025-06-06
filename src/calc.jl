@@ -1,5 +1,6 @@
 using PlasmaFormulary
 using Discontinuity: anisotropy
+using DataFramesMeta
 
 function alfven_velocity_ts(B, n)
     n_mean = mean(parent(n))
@@ -26,11 +27,6 @@ end
 DEFAULT_B_UNIT = u"nT"
 DEFAULT_DENSITY_UNIT = u"cm^-3"
 DEFAULT_TEMP_UNIT = u"eV"
-
-function anisotropy(B, density, para_temp, perp_temp)
-    Λ = @. (μ0 * density * (para_temp - perp_temp) / B^2) |> NoUnits
-    return Λ
-end
 
 """
 Calculate the pressure anisotropy

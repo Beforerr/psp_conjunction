@@ -10,6 +10,7 @@
 
 # data/
 # *.arrow
+*.jld2
 data/archive
 *.cdf
 

@@ -15,26 +15,32 @@ WI_PM_3DP	Ion moments (computed on-board) @ 3 second (spin) resolution, PESA LOW
 
 Notes: `thb_peim_t3_magQ` is not accurate in solar wind mode.
 
+## Setup
+
+```{julia}
+using Dates
+using DrWatson
+using PSPAnisotropy
+using PSPAnisotropy: Wind, PSP, THEMIS
+using Discontinuity
+```
+
 ## Overview
 
 ```{julia}
 using Speasy
-using SPEDAS
-using SPEDAS: ulabel, smooth
+using SPEDAS: ulabel, smooth, tnorm_combine, tplot
 using DimensionalData
 # using CairoMakie
 using GLMakie
 using Statistics
-using Dates
 using PartialFunctions
 using Unitful
 using Beforerr: _theme_legend, easy_save
 using SPEDAS.SpaceDataModel: set, extend, @set
-using PSPAnisotropy
 include("../src/psp_temp.jl")
 include("../src/calc.jl")
 include("../src/meta.jl")
-using PSPAnisotropy: Wind, PSP, THEMIS
 
 update_theme!(_theme_legend(; padding=(0, 0, 0, 0)))
 ```
@@ -125,9 +131,9 @@ f
 ```{julia}
 using Discontinuity: ids_finder
 tau = Second(30)
-# psp_events = detect_variance(PSP.B, tmin_psp, tmax_psp, tau)
+psp_events = ids_finder(PSP.B, tmin_psp, tmax_psp, tau)
 wind_events = ids_finder(Wind.B_GSE, tmin_wind, tmax_wind, tau, Wind.V_GSE, Wind.n_p)
-# thm_events = detect_variance(Wind.B, tmin_wind, tmax_wind, tau; split=Day(1))
+thm_events = ids_finder(THEMIS.B_FGL_GSE, tmin_wind, tmax_wind, tau)
 ```
 
 ```{julia}
@@ -207,3 +213,11 @@ f = let
     # hideydecorations!(themis_plots)
 end
 ```
+
+## Batch processing
+
+Wind Speed, Time to Earth
+300 km/s, ~5.8 days
+400 km/s, ~3.9 days
+500 km/s, ~3.5 days
+700 km/s, ~2.5 days
