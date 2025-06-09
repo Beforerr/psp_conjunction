@@ -23,9 +23,9 @@ n = DataSet("Density", [n_ion, n_elec]; yscale = identity)
 
 V_GSE = SpeasyProduct("THB_L2_MOM/thb_peim_velocity_gseQ")
 
-pTemp = SpeasyProduct("THB_L2_ESA/thb_peif_avgtempQ"; label = "Proton")
-eTemp = tTemp ∘ SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; label = "Electron")
-T = DataSet("Temperature", [pTemp, eTemp])
+pTemp = SpeasyProduct("THB_L2_ESA/thb_peif_avgtempQ"; labels = ["Proton"])
+eTemp = tTemp ∘ SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; labels = ["Electron"])
+T = DataSet("Temperature", (pTemp, eTemp))
 
 pTemp_ani = SpeasyProduct("THB_L2_MOM/thb_peim_t3_magQ"; yscale = identity)
 eTemp_ani = SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; yscale = identity)

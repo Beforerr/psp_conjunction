@@ -82,55 +82,70 @@ tvars_psp = [
 
 ```{julia}
 tvars_wind = [
-    set(tnorm_combine ∘ Wind.B_GSE; ylabel=B_ylabel),
+    set(tnorm_combine ∘ Wind.B_GSE; ylabel=B_ylabel, labels=B_XYZ_labels),
     set(Wind.n; ylabel=n_ylabel),
     # set(Wind.V_GSE_p; ylabel=V_ylabel),
-    replace_outliers! ∘ set(Wind.V_GSE_K0; ylabel=V_ylabel),
+    replace_outliers! ∘ set(Wind.V_GSE_K0; ylabel=V_ylabel, labels=V_XYZ_labels),
     set(Wind.T; ylabel=T_ylabel)
 ]
 ```
 
 
 ```{julia}
-using GLMakie
+using CairoMakie
+CairoMakie.activate!()
 ```
 
 ```{julia}
 using Intervals: Interval
-thx_v_gse = THEMIS.V_GSE(tmin_wind, tmax_wind)
-_times = @views SPEDAS.times(thx_v_gse)[(thx_v_gse[:, 1].>-200u"km/s").|(thx_v_gse[:, 2].<-50u"km/s")]
-dt = Minute(10)
-its = union([Interval(t - dt, t + dt) for t in _times])
-_tmask! = tmask!(its)
+
+function get_themis_tmask(t0, t1) 
+    thx_v_gse = THEMIS.V_GSE(t0, t1)
+    _times = @views SPEDAS.times(thx_v_gse)[(thx_v_gse[:, 1].>-200u"km/s").|(thx_v_gse[:, 2].<-50u"km/s")]
+    dt = Minute(10)
+    its = union([Interval(t - dt, t + dt) for t in _times])
+    return tmask!(its)
+end
 ```
 
 ```{julia}
 tvars_themis = [
-    set(_tmask! ∘ tnorm_combine ∘ THEMIS.B_GSE; ylabel=B_ylabel, labels=B_XYZ_labels),
-    THEMIS.n,
-    _tmask! ∘ THEMIS.V_GSE,
-    set(_tmask! ∘ THEMIS.eTemp; ylabel=T_ylabel)
+    set(tnorm_combine ∘ THEMIS.B_GSE; ylabel=B_ylabel, labels=B_XYZ_labels),
+    set(THEMIS.n; ylabel=n_ylabel),
+    replace_outliers! ∘ set(THEMIS.V_GSE; ylabel=V_ylabel, labels=V_XYZ_labels),
+    set(THEMIS.eTemp; ylabel=T_ylabel)
 ]
 
 ```
 
 ```{julia}
-tmin_psp = "2021-01-14"
-tmax_psp = "2021-01-20"
+for enc in (7, 8, 9)
+    (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
 
-f = Figure(; size=(900, 600))
-legend = (; position=Top())
-labels = '1':'9'
-# plots = tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; legend)
-# add_labels!(f[1, 1]; labels, open="(a.")
+    _tmask! = get_themis_tmask(tmin_wind, tmax_wind)
 
-# tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; legend)
-# add_labels!(f[1, 2]; labels, open="(b.")
+    legend = (; position=Top())
+    labels = '1':'9'
 
-tplot(f[1, 3], tvars_themis, tmin_wind, tmax_wind; legend)
-add_labels!(f[1, 3]; labels, open="(c.")
-f
-# easy_save("overview")
+    f = Figure(; size=(1200, 600))
+    plots = tplot(f[1, 1], tvars_psp[1:3], tmin_psp, tmax_psp; legend)
+    add_labels!(f[1, 1]; labels, open="(a.")
+    tplot(f[1, 2], tvars_wind[1:3], tmin_wind, tmax_wind; legend)
+    add_labels!(f[1, 2]; labels, open="(b.")
+    tplot(f[1, 3], _tmask! .∘ tvars_themis[1:3], tmin_wind, tmax_wind; legend)
+    add_labels!(f[1, 3]; labels, open="(c.")
+    easy_save("overview-$enc")
+
+
+    f = Figure(; size=(1200, 600))
+    plots = tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; legend)
+    add_labels!(f[1, 1]; labels, open="(a.")
+    tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; legend)
+    add_labels!(f[1, 2]; labels, open="(b.")
+    tplot(f[1, 3], _tmask! .∘ tvars_themis, tmin_wind, tmax_wind; legend)
+    add_labels!(f[1, 3]; labels, open="(c.")
+    easy_save("overview-$enc-all")
+end
 ```
 
 ## Event example (with pressure anisotropy)

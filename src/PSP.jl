@@ -16,13 +16,9 @@ n = DataSet("Density", [n_spi, n_spc, n_sqtn])
 
 V = SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN")
 
-T = DataSet(
-    "Temperature",
-    [
-        SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/TEMP"; labels = ["SPI Proton"]),
-        smooth(30u"s") ∘ SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_core_temperature"; labels = ["SQTN Electron core"]),
-    ]
-)
+pTemp = SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/TEMP"; labels = ["SPI Proton"])
+eTemp = SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_core_temperature"; labels = ["SQTN Electron core"])
+T = DataSet("Temperature", [pTemp, eTemp])
 
 
 end
