@@ -23,6 +23,7 @@ using DrWatson
 using PSPAnisotropy
 using PSPAnisotropy: Wind, PSP, THEMIS
 using Discontinuity
+using SPEDAS
 ```
 
 ## Overview
@@ -31,8 +32,8 @@ using Discontinuity
 using Speasy
 using SPEDAS: ulabel, smooth, tnorm_combine, tplot
 using DimensionalData
-# using CairoMakie
-using GLMakie
+using CairoMakie
+# using GLMakie
 using Statistics
 using PartialFunctions
 using Unitful
@@ -74,24 +75,30 @@ tmax_psp = DateTime("2021-01-19")
 tvars_psp = [
     set(tnorm_combine ∘ PSP.B_1MIN; ylabel=B_ylabel, labels=B_RTN_labels),
     set(PSP.n; ylabel=n_ylabel),
-    set(tnorm_combine ∘ PSP.V; ylabel=V_ylabel, labels=V_RTN_labels),
+    set(PSP.V; ylabel=V_ylabel, labels=V_RTN_labels),
     set(PSP.T; ylabel=T_ylabel)
 ]
 ```
 
 ```{julia}
 tvars_wind = [
-    set(tnorm_combine ∘ Wind.B_RTN_1MIN; ylabel=B_ylabel, labels=B_RTN_labels),
+    set(tnorm_combine ∘ Wind.B_GSE; ylabel=B_ylabel),
     set(Wind.n; ylabel=n_ylabel),
-    set(Wind.V_RTN; ylabel=V_ylabel, labels=V_RTN_labels),
+    # set(Wind.V_GSE_p; ylabel=V_ylabel),
+    replace_outliers! ∘ set(Wind.V_GSE_K0; ylabel=V_ylabel),
     set(Wind.T; ylabel=T_ylabel)
 ]
 ```
 
+
+```{julia}
+using GLMakie
+```
+
 ```{julia}
 using Intervals: Interval
-data = THEMIS.V_GSE(tmin_wind, tmax_wind)
-_times = @views SPEDAS.times(data)[(data[:, 1].>-200u"km/s").|(data[:, 2].<-50u"km/s")]
+thx_v_gse = THEMIS.V_GSE(tmin_wind, tmax_wind)
+_times = @views SPEDAS.times(thx_v_gse)[(thx_v_gse[:, 1].>-200u"km/s").|(thx_v_gse[:, 2].<-50u"km/s")]
 dt = Minute(10)
 its = union([Interval(t - dt, t + dt) for t in _times])
 _tmask! = tmask!(its)
@@ -102,7 +109,7 @@ tvars_themis = [
     set(_tmask! ∘ tnorm_combine ∘ THEMIS.B_GSE; ylabel=B_ylabel, labels=B_XYZ_labels),
     THEMIS.n,
     _tmask! ∘ THEMIS.V_GSE,
-    set(THEMIS.T; ylabel=T_ylabel)
+    set(_tmask! ∘ THEMIS.eTemp; ylabel=T_ylabel)
 ]
 
 ```
@@ -120,8 +127,8 @@ labels = '1':'9'
 # tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; legend)
 # add_labels!(f[1, 2]; labels, open="(b.")
 
-tplot(f[1, 1], tvars_themis, tmin_wind, tmax_wind; legend)
-add_labels!(f[1, 1]; labels, open="(c.")
+tplot(f[1, 3], tvars_themis, tmin_wind, tmax_wind; legend)
+add_labels!(f[1, 3]; labels, open="(c.")
 f
 # easy_save("overview")
 ```

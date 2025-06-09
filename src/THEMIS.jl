@@ -17,16 +17,15 @@ end
 B_GSE = SpeasyProduct("THB_L2_FGM/thb_fgs_gseQ")
 B_FGL_GSE = tsort ∘ SpeasyProduct("THB_L2_FGM/thb_fgl_gseQ")
 
-n = ["THB_L2_MOM/thb_peim_densityQ", "THB_L2_MOM/thb_peem_densityQ"]
+n_ion = SpeasyProduct("THB_L2_MOM/thb_peim_densityQ"; labels = ["Ion"], yscale = identity)
+n_elec = SpeasyProduct("THB_L2_MOM/thb_peem_densityQ"; labels = ["Electron"], yscale = identity)
+n = DataSet("Density", [n_ion, n_elec]; yscale = identity)
 
 V_GSE = SpeasyProduct("THB_L2_MOM/thb_peim_velocity_gseQ")
 
-T = DataSet(
-    "Temperature", [
-        "THB_L2_ESA/thb_peif_avgtempQ",
-        tTemp ∘ SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; label = "Electron"),
-    ]
-)
+pTemp = SpeasyProduct("THB_L2_ESA/thb_peif_avgtempQ"; label = "Proton")
+eTemp = tTemp ∘ SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; label = "Electron")
+T = DataSet("Temperature", [pTemp, eTemp])
 
 pTemp_ani = SpeasyProduct("THB_L2_MOM/thb_peim_t3_magQ"; yscale = identity)
 eTemp_ani = SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; yscale = identity)
