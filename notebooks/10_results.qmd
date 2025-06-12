@@ -223,32 +223,6 @@ end
 df |> plot_l_j_local_comp
 ```
 
-### Thickness and current density comparison
-
-```{julia}
-begin
-    fname = "thickness_current_xy_comp"
-    data_layer = data(df)
-    plt = data_layer * visual(Scatter)
-
-    fig = Figure(size=(1000, 500))
-    axis = (; yscale=log10, xscale=log10)
-
-    ga = fig[1, 1]
-    gb = fig[1, 2]
-
-    spec1 = plt * mapping(m.l, m.j)
-    spec2 = plt * mapping(m.l_norm, m.j_norm)
-
-    draw!(ga, spec1; axis)
-    draw!(gb, spec2; axis)
-
-    pretty_legend!(fig, grid1)
-    add_labels!([ga, gb])
-    easy_save(fname)
-end
-```
-
 ```{julia}
 #| label: fig-dn-dB
 #| column: screen

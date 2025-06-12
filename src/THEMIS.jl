@@ -21,7 +21,7 @@ n_ion = SpeasyProduct("THB_L2_MOM/thb_peim_densityQ"; labels = ["Ion"], yscale =
 n_elec = SpeasyProduct("THB_L2_MOM/thb_peem_densityQ"; labels = ["Electron"], yscale = identity)
 n = DataSet("Density", [n_ion, n_elec]; yscale = identity)
 
-V_GSE = SpeasyProduct("THB_L2_MOM/thb_peim_velocity_gseQ")
+V_GSE = tsort ∘ SpeasyProduct("THB_L2_MOM/thb_peim_velocity_gseQ") # 4.25 s time resolution
 
 pTemp = SpeasyProduct("THB_L2_ESA/thb_peif_avgtempQ"; labels = ["Proton"])
 eTemp = tTemp ∘ SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; labels = ["Electron"])

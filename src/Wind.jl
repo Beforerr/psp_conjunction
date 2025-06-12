@@ -1,5 +1,4 @@
 module Wind
-using Base: Fix2
 using Speasy: SpeasyProduct, getdimarray
 using DimensionalData: Y
 using PartialFunctions
@@ -39,18 +38,20 @@ V_RTN_nonlin = Product(
 )
 
 B_GSE = SpeasyProduct("WI_H2_MFI/BGSE")
-V_GSE_p = SpeasyProduct("WI_PM_3DP/P_VELS")
+B_GSE_1MIN = SpeasyProduct("WI_H0_MFI/BGSE")
+V_GSE_3DP = SpeasyProduct("WI_PM_3DP/P_VELS")
 V_GSE_K0 = SpeasyProduct("WI_K0_SWE/V_GSE")  # Note: it contains some weird spikes
 
 
-n_p_K0 = replace_outliers! ∘ SpeasyProduct("WI_K0_SWE/Np")
-n_p = SpeasyProduct("WI_PM_3DP/P_DENS"; labels = WI_PM_3DP_labels)
+n_p_K0 = replace_outliers! ∘ SpeasyProduct("WI_K0_SWE/Np"; labels = ["Proton"]) # Time resolution is 110 seconds
+n_p_3DP = SpeasyProduct("WI_PM_3DP/P_DENS"; labels = WI_PM_3DP_labels)
 # SpeasyProduct("WI_PLSP_3DP/MOM.P.DENSITY"), # Quite similar to "WI_PM_3DP/P_DENS"
 n_e = SpeasyProduct("WI_ELM2_3DP/DENSITY"; labels = WI_ELM2_3DP_labels)
 # SpeasyProduct("WI_H5_SWE/N_elec") # No data available
 n_p_nonlin = SpeasyProduct("WI_H1_SWE/Proton_Np_nonlin", labels = ["Proton (non-linear fitting)"])
 
-n = DataSet("Density", [n_p_K0, n_p, n_p_nonlin, n_e])
+n = DataSet("Density", [n_p_K0, n_p_3DP, n_p_nonlin, n_e])
+n_p_e = DataSet("Density", (n_p_K0, n_e))
 
 # SpeasyProduct("WI_H0_SWE/Te"), Definition range <DateTimeRange: 1994-12-29T00:00:02+00:00 -> 2001-05-31T23:59:57+00:00>
 

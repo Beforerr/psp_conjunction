@@ -5,6 +5,7 @@ version = "0.1.0"
 
 [deps]
 AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
+AngleBetweenVectors = "ec570357-d46e-52ed-9726-18773498274d"
 Beforerr = "49aed396-608e-4c3f-b6d6-a749216c9ea7"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
@@ -35,6 +36,8 @@ UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
 YAXArrays = "c21b50f5-aa40-41ea-b809-c0f5e47bfa5c"
 
 [compat]
+AlgebraOfGraphics = "0.10.4"
+AngleBetweenVectors = "0.3.0"
 Chain = "0.6.0"
 Dates = "1"
 Intervals = "1.10.0"

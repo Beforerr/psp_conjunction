@@ -1,10 +1,13 @@
 using PlasmaFormulary
 using Discontinuity: anisotropy
 using DataFramesMeta
+using StatsBase: mean
+using Unitful
+export Alfven_velocity_ts
 
-function alfven_velocity_ts(B, n)
+function Alfven_velocity_ts(B, n)
     n_mean = mean(parent(n))
-    return alfven_velocity.(B, n_mean)
+    return Alfven_velocity.(B, n_mean)
 end
 
 function anisotropy_ts(B, n, T3; kw...)

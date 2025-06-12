@@ -1,0 +1,57 @@
+## Data
+
+- [PSP/FIELDS Level 2 and higher data](https://fields.ssl.berkeley.edu/data/), [SPDF - Coordinated Data Analysis Web (CDAWeb)](https://cdaweb.gsfc.nasa.gov/cgi-bin/eval2.cgi?dataset=PSP_FLD_L2_MAG_RTN&index=sp_phys)
+
+Notes: `thb_peim_t3_magQ` is not accurate in solar wind mode.
+
+
+```{julia}
+using Dates
+using PSPAnisotropy
+using PSPAnisotropy: Wind, PSP, THEMIS
+using SPEDAS: tplot
+using GLMakie
+```
+
+
+### THEMIS
+
+```{julia}
+let tmin = DateTime("2021-01-15")
+    tvars = (
+        THEMIS.B_GSE,
+        THEMIS.B_FGL_GSE,
+        THEMIS.n,
+    )
+    tplot(tvars, tmin, tmin + Day(1))
+end
+```
+
+
+### Wind
+
+```{julia}
+let tmin = DateTime("2021-01-15")
+    tvars = (
+        [Wind.V_GSE_3DP, Wind.V_GSE_K0],
+        [Wind.n_p_K0, Wind.n_p_3DP, Wind.n_p_nonlin],
+    )
+    tplot(tvars, tmin, tmin + Hour(3))
+end
+```
+
+
+`Wind.V_GSE_3DP` ("WI_PM_3DP/P_VELS") has higer time resolution than `Wind.V_GSE_K0` ("WI_K0_SWE/V_GSE").
+
+`Wind.n_p_nonlin` and `Wind.n_p_K0` seem to be the same.
+
+![](../figures/others/wind.png)
+
+WI_H1_SWE	Proton_W_moment	        Proton thermal speed W (km/s) from isotropic moment analysis
+WI_H1_SWE	Proton_Wperp_moment 	Proton thermal speed Wperpendicular (km/s) from bimax moment analysis
+WI_H1_SWE	Proton_Wpar_moment	    Proton thermal speed Wparallel (km/s) from bimax moment analysis
+
+WI_H1_SWE	Proton_Wperp_nonlin	    Proton thermal speed perpendicular to the magnetic field direction [km/s].
+WI_H1_SWE	Proton_Wpar_nonlin	    Proton thermal speed parallel to the magnetic field direction [km/s].
+WI_PLSP_3DP	Ion omnidirectional fluxes 0.4-3 keV and moments, often at ~24 second resolution, PESA Low, Wind 3DP
+WI_PM_3DP	Ion moments (computed on-board) @ 3 second (spin) resolution, PESA LOW, Wind 3DP

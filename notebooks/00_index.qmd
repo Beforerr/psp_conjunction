@@ -1,36 +1,84 @@
-Interactively exploring the quantities of solar wind.
-
-## Data
-
-- [PSP/FIELDS Level 2 and higher data](https://fields.ssl.berkeley.edu/data/), [SPDF - Coordinated Data Analysis Web (CDAWeb)](https://cdaweb.gsfc.nasa.gov/cgi-bin/eval2.cgi?dataset=PSP_FLD_L2_MAG_RTN&index=sp_phys)
-
-WI_H1_SWE	Proton_W_moment	        Proton thermal speed W (km/s) from isotropic moment analysis
-WI_H1_SWE	Proton_Wperp_moment 	Proton thermal speed Wperpendicular (km/s) from bimax moment analysis
-WI_H1_SWE	Proton_Wpar_moment	    Proton thermal speed Wparallel (km/s) from bimax moment analysis
-
-WI_H1_SWE	Proton_Wperp_nonlin	    Proton thermal speed perpendicular to the magnetic field direction [km/s].
-WI_H1_SWE	Proton_Wpar_nonlin	    Proton thermal speed parallel to the magnetic field direction [km/s].
-WI_PLSP_3DP	Ion omnidirectional fluxes 0.4-3 keV and moments, often at ~24 second resolution, PESA Low, Wind 3DP
-WI_PM_3DP	Ion moments (computed on-board) @ 3 second (spin) resolution, PESA LOW, Wind 3DP
-
-Notes: `thb_peim_t3_magQ` is not accurate in solar wind mode.
+Interactively exploring the quantities of solar wind. See [Data](000_data.qmd) for more details about different data products.
 
 ## Setup
 
 ```{julia}
 using Dates
+using Speasy
 using DrWatson
 using PSPAnisotropy
 using PSPAnisotropy: Wind, PSP, THEMIS
 using Discontinuity
 using SPEDAS
+using DataFrames, DataFramesMeta
+using GLMakie
+using SPEDAS: set_meta, set_meta!
+using PartialFunctions
+
+import PSPAnisotropy.Labels as 𝑳
+import PSPAnisotropy.YLabel as 𝒀
+
+using Unitful
+Unitful.preferunits(u"nA", u"km")
+unitify(u) = (*)$u
+unitify(u::String) = (*)$uparse(u)
+```
+
+## Event example (simple)
+
+```{julia}
+df, configs = workload()
+
+psp_df = @rsubset(df, :id == "PSP"; view=true)
+psp_config = configs[1]
+wind_df = @rsubset(df, :id == "Wind"; view=true)
+wind_config = configs[2]
+thm_df = @rsubset(df, :id == "THEMIS"; view=true)
+thm_config = configs[3]
+
+thm_config["B"] = unitify("nT") ∘ thm_config["B"]
+```
+
+```{julia}
+function plot_candidate(f, event, config, toffset=Second(0); kwargs...)
+    tmin, tmax = event.t_us_ds
+    t0 = tmin - toffset
+    t1 = tmax + toffset
+
+    B_product = config["B"]
+    V_product = config["V"]
+
+    B = B_product(t0, t1) |> set_meta!(; ylabel="B", labels=𝑳.B_RTN)
+    V = V_product(t0, t1) |> set_meta!(; ylabel="V", labels=𝑳.V_RTN)
+    n = config["n"](t0, t1)
+
+    B_mva = mva(B, B) |> set_meta(; labels=𝑳.B_LMN)
+    Va = Alfven_velocity_ts(B_mva, n) .|> u"km/s" |> set_meta(; labels=𝑳.Va_LMN, ylabel="V")
+    V_mva = mva(V, B) |> set_meta(; labels=𝑳.V_LMN)
+    J = hcat(current_density(B_mva, V_mva)...) |> set_meta(; labels=𝑳.J, ylabel="J")
+
+    result = [tnorm_combine(B_mva), tsubtract(V_mva), n, tsubtract(Va), J]
+
+    f = tplot(f, result; kwargs...)
+    tlines!(f, [tmin, tmax])
+    result
+end
+
+f = Figure(; size=(1200, 800))
+res_psp = plot_candidate(f[1, 1], psp_df[18, :], psp_config, Second(10))
+# res_thm = plot_candidate(f[1, 2], thm_df[10, :], thm_config)
+# res_thm = plot_candidate(f[1, 2], thm_df[14, :], thm_config)
+# res_thm = plot_candidate(f[1, 2], thm_df[17, :], thm_config)
+# res_wind = plot_candidate(f[1, 3], wind_df[1, :], wind_config, Second(10))
+f
+
 ```
 
 ## Overview
 
 ```{julia}
 using Speasy
-using SPEDAS: ulabel, smooth, tnorm_combine, tplot
+using SPEDAS: tnorm_combine, tplot, DataSet
 using DimensionalData
 using CairoMakie
 # using GLMakie
@@ -40,10 +88,17 @@ using Unitful
 using Beforerr: _theme_legend, easy_save
 using SPEDAS.SpaceDataModel: set, extend, @set
 include("../src/psp_temp.jl")
-include("../src/calc.jl")
 include("../src/meta.jl")
 
-update_theme!(_theme_legend(; padding=(0, 0, 0, 0)))
+import Discontinuity.AlgebraOfGraphics as AoG
+
+update_theme!(;
+    figure_padding=1,
+    fonts=(; regular=AoG.firasans("Regular"), bold=AoG.firasans("Medium")),
+    Legend=(; framevisible=false, padding=(0, 0, 0, -15)),
+    Axis=(; xlabelfont=:bold, ylabelfont=:bold),
+)
+
 ```
 
 ```{julia}
@@ -72,21 +127,29 @@ tmax_psp = DateTime("2021-01-19")
 ```
 
 ```{julia}
-tvars_psp = [
-    set(tnorm_combine ∘ PSP.B_1MIN; ylabel=B_ylabel, labels=B_RTN_labels),
-    set(PSP.n; ylabel=n_ylabel),
-    set(PSP.V; ylabel=V_ylabel, labels=V_RTN_labels),
-    set(PSP.T; ylabel=T_ylabel)
+psp_B = set(tnorm_combine ∘ PSP.B_1MIN; ylabel=𝒀.B, labels=𝑳.B_RTN)
+psp_V = set(PSP.V; ylabel=𝒀.V, labels=𝑳.V_RTN)
+psp_n = set(PSP.n_spi; ylabel=𝒀.n, yscale=identity)
+
+tvars_psp = [psp_B, psp_n, psp_V]
+tvars_psp_all = [
+    psp_B,
+    set(PSP.n; ylabel=𝒀.n),
+    psp_V,
+    set(PSP.T; ylabel=𝒀.T)
 ]
 ```
 
 ```{julia}
-tvars_wind = [
-    set(tnorm_combine ∘ Wind.B_GSE; ylabel=B_ylabel, labels=B_XYZ_labels),
-    set(Wind.n; ylabel=n_ylabel),
-    # set(Wind.V_GSE_p; ylabel=V_ylabel),
-    replace_outliers! ∘ set(Wind.V_GSE_K0; ylabel=V_ylabel, labels=V_XYZ_labels),
-    set(Wind.T; ylabel=T_ylabel)
+wind_B = set(tnorm_combine ∘ Wind.B_GSE_1MIN; ylabel=𝒀.B, labels=𝑳.B_XYZ)
+wind_V = replace_outliers! ∘ set(Wind.V_GSE_K0; ylabel=𝒀.V, labels=𝑳.V_XYZ)
+
+tvars_wind = [wind_B, set(Wind.n_p_K0; ylabel=𝒀.n), wind_V]
+tvars_wind_all = [
+    wind_B,
+    set(Wind.n; ylabel=𝒀.n),
+    wind_V,
+    set(Wind.T; ylabel=𝒀.T)
 ]
 ```
 
@@ -99,7 +162,7 @@ CairoMakie.activate!()
 ```{julia}
 using Intervals: Interval
 
-function get_themis_tmask(t0, t1) 
+function get_themis_tmask(t0, t1)
     thx_v_gse = THEMIS.V_GSE(t0, t1)
     _times = @views SPEDAS.times(thx_v_gse)[(thx_v_gse[:, 1].>-200u"km/s").|(thx_v_gse[:, 2].<-50u"km/s")]
     dt = Minute(10)
@@ -110,41 +173,42 @@ end
 
 ```{julia}
 tvars_themis = [
-    set(tnorm_combine ∘ THEMIS.B_GSE; ylabel=B_ylabel, labels=B_XYZ_labels),
-    set(THEMIS.n; ylabel=n_ylabel),
-    replace_outliers! ∘ set(THEMIS.V_GSE; ylabel=V_ylabel, labels=V_XYZ_labels),
-    set(THEMIS.eTemp; ylabel=T_ylabel)
+    set(tnorm_combine ∘ THEMIS.B_GSE; ylabel=𝒀.B, labels=𝑳.B_XYZ),
+    set(THEMIS.n; ylabel=𝒀.n),
+    replace_outliers! ∘ set(THEMIS.V_GSE; ylabel=𝒀.V, labels=𝑳.V_XYZ),
+    set(THEMIS.eTemp; ylabel=𝒀.T)
 ]
-
 ```
 
 ```{julia}
-for enc in (7, 8, 9)
+update_theme!(; Lines=(linewidth=1, alpha=0.9), figure_padding=(0, 0, 0, 15))
+
+for enc in 7:9
     (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
 
     _tmask! = get_themis_tmask(tmin_wind, tmax_wind)
 
     legend = (; position=Top())
     labels = '1':'9'
+    padding = (0, 30, 0, -30)
 
-    f = Figure(; size=(1200, 600))
+    f = Figure(; size=(800, 450))
     plots = tplot(f[1, 1], tvars_psp[1:3], tmin_psp, tmax_psp; legend)
-    add_labels!(f[1, 1]; labels, open="(a.")
+    add_labels!(f[1, 1]; labels, open="(a.", padding)
     tplot(f[1, 2], tvars_wind[1:3], tmin_wind, tmax_wind; legend)
-    add_labels!(f[1, 2]; labels, open="(b.")
-    tplot(f[1, 3], _tmask! .∘ tvars_themis[1:3], tmin_wind, tmax_wind; legend)
-    add_labels!(f[1, 3]; labels, open="(c.")
+    add_labels!(f[1, 2]; labels, open="(b.", padding)
+    # tplot(f[1, 3], _tmask! .∘ tvars_themis[1:3], tmin_wind, tmax_wind; legend)
+    # add_labels!(f[1, 3]; labels, open="(c.")
     easy_save("overview-$enc")
 
-
-    f = Figure(; size=(1200, 600))
-    plots = tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; legend)
-    add_labels!(f[1, 1]; labels, open="(a.")
-    tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; legend)
-    add_labels!(f[1, 2]; labels, open="(b.")
-    tplot(f[1, 3], _tmask! .∘ tvars_themis, tmin_wind, tmax_wind; legend)
-    add_labels!(f[1, 3]; labels, open="(c.")
-    easy_save("overview-$enc-all")
+    # f = Figure(; size=(1200, 600))
+    # plots = tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; legend)
+    # add_labels!(f[1, 1]; labels, open="(a.")
+    # tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; legend)
+    # add_labels!(f[1, 2]; labels, open="(b.")
+    # tplot(f[1, 3], _tmask! .∘ tvars_themis, tmin_wind, tmax_wind; legend)
+    # add_labels!(f[1, 3]; labels, open="(c.")
+    # easy_save("overview-$enc-all")
 end
 ```
 
@@ -159,43 +223,16 @@ thm_events = ids_finder(THEMIS.B_FGL_GSE, tmin_wind, tmax_wind, tau)
 ```
 
 ```{julia}
-psp_B_mva = set(mva ∘ PSP.B; name="mva_B", labels=B_mva_labels)
-psp_V_mva = Product((PSP.V, PSP.B), mva_transform; ylabel=V_ylabel, labels=V_mva_labels)
+psp_B_mva = set(mva ∘ PSP.B; name="mva_B", labels=𝑳.B_LMN)
+psp_V_mva = Product((PSP.V, PSP.B), mva_transform; ylabel=𝒀.V, labels=𝑳.V_LMN)
 psp_eTemp_ani = Product(read_electron_temperature(), tview; labels=["Electron (parallel)", "Electron (perpendicular)"])
 psp_pTemp_ani = Product(read_proton_temperature(), tview; labels=["Proton (parallel)", "Proton (perpendicular)"])
 psp_Temp_ani = [psp_eTemp_ani, psp_pTemp_ani]
 psp_mva_all = [psp_B_mva, psp_V_mva, psp_Temp_ani]
 
-thm_B_mva = set(mva ∘ THEMIS.B_FGL_GSE; name="mva_B", labels=B_mva_labels)
-thm_V_mva = Product((THEMIS.V_GSE, THEMIS.B_FGL_GSE), mva_transform; ylabel=V_ylabel, labels=V_mva_labels)
+thm_B_mva = set(mva ∘ THEMIS.B_FGL_GSE; name="mva_B", labels=𝑳.B_LMN)
+thm_V_mva = Product((THEMIS.V_GSE, THEMIS.B_FGL_GSE), mva_transform; ylabel=𝒀.V, labels=𝑳.V_LMN)
 thm_mva_all = [thm_B_mva, thm_V_mva, THEMIS.T_ani]
-```
-
-```{julia}
-function make_mva_product(event, V, B=V; kwargs...)
-    mva_transform = make_mva_transform(t_us_ds(event)...)
-    return Product((V, B), mva_transform; kwargs...)
-end
-
-function make_mva_products(event, B, V, n=nothing, T3=nothing)
-    B_mva = make_mva_product(event, B, B; labels=B_mva_labels, ylabel=B_ylabel)
-    V_mva = make_mva_product(event, V, B; labels=V_mva_labels, ylabel=V_ylabel)
-    J = Product((V_mva, B_mva), j_transform)
-    result = [tnorm_combine ∘ B, V, tnorm_combine ∘ B_mva, set(tsubtract ∘ V_mva; ylabel=ΔV_ylabel), J]
-    isnothing(n) || push!(result, set(
-        tsubtract ∘ Product((B_mva, n), alfven_velocity_ts);
-        ylabel=ΔV_ylabel, labels=["Va_L", "Va_M", "Va_N"]
-    ))
-    isnothing(T3) || begin
-        Λ = Product((B_mva, n, T3), anisotropy_ts; ylabel="Λ")
-        Va_Λ = set(
-            tsubtract ∘ Product((B_mva, n, T3), alfven_velocity_ani_ts);
-            ylabel=ΔV_ylabel, labels=["Va*_L", "Va*_M", "Va*_N"]
-        )
-        push!(result, Λ, Va_Λ)
-    end
-    return result
-end
 ```
 
 ```{julia}
@@ -243,3 +280,143 @@ Wind Speed, Time to Earth
 400 km/s, ~3.9 days
 500 km/s, ~3.5 days
 700 km/s, ~2.5 days
+
+
+## Thickness, current density comparison and Alfvénicity
+
+```{julia}
+using AlgebraOfGraphics
+using Discontinuity: compute_params!, filter_low_mva_quality, compute_Alfvenicity_params!
+using Beforerr
+using Beforerr: add_labels!
+using CairoMakie
+using StatsBase
+CairoMakie.activate!()
+
+set_aog_theme!()
+formats = (:pdf,)
+
+foreach([:log10, :log2, :log]) do f
+    @eval import Base: $f
+    @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
+end
+
+df, configs = workload()
+𝐧 = :mva
+𝒎 = var_mapping(; 𝐧)
+
+compute_params!(df)
+
+# AoG fix
+using LaTeXStrings
+import AlgebraOfGraphics: append_unit_string
+append_unit_string(s::LaTeXStrings.LaTeXString, u::String) = s
+
+subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
+
+function alpha_layer(df, alpha)
+    psp_df = @rsubset(df, :id == "PSP"; view=true)
+    thm_df = @rsubset(df, :id == "THEMIS"; view=true)
+    wind_df = @rsubset(df, :id == "Wind"; view=true)
+    (data(thm_df) + data(wind_df)) * visual(; alpha) + data(psp_df)
+end
+```
+
+```{julia}
+fname = "properties_xy_comp-enc"
+
+for enc in 7:9, 𝐧 in [:mva, :cross]
+    view = true
+    𝒎 = var_mapping(; 𝐧)
+
+    tdf = subset_𝐧(dropmissing(@subset(df, :enc .== enc; view)), 𝐧)
+    compute_Alfvenicity_params!(tdf)
+    plt = alpha_layer(tdf, 0.618) * visual(Scatter; markersize=8, legend=(; alpha=1)) * mapping(color=:id, marker=:id)
+
+    fig = Figure(size=(800, 300))
+    axis = (; yscale=log10, xscale=log10)
+    v_axis = (; yscale=log10, xscale=log10, limits=((2, 400), (2, 400)))
+
+    ga = fig[1, 1]
+    gb = fig[1, 2]
+    gc = fig[1, 3]
+
+    spec1 = plt * mapping(𝒎.l, 𝒎.j)
+    spec2 = plt * mapping(𝒎.l_norm, 𝒎.j_norm)
+    spec3 = plt * mapping(𝒎.v_Alfven, 𝒎.v_ion)
+
+    grid1 = draw!(ga, spec1; axis)
+    draw!(gb, spec2; axis)
+    draw!(gc, spec3; axis=v_axis)
+
+    slopes = (1.0, 0.7, 0.4, 0.1)
+    foreach(slopes) do s
+        lines!(1 .. 1000, (*)$s, linestyle=:dash, label="$s")
+    end
+    axislegend("slope", position=:lt)
+
+    pretty_legend!(fig, grid1)
+    add_labels!([ga, gb, gc])
+    easy_save("$fname-$enc-$𝐧"; formats, force=true)
+    display(fig)
+end
+```
+
+![](../figures/properties_xy_comp-enc-7-mva.pdf)
+![](../figures/properties_xy_comp-enc-7-cross.pdf)
+![](../figures/properties_xy_comp-enc-8-mva.pdf)
+![](../figures/properties_xy_comp-enc-8-cross.pdf)
+![](../figures/properties_xy_comp-enc-9-mva.pdf)
+![](../figures/properties_xy_comp-enc-9-cross.pdf)
+
+
+```{julia}
+fname = "properties_hist-enc"
+
+for enc in 7:9, 𝐧 in [:mva, :cross]
+    view = true
+    𝒎 = var_mapping(; 𝐧)
+    datalimits_f = x -> quantile(x, [0.02, 0.98])
+    # drop missing and NaN
+    tdf = @chain df begin
+        @subset(:enc .== enc, .!isnan.(:L_n_cross_norm); view)
+        dropmissing
+        subset_𝐧(𝐧)
+        compute_Alfvenicity_params!
+        @subset(.!isnan.(:v_l_ratio))
+    end
+
+    spec = data(tdf) *
+           mapping([𝒎.l_log, 𝒎.j_log, 𝒎.l_norm_log, 𝒎.j_norm_log, 𝒎.v_l_ratio, 𝒎.bn], layout=AoG.dims(1) => renamer(ones(String, 6))) *
+           mapping(color=:id) *
+           AoG.density(datalimits=datalimits_f)
+
+    draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
+    easy_save("$fname-$enc-$𝐧"; formats, force=true)
+end
+```
+
+```{julia}
+for enc in 7:9
+    tdf = filter_low_mva_quality(dropmissing(@subset(df, :enc .== enc; view=true), view=true))
+    data_layer = data(tdf)
+    legend = (; markersize=10, alpha=1)
+    plt = data_layer * visual(Scatter; markersize=4, alpha=0.618, legend) * mapping(color=:id, marker=:id)
+
+    fig = Figure(size=(800, 400))
+    axis = (; yscale=identity, xscale=identity)
+
+    ga = fig[1, 1]
+    gb = fig[1, 2]
+
+    spec1 = plt * mapping(𝒎.bn, 𝒎.ω)
+    spec2 = plt * mapping(𝒎.bn, 𝒎.ω_in)
+
+    grid1 = draw!(ga, spec1; axis)
+    draw!(gb, spec2; axis)
+
+    pretty_legend!(fig, grid1)
+    add_labels!([ga, gb])
+    display(fig)
+end
+```

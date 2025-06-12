@@ -5,6 +5,9 @@
   - maybe just too localized anisotropy that is not well measured with available time resolution... 
   - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy
 
+
+
+
 # TODO
 
 - [ ] Plot Bl(t), jm(l) and ion anisotropy for these cases?
@@ -100,4 +103,37 @@ Given timeseries $(R_a, \phi_a$, $R_b(t)$,
 ![](images/paste-12.png)
 
 
+# Research notes
 
+## In-situ synergistic observations (Alignment)
+
+**Similar** type of solar wind or **Same** solar solar wind
+
+How to define alignment?
+
+- Trajectory & Orbits (theory): ballistic approximation of Parker spiral
+
+- Plasma properties (observation): 
+
+  - Invariants: plasma composition, ionization states, mass flux $n u r^2$
+
+  - Correlation: magnetic field / plasma velocity
+
+- Simulation: Trace plasma parcels evolution
+
+## Anisotropy
+
+### Estimated Anisotropy
+
+@shenComparingPlasmaAnisotropy2024
+
+
+The equation for $Δv_A$ includes a factor depending on the anisotropy of the plasma.
+
+Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
+
+![](figures/enc7/anisotropy_theory.png)
+
+### Comparison between Estimated and Observed Anisotropy
+
+![](figures/enc7/anisotropy_comparison_2d.png)

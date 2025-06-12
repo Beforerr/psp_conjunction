@@ -36,7 +36,6 @@ Studying the radial evolution of solar wind discontinuities from synergistic obs
 
 # Introduction
 
-
 @lotekarKineticscaleCurrentSheets2022
 
 The study of the spatial evolution of solar wind discontinuities is important for understanding the dynamics of the solar wind
@@ -50,8 +49,6 @@ By indentifying the periods of conjunctions and alignments between PSP and Earth
 @hudsonDiscontinuitiesAnisotropicPlasma1970
 
 # Dataset and method
-
-TODO: define alignment / conjunction
 
 Our study focuses on the evolution of solar wind discontinuities within plasma parcels as they undergo expansion. We analyze datasets from the Parker Solar Probe (PSP) and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR, and Wind) at various radial distances in the inner heliosphere, during periods of conjunctions and alignments between PSP and these Earth-orbiting missions.
 
@@ -109,21 +106,7 @@ The following data collected by Wind are used: magnetic fields with a $\sim 11$ 
 > The procedure of CS selection and methodology, briefly described below, is equivalent to those used in the paper 
 
 
-## In-situ synergistic observations (Alignment)
 
-**Similar** type of solar wind or **Same** solar solar wind
-
-How to define alignment?
-
-- Trajectory & Orbits (theory): ballistic approximation of Parker spiral
-
-- Plasma properties (observation): 
-
-  - Invariants: plasma composition, ionization states, mass flux $n u r^2$
-
-  - Correlation: magnetic field / plasma velocity
-
-- Simulation: Trace plasma parcels evolution
 
 @telloniSpacecraftRadialAlignments2023
 
@@ -159,18 +142,6 @@ For rotational discontinuities, the plasma velocity jump across them: the plasma
 ![](figures/enc7/dvl.png)
 
 K2: $Δv_l$,l demonstrates a strong correlation with $Δv_{A}$, albeit being consistently smaller.
-
-## Estimated Anisotropy
-
-The equation for $Δv_A$ includes a factor depending on the anisotropy of the plasma.
-
-Pressure anisotropy $Λ = \mu (P_∥ - P_⊥) / B^2$.
-
-![](figures/enc7/anisotropy_theory.png)
-
-## Comparison between Estimated and Observed Anisotropy
-
-![](figures/enc7/anisotropy_comparison_2d.png)
 
 ## The effect of alignment on discontinuity properties
 
@@ -210,10 +181,5 @@ Thickness and current density relationship, scale-dependent properties of curren
     > we show that it consists of several processes: discontinuity thinning (decrease in thickness normalized by the ion inertial length), intensification of currents normalized to the proton thermal current (i.e., the product of proton charge, density, and thermal velocity), and increase in the compressional component of magnetic ﬁeld variations across discontinuities.
     ```
 
-## Anistropy
-
-@shenComparingPlasmaAnisotropy2024
-
-pressure anisotropy is defined as $Λ = \mu (P_∥ - P_⊥) / B^2$.
 
 # Appendix
