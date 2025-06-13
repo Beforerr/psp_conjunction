@@ -4,7 +4,7 @@
 
 # temporarily ignore all figures
 # figures/
-*.pdf
+# *.pdf
 
 *.html
 

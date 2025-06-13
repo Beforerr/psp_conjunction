@@ -9,6 +9,7 @@ using DrWatson
 using PSPAnisotropy
 using PSPAnisotropy: Wind, PSP, THEMIS
 using Discontinuity
+using Discontinuity: compute_params!, compute_Alfvenicity_params!, filter_low_mva_quality
 using SPEDAS
 using DataFrames, DataFramesMeta
 using GLMakie
@@ -28,6 +29,8 @@ unitify(u::String) = (*)$uparse(u)
 
 ```{julia}
 df, configs = workload()
+compute_params!(df)
+compute_Alfvenicity_params!(df)
 
 psp_df = @rsubset(df, :id == "PSP"; view=true)
 psp_config = configs[1]
@@ -40,7 +43,7 @@ thm_config["B"] = unitify("nT") ∘ thm_config["B"]
 ```
 
 ```{julia}
-function plot_candidate(f, event, config, toffset=Second(0); kwargs...)
+function plot_candidate(f, event, config, toffset=Second(0); add_J=false, kwargs...)
     tmin, tmax = event.t_us_ds
     t0 = tmin - toffset
     t1 = tmax + toffset
@@ -55,9 +58,13 @@ function plot_candidate(f, event, config, toffset=Second(0); kwargs...)
     B_mva = mva(B, B) |> set_meta(; labels=𝑳.B_LMN)
     Va = Alfven_velocity_ts(B_mva, n) .|> u"km/s" |> set_meta(; labels=𝑳.Va_LMN, ylabel="V")
     V_mva = mva(V, B) |> set_meta(; labels=𝑳.V_LMN)
-    J = hcat(current_density(B_mva, V_mva)...) |> set_meta(; labels=𝑳.J, ylabel="J")
 
-    result = [tnorm_combine(B_mva), tsubtract(V_mva), n, tsubtract(Va), J]
+    result = [tnorm_combine(B_mva), tsubtract(V_mva), tsubtract(Va)]
+
+    if add_J
+        J = hcat(current_density(B_mva, V_mva)...) |> set_meta(; labels=𝑳.J, ylabel="J")
+        push!(result, J)
+    end
 
     f = tplot(f, result; kwargs...)
     tlines!(f, [tmin, tmax])
@@ -65,7 +72,9 @@ function plot_candidate(f, event, config, toffset=Second(0); kwargs...)
 end
 
 f = Figure(; size=(1200, 800))
-res_psp = plot_candidate(f[1, 1], psp_df[18, :], psp_config, Second(10))
+psp_event = filter_low_mva_quality(psp_df)[4, :]
+res_psp = plot_candidate(f[1, 1], psp_event, psp_config, Second(10))
+@info "v_l_ratio" psp_event.v_l_ratio
 # res_thm = plot_candidate(f[1, 2], thm_df[10, :], thm_config)
 # res_thm = plot_candidate(f[1, 2], thm_df[14, :], thm_config)
 # res_thm = plot_candidate(f[1, 2], thm_df[17, :], thm_config)
@@ -75,6 +84,8 @@ f
 ```
 
 ## Overview
+
+<!-- TODO: add Alfvénicity over time -->
 
 ```{julia}
 using Speasy
@@ -286,7 +297,7 @@ Wind Speed, Time to Earth
 
 ```{julia}
 using AlgebraOfGraphics
-using Discontinuity: compute_params!, filter_low_mva_quality, compute_Alfvenicity_params!
+using Discontinuity: compute_params!, compute_Alfvenicity_params!
 using Beforerr
 using Beforerr: add_labels!
 using CairoMakie
