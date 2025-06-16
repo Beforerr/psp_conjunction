@@ -1,10 +1,5 @@
 ## Data
 
-- [PSP/FIELDS Level 2 and higher data](https://fields.ssl.berkeley.edu/data/), [SPDF - Coordinated Data Analysis Web (CDAWeb)](https://cdaweb.gsfc.nasa.gov/cgi-bin/eval2.cgi?dataset=PSP_FLD_L2_MAG_RTN&index=sp_phys)
-
-Notes: `thb_peim_t3_magQ` is not accurate in solar wind mode.
-
-
 ```{julia}
 using Dates
 using PSPAnisotropy
@@ -13,8 +8,27 @@ using SPEDAS: tplot
 using GLMakie
 ```
 
+### Parker Solar Probe
+
+- [PSP/FIELDS Level 2 and higher data](https://fields.ssl.berkeley.edu/data/), [SPDF - Coordinated Data Analysis Web (CDAWeb)](https://cdaweb.gsfc.nasa.gov/cgi-bin/eval2.cgi?dataset=PSP_FLD_L2_MAG_RTN&index=sp_phys)
+
+The parameters are:
+
+- 'psp_fld_l2_mag_RTN_4_Sa_per_Cyc' (B in RTN, 0.25s resolution)
+- 'psp_swp_spi_sf00_L3_DENS' (Ion density, regular resolution)
+- 'psp_swp_spi_af00_L3_DENS' (Ion density, burst resolution)
+- 'psp_swp_spi_sf00_L3_VEL_RTN_SUN' (velocity in RTN in Sun's frame, regular resolution)
+- 'psp_swp_spi_af00_L3_VEL_RTN_SUN' (velocity in RTN in Sun's frame, burst resolution)
+- 'psp_swp_spi_sf00_L3_VEL_RTN' (velocity in RTN in spacecraft frame, regular resolution, you need this to calculate current sheet thickness)
+- 'psp_swp_spi_af00_L3_VEL_RTN' (velocity in RTN in spacecraft frame, burst resolution, you need this to calculate current sheet thickness)
+- 'Tp_spani_b' (Ion parallel and perpendicular ion temperature, regular resolution. Blue (first element in array): parallel, Red: perp)
+- 'Tp_spanib_b' (Ion parallel and perpendicular ion temperature, burst resolution. Blue (first element in array): parallel, Red: perp)
+
 
 ### THEMIS
+
+
+Notes: `thb_peim_t3_magQ` is not accurate in solar wind mode.
 
 ```{julia}
 let tmin = DateTime("2021-01-15")
@@ -55,3 +69,21 @@ WI_H1_SWE	Proton_Wperp_nonlin	    Proton thermal speed perpendicular to the magn
 WI_H1_SWE	Proton_Wpar_nonlin	    Proton thermal speed parallel to the magnetic field direction [km/s].
 WI_PLSP_3DP	Ion omnidirectional fluxes 0.4-3 keV and moments, often at ~24 second resolution, PESA Low, Wind 3DP
 WI_PM_3DP	Ion moments (computed on-board) @ 3 second (spin) resolution, PESA LOW, Wind 3DP
+
+
+### SOLO
+
+"cda/SOLO_L2_MAG-RTN-NORMAL-1-MINUTE/B_RTN",
+"cda/SOLO_L2_SWA-PAS-GRND-MOM/N",
+"cda/SOLO_L2_SWA-PAS-GRND-MOM/V_RTN",
+"cda/SOLO_L2_SWA-PAS-GRND-MOM/T",
+
+
+### STEREO
+
+
+"cda/STA_L2_PLA_1DMAX_1MIN/proton_number_density",
+"cda/STA_L2_PLA_1DMAX_1MIN/proton_bulk_speed",
+"cda/STA_L2_PLA_1DMAX_1MIN/proton_n_s_flow_angle_inst",
+"cda/STA_L2_PLA_1DMAX_1MIN/proton_e_w_flow_angle_inst",
+"cda/STA_L2_PLA_1DMAX_1MIN/proton_Vr_RTN",
