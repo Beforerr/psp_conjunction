@@ -8,7 +8,11 @@ module THEMIS
 using StatsBase
 using DimensionalData
 using Speasy: SpeasyProduct, getdimarray
-using SPEDAS: DataSet, tsort
+using SPEDAS: DataSet, tsort, times, tmask!
+using Dates
+using Unitful
+
+using Intervals: Interval
 
 function tTemp(x; dims = Ti)
     return mean.(eachslice(x; dims))
@@ -31,5 +35,14 @@ pTemp_ani = SpeasyProduct("THB_L2_MOM/thb_peim_t3_magQ"; yscale = identity)
 eTemp_ani = SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; yscale = identity)
 
 T_ani = DataSet("Temperature anisotropy", [pTemp_ani, eTemp_ani]; yscale = identity)
+
+
+function get_themis_tmask(t0, t1)
+    thx_v_gse = THEMIS.V_GSE(t0, t1)
+    _times = @views SPEDAS.times(thx_v_gse)[(thx_v_gse[:, 1].>-200u"km/s").|(thx_v_gse[:, 2].<-50u"km/s")]
+    dt = Minute(10)
+    its = union([Interval(t - dt, t + dt) for t in _times])
+    return tmask!(its)
+end
 
 end

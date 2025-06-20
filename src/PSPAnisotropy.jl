@@ -33,6 +33,9 @@ function get_timerange(enc)
     return (t0_psp, t1_psp), (t0_earth, t1_earth)
 end
 
+function produce(c)
+    ids_finder(c["B"], c["t0"], c["t1"], Second(c["tau"]), c["V"], c["n"])
+end
 
 function workload()
     psp_config = @strdict(id = "PSP", B = PSP.B, V = PSP.V, n = PSP.n_spi, tau = 30)

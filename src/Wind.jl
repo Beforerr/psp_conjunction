@@ -82,12 +82,11 @@ function para_perp_avg(T3, s)
     return DimStack((; para, perp); metadata = Dict(:ylabel => "T (eV)"))
 end
 
+para_perp_avg(s) = T3 -> para_perp_avg(T3, s)
 
 pTemp_T2 = para_perp_avg("p") ∘ pTemp_T3
 alphaTemp_T2 = para_perp_avg("\alpha") ∘ alphaTemp_T3
 eTemp_T2 = para_perp_avg("e") ∘ eTemp_T3
-
-para_perp_avg(s) = T3 -> para_perp_avg(T3, s)
 
 Temp_ani = [pTemp_T2, eTemp_T2]
 end
