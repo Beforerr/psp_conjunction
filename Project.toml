@@ -1,7 +1,7 @@
 name = "PSPAnisotropy"
 uuid = "d27cda01-26a9-4a6e-9ee9-f5867542b9ea"
-authors = ["Zijin Zhang <zzj956959688@gmail.com> and contributors"]
 version = "0.1.0"
+authors = ["Zijin Zhang <zzj956959688@gmail.com> and contributors"]
 
 [deps]
 AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
@@ -31,13 +31,19 @@ PlasmaFormulary = "d26ff896-aba2-4e70-a0a6-448627456efe"
 SPEDAS = "3930f61c-4d81-4846-ab8f-357babe068a6"
 SpaceDataModel = "0b37b92c-f0c5-4a52-bd5c-390dec20857c"
 Speasy = "09b745ad-c67d-442f-94a6-c7f4d1e4d861"
-StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 UnitfulAstro = "6112ee07-acf9-5e0f-b108-d242c714bf9f"
 UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
 VectorizedStatistics = "3b853605-1c98-4422-8364-4bd93ee0529e"
 YAXArrays = "c21b50f5-aa40-41ea-b809-c0f5e47bfa5c"
+
+[sources]
+Beforerr = {path = "/Users/zijin/.julia/dev/Beforerr"}
+Discontinuity = {path = "/Users/zijin/.julia/dev/Discontinuity"}
+PlasmaFormulary = {path = "/Users/zijin/.julia/dev/PlasmaFormulary"}
+SPEDAS = {path = "/Users/zijin/.julia/dev/SPEDAS"}
+Speasy = {path = "/Users/zijin/.julia/dev/Speasy"}
 
 [compat]
 AlgebraOfGraphics = "0.10"

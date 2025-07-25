@@ -19,6 +19,7 @@ B = SpeasyProduct("PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_C
 B_1MIN = SpeasyProduct("PSP_FLD_L2_MAG_RTN_1MIN/psp_fld_l2_mag_RTN_1min"; labels=𝑳.B_RTN)
 
 n_spi = SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/DENS"; labels = ["SPI Proton"])
+n_alpha = SpeasyProduct("PSP_SWP_SPI_SF0A_L3_MOM/DENS"; labels = ["SPI Alpha"])
 n_spc = Base.Fix2(*, u"cm^-3") ∘ SpeasyProduct("PSP_SWP_SPC_L3I/np_moment"; labels = ["SPC Proton"])
 n_sqtn = SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_density"; labels = ["SQTN Electron"])
 n_rfs = SpeasyProduct("PSP_FLD_L3_RFS_LFR_QTN/N_elec"; labels = ["RFS Electron"])

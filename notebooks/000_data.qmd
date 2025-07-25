@@ -4,7 +4,7 @@
 using Dates
 using PSPAnisotropy
 using PSPAnisotropy: Wind, PSP, THEMIS
-using SPEDAS: tplot
+using SPEDAS: tplot, set_meta
 using GLMakie
 ```
 
@@ -23,6 +23,25 @@ The parameters are:
 - 'psp_swp_spi_af00_L3_VEL_RTN' (velocity in RTN in spacecraft frame, burst resolution, you need this to calculate current sheet thickness)
 - 'Tp_spani_b' (Ion parallel and perpendicular ion temperature, regular resolution. Blue (first element in array): parallel, Red: perp)
 - 'Tp_spanib_b' (Ion parallel and perpendicular ion temperature, burst resolution. Blue (first element in array): parallel, Red: perp)
+
+the helium-to-proton abundance ratio ($A_{He} = N_α/N_p × 100\%$, where $N_α$ and $N_p$ are the number densities of helium particles and protons, respectively)
+
+```{julia}
+tmin = DateTime("2021-01-15")
+n_p = PSP.n_spi(tmin, tmin + Day(1))
+n_α = PSP.n_alpha(tmin, tmin + Day(1))
+
+A_He = set_meta(n_α ./ n_p .* 100; ylabel="A_He", units="%", scale=identity)
+
+let tmin = DateTime("2021-01-15")
+    tvars = (
+        PSP.n_spi,
+        PSP.n_alpha,
+        A_He
+    )
+    tplot(tvars, tmin, tmin + Day(1))
+end
+```
 
 
 ### THEMIS
