@@ -9,7 +9,6 @@ using LaTeXStrings
 using Beforerr
 using Discontinuity
 
-ds_order = ["Parker Solar Probe", "Solar Orbiter", "ARTEMIS", "Wind"]
 
 include("plot.jl")
 include("utils.jl")

@@ -14,6 +14,7 @@ using SPEDAS
 using DataFrames, DataFramesMeta
 using GLMakie
 using SPEDAS: set_meta, set_meta!
+using Beforerr: _theme_legend, easy_save
 using PartialFunctions
 
 import PSPAnisotropy.Labels as 𝑳
@@ -44,8 +45,7 @@ thm_config["B"] = unitify("nT") ∘ thm_config["B"]
 
 ```{julia}
 using DimensionalData
-Tp = PSP.read_proton_temperature(7:8)
-Te = PSP.read_electron_temperature()
+
 
 deunit(x::Quantity, u) = NoUnits(x / u)
 deunit(x, u) = x
@@ -62,43 +62,27 @@ end
 add_temp_anisotropy!(df, Tp, Te, args...) =
     add_temp_anisotropy!(df, Tp.para, Tp.perp, Te.para, Te.perp, args...)
 
-add_temp_anisotropy!(psp_df, Tp, Te)
-compute_anisotropy_params!(psp_df, :ion => (:Tp_para, :Tp_perp), :electron => (:Te_para, :Te_perp))
+
+function compute_PSP_anisotropy_params!(psp_df)
+    Tp = PSP.read_proton_temperature(7:8)
+    Te = PSP.read_electron_temperature()
+    add_temp_anisotropy!(psp_df, Tp, Te)
+    compute_anisotropy_params!(psp_df, :ion => (:Tp_para, :Tp_perp), :electron => (:Te_para, :Te_perp))
+end
+
+function compute_Wind_anisotropy_params!(df, tmin, tmax)
+    Wind_Tp2 = Wind.pTemp_T2(tmin, tmax; add_unit=false)
+    Wind_Te2 = Wind.eTemp_T2(tmin, tmax; add_unit=false)
+    add_temp_anisotropy!(df, Wind_Tp2, Wind_Te2, Minute(2))
+    compute_anisotropy_params!(df, :ion => (:Tp_para, :Tp_perp), :electron => (:Te_para, :Te_perp))
+end
 ```
 
 ```{julia}
-function plot_candidate(f, event, config, toffset=Second(0); add_J=false, kwargs...)
-    tmin, tmax = event.t_us_ds
-    t0 = tmin - toffset
-    t1 = tmax + toffset
-
-    B_product = config["B"]
-    V_product = config["V"]
-
-    B = B_product(t0, t1) |> set_meta!(; ylabel="B", labels=𝑳.B_RTN)
-    V = V_product(t0, t1) |> set_meta!(; ylabel="V", labels=𝑳.V_RTN)
-    n = config["n"](t0, t1)
-
-    B_mva = mva(B, B) |> set_meta(; labels=𝑳.B_LMN)
-    Va = Alfven_velocity_ts(B_mva, n) .|> u"km/s" |> set_meta(; labels=𝑳.Va_LMN, ylabel="V")
-    V_mva = mva(V, B) |> set_meta(; labels=𝑳.V_LMN)
-
-    result = [tnorm_combine(B_mva), tsubtract(V_mva), tsubtract(Va)]
-
-    if add_J
-        J = hcat(current_density(B_mva, V_mva)...) |> set_meta(; labels=𝑳.J, ylabel="J")
-        push!(result, J)
-    end
-
-    f = tplot(f, result; kwargs...)
-    tlines!(f, [tmin, tmax])
-    result
-end
-
 f = Figure(; size=(1200, 800))
 psp_event = filter_low_mva_quality(psp_df)[5, :]
-res_psp = plot_candidate(f[1, 1], psp_event, psp_config, Second(10))
-@info "v_l_ratio" psp_event.v_l_ratio
+fax, res_psp = plot_candidate(f[1, 1], psp_event, psp_config, Second(10))
+@info "v_l_ratio" psp_event.V_l_ratio psp_event.V_l_ratio_max
 # res_thm = plot_candidate(f[1, 2], thm_df[10, :], thm_config)
 # res_thm = plot_candidate(f[1, 2], thm_df[14, :], thm_config)
 # res_thm = plot_candidate(f[1, 2], thm_df[17, :], thm_config)
@@ -120,7 +104,6 @@ using CairoMakie
 using Statistics
 using PartialFunctions
 using Unitful
-using Beforerr: _theme_legend, easy_save
 using SPEDAS.SpaceDataModel: set, extend, @set
 
 import AlgebraOfGraphics as AoG
@@ -189,10 +172,55 @@ function get_vl_ratio_ts(df, col, dt::TimePeriod=Hour(4))
 end
 
 function get_vl_ratio_ts(df, dt::TimePeriod=Hour(4))
-    v_l_ratio_ts, n1 = _get_vl_ratio_ts(df, :v_l_ratio, dt)
-    v_l_ratio_Λ_ts, n2 = _get_vl_ratio_ts(df, :v_l_ratio_Λ, dt)
+    v_l_ratio_ts, n1 = get_vl_ratio_ts(df, :V_l_ratio, dt)
+    v_l_ratio_Λ_ts, n2 = get_vl_ratio_ts(df, :V_l_ratio_Λ, dt)
     vl_ratio_ts = hcat(v_l_ratio_ts, v_l_ratio_Λ_ts)
     return vl_ratio_ts, n1
+end
+```
+
+```{julia}
+function modify_faxs_base!(faxs)
+    B_ax = faxs.axes[1]
+    B_ax.ylabel[] = 𝒀.B
+    V_ax = faxs.axes[3]
+    V_ax.ylabel[] = 𝒀.V
+    n_ax = faxs.axes[2]
+    n_ax.yscale[] = identity
+    n_ax.ylabel[] = 𝒀.n
+end
+
+function modify_faxs_vl!(faxs)
+    i = 1
+    T_ax = faxs.axes[end-3-i]
+    T_ax.ylabel[] = "T (eV)"
+
+    R_ax = faxs.axes[end-2-i]
+    ylims!(R_ax, 0.09, 0.85)
+
+    β_ax = faxs.axes[end-i]
+    β_ax.yscale[] = log10
+    ylims!(β_ax, 8e-2, 4e1)
+
+    A_He_ax = faxs.axes[end]
+    A_He_ax.yscale[] = identity
+    A_He_ax.ylabel[] = L"A_{\text{He}} (%)"
+    ylims!(A_He_ax, 0, 8)
+end
+
+f = Figure(; size=(800, 600))
+# faxs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...)
+modify_faxs_vl!(faxs)
+f
+```
+
+```{julia}
+let tmin = tmin_psp, tmax = tmax_psp
+    f = Figure(; size=(800, 600))
+
+
+    faxs = plot_Wind(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(wind_df)...)
+    f
 end
 ```
 
@@ -206,30 +234,7 @@ update_theme!(; Lines=(linewidth=1, alpha=0.9), figure_padding=(1, 1, 1, 15))
 # for enc in 7:9
 plot_vl_ratio = true
 
-function modify_faxs_base!(faxs)
-    B_ax = faxs.axes[1]
-    B_ax.ylabel[] = 𝒀.B
-    V_ax = faxs.axes[3]
-    V_ax.ylabel[] = 𝒀.V
-    n_ax = faxs.axes[2]
-    n_ax.yscale[] = identity
-    n_ax.ylabel[] = 𝒀.n
-end
-
-function modify_faxs_vl!(faxs)
-    T_ax = faxs.axes[end-3]
-    T_ax.ylabel[] = "T (eV)"
-
-    R_ax = faxs.axes[end-1]
-    ylims!(R_ax, 0.09, 0.85)
-
-    β_ax = faxs.axes[end]
-    β_ax.yscale[] = log10
-    β_ax.ylabel[] = "β"
-    ylims!(β_ax, 8e-2, 4e1)
-end
-
-for enc in 7:9
+for enc in 7:7
     (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
 
     legend = (; position=Top())
@@ -238,59 +243,29 @@ for enc in 7:9
 
     f = Figure(; size=(800, 600))
 
-    tvars_psp = (psp_B, psp_n, psp_V)
-    tvars_wind = (wind_B, wind_n, wind_V)
-
     fname = "overview-$enc"
 
     if plot_vl_ratio
         fname = "overview-vl-$enc"
+        faxs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...; legend)
+        modify_faxs_base!(faxs)
+        plot_vl_ratio && modify_faxs_vl!(faxs)
 
-        B = set_meta!(PSP.B_1MIN(tmin_psp, tmax_psp); labels=𝑳.B_RTN)
-        V = set_meta!(psp_V(tmin_psp, tmax_psp); labels=𝑳.V_RTN)
-        n = PSP.n_spi(tmin_psp, tmax_psp) |> tvec
-        T = PSP.pTemp(tmin_psp, tmax_psp; add_unit=false) |> tvec
-
-        B_mag = tnorm(B)
-        β = Discontinuity.plasma_beta.(tsync(T, n, B_mag)...)
-
-        T = rebuild(T; metadata=(; labels=[L"T_p"]))
-
-        psp_v_l_ratio_ts, psp_count = get_vl_ratio_ts(psp_df)
-        tvars_psp = (B_mag, n, tnorm(V), tmean.((T, Tp, Te), Minute(8)), psp_count, psp_v_l_ratio_ts, β)
-
-        Wind_Tp2 = Wind.pTemp_T2(tmin_wind, tmax_wind; add_unit=false)
-        Wind_Te2 = Wind.eTemp_T2(tmin_wind, tmax_wind; add_unit=false)
-        add_temp_anisotropy!(wind_df, Wind_Tp2, Wind_Te2, Minute(2))
-        compute_anisotropy_params!(wind_df, :ion => (:Tp_para, :Tp_perp), :electron => (:Te_para, :Te_perp))
-
-        B = Wind.B_GSE_1MIN(tmin_wind, tmax_wind)
-        V = wind_V(tmin_wind, tmax_wind)
-        n = Wind.n_p_K0(tmin_wind, tmax_wind) |> tsort
-        T = rebuild(Wind.T_p_PLSP(tmin_wind, tmax_wind; add_unit=false) |> tsort; metadata=(; labels=[L"T_p"]))
-        B_mag = tnorm(B)
-        β = Discontinuity.plasma_beta.(tsync(T, n, B_mag)...)
-
-        wind_v_l_ratio_ts, wind_count = get_vl_ratio_ts(wind_df)
-        tvars_wind = (B_mag, n, tnorm(tsort(V)), [T, Wind_Tp2, Wind_Te2], wind_count, wind_v_l_ratio_ts, β)
+        compute_Wind_anisotropy_params!(wind_df, tmin_wind, tmax_wind)
+        faxs = plot_Wind(f[1, 2], tmin_wind, tmax_wind, get_vl_ratio_ts(wind_df)...; legend)
+        modify_faxs_base!(faxs)
+        plot_vl_ratio && modify_faxs_vl!(faxs)
     end
 
-    faxs = tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; legend)
-    modify_faxs_base!(faxs)
-    plot_vl_ratio && modify_faxs_vl!(faxs)
     add_labels!(f[1, 1]; labels, open="(a.", padding)
-    faxs = tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; legend)
-    modify_faxs_base!(faxs)
-    plot_vl_ratio && modify_faxs_vl!(faxs)
     add_labels!(f[1, 2]; labels, open="(b.", padding)
-
-    # _tmask! = get_themis_tmask(tmin_wind, tmax_wind)
-    # tplot(f[1, 3], _tmask! .∘ tvars_themis[1:3], tmin_wind, tmax_wind; legend)
-    # add_labels!(f[1, 3]; labels, open="(c.")
 
     easy_save(fname; formats=(:pdf,))
     display(f)
 
+
+    # tvars_psp = (psp_B, psp_n, psp_V)
+    # tvars_wind = (wind_B, wind_n, wind_V)
     # f = Figure(; size=(1200, 600))
     # plots = tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; legend)
     # add_labels!(f[1, 1]; labels, open="(a.")
@@ -374,14 +349,14 @@ Wind Speed, Time to Earth
 ## The effect of tau
 
 ```{julia}
-psp_df_taus = map([8, 16, 32]) do tau
+psp_df_taus = map([2, 4, 8, 16, 32]) do tau
     psp_config["tau"] = tau
     df = PSPAnisotropy.produce(psp_config)
     @transform! df :tau = tau
     compute_Alfvenicity_params!(df)
 end
 
-wind_df_taus = map([8, 16, 32]) do tau
+wind_df_taus = map([2, 4, 8, 16, 32]) do tau
     wind_config["tau"] = tau
     df = PSPAnisotropy.produce(wind_config)
     @transform! df :tau = tau
@@ -389,12 +364,30 @@ wind_df_taus = map([8, 16, 32]) do tau
 end
 ```
 
+Check examples
+
+```{julia}
+f = Figure(; size=(1200, 800))
+# let df = psp_df_taus[1], config = psp_config
+begin
+    df = @subset(wind_df_taus[1], :index_std .> 4)
+    config = wind_config
+    event = filter_low_mva_quality(df)[5, :]
+    fax, res_psp = plot_candidate(f[1, 1], event, config, Second(10))
+    plot_var_info!(fax, event)
+    @info "v_l_ratio" event.V_l_ratio event.V_l_ratio_max
+end
+f
+```
+
 ```{julia}
 f = Figure()
 axR1 = Axis(f[1, 1])
 axn1 = Axis(f[2, 1])
+filter_func = df -> @subset(df, :index_std .> 2)
+
 for (i, df) in enumerate(psp_df_taus)
-    v_l_ratio_ts, n = get_vl_ratio_ts(df, :v_l_ratio)
+    v_l_ratio_ts, n = get_vl_ratio_ts(filter_func(df), :V_l_ratio_max)
     lines!(axR1, v_l_ratio_ts)
     lines!(axn1, n)
 end
@@ -402,13 +395,13 @@ end
 axR2 = Axis(f[1, 2])
 axn2 = Axis(f[2, 2])
 for (i, df) in enumerate(wind_df_taus)
-    v_l_ratio_ts, n = get_vl_ratio_ts(df, :v_l_ratio)
+    v_l_ratio_ts, n = get_vl_ratio_ts(filter_func(df), :V_l_ratio_max)
     lines!(axR2, v_l_ratio_ts)
     lines!(axn2, n)
 end
 
-ylims!.((axR1, axR2), 0.2, 0.8)
-ylims!.((axn1, axn2), 11, 121)
+ylims!.((axR1, axR2), 0, 0.8)
+# ylims!.((axn1, axn2), 0, 121)
 easy_save("vl_ratio-tau")
 f
 ```

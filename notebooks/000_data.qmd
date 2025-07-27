@@ -66,8 +66,14 @@ end
 ```{julia}
 let tmin = DateTime("2021-01-15")
     tvars = (
-        [Wind.V_GSE_3DP, Wind.V_GSE_K0],
-        [Wind.n_p_K0, Wind.n_p_3DP, Wind.n_p_nonlin],
+    # [Wind.V_GSE_3DP, Wind.V_GSE_K0],
+        [
+        unitify("1/cm^3") ∘ SpeasyProduct("WI_K0_SWE/Np"; labels=["Proton"]),
+        SpeasyProduct("WI_PM_3DP/P_DENS"; labels=["Proton (3DP, PESA Low)"]),
+        SpeasyProduct("WI_H1_SWE/Proton_Np_nonlin", labels=["Proton (non-linear fitting)"]),
+        SpeasyProduct("WI_H1_SWE/Alpha_Na_nonlin", labels=["Alpha (non-linear fitting)"]),
+        Wind.n_e
+    ],
     )
     tplot(tvars, tmin, tmin + Hour(3))
 end

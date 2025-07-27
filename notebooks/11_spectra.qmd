@@ -1,0 +1,143 @@
+
+
+
+<a href="https://docs.juliadsp.org/stable/periodograms/">Periodograms - periodogram estimation · DSP.jl</a>
+
+
+<a href="https://github.com/lootie/Multitaper.jl">lootie/Multitaper.jl: A Julia package for frequency domain analysis of time series</a>
+
+[pmtm - Multitaper power spectral density estimate - MATLAB](https://www.mathworks.com/help/signal/ref/pmtm.html)
+
+Example spectra of Ev, Eb, and Er, calculated over a 2 day interval (2007 July 6 00:00:00–2007 July 8 00:00:00) using the kinetic normalization, are shown in Figure 1.
+
+```{julia}
+using Dates
+using PSPAnisotropy: Wind
+tmin = DateTime("2007-07-06")
+tmax = DateTime("2007-07-08")
+B = Wind.B(tmin, tmax; add_unit=false)
+```
+
+```{julia}
+using DSP
+
+pxx = periodogram(B[:, 1])
+
+```
+
+
+```{julia}
+# first, add the package if you haven't already:
+# import Pkg; Pkg.add("Multitaper")
+
+using Statistics
+using LinearAlgebra
+using Multitaper
+
+const μ0 = 4π * 1e-7     # vacuum permeability [H/m]
+
+"""
+    compute_fluctuations(v, B, rho)
+
+Given
+  • v    : N×3 array of velocity (m/s)
+  • B    : N×3 array of magnetic field (T)
+  • rho  : length‐N vector of mass density (kg/m³)
+
+Returns
+  • δv   : N×3 array of velocity fluctuations
+  • δb   : N×3 array of magnetic‐field fluctuations in Alfvén units (m/s)
+"""
+function compute_fluctuations(v::AbstractMatrix, B::AbstractMatrix, rho::AbstractVector)
+    @assert size(v) == size(B) "v and B must be the same size"
+    @assert size(v, 1) == length(rho) "rho length must match rows of v,B"
+
+    # subtract mean
+    v̄ = mean(v, dims=1)
+    δv = v .- v̄
+
+    # magnetic field in velocity units: b = B / sqrt(μ0 ρ)
+    b = B ./ sqrt.(μ0 .* rho)[:, None]
+    b̄ = mean(b, dims=1)
+    δb = b .- b̄
+
+    return δv, δb
+end
+
+"""
+    trace_psd_mt(x, dt; NW=4)
+
+Compute the trace (sum over 3 components) PSD of a 3‐component fluctuation array x via multitaper.
+
+Arguments:
+  • x    : N×3 array of fluctuation time series
+  • dt   : sampling interval [s]
+Keyword:
+  • NW   : time–bandwidth product (default 4)
+
+Returns
+  • f    : vector of frequency bins [Hz]
+  • P    : vector of trace power spectrum P(f) = ∑ᵢ S_ii(f)
+"""
+function trace_psd_mt(x::AbstractMatrix, dt::Real; NW::Real=4)
+    N, nc = size(x)
+    @assert nc == 3 "x must be N×3"
+
+    fs = 1 / dt
+    # how many tapers? standard choice K = 2NW − 1
+    K = Int(2 * NW - 1)
+
+    # accumulate over components
+    f = nothing
+    P_trace = nothing
+
+    for comp in 1:3
+        # multitaper spectrum for this component
+        spec = mt_spectrum(x[:, comp];
+            NW=NW,
+            K=K,
+            fs=fs,
+            adaptive=false)  # or true for adaptive weighting
+
+        f === nothing && (f = spec.f)
+        P_trace === nothing && (P_trace = zeros(length(f)))
+        P_trace .+= spec.amp .^ 2           # mt_spectrum.amp is the amplitude spectrum
+    end
+
+    return f, P_trace
+end
+
+"""
+    compute_sigma(v, B, rho, dt; NW=4)
+
+Compute normalized cross‐helicity σ_C(f) and normalized residual energy σ_R(f)
+as functions of frequency.
+
+Returns
+  • f      : frequency vector [Hz]
+  • σ_C    : normalized cross‐helicity at each f
+  • σ_R    : normalized residual energy at each f
+"""
+function compute_sigma(v::AbstractMatrix, B::AbstractMatrix, rho::AbstractVector, dt::Real; NW::Real=4)
+    # fluctuations
+    δv, δb = compute_fluctuations(v, B, rho)
+
+    # trace PSDs
+    f, E_v = trace_psd_mt(δv, dt; NW=NW)
+    _, E_b = trace_psd_mt(δb, dt; NW=NW)
+
+    # build z± and get their trace PSD
+    zplus = δv .+ δb
+    zminus = δv .- δb
+    _, E_p = trace_psd_mt(zplus, dt; NW=NW)
+    _, E_m = trace_psd_mt(zminus, dt; NW=NW)
+
+    # normalized cross‐helicity σ_C = (E₊ – E₋)/(E₊ + E₋)
+    σ_C = (E_p .- E_m) ./ (E_p .+ E_m)
+
+    # normalized residual energy   σ_R = (E_v – E_b)/(E_v + E_b)
+    σ_R = (E_v .- E_b) ./ (E_v .+ E_b)
+
+    return f, σ_C, σ_R
+end
+```

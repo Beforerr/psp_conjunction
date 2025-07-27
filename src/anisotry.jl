@@ -1,3 +1,5 @@
+using LaTeXStrings
+
 # %%
 # Anisotry related plots
 Λ_lab = L"\Lambda"

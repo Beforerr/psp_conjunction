@@ -101,7 +101,6 @@ begin
         [psp_df, thm_df, wind_df, solo_df],
         cols=:intersect
     )
-    levels!(df.dataset, ds_order)
 
     earth_df = reduce(
         vcat,

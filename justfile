@@ -16,9 +16,10 @@ install-deps:
 install-julia-deps:
     #!/usr/bin/env -S julia --threads=auto --project=.
     using Pkg
+    Pkg.update()
     Pkg.develop([
         PackageSpec(url="https://github.com/Beforerr/Beforerr.jl"),
-        PackageSpec(url="https://github.com/Beforerr/SPEDAS.jl"),
+        PackageSpec(url="https://github.com/JuliaSpacePhysics/SPEDAS.jl"),
         PackageSpec(url="https://github.com/SciQLop/Speasy.jl"),
         PackageSpec(url="https://github.com/Beforerr/Discontinuity.jl"),
         PackageSpec(url="https://github.com/JuliaPlasma/PlasmaFormulary.jl"),

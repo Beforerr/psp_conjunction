@@ -20,7 +20,9 @@ include("Wind.jl")
 include("THEMIS.jl")
 include("dataset.jl")
 
-const psp_events = CSV.read("data/psp_events.csv", DataFrame; dateformat = "yyyy-mm-dd HH:MM")
+include("plot.jl")
+
+const psp_events = CSV.read("data/psp_events.csv", DataFrame; dateformat="yyyy-mm-dd HH:MM")
 
 function get_timerange(enc)
     Δt_min = Day(2)
@@ -38,10 +40,14 @@ function produce(c)
 end
 
 function workload()
-    psp_config = @strdict(id = "PSP", B = PSP.B, V = PSP.V, n = PSP.n_spi, tau = 30)
-    wind_config = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, tau = 30)
-    thm_config = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, tau = 30)
-    configs = [psp_config, wind_config, thm_config]
+    timeranges = get_timerange.(7:9)
+    psp_timeranges = getindex.(timeranges, 1)
+    earth_timeranges = getindex.(timeranges, 2)
+    configs = (;
+        PSP=@strdict(id = "PSP", B = PSP.B, V = PSP.V, n = PSP.n_spi, tau = 30, timeranges = psp_timeranges),
+        Wind=@strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, tau = 30, timeranges = earth_timeranges),
+        THM=@strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, tau = 30, timeranges = earth_timeranges),
+    )
 
     df = mapreduce(vcat, 7:9) do enc
         tpsp, tearth = get_timerange(enc)
@@ -50,14 +56,14 @@ function workload()
             timerange = id == "PSP" ? tpsp : tearth
             c["t0"] = Date(timerange[1])
             c["t1"] = Date(timerange[2])
-            res, = produce_or_load(c, datadir(); tag = false) do c
+            res, = produce_or_load(c, datadir(); tag=false) do c
                 c["events"] = ids_finder(c["B"], c["t0"], c["t1"], Second(c["tau"]), c["V"], c["n"])
                 c
             end
             @rtransform!(res["events"], :enc = enc, :id = id)
         end
     end
-    df.id = categorical(df.id; compress = true)
+    df.id = categorical(df.id; compress=true)
     return df, configs
 end
 
