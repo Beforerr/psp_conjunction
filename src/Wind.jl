@@ -21,7 +21,6 @@ WI_ELM2_3DP_labels = ["Electron"] # "Electron (3DP, EESA Low)"
 B = SpeasyProduct("WI_H4-RTN_MFI/BRTN")
 B_RTN_1MIN = SpeasyProduct("WI_H3-RTN_MFI/BRTN")
 
-V_RTN = SpeasyProduct("WI_K0_SWE_RTN/V_RTN") # Note: it contains some weird spikes
 
 function combine_getdimarrays(ps, args...)
     das = getdimarray.(ps, args...)
@@ -40,8 +39,9 @@ V_RTN_nonlin = Product(
 
 B_GSE = SpeasyProduct("WI_H2_MFI/BGSE")
 B_GSE_1MIN = SpeasyProduct("WI_H0_MFI/BGSE")
-V_GSE_3DP = SpeasyProduct("WI_PM_3DP/P_VELS")
-V_GSE_K0 = SpeasyProduct("WI_K0_SWE/V_GSE")  # Note: it contains some weird spikes
+V_GSE_3DP = SpeasyProduct("WI_PM_3DP/P_VELS") #about 3.1s/Sample
+V_GSE_K0 = SpeasyProduct("WI_K0_SWE/V_GSE")  # Note: it contains some weird spikes, about 100s/Sample
+V_RTN = SpeasyProduct("WI_K0_SWE_RTN/V_RTN") # Note: it contains some weird spikes
 
 
 n_p_K0 = replace_outliers! ∘ SpeasyProduct("WI_K0_SWE/Np"; labels=["Proton"]) # Time resolution is 110 seconds

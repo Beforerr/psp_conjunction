@@ -2,6 +2,7 @@ import AlgebraOfGraphics: draw!
 import Discontinuity
 using SPEDAS: tvec, set_meta, set_meta!
 using Statistics
+using CairoMakie
 
 include("anisotry.jl")
 
@@ -156,4 +157,15 @@ function plot_dvl(; legend=legend_kwargs)
     axislegend("slope", position=:ct)
 
     return easy_save(fname)
+end
+
+
+using DSP
+export plot_spectras!
+
+function plot_spectras!(ax, specs...; labels = nothing, step=10, kw...)
+    map(enumerate(specs)) do (i, spec)
+        label = get(labels, i, nothing)
+        lines!(ax, freq(spec)[2:step:end], power(spec)[2:step:end]; label=label, kw...)
+    end
 end

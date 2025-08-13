@@ -5,6 +5,7 @@ using Dates
 using PSPAnisotropy
 using PSPAnisotropy: Wind, PSP, THEMIS
 using SPEDAS: tplot, set_meta
+using Speasy
 using GLMakie
 ```
 
@@ -43,6 +44,22 @@ let tmin = DateTime("2021-01-15")
 end
 ```
 
+Different coordinate frames
+
+```{julia}
+tmin = DateTime("2021-01-15")
+tvars = [
+    "PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN",
+    "PSP_SWP_SPI_SF00_L3_MOM/VEL_SC",
+    "PSP_SWP_SPI_SF00_L3_MOM/VEL_INST",
+    "PSP_SWP_SPI_SF00_L3_MOM/MAGF_SC",
+    "PSP_FLD_L2_MAG_SC_4_SA_PER_CYC/psp_fld_l2_mag_SC_4_Sa_per_Cyc"
+]
+tplot(tvars, tmin, tmin + Hour(1))
+```
+
+"PSP_SWP_SPI_SF00_L3_MOM" ~3.5s resolution
+
 
 ### THEMIS
 
@@ -64,16 +81,17 @@ end
 ### Wind
 
 ```{julia}
-let tmin = DateTime("2021-01-15")
+let tmin = DateTime("2021-01-15"), add_unit = false
     tvars = (
-    # [Wind.V_GSE_3DP, Wind.V_GSE_K0],
+        Wind.V_GSE_K0,
+        Wind.V_GSE_3DP,
         [
-        unitify("1/cm^3") ∘ SpeasyProduct("WI_K0_SWE/Np"; labels=["Proton"]),
-        SpeasyProduct("WI_PM_3DP/P_DENS"; labels=["Proton (3DP, PESA Low)"]),
-        SpeasyProduct("WI_H1_SWE/Proton_Np_nonlin", labels=["Proton (non-linear fitting)"]),
-        SpeasyProduct("WI_H1_SWE/Alpha_Na_nonlin", labels=["Alpha (non-linear fitting)"]),
-        Wind.n_e
-    ],
+            SpeasyProduct("WI_K0_SWE/Np"; labels=["Proton"]),
+            SpeasyProduct("WI_PM_3DP/P_DENS"; labels=["Proton (3DP, PESA Low)"]),
+            SpeasyProduct("WI_H1_SWE/Proton_Np_nonlin", labels=["Proton (non-linear fitting)"]),
+            SpeasyProduct("WI_H1_SWE/Alpha_Na_nonlin", labels=["Alpha (non-linear fitting)"]),
+            Wind.n_e
+        ],
     )
     tplot(tvars, tmin, tmin + Hour(3))
 end

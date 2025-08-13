@@ -12,101 +12,196 @@ Example spectra of Ev, Eb, and Er, calculated over a 2 day interval (2007 July 6
 
 ```{julia}
 using Dates
+using DSP
+using PSPAnisotropy
 using PSPAnisotropy: Wind
+using SPEDAS
+using Unitful
+
 tmin = DateTime("2007-07-06")
 tmax = DateTime("2007-07-08")
-B = Wind.B(tmin, tmax; add_unit=false)
+B = Wind.B_GSE(tmin, tmax)
+V = Wind.V_GSE_3DP(tmin, tmax) |> dropna
+n = Wind.n_p_3DP(tmin, tmax) |> dropna
 ```
 
 ```{julia}
-using DSP
+using PlasmaFormulary
 
-pxx = periodogram(B[:, 1])
+V_B = Alfven_velocity.(tsync(B, n)...)
 
+z_pm = PlasmaFormulary.Elsässer.(tsync(V, B, n)...)
+z_plus, z_minus = getindex.(z_pm, 1), getindex.(z_pm, 2)
 ```
 
-
 ```{julia}
-# first, add the package if you haven't already:
-# import Pkg; Pkg.add("Multitaper")
-
-using Statistics
-using LinearAlgebra
-using Multitaper
-
-const μ0 = 4π * 1e-7     # vacuum permeability [H/m]
-
 """
-    compute_fluctuations(v, B, rho)
+    trace_pgram(f, x; kwargs...)
 
-Given
-  • v    : N×3 array of velocity (m/s)
-  • B    : N×3 array of magnetic field (T)
-  • rho  : length‐N vector of mass density (kg/m³)
-
-Returns
-  • δv   : N×3 array of velocity fluctuations
-  • δb   : N×3 array of magnetic‐field fluctuations in Alfvén units (m/s)
+Compute the trace (sum over components) power spectral density of a multi-component time series. Returns a `Periodogram` object with trace power spectral density
 """
-function compute_fluctuations(v::AbstractMatrix, B::AbstractMatrix, rho::AbstractVector)
-    @assert size(v) == size(B) "v and B must be the same size"
-    @assert size(v, 1) == length(rho) "rho length must match rows of v,B"
-
-    # subtract mean
-    v̄ = mean(v, dims=1)
-    δv = v .- v̄
-
-    # magnetic field in velocity units: b = B / sqrt(μ0 ρ)
-    b = B ./ sqrt.(μ0 .* rho)[:, None]
-    b̄ = mean(b, dims=1)
-    δb = b .- b̄
-
-    return δv, δb
+function trace_pgram(f, x; fs=nothing, kwargs...)
+    # Compute periodogram for each component and sum
+    fs = something(fs, samplingrate(x) / 1u"Hz")
+    pgrams = map(eachcol(x)) do col
+        f(col; fs, kwargs...)
+    end
+    trace_power = sum(power, pgrams)
+    # Return periodogram with trace power and same frequency grid
+    return DSP.Periodograms.Periodogram(trace_power, freq(pgrams[1]))
 end
 
-"""
-    trace_psd_mt(x, dt; NW=4)
+```
 
-Compute the trace (sum over 3 components) PSD of a 3‐component fluctuation array x via multitaper.
+
+```{julia}
+V_B_pxx_mt = trace_pgram(mt_pgram, ustrip(V_B))
+
+V_pxx = trace_pgram(periodogram, ustrip(V .|> u"m/s"))
+V_pxx_mt = trace_pgram(mt_pgram, ustrip(V .|> u"m/s"))
+z_plus_pxx_mt = trace_pgram(mt_pgram, ustrip(z_plus))
+z_minus_pxx_mt = trace_pgram(mt_pgram, ustrip(z_minus))
+```
+
+```{julia}
+using CairoMakie
+
+function plot_pxx_pxx_mt!(ax, pxx, pxx_mt; step=10, linewidth=2, alpha=0.8)
+    # Get frequency and power data
+    freqs_pxx = freq(pxx)
+    powers_pxx = power(pxx)
+    freqs_mt = freq(pxx_mt)
+    powers_mt = power(pxx_mt)
+
+    p1 = lines!(ax, freqs_pxx[2:step:end], powers_pxx[2:step:end]; label="Periodogram", linewidth, alpha)
+    p2 = lines!(ax, freqs_mt[2:step:end], powers_mt[2:step:end]; label="Multitaper", linewidth, alpha)
+    axislegend(ax, position=:lt)
+    return p1, p2
+end
+
+function plot_pxx_pxx_mt(pxx, pxx_mt; kw...)
+    f = Figure(size=(800, 600))
+    ax = Axis(f[1, 1],
+        xlabel="Frequency (Hz)",
+        ylabel="Power Spectral Density",
+        xscale=log10,
+        yscale=log10,
+        title="Comparison of Power Spectral Density Methods"
+    )
+    plot_pxx_pxx_mt!(ax, pxx, pxx_mt; kw...)
+    return f
+end
+
+plot_pxx_pxx_mt(V_pxx, V_pxx_mt)
+```
+
+
+```{julia}
+"""
+    parker_spiral_direction(r_au; Ω=2.87e-6, V_sw=400e3)
+
+Compute the expected Parker spiral magnetic field direction at distance r_au from the Sun.
 
 Arguments:
-  • x    : N×3 array of fluctuation time series
-  • dt   : sampling interval [s]
-Keyword:
-  • NW   : time–bandwidth product (default 4)
+- `r_au`: distance from Sun in AU
+- `Ω`: solar rotation rate [rad/s] (default: 2.87e-6 rad/s)
+- `V_sw`: solar wind speed [m/s] (default: 400 km/s)
 
-Returns
-  • f    : vector of frequency bins [Hz]
-  • P    : vector of trace power spectrum P(f) = ∑ᵢ S_ii(f)
+Returns:
+- Unit vector in Parker spiral direction (radial, tangential, normal components)
 """
-function trace_psd_mt(x::AbstractMatrix, dt::Real; NW::Real=4)
-    N, nc = size(x)
-    @assert nc == 3 "x must be N×3"
+function parker_spiral_direction(r_au; Ω=2.87e-6, V_sw=400e3)
+    r = r_au * 1.496e11  # convert AU to meters
 
-    fs = 1 / dt
-    # how many tapers? standard choice K = 2NW − 1
-    K = Int(2 * NW - 1)
+    # Parker spiral angle
+    φ = atan(Ω * r / V_sw)
 
-    # accumulate over components
-    f = nothing
-    P_trace = nothing
-
-    for comp in 1:3
-        # multitaper spectrum for this component
-        spec = mt_spectrum(x[:, comp];
-            NW=NW,
-            K=K,
-            fs=fs,
-            adaptive=false)  # or true for adaptive weighting
-
-        f === nothing && (f = spec.f)
-        P_trace === nothing && (P_trace = zeros(length(f)))
-        P_trace .+= spec.amp .^ 2           # mt_spectrum.amp is the amplitude spectrum
-    end
-
-    return f, P_trace
+    # Unit vector: (radial, tangential, normal)
+    B_parker = [cos(φ), -sin(φ), 0.0]
+    return B_parker / norm(B_parker)
 end
 
+"""
+    rectify_magnetic_field(B, r_au=1.0)
+
+Rectify magnetic field direction based on Parker spiral to ensure consistent
+z+ (outward) and z- (inward) Alfvén wave identification.
+
+Arguments:
+- `B`: N×3 magnetic field array
+- `r_au`: distance from Sun in AU (default: 1.0)
+
+Returns:
+- `B_rect`: rectified magnetic field with consistent Parker spiral alignment
+"""
+function rectify_magnetic_field(B, r_au=1.0)
+    B_parker = parker_spiral_direction(r_au)
+    B_rect = copy(B)
+
+    for i in 1:size(B, 1)
+        B_vec = B[i, :]
+        # Check if B is aligned with Parker spiral (dot product > 0)
+        if dot(B_vec, B_parker) < 0
+            # Flip B direction if anti-aligned with Parker spiral
+            B_rect[i, :] = -B_vec
+        end
+    end
+
+    return B_rect
+end
+```
+
+
+```{julia}
+# Plot comparison of Elsasser variable spectra
+f = Figure(size=(1200, 800))
+
+step = 10
+
+ax3 = Axis(f[1, 1],
+    xlabel="Frequency (Hz)",
+    ylabel="Power Spectral Density",
+    xscale=log10,
+    yscale=log10
+)
+
+ax4 = Axis(f[1, 2],
+    xlabel="Frequency (Hz)",
+    ylabel="Power Spectral Density",
+    xscale=log10,
+    yscale=log10
+)
+
+plot_spectras!(ax3, V_B_pxx_mt, V_pxx_mt; labels=["B", "V"], step=step, linewidth=2, alpha=0.8)
+axislegend(ax3, position=:lt)
+xlims!(ax3, (1e-4, 5e-1))
+ylims!(ax3, (1e6, 1e13))
+
+
+plot_spectras!(ax4, z_plus_pxx_mt, z_minus_pxx_mt; labels=["z+ (Outward)", "z- (Inward)"], step=step, linewidth=2, alpha=0.8)
+axislegend(ax4, position=:lt)
+xlims!(ax4, (1e-4, 5e-1))
+ylims!(ax4, (1e6, 1e13))
+
+f
+```
+
+The spectra of residual energy Er, cross helicity Ec, total energy Et, normalized residual energy σr, normalized cross helicity σc, Alfv ́en ratio rA, and Elsasser ratio rE were then calculated,
+
+$$
+\begin{gathered}
+E_{\mathrm{r}}=E_{\mathrm{v}}-E_{\mathrm{b}}, \\
+E_{\mathrm{c}}=E_{+}-E_{-}, \\
+E_{\mathrm{t}}=E_{\mathrm{v}}+E_{\mathrm{b}}, \\
+\sigma_{\mathrm{r}}=\frac{E_{\mathrm{v}}-E_{\mathrm{b}}}{E_{\mathrm{v}}+E_{\mathrm{b}}}=\frac{r_{\mathrm{A}}-1}{r_{\mathrm{A}}+1}, \\
+\sigma_{\mathrm{c}}=\frac{E_{+}-E_{-}}{E_{+}+E_{-}}=\frac{r_{\mathrm{E}}-1}{r_{\mathrm{E}}+1}, \\
+r_{\mathrm{A}}=\frac{E_{\mathrm{v}}}{E_{\mathrm{b}}}=\frac{1+\sigma_{\mathrm{r}}}{1-\sigma_{\mathrm{r}}}, \\
+r_{\mathrm{E}}=\frac{E_{+}}{E_{-}}=\frac{1+\sigma_{\mathrm{c}}}{1-\sigma_{\mathrm{c}}} .
+\end{gathered}
+$$
+
+
+```{julia}
 """
     compute_sigma(v, B, rho, dt; NW=4)
 
