@@ -2,13 +2,14 @@
 
 ```{julia}
 using Dates
+using Speasy
 using PSPAnisotropy
+using PSP
 using PSPAnisotropy: Wind, PSP, THEMIS
 using SpacePhysicsMakie: tplot
 import SpaceDataModel
-using SpaceDataModel: setmeta, times
+using SpaceDataModel: setmeta, times, Product
 using TimeseriesUtilities
-using Speasy
 using GLMakie
 using DataFrames, DimensionalData
 ```
@@ -95,13 +96,20 @@ wind_results = get_discontinuity_results(tmin, tmin + Day(1), Wind.B_GSE, Wind.V
 Test if the CVI and PVI could capture the discontinuities
 
 ```{julia}
+tmin = DateTime("2021-01-15")
+tmax = DateTime("2021-01-16")
+B = DimArray(PSP.B(tmin, tmax))
+V = DimArray(PSP.V(tmin, tmax))
+```
+
+```{julia}
 t0 = DateTime("2021-01-15T09:11")
 t1 = DateTime("2021-01-15T09:14")
 B_subset = tview(B, t0, t1)
 V_subset = tview(V, t0, t1)
 df_pvi = Discontinuity.ids_finder_PVI(B_subset, V_subset)
 df_cvi = Discontinuity.ids_finder_CVI(B_subset, V_subset)
-df_variance = Discontinuity.ids_finder(B_subset; tau=Second(30))
+df_variance = Discontinuity.ids_finder(B_subset; tau=Second(16))
 
 CVI_ts = CVI(B_subset)
 PVI_ts = PVI(B_subset)
@@ -121,7 +129,6 @@ for i in 1:min(3, nrow(df_variance))
     plot_candidate(f[2, 3][i, 1], df_variance[i, :], [PSP.B,])
 end
 f
-
 ```
 
 

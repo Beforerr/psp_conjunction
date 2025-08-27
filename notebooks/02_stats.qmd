@@ -1,0 +1,130 @@
+# Current sheet statistics
+
+```{julia}
+using StatsBase, Statistics
+using PSPAnisotropy
+using Discontinuity: compute_params!, filter_low_mva_quality
+using Discontinuity: compute_Alfvenicity_params!, Alfven_velocity
+using DimensionalData
+using DataFrames, DataFramesMeta
+using GLMakie
+using Beforerr: _theme_legend, easy_save
+using AlgebraOfGraphics
+import AlgebraOfGraphics as AoG
+
+𝐧 = :mva
+𝒎 = var_mapping(; 𝐧)
+
+using Unitful
+Unitful.preferunits(u"nA", u"km")
+unitify(u) = (*)$u
+unitify(u::String) = (*)$uparse(u)
+
+taus = Second.(2 .^ (1:6))
+df = workload(taus)
+Discontinuity.assign_accuracy!(df)
+@chain df begin
+    compute_Alfvenicity_params!()
+    compute_params!()
+end
+```
+
+## Thickness and current density
+
+```{julia}
+subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
+fname = "properties_hist-enc"
+
+
+fs = map([:mva]) do 𝐧
+    𝒎 = var_mapping(; 𝐧)
+
+    datalimits = x -> quantile(x, [0.01, 0.99])
+
+    tdf = @chain df begin
+        @subset(.!isnan.(:L_n_mva_norm); view=true)
+        subset_𝐧(𝐧)
+        dropmissing(:L_n_mva_norm)
+        # compute_Alfvenicity_params!
+    end
+
+    vars = [𝒎.l_log, 𝒎.j_log, 𝒎.l_norm_log, 𝒎.j_norm_log]
+    # , 𝒎.bn
+    labels = ["Thickness", "Current density", "Normalized thickness", "Normalized current density"]
+
+    plt = data(tdf) *
+          mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
+          mapping(color=:id, linestyle=:enc) *
+          AoG.density(; datalimits) * visual(Lines)
+    draw(plt, axis=(; yscale=log10))
+
+    # draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
+    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
+end
+fs[1]
+```
+
+## Alfvenicity
+
+```{julia}
+
+fs = map([:mva]) do 𝐧
+    𝒎 = var_mapping(; 𝐧)
+
+    datalimits = x -> quantile(x, [0.01, 0.99])
+
+    tdf = @chain df begin
+        @subset(.!isnan.(:V_l_ratio); view=true)
+        subset_𝐧(𝐧)
+        dropmissing(:V_l_ratio)
+        # compute_Alfvenicity_params!
+    end
+
+    vars = [:Q_sonnerup, 𝒎.v_l_ratio, :V_l_ratio_max]
+    # 𝒎.v_l_ratio, 𝒎.bn
+    labels = ["Alfvénicity", "Velocity ratio", "Max velocity ratio"]
+
+    plt = data(tdf) *
+          mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
+          mapping(color=:id, linestyle=:enc) *
+          AoG.density(; datalimits) * visual(Lines)
+    draw(plt, axis=(; yscale=log10))
+
+    # draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
+    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
+end
+fs[1]
+
+```
+
+
+## Duration (temporal thickness)
+
+Now we analyze what is the distribution of the duration of the current sheet, and how does it vary with the different tau we use.
+
+Plot duration distributions for different missions and time periods.
+
+```{julia}
+let df = dropmissing(df, :duration)
+    df.duration = ustrip.(df.duration .|> u"s")
+    layer = AoG.density(; datalimits=x -> quantile(x, [0.02, 0.99])) * visual(Lines) * mapping(linestyle=:id)
+    # layer = AoG.histogram(; datalimits=x -> quantile(x, [0.02, 0.99]), bins = 0:0.3:30) * mapping(col=:id)
+    plt = data(df) * mapping(:duration, color=:enc) * layer
+    plt = plt + mapping(2 .^ (1:4)) * visual(VLines, color=:gray, linestyle=:dash)
+    # plt *= (mapping(col=direct("col1")) + mapping(color=:tau, col=direct("col2")))
+    # scales(Col=(; legend=false))
+    draw(plt, axis=(; yscale=log10))
+end
+```
+
+Plot duration distributions faceted by different taus:
+
+```{julia}
+let df = dropmissing(df, :duration)
+    df.duration = ustrip.(df.duration .|> u"s")
+    plt = data(df) * mapping(:duration, linestyle=:id, color=:enc) * AoG.density(; datalimits=x -> quantile(x, [0.02, 0.98])) * visual(Lines)
+    plt *= mapping(col=:tau)
+    draw(plt, axis=(; yscale=log10), facet=(; linkxaxes=:none, linkyaxes=:none))
+end
+```
+

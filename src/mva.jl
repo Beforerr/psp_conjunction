@@ -1,6 +1,13 @@
 using PartialFunctions
 
+export mva_transform
+
 mva_transform((V, B), tmin, tmax; tb_min=tmin, tb_max=tmax) = mva(V(tmin, tmax), B(tb_min, tb_max))
+mva_transform(B::AbstractArray{<:Number}, tmin, tmax; tb_min=tmin, tb_max=tmax) = mva(tview(B, tmin, tmax), tview(B, tb_min, tb_max))
+function mva_transform(Bp::Product, tmin, tmax; tb_min=tmin, tb_max=tmax)
+    B = Bp(tmin, tmax)
+    return mva(B, tview(B, tb_min, tb_max))
+end
 
 
 function make_mva_product(event, V, B=V; kwargs...)

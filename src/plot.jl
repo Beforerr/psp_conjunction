@@ -3,6 +3,7 @@ import Discontinuity
 using SPEDAS: tvec, setmeta, setmeta!
 using Statistics
 using CairoMakie
+using TimeseriesUtilities: times
 
 include("anisotry.jl")
 
@@ -30,11 +31,37 @@ end
 
 # ---
 # Example plot
-function plot_candidate(f, event, ts, toffset=nothing; kwargs...)
+function plot_candidate(f, event, ts::AbstractArray, toffset=nothing; kwargs...)
     tmin, tmax = event.t_us, event.t_ds
     tstart, tstop = event.tstart, event.tstop
     toffset = something(toffset, tstop - tstart)
     fax = tplot(f, ts, tmin - toffset, tmax + toffset; kwargs...)
+    tlines!(fax, [tmin, tmax])
+    tlines!(fax, [tstart, tstop])
+    fax
+end
+
+get_data(B::AbstractArray, tmin, tmax) = tview(B, tmin, tmax)
+get_data(B::Product, tmin, tmax) = B(tmin, tmax)
+
+function plot_candidate(f, event, B::Union{AbstractArray, Product}, toffset=nothing; add_B_mva=false, add_fit=false, kwargs...)
+    tmin, tmax = event.t_us, event.t_ds
+    tstart, tstop = event.tstart, event.tstop
+    toffset = something(toffset, tstop - tstart)
+    B_subset = get_data(B, tmin - toffset, tmax + toffset)
+    ts = times(B_subset)
+    tvars2plot = Any[tnorm_combine(B_subset)]
+    if add_B_mva
+        B_mva = mva(B_subset, tview(B_subset, tmin, tmax))
+        push!(tvars2plot, B_mva)
+    end
+    if add_fit
+        model = event.model
+        Bl_model = DimArray(model.(ts), Ti(ts))
+        push!(tvars2plot, Bl_model)
+    end
+
+    fax = tplot(f, tvars2plot; kwargs...)
     tlines!(fax, [tmin, tmax])
     tlines!(fax, [tstart, tstop])
     fax

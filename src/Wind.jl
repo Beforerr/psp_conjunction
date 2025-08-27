@@ -3,7 +3,7 @@ using Speasy: SpeasyProduct, getdimarray, @spz_str
 using DimensionalData: Y, DimStack, rebuild
 using PartialFunctions
 using Unitful
-using SPEDAS: DataSet, ulabel, Product, replace_outliers!
+using SPEDAS: DataSet, Product, replace_outliers!
 using LaTeXStrings
 
 unitify(u) = (*)$u

@@ -1,7 +1,7 @@
 module PSP
 using Unitful
 using Speasy: SpeasyProduct, @spz_str
-using SPEDAS: DataSet, meta
+using SpaceDataModel: DataSet
 
 import CSV
 using YAXArrays, NetCDF
@@ -11,6 +11,7 @@ using LaTeXStrings
 const psp_events = CSV.read("data/psp_events.csv", DataFrame; dateformat="yyyy-mm-dd HH:MM")
 
 B = spz"PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_Cyc"
+const B_SC = spz"cda/PSP_FLD_L2_MAG_SC/psp_fld_l2_mag_SC"
 B_1MIN = spz"PSP_FLD_L2_MAG_RTN_1MIN/psp_fld_l2_mag_RTN_1min"
 
 n_spi = SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/DENS"; labels = ["SPI Proton"])
@@ -21,7 +22,8 @@ n_rfs = SpeasyProduct("PSP_FLD_L3_RFS_LFR_QTN/N_elec"; labels = ["RFS Electron"]
 n = DataSet("Density", [n_spi, n_spc, n_sqtn])
 n_spi_sqtn = DataSet("Density", [n_spi, n_sqtn])
 
-V = spz"PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN"
+V = spz"cda/PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN"
+const V_SC = spz"cda/PSP_SWP_SPI_SF00_L3_MOM/VEL_SC"
 
 pTemp = SpeasyProduct("PSP_SWP_SPI_SF00_L3_MOM/TEMP"; labels = ["SPI Proton"])
 eTemp = SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_core_temperature"; labels = ["SQTN Electron core"])

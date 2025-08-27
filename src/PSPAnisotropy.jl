@@ -7,6 +7,8 @@ using CategoricalArrays
 using DrWatson
 using Discontinuity: ids_finder
 using SPEDAS
+using LaTeXStrings
+using TimeseriesUtilities: tsplit
 
 export get_timerange, workload, get_vl_ratio_ts
 
@@ -32,22 +34,64 @@ function get_timerange(enc)
     return (t0_psp, t1_psp), (t0_earth, t1_earth)
 end
 
-function produce(c, t0 = nothing, t1 = nothing)
-    t0 = something(t0, c["t0"])
-    t1 = something(t1, c["t1"])
-    ids_finder(c["B"], t0, t1, c["V"], c["n"]; tau = Second(c["tau"]))
+export produce
+
+# Complete specification of the configuration
+function produce(conf)
+    conf["tau"] = Second(conf["tau"]) / Second(1) # convert to float to save in the file name
+    conf, _ = produce_or_load(conf, datadir(); tag = false) do c
+        @unpack t0, t1, B, V, n, tau = c
+        c["events"] = ids_finder(t0, t1, B, V, n; tau = Second(tau))
+        c
+    end
+    return conf["events"]
 end
 
-function workload()
-    timeranges = get_timerange.(7:9)
-    psp_timeranges = getindex.(timeranges, 1)
-    earth_timeranges = getindex.(timeranges, 2)
-    configs = (;
-        PSP=@strdict(id = "PSP", B = PSP.B, V = PSP.V, n = PSP.n_spi, tau = 30, timeranges = psp_timeranges),
-        Wind=@strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, tau = 30, timeranges = earth_timeranges),
-        THM=@strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, tau = 30, timeranges = earth_timeranges),
-    )
+"""
+# Example
+```julia
+produce(psp_conf, timerange, taus)
+```
+"""
+function produce(conf, timerange, taus; split = Day(1))
+    tranges = tsplit(timerange..., split)
+    return mapreduce(vcat, tranges) do trange
+        new_conf = merge(conf, Dict("t0" => Date(trange[1]), "t1" => Date(trange[2])))
+        df_taus = mapreduce(vcat, taus) do tau
+            new_tau_conf = merge(new_conf, Dict("tau" => tau))
+            df = produce(new_tau_conf)
+            df.tau .= tau
+            df
+        end
+        Discontinuity.remove_duplicates(df_taus; verbose = true)
+    end
+end
 
+function produce(conf_tr_pairs, taus; kw...)
+    df = mapreduce(vcat, conf_tr_pairs) do (conf, tr)
+        @rtransform!(produce(conf, tr, taus; kw...), :id = conf["id"])
+    end
+    df.id = categorical(df.id; compress = true)
+    return df
+end
+
+function workload(taus, encs = 7:9; kw...)
+    df = mapreduce(vcat, encs) do enc
+        timeranges = get_timerange(enc)
+        pairs = [psp_conf, wind_conf] .=> timeranges
+        @rtransform!(produce(pairs, taus; kw...), :enc = enc)
+    end
+    df.enc = categorical(df.enc; compress = true)
+    return df
+end
+
+export psp_conf, wind_conf, thm_conf
+
+psp_conf = @strdict(id = "PSP", B = PSP.B_SC, V = PSP.V_SC, n = PSP.n_spi)
+wind_conf = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP)
+thm_conf = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE)
+
+function workload()
     df = mapreduce(vcat, 7:9) do enc
         tpsp, tearth = get_timerange(enc)
         mapreduce(vcat, configs) do c
@@ -55,14 +99,14 @@ function workload()
             timerange = id == "PSP" ? tpsp : tearth
             c["t0"] = Date(timerange[1])
             c["t1"] = Date(timerange[2])
-            res, = produce_or_load(c, datadir(); tag=false) do c
-                c["events"] = ids_finder(c["B"], c["t0"], c["t1"], c["V"], c["n"]; tau=Second(c["tau"]))
+            res, = produce_or_load(c, datadir(); tag = false) do c
+                c["events"] = ids_finder(c["B"], c["t0"], c["t1"], c["V"], c["n"]; tau = Second(c["tau"]))
                 c
             end
             @rtransform!(res["events"], :enc = enc, :id = id)
         end
     end
-    df.id = categorical(df.id; compress=true)
+    df.id = categorical(df.id; compress = true)
     return df, configs
 end
 

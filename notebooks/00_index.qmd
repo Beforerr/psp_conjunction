@@ -9,16 +9,21 @@ using DrWatson
 using PSPAnisotropy
 using PSPAnisotropy: Wind, PSP, THEMIS
 using Discontinuity
-using Discontinuity: compute_params!, compute_Alfvenicity_params!, filter_low_mva_quality
+using Discontinuity: compute_params!, filter_low_mva_quality
+using Discontinuity: compute_Alfvenicity_params!, Alfven_velocity
 using SPEDAS
+using DimensionalData
 using DataFrames, DataFramesMeta
-using GLMakie
+using SpacePhysicsMakie, GLMakie
 using SPEDAS: setmeta, setmeta!
 using Beforerr: _theme_legend, easy_save
 using PartialFunctions
 
 import PSPAnisotropy.Labels as 𝑳
 import PSPAnisotropy.YLabel as 𝒀
+
+𝐧 = :mva
+𝒎 = var_mapping(; 𝐧)
 
 using Unitful
 Unitful.preferunits(u"nA", u"km")
@@ -88,7 +93,6 @@ fax, res_psp = plot_candidate(f[1, 1], psp_event, psp_config, Second(10))
 # res_thm = plot_candidate(f[1, 2], thm_df[17, :], thm_config)
 # res_wind = plot_candidate(f[1, 3], wind_df[1, :], wind_config, Second(10))
 f
-
 ```
 
 ## Overview
@@ -153,7 +157,7 @@ tvars_themis = [
 ```
 
 
-Alfvén ratio over time
+### Alfvén ratio over time
 
 ```{julia}
 function modify_faxs_base!(faxs)
@@ -383,11 +387,11 @@ using AlgebraOfGraphics
 using Discontinuity: compute_params!, compute_Alfvenicity_params!
 using Beforerr
 using Beforerr: add_labels!
-using CairoMakie
+# using CairoMakie
 using StatsBase
-CairoMakie.activate!()
+# CairoMakie.activate!()
 
-set_aog_theme!()
+set_AoG_theme!()
 formats = (:pdf,)
 
 foreach([:log10, :log2, :log]) do f
@@ -395,10 +399,7 @@ foreach([:log10, :log2, :log]) do f
     @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
 end
 
-df, configs = workload()
-𝐧 = :mva
-𝒎 = var_mapping(; 𝐧)
-
+# df, configs = workload()
 compute_params!(df)
 
 # AoG fix
@@ -406,7 +407,6 @@ using LaTeXStrings
 import AlgebraOfGraphics: append_unit_string
 append_unit_string(s::LaTeXStrings.LaTeXString, u::String) = s
 
-subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
 
 function alpha_layer(df, alpha)
     psp_df = @rsubset(df, :id == "PSP"; view=true)
@@ -464,31 +464,7 @@ end
 ![](../figures/properties_xy_comp-enc-9-cross.pdf)
 
 
-```{julia}
-fname = "properties_hist-enc"
 
-for enc in 7:9, 𝐧 in [:mva, :cross]
-    view = true
-    𝒎 = var_mapping(; 𝐧)
-    datalimits_f = x -> quantile(x, [0.02, 0.98])
-    # drop missing and NaN
-    tdf = @chain df begin
-        @subset(:enc .== enc, .!isnan.(:L_n_cross_norm); view)
-        dropmissing
-        subset_𝐧(𝐧)
-        compute_Alfvenicity_params!
-        @subset(.!isnan.(:v_l_ratio))
-    end
-
-    spec = data(tdf) *
-           mapping([𝒎.l_log, 𝒎.j_log, 𝒎.l_norm_log, 𝒎.j_norm_log, 𝒎.v_l_ratio, 𝒎.bn], layout=AoG.dims(1) => renamer(ones(String, 6))) *
-           mapping(color=:id) *
-           AoG.density(datalimits=datalimits_f)
-
-    draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
-    easy_save("$fname-$enc-$𝐧"; formats, force=true)
-end
-```
 
 ```{julia}
 for enc in 7:9
