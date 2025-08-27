@@ -19,13 +19,13 @@ function tTemp(x; dims = Ti)
 end
 
 B_GSE = SpeasyProduct("THB_L2_FGM/thb_fgs_gseQ")
-B_FGL_GSE = tsort ∘ SpeasyProduct("THB_L2_FGM/thb_fgl_gseQ")
+B_FGL_GSE = SpeasyProduct("THB_L2_FGM/thb_fgl_gseQ")
 
 n_ion = SpeasyProduct("THB_L2_MOM/thb_peim_densityQ"; labels = ["Ion"], yscale = identity)
 n_elec = SpeasyProduct("THB_L2_MOM/thb_peem_densityQ"; labels = ["Electron"], yscale = identity)
 n = DataSet("Density", [n_ion, n_elec]; yscale = identity)
 
-V_GSE = tsort ∘ SpeasyProduct("THB_L2_MOM/thb_peim_velocity_gseQ") # 4.25 s time resolution
+V_GSE = SpeasyProduct("THB_L2_MOM/thb_peim_velocity_gseQ") # 4.25 s time resolution
 
 pTemp = SpeasyProduct("THB_L2_ESA/thb_peif_avgtempQ"; labels = ["Proton"])
 eTemp = tTemp ∘ SpeasyProduct("THB_L2_MOM/thb_peem_t3_magQ"; labels = ["Electron"])

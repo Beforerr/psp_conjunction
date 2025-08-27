@@ -1,6 +1,6 @@
 module PSPAnisotropy
 using Speasy
-using CSV
+using SpacePhysicsMakie: tplot, tlines!
 using Dates
 using DataFrames, DataFramesMeta
 using CategoricalArrays
@@ -8,21 +8,18 @@ using DrWatson
 using Discontinuity: ids_finder
 using SPEDAS
 
-export get_timerange, workload
+export get_timerange, workload, get_vl_ratio_ts
 
 include("meta.jl")
 include("mva.jl")
 include("calc.jl")
 
-
-include("PSP.jl")
+using PSP
+using PSP: psp_events
 include("Wind.jl")
 include("THEMIS.jl")
-include("dataset.jl")
 
 include("plot.jl")
-
-const psp_events = CSV.read("data/psp_events.csv", DataFrame; dateformat="yyyy-mm-dd HH:MM")
 
 function get_timerange(enc)
     Δt_min = Day(2)
@@ -35,8 +32,10 @@ function get_timerange(enc)
     return (t0_psp, t1_psp), (t0_earth, t1_earth)
 end
 
-function produce(c)
-    ids_finder(c["B"], c["t0"], c["t1"], Second(c["tau"]), c["V"], c["n"])
+function produce(c, t0 = nothing, t1 = nothing)
+    t0 = something(t0, c["t0"])
+    t1 = something(t1, c["t1"])
+    ids_finder(c["B"], t0, t1, c["V"], c["n"]; tau = Second(c["tau"]))
 end
 
 function workload()
@@ -57,7 +56,7 @@ function workload()
             c["t0"] = Date(timerange[1])
             c["t1"] = Date(timerange[2])
             res, = produce_or_load(c, datadir(); tag=false) do c
-                c["events"] = ids_finder(c["B"], c["t0"], c["t1"], Second(c["tau"]), c["V"], c["n"])
+                c["events"] = ids_finder(c["B"], c["t0"], c["t1"], c["V"], c["n"]; tau=Second(c["tau"]))
                 c
             end
             @rtransform!(res["events"], :enc = enc, :id = id)

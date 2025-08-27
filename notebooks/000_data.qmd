@@ -4,9 +4,13 @@
 using Dates
 using PSPAnisotropy
 using PSPAnisotropy: Wind, PSP, THEMIS
-using SPEDAS: tplot, set_meta
+using SpacePhysicsMakie: tplot
+import SpaceDataModel
+using SpaceDataModel: setmeta, times
+using TimeseriesUtilities
 using Speasy
 using GLMakie
+using DataFrames, DimensionalData
 ```
 
 ### Parker Solar Probe
@@ -49,16 +53,174 @@ Different coordinate frames
 ```{julia}
 tmin = DateTime("2021-01-15")
 tvars = [
-    "PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN",
-    "PSP_SWP_SPI_SF00_L3_MOM/VEL_SC",
-    "PSP_SWP_SPI_SF00_L3_MOM/VEL_INST",
-    "PSP_SWP_SPI_SF00_L3_MOM/MAGF_SC",
-    "PSP_FLD_L2_MAG_SC_4_SA_PER_CYC/psp_fld_l2_mag_SC_4_Sa_per_Cyc"
+    spz"cda/PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN, VEL_SC, VEL_INST, MAGF_SC"...,
+    spz"PSP_FLD_L2_MAG_SC_4_SA_PER_CYC/psp_fld_l2_mag_SC_4_Sa_per_Cyc"
 ]
 tplot(tvars, tmin, tmin + Hour(1))
 ```
 
 "PSP_SWP_SPI_SF00_L3_MOM" ~3.5s resolution
+
+```{julia}
+using Discontinuity
+
+tmin = DateTime("2021-01-15")
+
+# Get results from both methods
+function get_discontinuity_results(tmin, tmax, B, V)
+    @info resolution(B)
+    @info resolution(V)
+    df_pvi = Discontinuity.ids_finder_PVI(B, V; every=Hour(2))
+    df_cvi = Discontinuity.ids_finder_CVI(B, V; every=Hour(2), std_threshold=2)
+    df_variance = Discontinuity.ids_finder(B, V; tau=Second(2))
+    CVI_ts = CVI(B)
+    PVI_ts = PVI(B)
+    return (; df_pvi, df_cvi, df_variance, CVI_ts, PVI_ts)
+end
+
+function get_discontinuity_results(tmin, tmax, B_prod::Product, V_prod::Product)
+    B = DimArray(B_prod(tmin, tmax))
+    V = DimArray(V_prod(tmin, tmax))
+    return get_discontinuity_results(tmin, tmax, B, V)
+end
+
+psp_results = get_discontinuity_results(tmin, tmin + Day(1), PSP.B, PSP.V)
+wind_results = get_discontinuity_results(tmin, tmin + Day(1), Wind.B_GSE, Wind.V_GSE_3DP)
+
+# info the number of events
+@info "Number of events for PSP" nrow.(getproperty.(Ref(psp_results), (:df_pvi, :df_cvi, :df_variance)))
+@info "Number of events for Wind" nrow.(getproperty.(Ref(wind_results), (:df_pvi, :df_cvi, :df_variance)))
+```
+
+Test if the CVI and PVI could capture the discontinuities
+
+```{julia}
+t0 = DateTime("2021-01-15T09:11")
+t1 = DateTime("2021-01-15T09:14")
+B_subset = tview(B, t0, t1)
+V_subset = tview(V, t0, t1)
+df_pvi = Discontinuity.ids_finder_PVI(B_subset, V_subset)
+df_cvi = Discontinuity.ids_finder_CVI(B_subset, V_subset)
+df_variance = Discontinuity.ids_finder(B_subset; tau=Second(30))
+
+CVI_ts = CVI(B_subset)
+PVI_ts = PVI(B_subset)
+
+f = Figure(size=(1400, 1000))
+
+tplot(f[1, 1], [B_subset, [CVI_ts, PVI_ts]])
+
+# Plot 3 candidates from PVI method
+for i in 1:min(3, nrow(df_pvi))
+    plot_candidate(f[2, 1][i, 1], df_pvi[i, :], [PSP.B,])
+end
+for i in 1:min(3, nrow(df_cvi))
+    plot_candidate(f[2, 2][i, 1], df_cvi[i, :], [PSP.B,])
+end
+for i in 1:min(3, nrow(df_variance))
+    plot_candidate(f[2, 3][i, 1], df_variance[i, :], [PSP.B,])
+end
+f
+
+```
+
+
+```{julia}
+using Random
+
+f = Figure(size=(1400, 1000))
+# Plot 3 candidates from PVI method
+for i in 1:min(3, nrow(df_pvi))
+    plot_candidate(f[i, 1], df_pvi[i, :], [PSP.B, [CVI_ts, PVI_ts]])
+end
+random_indices = randperm(nrow(df_cvi))[1:min(3, nrow(df_cvi))]
+for (plot_idx, i) in enumerate(random_indices)
+    plot_candidate(f[plot_idx, 2], df_cvi[i, :], [PSP.B, [CVI_ts, PVI_ts]])
+end
+random_indices = randperm(nrow(df_variance))[1:min(3, nrow(df_variance))]
+for (plot_idx, i) in enumerate(random_indices)
+    plot_candidate(f[plot_idx, 3], df_variance[i, :], [PSP.B, [CVI_ts, PVI_ts]])
+end
+
+# Add method labels on the left
+Label(f[0, 1], "PVI\nMethod", fontsize=14, tellwidth=false)
+Label(f[0, 2], "CVI\nMethod", fontsize=14, tellwidth=false)
+Label(f[0, 3], "Variance\nMethod", fontsize=14, tellwidth=false)
+resize_to_layout!()
+f
+```
+
+#### The effect of n / τ on the detection
+
+```{julia}
+n_events = 6
+n = 16
+figsize = (n_events * 300, 400)
+f = Figure(; size=figsize)
+df = Discontinuity.ids_finder_CVI(B, V; std_threshold=2, n=n)
+CVI_tmp = CVI(B; n=n)
+# rows = rand(eachrow(df), n_events)
+
+# sort by duration
+df = sort(dropmissing(df), :duration; rev=true)
+rows = eachrow(df)[1:n_events]
+@info rows.duration
+for (i, row) in enumerate(rows)
+    @info getindex.(Ref(row), (:I_max, :index_std, :index_stability, :index_consistency))
+    plot_candidate(f[1, i], row, [PSP.B, CVI_tmp])
+end
+resize_to_layout!()
+f
+```
+
+
+```{julia}
+n_events = 6
+n = 16
+figsize = (n_events * 300, 400)
+f = Figure(; size=figsize)
+df = Discontinuity.ids_finder(B, V; std_threshold=2, tau=Second(n))
+
+# sort by duration
+df = sort(dropmissing(df), :duration; rev=true)
+rows = eachrow(df)[1:n_events]
+@info rows.duration
+for (i, row) in enumerate(rows)
+    @info getindex.(Ref(row), (:index_std))
+    plot_candidate(f[1, i], row, PSP.B)
+end
+resize_to_layout!()
+f
+```
+
+
+
+```{julia}
+f = Figure(size=(1400, 1000))
+
+for (i, n) in enumerate([1, 2, 4, 32])
+    df_cvi = Discontinuity.ids_finder_CVI(B, V; std_threshold=2, n=n)
+    CVI_tmp = CVI(B; n=n)
+    row = rand(eachrow(df_cvi))
+    @info getindex.(Ref(row), (:I_max, :index_std, :index_stability, :index_consistency))
+    plot_candidate(f[1, i], row, [PSP.B, CVI_tmp])
+    f
+end
+f
+```
+
+```{julia}
+f = Figure(size=(1400, 1000))
+
+for (i, n) in enumerate([2, 4, 8, 32])
+    df = Discontinuity.ids_finder(B, V; std_threshold=2, tau=Second(n))
+    row = rand(eachrow(df))
+    @info getindex.(Ref(row), (:index_std, :index_stability))
+    plot_candidate(f[1, i], row, [PSP.B])
+    f
+end
+f
+```
 
 
 ### THEMIS

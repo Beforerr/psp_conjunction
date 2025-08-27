@@ -13,7 +13,7 @@ using Discontinuity: compute_params!, compute_Alfvenicity_params!, filter_low_mv
 using SPEDAS
 using DataFrames, DataFramesMeta
 using GLMakie
-using SPEDAS: set_meta, set_meta!
+using SPEDAS: setmeta, setmeta!
 using Beforerr: _theme_legend, easy_save
 using PartialFunctions
 
@@ -156,30 +156,6 @@ tvars_themis = [
 Alfvén ratio over time
 
 ```{julia}
-using StatsBase
-using DimensionalData
-using NaNStatistics
-
-function get_vl_ratio_ts(df, col, dt::TimePeriod=Hour(4))
-    data = getproperty(df, col)
-    vl_ratio_ts = DimArray(data, Ti(df.time))
-    gfunc = x -> floor(x, dt)
-    gdf = groupby(vl_ratio_ts, Ti => gfunc)
-    vl_ratio_ts_m = nanmedian.(disallowmissing.(filter.(!ismissing, gdf)))
-    n = rebuild(length.(gdf); metadata=(; ylabel="N (#)", plottype=:Stairs))
-    set_meta!(vl_ratio_ts_m; ylabel=L"R_{VB}", labels=["Isotropy", "Anisotropy"], plottype=:Stairs)
-    return vl_ratio_ts_m, n
-end
-
-function get_vl_ratio_ts(df, dt::TimePeriod=Hour(4))
-    v_l_ratio_ts, n1 = get_vl_ratio_ts(df, :V_l_ratio, dt)
-    v_l_ratio_Λ_ts, n2 = get_vl_ratio_ts(df, :V_l_ratio_Λ, dt)
-    vl_ratio_ts = hcat(v_l_ratio_ts, v_l_ratio_Λ_ts)
-    return vl_ratio_ts, n1
-end
-```
-
-```{julia}
 function modify_faxs_base!(faxs)
     B_ax = faxs.axes[1]
     B_ax.ylabel[] = 𝒀.B
@@ -313,13 +289,6 @@ tvars_themis2 = [[THEMIS.B_FGL_GSE, THEMIS.n, THEMIS.V_GSE, THEMIS.T]; thm_mva_a
 ```
 
 ```{julia}
-function plot_candidate(f, event, ts, toffset=Second(0); kwargs...)
-    tmin, tmax = t_us_ds(event)
-    f = tplot(f, ts, tmin - toffset, tmax + toffset; kwargs...)
-    tlines!(f, [tmin, tmax])
-    f
-end
-
 f = let
     f = Figure(; size=(1200, 800))
     # plot_candidate(f[1, 1], Event(psp_events, 2), [tvars_psp; psp_mva_all]; link_xaxes)
@@ -351,14 +320,14 @@ Wind Speed, Time to Earth
 ```{julia}
 psp_df_taus = map([2, 4, 8, 16, 32]) do tau
     psp_config["tau"] = tau
-    df = PSPAnisotropy.produce(psp_config)
+    df = PSPAnisotropy.produce(psp_config, psp_config["timeranges"][1]...)
     @transform! df :tau = tau
     compute_Alfvenicity_params!(df)
 end
 
 wind_df_taus = map([2, 4, 8, 16, 32]) do tau
     wind_config["tau"] = tau
-    df = PSPAnisotropy.produce(wind_config)
+    df = PSPAnisotropy.produce(wind_config, wind_config["timeranges"][1]...)
     @transform! df :tau = tau
     compute_Alfvenicity_params!(df)
 end

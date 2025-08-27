@@ -1,12 +1,11 @@
 name = "PSPAnisotropy"
 uuid = "d27cda01-26a9-4a6e-9ee9-f5867542b9ea"
-authors = ["Zijin Zhang <zzj956959688@gmail.com> and contributors"]
 version = "0.1.0"
+authors = ["Zijin Zhang <zzj956959688@gmail.com> and contributors"]
 
 [deps]
 AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
 Beforerr = "49aed396-608e-4c3f-b6d6-a749216c9ea7"
-CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
@@ -19,18 +18,18 @@ Discontinuity = "b54b658d-ecbf-47cc-8c7f-673f5d2a4b30"
 DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
-HybridArrays = "1baab800-613f-4b0a-84e4-9cd3431bfbb9"
 Interpolations = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
 Intervals = "d8418881-c3e1-53bb-8760-2df7ec849ed5"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 NaNStatistics = "b946abbf-3ea7-4610-9019-9858bfdeaf2d"
-NetCDF = "30363a11-5582-574a-97bb-aa9a979735b9"
+PSP = "a1b2c3d4-e5f6-7890-1234-567890abcdef"
 PartialFunctions = "570af359-4316-4cb7-8c74-252c00c2016b"
 PlasmaFormulary = "d26ff896-aba2-4e70-a0a6-448627456efe"
 SPEDAS = "3930f61c-4d81-4846-ab8f-357babe068a6"
 SpaceDataModel = "0b37b92c-f0c5-4a52-bd5c-390dec20857c"
+SpacePhysicsMakie = "0c28ffd8-ae30-4a56-b2e4-f8332c621ad2"
 Speasy = "09b745ad-c67d-442f-94a6-c7f4d1e4d861"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
@@ -38,27 +37,27 @@ TimeseriesUtilities = "31d49243-0742-49c1-b8d2-db113b74581e"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 UnitfulAstro = "6112ee07-acf9-5e0f-b108-d242c714bf9f"
 UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
-VectorizedStatistics = "3b853605-1c98-4422-8364-4bd93ee0529e"
-YAXArrays = "c21b50f5-aa40-41ea-b809-c0f5e47bfa5c"
 
 [sources]
 Beforerr = {path = "/Users/zijin/.julia/dev/Beforerr"}
 Discontinuity = {path = "/Users/zijin/.julia/dev/Discontinuity"}
+PSP = {path = "lib/PSP"}
 PlasmaFormulary = {path = "/Users/zijin/.julia/dev/PlasmaFormulary"}
 SPEDAS = {path = "/Users/zijin/.julia/dev/SPEDAS"}
+SpaceDataModel = {path = "/Users/zijin/.julia/dev/SpaceDataModel"}
+SpacePhysicsMakie = {path = "/Users/zijin/.julia/dev/SpacePhysicsMakie"}
 Speasy = {path = "/Users/zijin/.julia/dev/Speasy"}
+TimeseriesUtilities = {path = "/Users/zijin/.julia/dev/TimeseriesUtilities"}
 
 [compat]
-AlgebraOfGraphics = "0.10"
+AlgebraOfGraphics = "0.10, 0.11"
 Chain = "0.6.0"
 DSP = "0.8.4"
 Dates = "1"
-HybridArrays = "0.4.16"
 Interpolations = "0.15.1"
 Intervals = "1.10.0"
 Logging = "1"
 NaNStatistics = "0.6"
-Statistics = "1.11.1"
+Statistics = "1.11"
 StatsBase = "0.34.4"
 UnitfulAstro = "1.2.2"
-VectorizedStatistics = "0.5.10"

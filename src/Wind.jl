@@ -1,5 +1,5 @@
 module Wind
-using Speasy: SpeasyProduct, getdimarray
+using Speasy: SpeasyProduct, getdimarray, @spz_str
 using DimensionalData: Y, DimStack, rebuild
 using PartialFunctions
 using Unitful
@@ -27,15 +27,7 @@ function combine_getdimarrays(ps, args...)
     return cat(das...; dims=Y())
 end
 
-V_RTN_nonlin = Product(
-    [
-        "cda/WI_H1_SWE_RTN/Proton_VR_nonlin",
-        "cda/WI_H1_SWE_RTN/Proton_VT_nonlin",
-        "cda/WI_H1_SWE_RTN/Proton_VN_nonlin",
-        "cda/WI_H1_SWE_RTN/Proton_V_nonlin",
-    ],
-    combine_getdimarrays
-)
+V_RTN_nonlin = Product(spz"cda/WI_H1_SWE_RTN/Proton_VR_nonlin,Proton_VT_nonlin,Proton_VN_nonlin,Proton_V_nonlin"; transformation = combine_getdimarrays)
 
 B_GSE = SpeasyProduct("WI_H2_MFI/BGSE")
 B_GSE_1MIN = SpeasyProduct("WI_H0_MFI/BGSE")

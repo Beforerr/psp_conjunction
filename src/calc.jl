@@ -88,3 +88,26 @@ function calc_vl_ratio!(df)
 
     return df
 end
+
+
+using StatsBase
+using DimensionalData
+using NaNStatistics
+
+function get_vl_ratio_ts(df, col, dt::TimePeriod=Hour(4))
+    data = getproperty(df, col)
+    vl_ratio_ts = DimArray(data, Ti(df.time))
+    gfunc = x -> floor(x, dt)
+    gdf = groupby(vl_ratio_ts, Ti => gfunc)
+    vl_ratio_ts_m = nanmedian.(disallowmissing.(filter.(!ismissing, gdf)))
+    n = rebuild(length.(gdf); metadata=(; ylabel="N (#)", plottype=:Stairs))
+    setmeta!(vl_ratio_ts_m; ylabel=L"R_{VB}", labels=["Isotropy", "Anisotropy"], plottype=:Stairs)
+    return vl_ratio_ts_m, n
+end
+
+function get_vl_ratio_ts(df, dt::TimePeriod=Hour(4))
+    v_l_ratio_ts, n1 = get_vl_ratio_ts(df, :V_l_ratio, dt)
+    v_l_ratio_Λ_ts, n2 = get_vl_ratio_ts(df, :V_l_ratio_Λ, dt)
+    vl_ratio_ts = hcat(v_l_ratio_ts, v_l_ratio_Λ_ts)
+    return vl_ratio_ts, n1
+end
