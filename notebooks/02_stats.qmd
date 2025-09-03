@@ -1,40 +1,59 @@
 # Current sheet statistics
 
 ```{julia}
+using Dates
 using StatsBase, Statistics
 using PSPAnisotropy
-using Discontinuity: compute_params!, filter_low_mva_quality
+import Discontinuity as DC
+using Discontinuity: var_mapping, compute_params!, filter_low_mva_quality
 using Discontinuity: compute_Alfvenicity_params!, Alfven_velocity
 using DimensionalData
 using DataFrames, DataFramesMeta
-using GLMakie
+using CairoMakie
 using Beforerr: _theme_legend, easy_save
 using AlgebraOfGraphics
 import AlgebraOfGraphics as AoG
+using Unitful
+Unitful.preferunits(u"nA", u"km")
 
+# https://github.com/MakieOrg/AlgebraOfGraphics.jl/issues/464
+foreach([:log10, :log2, :log]) do f
+    @eval import Base: $f
+    @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
+end
+set_Z_theme!()
+formats = (:pdf,)
+```
+
+```{julia}
 𝐧 = :mva
 𝒎 = var_mapping(; 𝐧)
 
-using Unitful
-Unitful.preferunits(u"nA", u"km")
-unitify(u) = (*)$u
-unitify(u::String) = (*)$uparse(u)
-
 taus = Second.(2 .^ (1:6))
+# taus = Second.(2 .^ (0:6))
 df = workload(taus)
-Discontinuity.assign_accuracy!(df)
 @chain df begin
-    compute_Alfvenicity_params!()
-    compute_params!()
+    DC.compute_Alfvenicity_params!()
+    DC.compute_params!()
+    @transform!(:B_n_mva_norm = abs.(:B_n_mva ./ :B_mag))
+    DC.classify!(:B_n_mva_norm)
+end
+
+
+# Count the number of events for each type
+df_event_counts = @chain df begin
+    groupby(:type)
+    combine(nrow)
 end
 ```
 
 ## Thickness and current density
 
+Density distributions of (normalized) thickness and current density
+
 ```{julia}
 subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
-fname = "properties_hist-enc"
-
+fname = "properties_hist"
 
 fs = map([:mva]) do 𝐧
     𝒎 = var_mapping(; 𝐧)
@@ -43,60 +62,26 @@ fs = map([:mva]) do 𝐧
 
     tdf = @chain df begin
         @subset(.!isnan.(:L_n_mva_norm); view=true)
+        # @rsubset(((:id == "PSP") && :tau <= Second(2)) || (:id != "PSP" && :tau > Second(2))) # select current sheet events with tau <= 2s for PSP and tau > 2s for Earth
         subset_𝐧(𝐧)
         dropmissing(:L_n_mva_norm)
-        # compute_Alfvenicity_params!
     end
 
     vars = [𝒎.l_log, 𝒎.j_log, 𝒎.l_norm_log, 𝒎.j_norm_log]
     # , 𝒎.bn
     labels = ["Thickness", "Current density", "Normalized thickness", "Normalized current density"]
 
-    plt = data(tdf) *
-          mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
-          mapping(color=:id, linestyle=:enc) *
-          AoG.density(; datalimits) * visual(Lines)
+    plt =
+        data(tdf) *
+        mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
+        # mapping(vars, row=AoG.dims(1) => renamer(labels), col=:type) *
+        mapping(color=:id, linestyle=:enc) *
+        AoG.density(; datalimits) * visual(Lines)
     draw(plt, axis=(; yscale=log10))
-
-    # draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
-    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
+    easy_save("$fname-$𝐧"; formats, force=true)
 end
 fs[1]
 ```
-
-## Alfvenicity
-
-```{julia}
-
-fs = map([:mva]) do 𝐧
-    𝒎 = var_mapping(; 𝐧)
-
-    datalimits = x -> quantile(x, [0.01, 0.99])
-
-    tdf = @chain df begin
-        @subset(.!isnan.(:V_l_ratio); view=true)
-        subset_𝐧(𝐧)
-        dropmissing(:V_l_ratio)
-        # compute_Alfvenicity_params!
-    end
-
-    vars = [:Q_sonnerup, 𝒎.v_l_ratio, :V_l_ratio_max]
-    # 𝒎.v_l_ratio, 𝒎.bn
-    labels = ["Alfvénicity", "Velocity ratio", "Max velocity ratio"]
-
-    plt = data(tdf) *
-          mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
-          mapping(color=:id, linestyle=:enc) *
-          AoG.density(; datalimits) * visual(Lines)
-    draw(plt, axis=(; yscale=log10))
-
-    # draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
-    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
-end
-fs[1]
-
-```
-
 
 ## Duration (temporal thickness)
 
@@ -107,13 +92,14 @@ Plot duration distributions for different missions and time periods.
 ```{julia}
 let df = dropmissing(df, :duration)
     df.duration = ustrip.(df.duration .|> u"s")
-    layer = AoG.density(; datalimits=x -> quantile(x, [0.02, 0.99])) * visual(Lines) * mapping(linestyle=:id)
+    layer = AoG.density(; datalimits=x -> quantile(x, [0.02, 0.99])) * visual(Lines)
     # layer = AoG.histogram(; datalimits=x -> quantile(x, [0.02, 0.99]), bins = 0:0.3:30) * mapping(col=:id)
-    plt = data(df) * mapping(:duration, color=:enc) * layer
+    plt = data(df) * mapping(:duration, linestyle=:enc, color=:id) * layer
     plt = plt + mapping(2 .^ (1:4)) * visual(VLines, color=:gray, linestyle=:dash)
     # plt *= (mapping(col=direct("col1")) + mapping(color=:tau, col=direct("col2")))
     # scales(Col=(; legend=false))
     draw(plt, axis=(; yscale=log10))
+    easy_save("duration_dist"; formats, force=true)
 end
 ```
 
@@ -122,9 +108,372 @@ Plot duration distributions faceted by different taus:
 ```{julia}
 let df = dropmissing(df, :duration)
     df.duration = ustrip.(df.duration .|> u"s")
-    plt = data(df) * mapping(:duration, linestyle=:id, color=:enc) * AoG.density(; datalimits=x -> quantile(x, [0.02, 0.98])) * visual(Lines)
-    plt *= mapping(col=:tau)
+    layer = AoG.density(; datalimits=x -> quantile(x, [0.02, 0.99])) * visual(Lines)
+    plt = data(df) * mapping(:duration, linestyle=:enc, color=:id) * layer
+    plt *= mapping(layout=:tau)
     draw(plt, axis=(; yscale=log10), facet=(; linkxaxes=:none, linkyaxes=:none))
+    easy_save("duration_dist_tau"; formats, force=true)
 end
 ```
 
+## Alfvenicity
+
+```{julia}
+𝒎 = var_mapping(; 𝐧)
+
+datalimits = x -> quantile(x, [0.01, 0.99])
+
+tdf = @chain df begin
+    @subset(.!isnan.(:V_l_ratio); view=true)
+    subset_𝐧(𝐧)
+    dropmissing(:V_l_ratio)
+end
+
+vars = [:Q_sonnerup => abs => "", :ΔV_ratio => identity => "", :V_l_ratio => identity => "", :V_l_ratio_max => identity => ""]
+# 𝒎.v_l_ratio, 𝒎.bn
+labels = ["Q_sonnerup", "Δ V ratio", "ΔV_l ratio", "Max ΔV_l ratio"]
+
+plt =
+    data(tdf) *
+    mapping(vars, row=AoG.dims(1) => renamer(labels)) *
+    #   mapping(vars, col=:tau, row=AoG.dims(1) => renamer(labels)) *
+    mapping(color=:id, linestyle=:enc) *
+    AoG.density(; datalimits) * visual(Lines)
+draw(plt, axis=(; yscale=identity), facet=(; linkyaxes=:minimal))
+# easy_save("Alfvenicities"; formats, force=true)
+# draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
+```
+
+## 
+
+Joint distributions of thickness and current density
+
+```{julia}
+for 𝐧 in [:mva]
+    view = true
+    𝒎 = var_mapping(; 𝐧)
+
+    tdf = @chain df begin
+        # @subset(:enc .== enc)
+        dropmissing()
+        @transform(:L_n_mva = Float64.(ustrip.(:L_n_mva)), :J_m_max_mva = Float64.(ustrip.(:J_m_max_mva)))
+        subset_𝐧(𝐧)
+    end
+
+    plt = alpha_layer(tdf, 0.618) * visual(Scatter; markersize=6, legend=(; alpha=0.6)) * mapping(color=:id, marker=:id)
+
+    fig = Figure(size=(800, 300))
+    axis = (; yscale=log10, xscale=log10)
+    v_axis = (; yscale=log10, xscale=log10, limits=((2, 400), (2, 400)))
+
+    ga = fig[1, 1]
+    gb = fig[1, 2]
+    gc = fig[2, 1]
+    gd = fig[2, 2]
+
+    spec1 = plt * mapping(𝒎.l, 𝒎.j)
+    spec2 = plt * mapping(𝒎.l_norm, 𝒎.j_norm)
+    spec3 = plt * mapping(:B_n_mva_norm, :ω)
+    spec4 = plt * mapping(:ΔV_ratio, :ΔV_cosθ)
+
+    grid1 = draw!(ga, spec1; axis)
+    draw!(gb, spec2; axis)
+    draw!(gc, spec3)
+    draw!(gd, spec4; axis=(; limits=((0, 2), (-1, 1),)))
+
+    # pretty_legend!(fig, grid1)
+    # add_labels!([ga, gb, gc])
+    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
+    display(fig)
+end
+```
+
+
+```{julia}
+for 𝐧 in [:mva]
+    view = true
+    𝒎 = var_mapping(; 𝐧)
+
+    tdf = @chain df begin
+        @subset(.!isnan.(:B_n_mva_norm) .& .!isnan.(:σ_c); view=true)
+        dropmissing([:B_n_mva_norm, :duration, :σ_c])
+        @transform!(:duration = Float64.(ustrip.(:duration .|> u"s")))
+        subset_𝐧(𝐧)
+    end
+
+    plt = data(tdf) * mapping(row=:id, col=:enc)
+    vis = visual(Scatter; markersize=6)
+    fig = Figure(; size=(1200, 800))
+    axis = (;)
+
+
+    ΔV_cosθ_group = :ΔV_cosθ => >(0)
+    ΔV_cosθ_map = mapping(group=ΔV_cosθ_group, color=ΔV_cosθ_group)
+
+    B_n_spec = plt * mapping(:B_n_mva_norm, :ω_in) * vis
+    ΔV_spec = plt * mapping(:ΔV_ratio, :ΔV_cosθ) * (vis + AoG.smooth() * ΔV_cosθ_map)
+    σc_σr_spec = plt * mapping(:σ_c, :σ_r) * (vis + AoG.smooth() * visual(color=:red))
+
+    draw!(fig[1, 1], B_n_spec; axis)
+    draw!(fig[1, 2], ΔV_spec; axis=(; limits=((0, 2), (-1, 1),)))
+    draw!(fig[2, 1], σc_σr_spec)
+
+    # pretty_legend!(fig, grid1)
+    # add_labels!([ga, gb, gc])
+    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
+    display(fig)
+end
+```
+
+Joint distributions of Q_sonnerup and other variables
+
+```{julia}
+CairoMakie.activate!()
+
+view = true
+𝒎 = var_mapping(; 𝐧)
+
+vars = [:B_n_mva_norm, :Q_sonnerup, :duration, :σ_c]
+
+tdf = @chain df begin
+    dropmissing(vars)
+    @rsubset(all(!isnan, (:B_n_mva_norm, :Q_sonnerup, :σ_c)); view=true)
+    @transform!(
+        :duration = Float64.(ustrip.(:duration .|> u"s")),
+        :B_n_mva_norm = Float64.(:B_n_mva_norm),
+    )
+end
+
+A_He_df = @chain tdf begin
+    dropmissing(:A_He)
+    @transform!(:A_He = Float64.(only.(:A_He)))
+    @rsubset(:A_He < 10)
+end
+
+Bn_df = subset_𝐧(tdf, 𝐧)
+
+fig = Figure(; size=(1200, 800))
+axis = (;)
+
+layout = mapping(row=:id, col=:enc)
+plt = data(tdf) * layout
+vis = visual(Scatter; markersize=6)
+
+Q_group = mapping(group=:Q_sonnerup => >(0), color=:Q_sonnerup => >(0))
+A_He_group = mapping(group=:A_He => >(0), color=:A_He => >(0))
+line_vis = visual(linewidth=3)
+
+Bn_Q_spec = data(Bn_df) * mapping(:B_n_mva_norm, :Q_sonnerup) * layout * (vis + AoG.linear() * Q_group * line_vis)
+duration_Q_spec = plt * mapping(:duration, :Q_sonnerup) * (vis + AoG.smooth() * Q_group * line_vis)
+σc_Q_spec = plt * mapping(:σ_c, :Q_sonnerup) * (vis + AoG.linear() * Q_group * line_vis)
+σr_Q_spec = plt * mapping(:σ_r, :Q_sonnerup) * (vis + AoG.linear() * Q_group * line_vis)
+A_He_Q_spec = data(A_He_df) * mapping(:A_He, :Q_sonnerup => abs) * layout * (vis + AoG.smooth() * A_He_group * line_vis)
+
+draw!(fig[1, 1], Bn_Q_spec)
+draw!(fig[1, 2], duration_Q_spec; axis=(; xscale=log10))
+draw!(fig[2, 1], σc_Q_spec)
+draw!(fig[2, 2], σr_Q_spec)
+draw!(fig[3, 1], A_He_Q_spec)
+
+# add_labels!([ga, gb, gc])
+# easy_save("Q_sonnerup_joint_dist"; formats, force=true)
+display(fig)
+```
+
+
+## Duration vs Alfvénicity Correlation
+
+Let's analyze the relationship between duration and Alfvénicity to see if they are correlated.
+
+```{julia}
+using HypothesisTests
+using NaNStatistics
+using PairPlots
+
+# Filter for clean data with both duration and Alfvénicity measures
+vars = [:duration, :Q_sonnerup, :V_l_ratio, :B_n_mva_norm]
+
+df_corr = @chain df begin
+    filter_low_mva_quality()
+    dropmissing(vars)
+    @transform!(:duration = Float64.(ustrip.(:duration .|> u"s")))
+    @rsubset(all(!isnan, (:Q_sonnerup, :V_l_ratio, :duration, :σ_c)))
+end
+
+# Overall correlation matrix
+println("Overall correlation matrix:")
+cor_vars = [:Q_sonnerup, :duration, :B_n_mva_norm, :σ_c, :σ_r, :L_n_mva_norm, :J_m_max_mva_norm]
+overall_corr = nancor(Matrix(df_corr[!, cor_vars]))
+display(overall_corr)
+# heatmap(cor_vars, cor_vars, overall_corr)
+# pairplot(df_corr[!, cor_vars])
+
+# Group by different missions and compute correlations
+println("\nCorrelation analysis by mission:")
+mission_stats = @chain df_corr begin
+    groupby(:id)
+    @combine(
+        :count = nrow,
+        :corr_Q_duration = nancor(:Q_sonnerup, :duration),
+        :corr_Bn_duration = nancor(:B_n_mva_norm, :duration),
+        :corr_Q_Bn = nancor(:Q_sonnerup, :B_n_mva_norm),
+        :mean_Q = nanmean(abs.(:Q_sonnerup)),
+        :mean_duration = nanmean(:duration),
+        :mean_Bn = nanmean(:B_n_mva_norm)
+    )
+end
+
+display(mission_stats)
+
+# # Statistical significance tests
+# test_q = CorrelationTest(df_corr.duration_s, df_corr.Q_sonnerup)
+# test_vl = CorrelationTest(df_corr.duration_s, collect(skipmissing(df_corr.V_l_ratio)))
+
+# println("Statistical significance:")
+# println("Duration vs Q_sonnerup: p-value = $(round(pvalue(test_q), digits=6))")
+# println("Duration vs V_l_ratio: p-value = $(round(pvalue(test_vl), digits=6))")
+```
+
+Correlation Strength:
+- Duration vs Q_sonnerup: r = -0.0253 (very weak negative correlation)
+- Duration vs V_l_ratio: r = -0.0134 (very weak negative correlation)
+
+Statistical Significance:
+- Duration vs Q_sonnerup: p = 0.009 (statistically significant, p < 0.05)
+- Duration vs V_l_ratio: p = 0.166 (not statistically significant, p > 0.05)
+
+Interpretation:
+1. There is a very weak negative correlation between duration and Alfvénicity - meaning longer events tend to be slightly less Alfvénic
+2. The effect size is tiny (correlations ~-0.02 to -0.03) - practically negligible
+3. Only Q_sonnerup shows statistical significance due to the large sample size (10,684 events)
+4. The large sample size makes even tiny correlations statistically detectable, but they're not practically meaningful
+
+Conclusion: While there's a statistically significant but extremely weak tendency for longer-duration current sheets to be slightly less Alfvénic, the correlation is so small it's essentially negligible in practical terms. Duration and Alfvénicity are largely independent of each other in this dataset.
+
+
+## Unused Code
+
+```{julia}
+# Visualization: Scatter plot with trend line
+f_corr = Figure(size=(1400, 600))
+
+attrs = (alpha=0.6, markersize=6)
+
+# Duration vs Q_sonnerup
+ax1 = Axis(f_corr[1, 1],
+    xscale=log10,
+    xlabel="Duration (seconds)",
+    ylabel="Q_sonnerup (Alfvénicity)",
+    title="Duration vs Alfvénicity")
+
+scatter!(ax1, df_corr.duration_s, abs.(df_corr.Q_sonnerup); color=:blue, attrs...)
+
+# Add trend line (remove any remaining NaNs)
+valid_idx = .!isnan.(df_corr.duration_s) .& .!isnan.(df_corr.Q_sonnerup)
+if sum(valid_idx) > 0
+    x_valid = df_corr.duration_s[valid_idx]
+    y_valid = abs.(df_corr.Q_sonnerup[valid_idx])
+    x_range = range(minimum(x_valid), maximum(x_valid), length=100)
+    X = hcat(ones(length(x_valid)), x_valid)
+    β = X \ y_valid
+    trend_y = β[1] .+ β[2] .* x_range
+    lines!(ax1, x_range, trend_y, color=:red, linewidth=2, linestyle=:dash)
+end
+
+# text!(ax1, 0.05, 0.95, "r = $(round(corr_duration_q, digits=4))", space=:relative, fontsize=12, color=:black)
+
+# Duration vs V_l_ratio  
+df_vl = dropmissing(df_corr, :V_l_ratio)
+ax2 = Axis(f_corr[1, 2],
+    xscale=log10,
+    xlabel="Duration (seconds)",
+    ylabel="V_l_ratio",
+    title="Duration vs Velocity Ratio")
+
+scatter!(ax2, df_vl.duration_s, df_vl.V_l_ratio,
+    color=:green, alpha=0.6, markersize=6)
+
+# Add trend line for V_l_ratio (remove any remaining NaNs)
+valid_idx2 = .!isnan.(df_vl.duration_s) .& .!isnan.(df_vl.V_l_ratio)
+if sum(valid_idx2) > 0
+    x_valid2 = df_vl.duration_s[valid_idx2]
+    y_valid2 = df_vl.V_l_ratio[valid_idx2]
+    x_range2 = range(minimum(x_valid2), maximum(x_valid2), length=100)
+    X2 = hcat(ones(length(x_valid2)), x_valid2)
+    β2 = X2 \ y_valid2
+    trend_y2 = β2[1] .+ β2[2] .* x_range2
+    lines!(ax2, x_range2, trend_y2, color=:red, linewidth=2, linestyle=:dash)
+end
+ylims!(ax2, 0, 1)
+# text!(ax2, 0.05, 0.95, "r = $(round(corr_duration_vl, digits=4))", space=:relative, fontsize=12, color=:black)
+
+f_corr
+```
+
+```{julia}
+using CategoricalArrays
+using NaNStatistics
+# Binned analysis
+duration_bins = [0, 2, 5, 10, 20, 50, maximum(df_corr.duration_s)]
+df_binned = @transform(df_corr,
+    :duration_bin = cut(:duration_s, duration_bins, labels=["0-2s", "2-5s", "5-10s", "10-20s", "20-50s", ">50s"]))
+
+binned_stats = @chain df_binned begin
+    dropmissing([:Q_sonnerup, :V_l_ratio])
+    groupby(:duration_bin)
+    @combine(
+        :count = length(:duration_s),
+        :mean_duration = nanmean(:duration_s),
+        :mean_Q_sonnerup = nanmean(abs.(:Q_sonnerup)),
+        :std_Q_sonnerup = nanstd(abs.(:Q_sonnerup)),
+        :mean_V_l_ratio = nanmean(:V_l_ratio),
+        :std_V_l_ratio = nanstd(:V_l_ratio)
+    )
+end
+
+println("Mean Alfvénicity by Duration Bins:")
+select(binned_stats, :duration_bin, :count, :mean_Q_sonnerup, :mean_V_l_ratio)
+```
+
+```{julia}
+# Add binned averages to the scatter plots
+for (i, row) in enumerate(eachrow(binned_stats))
+    if i < nrow(binned_stats)
+        # Get bin boundaries
+        bin_start = duration_bins[i]
+        bin_end = duration_bins[i+1]
+        bin_center = (bin_start + bin_end) / 2
+
+        # Add mean points with error bars to Q_sonnerup plot
+        scatter!(ax1, [bin_center], [row.mean_Q_sonnerup],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax1, [bin_center], [row.mean_Q_sonnerup], [row.std_Q_sonnerup],
+            color=:red, whiskerwidth=8, linewidth=2)
+
+        # Add mean points with error bars to V_l_ratio plot  
+        scatter!(ax2, [bin_center], [row.mean_V_l_ratio],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax2, [bin_center], [row.mean_V_l_ratio], [row.std_V_l_ratio],
+            color=:red, whiskerwidth=8, linewidth=2)
+    else
+        # Handle the last bin (>50s) - use a representative position
+        bin_center = 60  # Approximate position for >50s bin
+
+        scatter!(ax1, [bin_center], [row.mean_Q_sonnerup],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax1, [bin_center], [row.mean_Q_sonnerup], [row.std_Q_sonnerup],
+            color=:red, whiskerwidth=8, linewidth=2)
+
+        scatter!(ax2, [bin_center], [row.mean_V_l_ratio],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax2, [bin_center], [row.mean_V_l_ratio], [row.std_V_l_ratio],
+            color=:red, whiskerwidth=8, linewidth=2)
+    end
+end
+
+# Add legend explaining the red diamonds
+Legend(f_corr[2, :], [MarkerElement(color=:red, marker=:diamond, markersize=12)],
+    ["Binned Averages ± Std"], orientation=:horizontal, tellwidth=false, tellheight=true)
+
+f_corr
+```

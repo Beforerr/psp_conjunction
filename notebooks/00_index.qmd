@@ -112,12 +112,7 @@ using SPEDAS.SpaceDataModel: set, extend, @set
 
 import AlgebraOfGraphics as AoG
 
-update_theme!(;
-    figure_padding=1,
-    fonts=(; regular=AoG.firasans("Regular"), bold=AoG.firasans("Medium")),
-    Legend=(; framevisible=false, padding=(0, 0, 0, -15)),
-    Axis=(; xlabelfont=:bold, ylabelfont=:bold),
-)
+set_Z_theme!()
 ```
 
 ```{julia}
@@ -394,10 +389,6 @@ using StatsBase
 set_AoG_theme!()
 formats = (:pdf,)
 
-foreach([:log10, :log2, :log]) do f
-    @eval import Base: $f
-    @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
-end
 
 # df, configs = workload()
 compute_params!(df)

@@ -1,6 +1,6 @@
 module Wind
 using Speasy: SpeasyProduct, getdimarray, @spz_str
-using DimensionalData: Y, DimStack, rebuild
+using DimensionalData: Y, DimStack, rebuild, DimArray
 using PartialFunctions
 using Unitful
 using SPEDAS: DataSet, Product, replace_outliers!
@@ -51,6 +51,12 @@ n_p_e = DataSet("Density", (n_p_K0, n_e))
 # SpeasyProduct("WI_H0_SWE/Te"), Definition range <DateTimeRange: 1994-12-29T00:00:02+00:00 -> 2001-05-31T23:59:57+00:00>
 
 T_p_PLSP = SpeasyProduct("WI_PLSP_3DP/MOM.P.AVGTEMP"; labels=[L"T_p"])
+
+function A_He(tmin, tmax; n_p = nothing)
+    n_p = DimArray(@something n_p n_p_nonlin(tmin, tmax); standardize = true)
+    n_α = DimArray(n_α_nonlin(tmin, tmax); standardize = true)
+    return n_α ./ n_p .* 100
+end
 
 T = DataSet(
     "Temperature",

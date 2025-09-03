@@ -27,8 +27,8 @@ function get_timerange(enc)
     Δt_min = Day(2)
     Δt_max = Day(6)
     time = psp_events[enc, :Time]
-    t0_psp = floor(time - Day(3), Day(1))
-    t1_psp = ceil(time + Day(3), Day(1))
+    t0_psp = floor(time - Day(2), Day)
+    t1_psp = ceil(time + Day(2), Day)
     t0_earth = t0_psp + Δt_min
     t1_earth = t1_psp + Δt_max
     return (t0_psp, t1_psp), (t0_earth, t1_earth)
@@ -40,8 +40,8 @@ export produce
 function produce(conf)
     conf["tau"] = Second(conf["tau"]) / Second(1) # convert to float to save in the file name
     conf, _ = produce_or_load(conf, datadir(); tag = false) do c
-        @unpack t0, t1, B, V, n, tau = c
-        c["events"] = ids_finder(t0, t1, B, V, n; tau = Second(tau))
+        @unpack t0, t1, B, V, n, tau, extra = c
+        c["events"] = ids_finder(t0, t1, B, V, n, extra...; tau = Second(tau))
         c
     end
     return conf["events"]
@@ -87,9 +87,9 @@ end
 
 export psp_conf, wind_conf, thm_conf
 
-psp_conf = @strdict(id = "PSP", B = PSP.B_SC, V = PSP.V_SC, n = PSP.n_spi)
-wind_conf = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP)
-thm_conf = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE)
+psp_conf = @strdict(id = "PSP", B = PSP.B_SC, V = PSP.V_SC, n = PSP.n_spi, extra = (:A_He => PSP.A_He,))
+wind_conf = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, extra = (:A_He => Wind.A_He,))
+thm_conf = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, extra = ())
 
 function workload()
     df = mapreduce(vcat, 7:9) do enc

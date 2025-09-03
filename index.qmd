@@ -49,6 +49,9 @@ By indentifying the periods of conjunctions and alignments between PSP and Earth
 
 @hudsonDiscontinuitiesAnisotropicPlasma1970
 
+
+“Knetter [2005] extended this work to intervals in 2002 and 2003 which also included fast wind intervals. He obtained similar results to above and amassed a final total collection of 366 discontinuities. All of the discontinuities had normal field components consistent with zero. He concluded that the discontinuities are best explained as TDs regardless of the amount of dB/B.” ([Vasquez et al., 2007, p. 2](zotero://select/library/items/VPNY4UFZ)) ([pdf](zotero://open-pdf/library/items/DNN2ADMT?page=2&annotation=9Q8CVTE9))
+
 # Dataset and method
 
 Our study focuses on the evolution of solar wind discontinuities within plasma parcels as they undergo expansion. We analyze datasets from the Parker Solar Probe (PSP) and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR, and Wind) at various radial distances in the inner heliosphere, during periods of conjunctions and alignments between PSP and these Earth-orbiting missions.

@@ -1,5 +1,54 @@
+# Cross helicity and residual energy
+
+```{julia}
+using Dates
+using PSPAnisotropy
+using PSPAnisotropy: Wind
+using SPEDAS
+using DimensionalData
+using Unitful
+using PlasmaFormulary
+using TimeseriesUtilities
+Unitful.preferunits(u"nA", u"km")
+```
+
+## Global (whole interval) average
 
 
+```{julia}
+
+tmin = DateTime("2007-07-06")
+tmax = tmin + Hour(1)
+B = DimArray(Wind.B_GSE(tmin, tmax); add_unit=true)
+V = DimArray(Wind.V_GSE_3DP(tmin, tmax); add_unit=true) |> dropna
+n = DimArray(Wind.n_p_3DP(tmin, tmax); add_unit=true) |> dropna
+# B, V, n = SPEDAS.tsync(B, V, n)
+```
+
+
+```{julia}
+using LinearAlgebra
+using Statistics
+using SPEDAS.Tullio
+using TimeseriesUtilities.VectorizedStatistics
+
+function fast_cross_helicity(B, V, n)
+    N = size(B, 1)
+    @tullio V_B[i, j] := Alfven_velocity(B[i, j], n[i], 1)
+    @tullio B̄[j] := V_B[i, j]
+    @tullio V̄[j] := V[i, j]
+    B̄ .= B̄ ./ N
+    V̄ .= V̄ ./ N
+    @tullio num := (V_B[i, j] - B̄[j]) * (V[i, j] - V̄[j])
+    @tullio den := (V_B[i, j] - B̄[j]) * (V_B[i, j] - B̄[j]) + (V[i, j] - V̄[j]) * (V[i, j] - V̄[j])
+    return 2 * num / den
+end
+
+@b fast_cross_helicity(B, V, n), cross_helicity(B, V, n)
+```
+
+
+## Cross helicity and residual energy spectra
 
 <a href="https://docs.juliadsp.org/stable/periodograms/">Periodograms - periodogram estimation · DSP.jl</a>
 
@@ -26,7 +75,6 @@ n = Wind.n_p_3DP(tmin, tmax) |> dropna
 ```
 
 ```{julia}
-using PlasmaFormulary
 
 V_B = Alfven_velocity.(tsync(B, n)...)
 

@@ -8,7 +8,7 @@ using YAXArrays, NetCDF
 using DataFrames, DimensionalData
 using LaTeXStrings
 
-const psp_events = CSV.read("data/psp_events.csv", DataFrame; dateformat="yyyy-mm-dd HH:MM")
+const psp_events = CSV.read("data/psp_events.csv", DataFrame; dateformat = "yyyy-mm-dd HH:MM")
 
 B = spz"PSP_FLD_L2_MAG_RTN_4_SA_PER_CYC/psp_fld_l2_mag_RTN_4_Sa_per_Cyc"
 const B_SC = spz"cda/PSP_FLD_L2_MAG_SC/psp_fld_l2_mag_SC"
@@ -21,6 +21,12 @@ n_sqtn = SpeasyProduct("PSP_FLD_L3_SQTN_RFS_V1V2/electron_density"; labels = ["S
 n_rfs = SpeasyProduct("PSP_FLD_L3_RFS_LFR_QTN/N_elec"; labels = ["RFS Electron"])
 n = DataSet("Density", [n_spi, n_spc, n_sqtn])
 n_spi_sqtn = DataSet("Density", [n_spi, n_sqtn])
+
+function A_He(tmin, tmax; n_p = nothing)
+    n_p = DimArray(@something n_p n_spi(tmin, tmax); standardize = true)
+    n_α = DimArray(n_alpha(tmin, tmax); standardize = true)
+    return n_α ./ n_p .* 100
+end
 
 V = spz"cda/PSP_SWP_SPI_SF00_L3_MOM/VEL_RTN_SUN"
 const V_SC = spz"cda/PSP_SWP_SPI_SF00_L3_MOM/VEL_SC"
@@ -43,10 +49,12 @@ function read_electron_temperature(filename; data_dir = datadir("electron_fit_Ha
     # Read CSV file
     df = CSV.File(filepath; dateformat = "yyyy-mm-dd/HH:MM:SS.sss", drop = [3])
 
-    para = DimArray(df.coretpar_data, Ti(df.coretpar_time);
+    para = DimArray(
+        df.coretpar_data, Ti(df.coretpar_time);
         metadata = Dict(:ylabel => "T (eV)", :units => "eV", :label => L"T_{e,\parallel}")
     )
-    perp = DimArray(df.coretperp_data, Ti(df.coretpar_time);
+    perp = DimArray(
+        df.coretperp_data, Ti(df.coretpar_time);
         metadata = Dict(:ylabel => "T (eV)", :units => "eV", :label => L"T_{e,\perp}")
     )
     # Create DimArray with appropriate dimensions

@@ -5,11 +5,8 @@ engine: julia
 
 ```{julia}
 using DrWatson
-using PSPAnisotropy.Dataset: load_all
-using Discontinuity: var_mapping
 import Beforerr: easy_save
 using GLMakie, AlgebraOfGraphics
-m = var_mapping()
 df = PSPAnisotropy.workload()
 ```
 
@@ -179,20 +176,6 @@ end
 # plot_dB_over_B(layer; axis = (yscale=log10,)) |> display 
 
 plot_dB_over_B(layer)
-```
-
-```{julia}
-# plot the density distribution of the thickness and current density
-begin
-    fname = "properties_distribution"
-
-    maps = [l_log_map j_log_map
-        l_norm_log_map j_norm_log_map]
-    figure_kwargs = (size=(800, 600),)
-
-    plot_dist(data_layer; maps, axis=(), visual=mapping(), figure_kwargs=figure_kwargs)
-    easy_save(fname)
-end
 ```
 
 ```{julia}
