@@ -18,9 +18,10 @@ unitify(u) = (*)$u
 WI_PM_3DP_labels = ["Proton"]
 WI_ELM2_3DP_labels = ["Electron"] # "Electron (3DP, EESA Low)"
 
-B = SpeasyProduct("WI_H4-RTN_MFI/BRTN")
-B_RTN_1MIN = SpeasyProduct("WI_H3-RTN_MFI/BRTN")
-
+const B = spz"cda/WI_H4-RTN_MFI/BRTN"
+const B_RTN_1MIN = spz"cda/WI_H3-RTN_MFI/BRTN"
+const B_GSE = spz"cda/WI_H2_MFI/BGSE"
+const B_GSE_1MIN = spz"cda/WI_H0_MFI/BGSE"
 
 function combine_getdimarrays(ps, args...)
     das = getdimarray.(ps, args...)
@@ -29,12 +30,9 @@ end
 
 V_RTN_nonlin = Product(spz"cda/WI_H1_SWE_RTN/Proton_VR_nonlin,Proton_VT_nonlin,Proton_VN_nonlin,Proton_V_nonlin"; transformation = combine_getdimarrays)
 
-B_GSE = SpeasyProduct("WI_H2_MFI/BGSE")
-B_GSE_1MIN = SpeasyProduct("WI_H0_MFI/BGSE")
-V_GSE_3DP = SpeasyProduct("WI_PM_3DP/P_VELS") #about 3.1s/Sample
-V_GSE_K0 = SpeasyProduct("WI_K0_SWE/V_GSE")  # Note: it contains some weird spikes, about 100s/Sample
-V_RTN = SpeasyProduct("WI_K0_SWE_RTN/V_RTN") # Note: it contains some weird spikes
-
+const V_GSE_3DP = spz"cda/WI_PM_3DP/P_VELS" #about 3.1s/Sample
+const V_GSE_K0 = spz"cda/WI_K0_SWE/V_GSE"  # Note: it contains some weird spikes, about 100s/Sample
+const V_RTN = spz"cda/WI_K0_SWE_RTN/V_RTN" # Note: it contains some weird spikes
 
 n_p_K0 = replace_outliers! ∘ SpeasyProduct("WI_K0_SWE/Np"; labels=["Proton"]) # Time resolution is 110 seconds
 n_p_3DP = SpeasyProduct("WI_PM_3DP/P_DENS") # "Proton (3DP, PESA Low)"

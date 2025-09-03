@@ -1,0 +1,122 @@
+# Association Analysis Results
+# Generated: 2025-09-03T12:24:09.402
+# Dataset size: 44954 observations
+
+GROUPED ASSOCIATION ANALYSIS (by id)
+==================================================
+
+PSP (n = 17054):
+  Duration vs Alfvénicity (Q_sonnerup):
+    Pearson Correlation: 0.1135
+    Chatterjee Correlation: 0.0338
+    Mutual Information: 0.0051
+  Duration vs Velocity Ratio (V_l_ratio):
+    Pearson Correlation: 0.11
+    Chatterjee Correlation: 0.0375
+    Mutual Information: 0.0014
+  Magnetic Field Normal vs Alfvénicity:
+    Pearson Correlation: 0.1832
+    Chatterjee Correlation: 0.012
+    Mutual Information: -0.0193
+  Cross helicity vs Alfvénicity:
+    Pearson Correlation: 0.9197
+    Chatterjee Correlation: 0.5275
+    Mutual Information: 0.9726
+  σ_r vs Q_sonnerup:
+    Pearson Correlation: -0.1017
+    Chatterjee Correlation: 0.1511
+    Mutual Information: 0.2414
+  β vs :Q_sonnerup => abs:
+    Pearson Correlation: -0.1257
+    Chatterjee Correlation: 0.0167
+    Mutual Information: 0.052
+  Helium Abundance vs Alfvénicity:
+    Pearson Correlation: -0.2406
+    Chatterjee Correlation: 0.0299
+    Mutual Information: 0.0308
+  Current density vs Alfvénicity:
+    Pearson Correlation: -0.038
+    Chatterjee Correlation: 0.0571
+    Mutual Information: 0.017
+  Thickness vs Alfvénicity:
+    Pearson Correlation: 0.1303
+    Chatterjee Correlation: 0.043
+    Mutual Information: -0.0772
+  :A_He => var"#105#106"() vs J_m_max_mva_norm:
+    Pearson Correlation: 0.0151
+    Chatterjee Correlation: 0.0134
+    Mutual Information: -0.0298
+  :A_He => var"#107#108"() vs L_n_mva_norm:
+    Pearson Correlation: -0.0524
+    Chatterjee Correlation: 0.0127
+    Mutual Information: -0.0574
+  β vs J_m_max_mva_norm:
+    Pearson Correlation: 0.0045
+    Chatterjee Correlation: 0.014
+    Mutual Information: -0.0003
+  β vs L_n_mva_norm:
+    Pearson Correlation: -0.0044
+    Chatterjee Correlation: 0.011
+    Mutual Information: -0.0841
+  β vs A_He:
+    Pearson Correlation: -0.0268
+    Chatterjee Correlation: 0.1184
+    Mutual Information: 0.1984
+
+Wind (n = 27900):
+  Duration vs Alfvénicity (Q_sonnerup):
+    Pearson Correlation: -0.0614
+    Chatterjee Correlation: 0.0074
+    Mutual Information: -0.0278
+  Duration vs Velocity Ratio (V_l_ratio):
+    Pearson Correlation: -0.0743
+    Chatterjee Correlation: 0.0204
+    Mutual Information: 0.0046
+  Magnetic Field Normal vs Alfvénicity:
+    Pearson Correlation: 0.1679
+    Chatterjee Correlation: 0.0249
+    Mutual Information: -0.0014
+  Cross helicity vs Alfvénicity:
+    Pearson Correlation: 0.7582
+    Chatterjee Correlation: 0.3745
+    Mutual Information: 0.5779
+  σ_r vs Q_sonnerup:
+    Pearson Correlation: -0.096
+    Chatterjee Correlation: 0.0584
+    Mutual Information: 0.0543
+  β vs :Q_sonnerup => abs:
+    Pearson Correlation: -0.1267
+    Chatterjee Correlation: 0.0431
+    Mutual Information: 0.0308
+  Helium Abundance vs Alfvénicity:
+    Pearson Correlation: 0.0438
+    Chatterjee Correlation: -0.0106
+    Mutual Information: -0.0463
+  Current density vs Alfvénicity:
+    Pearson Correlation: -0.0002
+    Chatterjee Correlation: -0.0122
+    Mutual Information: -0.0115
+  Thickness vs Alfvénicity:
+    Pearson Correlation: -0.0676
+    Chatterjee Correlation: 0.0147
+    Mutual Information: -0.0561
+  :A_He => var"#105#106"() vs J_m_max_mva_norm:
+    Pearson Correlation: 0.024
+    Chatterjee Correlation: 0.0038
+    Mutual Information: -0.0336
+  :A_He => var"#107#108"() vs L_n_mva_norm:
+    Pearson Correlation: 0.0116
+    Chatterjee Correlation: -0.0003
+    Mutual Information: -0.0431
+  β vs J_m_max_mva_norm:
+    Pearson Correlation: 0.0026
+    Chatterjee Correlation: 0.0106
+    Mutual Information: -0.0146
+  β vs L_n_mva_norm:
+    Pearson Correlation: 0.0134
+    Chatterjee Correlation: 0.0172
+    Mutual Information: -0.0244
+  β vs A_He:
+    Pearson Correlation: 0.0521
+    Chatterjee Correlation: 0.6633
+    Mutual Information: 0.3682

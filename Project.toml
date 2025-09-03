@@ -5,11 +5,11 @@ authors = ["Zijin Zhang <zzj956959688@gmail.com> and contributors"]
 
 [deps]
 AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
+Associations = "614afb3a-e278-4863-8805-9959372b9ec2"
 Beforerr = "49aed396-608e-4c3f-b6d6-a749216c9ea7"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
-DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
@@ -53,8 +53,8 @@ TimeseriesUtilities = {path = "/Users/zijin/.julia/dev/TimeseriesUtilities"}
 
 [compat]
 AlgebraOfGraphics = "0.10, 0.11"
+Associations = "4.5.0"
 Chain = "0.6.0"
-DSP = "0.8.4"
 Dates = "1"
 HypothesisTests = "0.11.5"
 Interpolations = "0.15.1"

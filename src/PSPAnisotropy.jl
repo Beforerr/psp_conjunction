@@ -12,6 +12,7 @@ using TimeseriesUtilities: tsplit
 
 export get_timerange, workload, get_vl_ratio_ts
 
+include("associations.jl")
 include("meta.jl")
 include("mva.jl")
 include("calc.jl")
@@ -87,8 +88,8 @@ end
 
 export psp_conf, wind_conf, thm_conf
 
-psp_conf = @strdict(id = "PSP", B = PSP.B_SC, V = PSP.V_SC, n = PSP.n_spi, extra = (:A_He => PSP.A_He,))
-wind_conf = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, extra = (:A_He => Wind.A_He,))
+psp_conf = @strdict(id = "PSP", B = PSP.B_SC, V = PSP.V_SC, n = PSP.n_spi, extra = (:A_He => PSP.A_He, :T => PSP.pTemp))
+wind_conf = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, extra = (:A_He => Wind.A_He, :T => Wind.T_p_PLSP))
 thm_conf = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, extra = ())
 
 function workload()

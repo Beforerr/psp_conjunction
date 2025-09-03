@@ -209,7 +209,7 @@ function plot_dvl(; legend = legend_kwargs)
 end
 
 
-using DSP
+# using DSP
 export plot_spectras!
 
 function plot_spectras!(ax, specs...; labels = nothing, step = 10, kw...)

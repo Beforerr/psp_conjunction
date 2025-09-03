@@ -32,10 +32,17 @@ formats = (:pdf,)
 taus = Second.(2 .^ (1:6))
 # taus = Second.(2 .^ (0:6))
 df = workload(taus)
+
+_float64(x) = Float64(x)
+_float64(::Missing) = missing
+
 @chain df begin
     DC.compute_Alfvenicity_params!()
     DC.compute_params!()
-    @transform!(:B_n_mva_norm = abs.(:B_n_mva ./ :B_mag))
+    @transform!(
+        :B_n_mva_norm = abs.(:B_n_mva ./ :B_mag),
+        :duration = _float64.(ustrip.(:duration .|> u"s"))
+    )
     DC.classify!(:B_n_mva_norm)
 end
 
@@ -45,14 +52,130 @@ df_event_counts = @chain df begin
     groupby(:type)
     combine(nrow)
 end
+
+subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
 ```
+
+
+## Associations and independence test
+
+```{julia}
+
+println("\n" * "="^60)
+println("ASSOCIATION ANALYSIS FOR ALFVÉNICITY")
+println("="^60)
+
+# Define the variable pairs you want to analyze with transformations embedded
+alfvenicity_pairs = [
+    (:duration, :Q_sonnerup => abs, "Duration vs Alfvénicity (Q_sonnerup)"),
+    (:duration, :V_l_ratio, "Duration vs Velocity Ratio (V_l_ratio)"),
+    (:B_n_mva_norm, :Q_sonnerup => abs, "Magnetic Field Normal vs Alfvénicity"),
+    (:σ_c, :Q_sonnerup, "Cross helicity vs Alfvénicity"),
+    (:σ_r, :Q_sonnerup),
+    (:β, :Q_sonnerup => abs),
+    (:A_He => x -> ismissing(x) ? missing : only(x), :Q_sonnerup => abs, "Helium Abundance vs Alfvénicity"),
+    (:J_m_max_mva_norm, :Q_sonnerup => abs, "Current density vs Alfvénicity"),
+    (:L_n_mva_norm, :Q_sonnerup => abs, "Thickness vs Alfvénicity"),
+    (:A_He => x -> ismissing(x) ? missing : only(x), :J_m_max_mva_norm),
+    (:A_He => x -> ismissing(x) ? missing : only(x), :L_n_mva_norm),
+    (:β, :J_m_max_mva_norm),
+    (:β, :L_n_mva_norm),
+    (:β, :A_He),
+]
+
+# Run overall analysis
+println("OVERALL ASSOCIATION ANALYSIS")
+println("="^50)
+analyze_associations(df, alfvenicity_pairs)
+
+# Grouped analysis
+# println("GROUPED ASSOCIATION ANALYSIS (by $(group_by))")
+println("="^50)
+analyze_associations(df, alfvenicity_pairs; group_by=:id)
+```
+
+
+```md
+Association Measure Interpretation:
+Values range from 0 (no association) to 1 (perfect association):
+- 0.0 - 0.1: Very weak association
+- 0.1 - 0.3: Weak association  
+- 0.3 - 0.5: Moderate association
+- 0.5 - 0.7: Strong association
+- 0.7 - 1.0: Very strong association
+
+Association Methods Used:
+1. Distance Correlation: Non-parametric measure detecting linear & nonlinear dependencies
+2. Pearson Correlation: Standard linear correlation coefficient  
+3. Spearman Correlation: Rank-based correlation (monotonic relationships)
+4. Chatterjee Correlation: New robust measure for general dependencies
+5. Mutual Information: Information-theoretic measure of shared information
+
+Note: These are association strengths, not statistical significance tests.
+For independence testing, use with caution - consider both effect size and sample size.
+```
+
+[](../association_results.txt)
+
+```md
+
+🔎 Step 1. General observations
+	•	Cross helicity vs Alfvénicity absolutely dominates:
+	•	Pearson = 0.84 overall (0.92 in PSP, 0.76 in Wind).
+	•	Chatterjee = 0.47–0.53.
+	•	MI = 0.58–0.97.
+→ This is a very strong dependence by any metric, which is expected since Alfvénicity is conceptually related to cross helicity.
+	•	Magnetic field normal vs Alfvénicity shows weak-to-moderate positive linear correlation (~0.17–0.19), but Chatterjee and MI stay low. Suggests a weak linear trend, not a strong monotonic or nonlinear relationship.
+	•	Σ_r vs Q_sonnerup:
+	•	Small negative Pearson (~ -0.1).
+	•	But Chatterjee 0.09–0.15 and MI up to 0.24 in PSP → weak, possibly nonlinear dependence.
+	•	This might indicate subtle structure missed by linear correlation.
+	•	Duration, velocity ratio, thickness, helium abundance, current density:
+	•	All show weak or negligible correlations (|Pearson| < 0.25, Chatterjee mostly < 0.06, MI close to 0).
+	•	Suggests near independence, with only minor dataset-specific effects (e.g., PSP helium abundance at -0.24).
+
+⸻
+
+🔎 Step 2. Dataset comparison (PSP vs Wind)
+	•	Cross helicity vs Alfvénicity is strong in both spacecraft, but even stronger in PSP (r ~ 0.92 vs 0.76).
+	•	Magnetic field normal vs Alfvénicity is similar across PSP/Wind (r ~ 0.17–0.18).
+	•	Σ_r vs Q_sonnerup is stronger in PSP (MI ~0.24 vs 0.05 in Wind).
+	•	Helium abundance vs Alfvénicity:
+	•	PSP: moderate negative Pearson (-0.24).
+	•	Wind: near zero.
+→ Suggests PSP-specific dependence (possibly tied to solar wind composition closer to the Sun).
+	•	The rest (duration, velocity ratio, thickness, current density) are consistently weak in both datasets.
+
+⸻
+
+🔎 Step 3. Practical interpretation
+	1.	Cross helicity is the defining feature of Alfvénicity.
+The high correlations confirm that your Alfvénicity measure (Q_sonnerup) essentially tracks cross helicity. This is expected, but the strength of correlation (0.8–0.9) validates consistency across datasets.
+	2.	Other plasma/structural properties are only weakly linked.
+Magnetic field orientation (normal) shows a weak positive association, but not much more.
+	3.	Σ_r (residual energy measure?) has a modest but interesting nonlinear association with Alfvénicity, especially in PSP. Could hint at a subtle dependence worth exploring with scatter plots or conditional analysis.
+	4.	Helium abundance only matters in PSP.
+The -0.24 Pearson suggests Alfvénicity tends to be lower in He-rich regions, but this trend does not appear in Wind. That could reflect heliocentric distance effects.
+
+⸻
+
+✅ Summary of main findings:
+	•	Strong dependence: Cross helicity ↔ Alfvénicity (core relationship).
+	•	Weak but consistent: Magnetic field normal, Σ_r (especially in PSP).
+	•	Dataset-specific: Helium abundance (negative in PSP, absent in Wind).
+	•	Effectively independent: Duration, velocity ratio, thickness, current density.
+
+⸻
+```
+
+
+Would you like me to help you visualize these dependencies (scatter plots, density plots, MI heatmaps) to confirm the weak vs strong associations, or do you just need a written interpretation for now?
 
 ## Thickness and current density
 
 Density distributions of (normalized) thickness and current density
 
 ```{julia}
-subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
 fname = "properties_hist"
 
 fs = map([:mva]) do 𝐧
@@ -144,9 +267,9 @@ draw(plt, axis=(; yscale=identity), facet=(; linkyaxes=:minimal))
 # draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
 ```
 
-## 
+## Joint distributions
 
-Joint distributions of thickness and current density
+### Thickness and current density
 
 ```{julia}
 for 𝐧 in [:mva]
@@ -195,13 +318,23 @@ for 𝐧 in [:mva]
     𝒎 = var_mapping(; 𝐧)
 
     tdf = @chain df begin
-        @subset(.!isnan.(:B_n_mva_norm) .& .!isnan.(:σ_c); view=true)
+        @rsubset(all(!isnan, (:B_n_mva_norm, :Q_sonnerup, :σ_c, :ΔV_ratio, :ΔV_cosθ)); view=true)
         dropmissing([:B_n_mva_norm, :duration, :σ_c])
-        @transform!(:duration = Float64.(ustrip.(:duration .|> u"s")))
+        @transform!(:duration = Float64.(:duration))
         subset_𝐧(𝐧)
     end
 
-    plt = data(tdf) * mapping(row=:id, col=:enc)
+    β_A_He_df = @chain df begin
+        @rsubset(all(!isnan, (:β, :A_He)); view=true)
+        dropmissing([:β, :A_He])
+        @transform!(:log_β = log10.(:β))
+        @rsubset(:A_He < 20, :log_β > -1.5)
+    end
+
+
+    layout = mapping(row=:id, col=:enc)
+
+    plt = data(tdf) * layout
     vis = visual(Scatter; markersize=6)
     fig = Figure(; size=(1200, 800))
     axis = (;)
@@ -211,12 +344,17 @@ for 𝐧 in [:mva]
     ΔV_cosθ_map = mapping(group=ΔV_cosθ_group, color=ΔV_cosθ_group)
 
     B_n_spec = plt * mapping(:B_n_mva_norm, :ω_in) * vis
-    ΔV_spec = plt * mapping(:ΔV_ratio, :ΔV_cosθ) * (vis + AoG.smooth() * ΔV_cosθ_map)
+    ΔV_spec = plt * mapping(:ΔV_ratio, :ΔV_cosθ) * (vis + AoG.linear() * ΔV_cosθ_map)
     σc_σr_spec = plt * mapping(:σ_c, :σ_r) * (vis + AoG.smooth() * visual(color=:red))
+
+    A_He_group = mapping(group=:A_He => >(1.5), color=:A_He => >(1.5))
+
+    β_A_He_spec = data(β_A_He_df) * layout * mapping(:log_β, :A_He) * (vis + AoG.smooth(; degree=1) * A_He_group)
 
     draw!(fig[1, 1], B_n_spec; axis)
     draw!(fig[1, 2], ΔV_spec; axis=(; limits=((0, 2), (-1, 1),)))
     draw!(fig[2, 1], σc_σr_spec)
+    draw!(fig[2, 2], β_A_He_spec)
 
     # pretty_legend!(fig, grid1)
     # add_labels!([ga, gb, gc])
@@ -225,11 +363,9 @@ for 𝐧 in [:mva]
 end
 ```
 
-Joint distributions of Q_sonnerup and other variables
+### Q_sonnerup and other variables
 
 ```{julia}
-CairoMakie.activate!()
-
 view = true
 𝒎 = var_mapping(; 𝐧)
 
@@ -239,7 +375,7 @@ tdf = @chain df begin
     dropmissing(vars)
     @rsubset(all(!isnan, (:B_n_mva_norm, :Q_sonnerup, :σ_c)); view=true)
     @transform!(
-        :duration = Float64.(ustrip.(:duration .|> u"s")),
+        :duration = Float64.(:duration),
         :B_n_mva_norm = Float64.(:B_n_mva_norm),
     )
 end
@@ -250,6 +386,12 @@ A_He_df = @chain tdf begin
     @rsubset(:A_He < 10)
 end
 
+β_df = @chain df begin
+    @rsubset(all(!isnan, [:β, :Q_sonnerup]); view=true)
+    dropmissing([:β, :Q_sonnerup])
+    @transform!(:log_β = log10.(:β))
+end
+
 Bn_df = subset_𝐧(tdf, 𝐧)
 
 fig = Figure(; size=(1200, 800))
@@ -257,26 +399,28 @@ axis = (;)
 
 layout = mapping(row=:id, col=:enc)
 plt = data(tdf) * layout
-vis = visual(Scatter; markersize=6)
+vis = visual(Scatter; markersize=5)
 
 Q_group = mapping(group=:Q_sonnerup => >(0), color=:Q_sonnerup => >(0))
 A_He_group = mapping(group=:A_He => >(0), color=:A_He => >(0))
 line_vis = visual(linewidth=3)
 
-Bn_Q_spec = data(Bn_df) * mapping(:B_n_mva_norm, :Q_sonnerup) * layout * (vis + AoG.linear() * Q_group * line_vis)
+Bn_Q_spec = data(Bn_df) * mapping(:B_n_mva_norm, :Q_sonnerup => abs) * layout * (vis + AoG.linear() * line_vis * mapping(color=:id))
 duration_Q_spec = plt * mapping(:duration, :Q_sonnerup) * (vis + AoG.smooth() * Q_group * line_vis)
 σc_Q_spec = plt * mapping(:σ_c, :Q_sonnerup) * (vis + AoG.linear() * Q_group * line_vis)
 σr_Q_spec = plt * mapping(:σ_r, :Q_sonnerup) * (vis + AoG.linear() * Q_group * line_vis)
 A_He_Q_spec = data(A_He_df) * mapping(:A_He, :Q_sonnerup => abs) * layout * (vis + AoG.smooth() * A_He_group * line_vis)
+β_Q_spec = data(β_df) * mapping(:log_β, :Q_sonnerup => abs) * layout * (vis + AoG.smooth(; degree=4) * line_vis * mapping(color=:id))
 
 draw!(fig[1, 1], Bn_Q_spec)
 draw!(fig[1, 2], duration_Q_spec; axis=(; xscale=log10))
 draw!(fig[2, 1], σc_Q_spec)
 draw!(fig[2, 2], σr_Q_spec)
 draw!(fig[3, 1], A_He_Q_spec)
+draw!(fig[3, 2], β_Q_spec)
 
 # add_labels!([ga, gb, gc])
-# easy_save("Q_sonnerup_joint_dist"; formats, force=true)
+easy_save("Q_sonnerup_joint_dist"; formats, force=true)
 display(fig)
 ```
 
@@ -303,28 +447,9 @@ end
 # Overall correlation matrix
 println("Overall correlation matrix:")
 cor_vars = [:Q_sonnerup, :duration, :B_n_mva_norm, :σ_c, :σ_r, :L_n_mva_norm, :J_m_max_mva_norm]
-overall_corr = nancor(Matrix(df_corr[!, cor_vars]))
+_cor_func = df -> nancor(Matrix(df[!, cor_vars]))
+overall_corr = _cor_func(df_corr)
 display(overall_corr)
-# heatmap(cor_vars, cor_vars, overall_corr)
-# pairplot(df_corr[!, cor_vars])
-
-# Group by different missions and compute correlations
-println("\nCorrelation analysis by mission:")
-mission_stats = @chain df_corr begin
-    groupby(:id)
-    @combine(
-        :count = nrow,
-        :corr_Q_duration = nancor(:Q_sonnerup, :duration),
-        :corr_Bn_duration = nancor(:B_n_mva_norm, :duration),
-        :corr_Q_Bn = nancor(:Q_sonnerup, :B_n_mva_norm),
-        :mean_Q = nanmean(abs.(:Q_sonnerup)),
-        :mean_duration = nanmean(:duration),
-        :mean_Bn = nanmean(:B_n_mva_norm)
-    )
-end
-
-display(mission_stats)
-
 # # Statistical significance tests
 # test_q = CorrelationTest(df_corr.duration_s, df_corr.Q_sonnerup)
 # test_vl = CorrelationTest(df_corr.duration_s, collect(skipmissing(df_corr.V_l_ratio)))
