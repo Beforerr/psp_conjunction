@@ -5,12 +5,15 @@ using SPEDAS: tvec, setmeta, setmeta!
 using Statistics
 using CairoMakie
 using TimeseriesUtilities: times
-
-include("anisotry.jl")
+using SpacePhysicsMakie: tplot, tlines!
 
 export plot_candidate, plot_var_info!, plot_PSP, plot_Wind
 
+
+include("meta.jl")
+
 import .Labels as 𝑳
+import .YLabel as 𝒀
 
 export set_Z_theme!
 
@@ -24,15 +27,8 @@ set_Z_theme!() = begin
     )
 end
 
-
-# %%
-legend_kwargs = (position = :top, titleposition = :left)
-
-begin
-    enc_m = :enc => x -> "Enc $x"
-end
-
-log_axis = (yscale = log10, xscale = log10)
+const legend_kwargs = (position = :top, titleposition = :left)
+const log_axis = (yscale = log10, xscale = log10)
 
 function draw!(grid; axis = NamedTuple(), palettes = NamedTuple())
     return plt -> draw!(grid, plt; axis = axis, palettes = palettes)
@@ -89,20 +85,21 @@ function plot_candidate(f, event, config::AbstractDict, toffset = Second(0); add
     B_product = config["B"]
     V_product = config["V"]
 
-    B = B_product(t0, t1) |> setmeta!(; ylabel = "B", labels = 𝑳.B_RTN)
-    V = V_product(t0, t1) |> setmeta!(; ylabel = "V", labels = 𝑳.V_RTN)
-    n = config["n"](t0, t1)
+    B = setmeta!(DimArray(B_product(t0, t1); add_unit = true); ylabel = "B", labels = 𝑳.B_RTN)
+    V = setmeta!(DimArray(V_product(t0, t1); add_unit = true); ylabel = "V", labels = 𝑳.V_RTN)
+    n = DimArray(config["n"](t0, t1); add_unit = true)
 
     B_subset = tview(B, tmin, tmax)
 
-    B_mva = mva(B, B_subset) |> setmeta(; labels = 𝑳.B_LMN)
-    Va = Alfven_velocity_ts(B_mva, n) .|> u"km/s" |> setmeta(; labels = 𝑳.Va_LMN, ylabel = "V")
-    V_mva = mva(V, B_subset) |> setmeta(; labels = 𝑳.V_LMN)
+    B_mva = setmeta(mva(B, B_subset); labels = 𝑳.B_LMN)
+    Va = setmeta(Alfven_velocity_ts(B_mva, n) .|> u"km/s"; labels = 𝑳.Va_LMN, ylabel = "V")
+    V_mva = setmeta(mva(V, B_subset); labels = 𝑳.V_LMN)
 
     result = [tnorm_combine(B_mva), tsubtract(V_mva), tsubtract(Va)]
 
     if add_J
-        J = hcat(current_density(B_mva, V_mva)...) |> setmeta(; labels = 𝑳.J, ylabel = "J")
+        J = hcat(current_density(B_mva, V_mva)...)
+        J = setmeta(J; labels = 𝑳.J, ylabel = "J")
         push!(result, J)
     end
 
@@ -118,38 +115,107 @@ _plasma_beta(T, n, B_mag) = setmeta(
     Discontinuity.plasma_beta.(tsync(T, n, B_mag)...); label = "β", units = ""
 )
 
+_tmean(x::AbstractArray{<:Number}) = tmean(x, Minute(8))
+_tmean(x::AbstractArray) = map(_tmean, x)
+_tmean(x::DimStack) = tmean(x, Minute(8))
+_tmean(tuple) = map(_tmean, tuple)
+# _tmean(x::AbstractArray) = _tmean.(x)
+
 function plot_PSP(f, tmin, tmax, extra_tvars...; kw...)
-    B = setmeta!(PSP.B_1MIN(tmin, tmax); labels = 𝑳.B_RTN)
+    B_1MIN = PSP.B_1MIN(tmin, tmax)
+    n_p = PSP.n_spi(tmin, tmax)
+
+    B_SC = PSP.B_SC(tmin, tmax)
+    V_SC = PSP.V_SC(tmin, tmax)
+    _V_SC, _B_SC, _n = tsync(V_SC, B_SC, n_p)
+    σs = Discontinuity.cross_helicity_residual_energy(_B_SC', _V_SC', _n, Minute(8))
+
     V = PSP.V(tmin, tmax)
-    n_p = PSP.n_spi(tmin, tmax) |> tvec
-    T = PSP.pTemp(tmin, tmax; add_unit = false) |> tvec
-    A_He = setmeta(PSP.A_He(tmin, tmax; n_p), ylabel = "A_He", scale = identity)
-
-    B_mag = tnorm(B)
-    β = _plasma_beta(T, n_p, B_mag)
-
-    T = setmeta!(T; labels = [L"T_p"])
-
+    Tp = PSP.pTemp(tmin, tmax)
+    B_mag = tnorm(B_1MIN)
+    β = _plasma_beta(Tp, n_p, B_mag)
+    A_He = PSP.A_He(tmin, tmax; n_p)
     # tmean.((T, Tp, Te)
-    tvars = (B_mag, n_p, tnorm(V), tmean(T, Minute(8)), β, A_He, extra_tvars...)
-    return faxs = tplot(f, tvars, tmin, tmax; kw...)
+    _extra_tvars = map(extra_tvars) do tv
+        tview(tv, tmin, tmax)
+    end
+
+    Tp2 = tview(PSP.read_proton_temperature(), tmin, tmax)
+    Te2 = tview(PSP.read_electron_temperature(), tmin, tmax)
+    Tp = setmeta(Tp, labels = [L"T_p"])
+
+    tvars = map(_tmean, (B_mag, n_p, tnorm(V), [Tp, Tp2.para, Tp2.perp, Te2.para, Te2.perp], _extra_tvars..., σs, A_He, β))
+    return tplot(f, tvars; kw...)
 end
 
 function plot_Wind(f, tmin, tmax, extra_tvars...; kw...)
-    B = Wind.B_GSE_1MIN(tmin, tmax)
-    V = Wind.V_GSE_K0(tmin, tmax)
-    n = Wind.n_p_nonlin(tmin, tmax) |> tsort
-    n_α = Wind.n_α_nonlin(tmin, tmax) |> tsort
-    A_He = setmeta(n_α ./ n .* 100; ylabel = "A_He", scale = identity)
+    B = Wind.B_GSE(tmin, tmax)
+    V = Wind.V_GSE_3DP(tmin, tmax)
+    n = Wind.n_p_3DP(tmin, tmax)
 
-    T = setmeta(Wind.T_p_PLSP(tmin, tmax; add_unit = false) |> tsort; labels = [L"T_p"])
+    _V, _B, _n = tsync(V, B, n)
+    σs = Discontinuity.cross_helicity_residual_energy(_B', _V', _n, Minute(8))
+    T = Wind.T_p_PLSP(tmin, tmax)
+
     B_mag = tnorm(B)
     β = _plasma_beta(T, n, B_mag)
+    n2 = Wind.n_p_nonlin(tmin, tmax)
+    n_α = Wind.n_α_nonlin(tmin, tmax)
+    A_He = n_α ./ n2 .* 100
 
-    # [T, Wind_Tp2, Wind_Te2]
-    tvars = (B_mag, n, tnorm(tsort(V)), T, β, A_He, extra_tvars...)
-    return faxs = tplot(f, tvars, tmin, tmax; kw...)
+    Tp2 = Wind.pTemp_T2(tmin, tmax)
+    Te2 = Wind.eTemp_T2(tmin, tmax)
+    _extra_tvars = map(extra_tvars) do tv
+        tview(tv, tmin, tmax)
+    end
+    V_mag = tnorm(tsort(V))
+    V_mag[V_mag .< 200] .= NaN
+    tvars = map(_tmean, (B_mag, n, V_mag, [Tp2.para, Tp2.perp, Te2.para, Te2.perp], _extra_tvars..., σs, A_He, β))
+    return tplot(f, tvars; kw...)
 end
+
+modify_N_ax!(ax, nmin = 50, nmax = 310) = begin
+    ylims!(ax, nmin, nmax)
+end
+
+modify_β_ax!(ax) = begin
+    ax.ylabel[] = "β"
+    ax.yscale[] = log10
+    ylims!(ax, 8.0e-2, 4.0e1)
+end
+
+modify_A_He_ax!(ax) = begin
+    ax.yscale[] = identity
+    ax.ylabel[] = L"A_{\text{He}} (%)"
+    ylims!(ax, 0, 8)
+end
+
+function modify_faxs_base!(faxs)
+    B_ax = faxs.axes[1]
+    B_ax.ylabel[] = 𝒀.B
+    n_ax = faxs.axes[2]
+    n_ax.yscale[] = identity
+    n_ax.ylabel[] = 𝒀.n
+    V_ax = faxs.axes[3]
+    V_ax.ylabel[] = 𝒀.V
+
+    T_ax = faxs.axes[4]
+    T_ax.ylabel[] = "T (eV)"
+
+    modify_A_He_ax!(faxs.axes[end - 1])
+    modify_β_ax!(faxs.axes[end])
+    modify_N_ax!(faxs.axes[6])
+    return
+end
+
+# function modify_faxs_vl!(faxs)
+#     i = 1
+#     T_ax = faxs.axes[end-3-i]
+#     T_ax.ylabel[] = "T (eV)"
+
+#     R_ax = faxs.axes[end-2-i]
+#     ylims!(R_ax, 0.09, 0.85)
+# end
 
 
 function plot_vl_ratio(
@@ -208,8 +274,6 @@ function plot_dvl(; legend = legend_kwargs)
     return easy_save(fname)
 end
 
-
-# using DSP
 export plot_spectras!
 
 function plot_spectras!(ax, specs...; labels = nothing, step = 10, kw...)

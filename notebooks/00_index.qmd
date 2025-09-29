@@ -19,9 +19,6 @@ using SPEDAS: setmeta, setmeta!
 using Beforerr: _theme_legend, easy_save
 using PartialFunctions
 
-import PSPAnisotropy.Labels as 𝑳
-import PSPAnisotropy.YLabel as 𝒀
-
 𝐧 = :mva
 𝒎 = var_mapping(; 𝐧)
 
@@ -29,69 +26,41 @@ using Unitful
 Unitful.preferunits(u"nA", u"km")
 unitify(u) = (*)$u
 unitify(u::String) = (*)$uparse(u)
+includet("../src/plot.jl")
 ```
 
-## Event example (simple)
-
 ```{julia}
-df, configs = workload()
+df = workload()
 compute_params!(df)
 compute_Alfvenicity_params!(df)
 
 psp_df = @rsubset(df, :id == "PSP"; view=true)
-psp_config = configs[1]
 wind_df = @rsubset(df, :id == "Wind"; view=true)
-wind_config = configs[2]
-thm_df = @rsubset(df, :id == "THEMIS"; view=true)
-thm_config = configs[3]
-
-thm_config["B"] = unitify("nT") ∘ thm_config["B"]
+thm_df = @rsubset(df, :id == "THEMIS"; view=true)p -
+         thm_conf["B"] = unitify("nT") ∘ thm_conf["B"]
 ```
 
 ```{julia}
-using DimensionalData
-
-
-deunit(x::Quantity, u) = NoUnits(x / u)
-deunit(x, u) = x
-
-function add_temp_anisotropy!(df, Tp_para, Tp_perp, Te_para, Te_perp, dt=Minute(1))
-    @rtransform! df begin
-        :Tp_para = deunit(tselect(Tp_para, :time, dt), u"eV")
-        :Tp_perp = deunit(tselect(Tp_perp, :time, dt), u"eV")
-        :Te_para = deunit(tselect(Te_para, :time, dt), u"eV")
-        :Te_perp = deunit(tselect(Te_perp, :time, dt), u"eV")
-    end
-end
-
-add_temp_anisotropy!(df, Tp, Te, args...) =
-    add_temp_anisotropy!(df, Tp.para, Tp.perp, Te.para, Te.perp, args...)
-
-
-function compute_PSP_anisotropy_params!(psp_df)
-    Tp = PSP.read_proton_temperature(7:8)
-    Te = PSP.read_electron_temperature()
-    add_temp_anisotropy!(psp_df, Tp, Te)
-    compute_anisotropy_params!(psp_df, :ion => (:Tp_para, :Tp_perp), :electron => (:Te_para, :Te_perp))
-end
-
-function compute_Wind_anisotropy_params!(df, tmin, tmax)
-    Wind_Tp2 = Wind.pTemp_T2(tmin, tmax; add_unit=false)
-    Wind_Te2 = Wind.eTemp_T2(tmin, tmax; add_unit=false)
-    add_temp_anisotropy!(df, Wind_Tp2, Wind_Te2, Minute(2))
-    compute_anisotropy_params!(df, :ion => (:Tp_para, :Tp_perp), :electron => (:Te_para, :Te_perp))
+compute_PSP_anisotropy_params!(psp_df)
+for enc in 7:9
+    (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
+    wind_df_enc = @rsubset(wind_df, :enc == enc; view=true)
+    compute_Wind_anisotropy_params!(wind_df_enc, tmin_wind, tmax_wind)
 end
 ```
+
+
+## Event example (simple)
 
 ```{julia}
 f = Figure(; size=(1200, 800))
 psp_event = filter_low_mva_quality(psp_df)[5, :]
-fax, res_psp = plot_candidate(f[1, 1], psp_event, psp_config, Second(10))
+fax, res_psp = plot_candidate(f[1, 1], psp_event, psp_conf, Second(10))
 @info "v_l_ratio" psp_event.V_l_ratio psp_event.V_l_ratio_max
-# res_thm = plot_candidate(f[1, 2], thm_df[10, :], thm_config)
-# res_thm = plot_candidate(f[1, 2], thm_df[14, :], thm_config)
-# res_thm = plot_candidate(f[1, 2], thm_df[17, :], thm_config)
-# res_wind = plot_candidate(f[1, 3], wind_df[1, :], wind_config, Second(10))
+# res_thm = plot_candidate(f[1, 2], thm_df[10, :], thm_conf)
+# res_thm = plot_candidate(f[1, 2], thm_df[14, :], thm_conf)
+# res_thm = plot_candidate(f[1, 2], thm_df[17, :], thm_conf)
+# res_wind = plot_candidate(f[1, 3], wind_df[1, :], wind_conf, Second(10))
 f
 ```
 
@@ -101,10 +70,10 @@ f
 
 ```{julia}
 using Speasy
-using SPEDAS: tnorm_combine, tplot, DataSet
+using SPEDAS: tnorm_combine, DataSet
 using DimensionalData
-using CairoMakie
-# using GLMakie
+# using CairoMakie
+using GLMakie
 using Statistics
 using PartialFunctions
 using Unitful
@@ -120,14 +89,14 @@ mva_transform((V, B), tmin, tmax; tb_min=tmin, tb_max=tmax) = mva(V(tmin, tmax),
 ```
 
 ```{julia}
-tmin_psp = DateTime("2021-01-14")
+tmin_psp = DateTime("2021-01-15")
 tmax_psp = DateTime("2021-01-20")
-tmin_wind = DateTime("2021-01-15")
+tmin_wind = DateTime("2021-01-17")
 tmax_wind = DateTime("2021-01-23")
 _tmax_wind = DateTime("2021-01-15T02")
 
-tmin_psp = DateTime("2021-01-16")
-tmax_psp = DateTime("2021-01-19")
+# tmin_psp = DateTime("2021-01-16")
+# tmax_psp = DateTime("2021-01-19")
 # tmin_wind = DateTime("2021-01-17")
 # tmax_wind = DateTime("2021-01-18")
 ```
@@ -155,100 +124,52 @@ tvars_themis = [
 ### Alfvén ratio over time
 
 ```{julia}
-function modify_faxs_base!(faxs)
-    B_ax = faxs.axes[1]
-    B_ax.ylabel[] = 𝒀.B
-    V_ax = faxs.axes[3]
-    V_ax.ylabel[] = 𝒀.V
-    n_ax = faxs.axes[2]
-    n_ax.yscale[] = identity
-    n_ax.ylabel[] = 𝒀.n
-end
-
-function modify_faxs_vl!(faxs)
-    i = 1
-    T_ax = faxs.axes[end-3-i]
-    T_ax.ylabel[] = "T (eV)"
-
-    R_ax = faxs.axes[end-2-i]
-    ylims!(R_ax, 0.09, 0.85)
-
-    β_ax = faxs.axes[end-i]
-    β_ax.yscale[] = log10
-    ylims!(β_ax, 8e-2, 4e1)
-
-    A_He_ax = faxs.axes[end]
-    A_He_ax.yscale[] = identity
-    A_He_ax.ylabel[] = L"A_{\text{He}} (%)"
-    ylims!(A_He_ax, 0, 8)
-end
-
 f = Figure(; size=(800, 600))
-# faxs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...)
-modify_faxs_vl!(faxs)
+faxs = plot_PSP(f[1, 1], tmin_psp + Day(2), tmin_psp + Day(3), get_vl_ratio_ts(psp_df)...)
+modify_faxs_base!(faxs)
+# modify_faxs_vl!(faxs)
 f
 ```
 
 ```{julia}
-let tmin = tmin_psp, tmax = tmax_psp
+let tmin = tmin_wind, tmax = tmin_wind + Day(3)
     f = Figure(; size=(800, 600))
-
-
-    faxs = plot_Wind(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(wind_df)...)
+    faxs = plot_Wind(f[1, 1], tmin, tmax, get_vl_ratio_ts(wind_df)...)
+    modify_faxs_base!(faxs)
     f
 end
 ```
 
 ```{julia}
-using SPEDAS: tvec
-using CairoMakie
-CairoMakie.activate!()
+# using CairoMakie
+# CairoMakie.activate!()
 
 update_theme!(; Lines=(linewidth=1, alpha=0.9), figure_padding=(1, 1, 1, 15))
 
-# for enc in 7:9
-plot_vl_ratio = true
+add_vl_ratio = true
 
 for enc in 7:7
     (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
-
     legend = (; position=Top())
     labels = '1':'9'
     padding = (0, 30, 0, -30)
-
-    f = Figure(; size=(800, 600))
-
+    f = Figure(; size=(1000, 800))
     fname = "overview-$enc"
-
-    if plot_vl_ratio
+    if add_vl_ratio
         fname = "overview-vl-$enc"
         faxs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...; legend)
         modify_faxs_base!(faxs)
-        plot_vl_ratio && modify_faxs_vl!(faxs)
-
-        compute_Wind_anisotropy_params!(wind_df, tmin_wind, tmax_wind)
-        faxs = plot_Wind(f[1, 2], tmin_wind, tmax_wind, get_vl_ratio_ts(wind_df)...; legend)
+        faxs = plot_Wind(f[1, 2], tmin_wind, tmax_wind - Day(1), get_vl_ratio_ts(wind_df)...; legend)
         modify_faxs_base!(faxs)
-        plot_vl_ratio && modify_faxs_vl!(faxs)
     end
 
     add_labels!(f[1, 1]; labels, open="(a.", padding)
     add_labels!(f[1, 2]; labels, open="(b.", padding)
-
-    easy_save(fname; formats=(:pdf,))
     display(f)
+    easy_save("overview-$enc-all")
 
-
-    # tvars_psp = (psp_B, psp_n, psp_V)
-    # tvars_wind = (wind_B, wind_n, wind_V)
-    # f = Figure(; size=(1200, 600))
-    # plots = tplot(f[1, 1], tvars_psp, tmin_psp, tmax_psp; legend)
-    # add_labels!(f[1, 1]; labels, open="(a.")
-    # tplot(f[1, 2], tvars_wind, tmin_wind, tmax_wind; legend)
-    # add_labels!(f[1, 2]; labels, open="(b.")
     # tplot(f[1, 3], _tmask! .∘ tvars_themis, tmin_wind, tmax_wind; legend)
     # add_labels!(f[1, 3]; labels, open="(c.")
-    # easy_save("overview-$enc-all")
 end
 ```
 
@@ -318,15 +239,15 @@ Wind Speed, Time to Earth
 
 ```{julia}
 psp_df_taus = map([2, 4, 8, 16, 32]) do tau
-    psp_config["tau"] = tau
-    df = PSPAnisotropy.produce(psp_config, psp_config["timeranges"][1]...)
+    psp_conf["tau"] = tau
+    df = PSPAnisotropy.produce(psp_conf, psp_conf["timeranges"][1]...)
     @transform! df :tau = tau
     compute_Alfvenicity_params!(df)
 end
 
 wind_df_taus = map([2, 4, 8, 16, 32]) do tau
-    wind_config["tau"] = tau
-    df = PSPAnisotropy.produce(wind_config, wind_config["timeranges"][1]...)
+    wind_conf["tau"] = tau
+    df = PSPAnisotropy.produce(wind_conf, wind_conf["timeranges"][1]...)
     @transform! df :tau = tau
     compute_Alfvenicity_params!(df)
 end
@@ -336,10 +257,10 @@ Check examples
 
 ```{julia}
 f = Figure(; size=(1200, 800))
-# let df = psp_df_taus[1], config = psp_config
+# let df = psp_df_taus[1], config = psp_conf
 begin
     df = @subset(wind_df_taus[1], :index_std .> 4)
-    config = wind_config
+    config = wind_conf
     event = filter_low_mva_quality(df)[5, :]
     fax, res_psp = plot_candidate(f[1, 1], event, config, Second(10))
     plot_var_info!(fax, event)
@@ -397,14 +318,6 @@ compute_params!(df)
 using LaTeXStrings
 import AlgebraOfGraphics: append_unit_string
 append_unit_string(s::LaTeXStrings.LaTeXString, u::String) = s
-
-
-function alpha_layer(df, alpha)
-    psp_df = @rsubset(df, :id == "PSP"; view=true)
-    thm_df = @rsubset(df, :id == "THEMIS"; view=true)
-    wind_df = @rsubset(df, :id == "Wind"; view=true)
-    (data(thm_df) + data(wind_df)) * visual(; alpha) + data(psp_df)
-end
 ```
 
 ```{julia}

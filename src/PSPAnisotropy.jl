@@ -1,6 +1,5 @@
 module PSPAnisotropy
 using Speasy
-using SpacePhysicsMakie: tplot, tlines!
 using Dates
 using DataFrames, DataFramesMeta
 using CategoricalArrays
@@ -8,6 +7,7 @@ using DrWatson
 using Discontinuity: ids_finder
 using SPEDAS
 using LaTeXStrings
+using Discontinuity
 using TimeseriesUtilities: tsplit
 
 export get_timerange, workload, get_vl_ratio_ts
@@ -16,13 +16,14 @@ include("associations.jl")
 include("meta.jl")
 include("mva.jl")
 include("calc.jl")
+include("anisotropy.jl")
 
 using PSP
 using PSP: psp_events
 include("Wind.jl")
 include("THEMIS.jl")
 
-include("plot.jl")
+# include("plot.jl")
 
 function get_timerange(enc)
     Δt_min = Day(2)
@@ -76,7 +77,7 @@ function produce(conf_tr_pairs, taus; kw...)
     return df
 end
 
-function workload(taus, encs = 7:9; kw...)
+function workload(taus = Second.(2 .^ (1:6)), encs = 7:9; kw...)
     df = mapreduce(vcat, encs) do enc
         timeranges = get_timerange(enc)
         pairs = [psp_conf, wind_conf] .=> timeranges
@@ -91,24 +92,5 @@ export psp_conf, wind_conf, thm_conf
 psp_conf = @strdict(id = "PSP", B = PSP.B_SC, V = PSP.V_SC, n = PSP.n_spi, extra = (:A_He => PSP.A_He, :T => PSP.pTemp))
 wind_conf = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, extra = (:A_He => Wind.A_He, :T => Wind.T_p_PLSP))
 thm_conf = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, extra = ())
-
-function workload()
-    df = mapreduce(vcat, 7:9) do enc
-        tpsp, tearth = get_timerange(enc)
-        mapreduce(vcat, configs) do c
-            id = c["id"]
-            timerange = id == "PSP" ? tpsp : tearth
-            c["t0"] = Date(timerange[1])
-            c["t1"] = Date(timerange[2])
-            res, = produce_or_load(c, datadir(); tag = false) do c
-                c["events"] = ids_finder(c["B"], c["t0"], c["t1"], c["V"], c["n"]; tau = Second(c["tau"]))
-                c
-            end
-            @rtransform!(res["events"], :enc = enc, :id = id)
-        end
-    end
-    df.id = categorical(df.id; compress = true)
-    return df, configs
-end
 
 end

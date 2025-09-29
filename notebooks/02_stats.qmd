@@ -13,6 +13,8 @@ using CairoMakie
 using Beforerr: _theme_legend, easy_save
 using AlgebraOfGraphics
 import AlgebraOfGraphics as AoG
+using LinearAlgebra
+using Accessors
 using Unitful
 Unitful.preferunits(u"nA", u"km")
 
@@ -22,7 +24,7 @@ foreach([:log10, :log2, :log]) do f
     @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
 end
 set_Z_theme!()
-formats = (:pdf,)
+formats = (:pdf,:png)
 ```
 
 ```{julia}
@@ -36,13 +38,19 @@ df = workload(taus)
 _float64(x) = Float64(x)
 _float64(::Missing) = missing
 
+A_lens = @optic _.model.A
+
 @chain df begin
     DC.compute_Alfvenicity_params!()
     DC.compute_params!()
-    @transform!(
-        :B_n_mva_norm = abs.(:B_n_mva ./ :B_mag),
+    @transform! @astable begin
+        :Δ𝐁 = @. norm(:B_us - :B_ds)
+        :Δ𝐁_fit = @. 2 * passmissing(A_lens)(:model) |> abs
+        :Δ𝐁_norm = :Δ𝐁 ./ :B_mag
+        :Δ𝐁_fit_norm = :Δ𝐁_fit ./ :B_mag
+        :B_n_mva_norm = abs.(:B_n_mva ./ :B_mag)
         :duration = _float64.(ustrip.(:duration .|> u"s"))
-    )
+    end
     DC.classify!(:B_n_mva_norm)
 end
 
@@ -179,6 +187,7 @@ Density distributions of (normalized) thickness and current density
 fname = "properties_hist"
 
 fs = map([:mva]) do 𝐧
+    figure = (; size=(650, 400))
     𝒎 = var_mapping(; 𝐧)
 
     datalimits = x -> quantile(x, [0.01, 0.99])
@@ -190,9 +199,10 @@ fs = map([:mva]) do 𝐧
         dropmissing(:L_n_mva_norm)
     end
 
-    vars = [𝒎.l_log, 𝒎.j_log, 𝒎.l_norm_log, 𝒎.j_norm_log]
-    # , 𝒎.bn
-    labels = ["Thickness", "Current density", "Normalized thickness", "Normalized current density"]
+    vars = [𝒎.l_log, 𝒎.l_norm_log, 𝒎.j_log, 𝒎.j_norm_log, :Δ𝐁 => log10 => L"\text{Log }|Δ𝐁|", :Δ𝐁_norm => log10 => L"\text{Log } |Δ𝐁|/B",]
+    labels = ["Thickness", "Normalized thickness", "Current density", "Normalized current density", "|Δ𝐁|", "|Δ𝐁|/B"]
+    # append!(vars, [ :Δ𝐁_fit => log10 => "Log Δ𝐁_fit", :Δ𝐁_fit_norm => log10 => "Log Δ𝐁_fit_norm"])
+    # append!(labels, ["Δ𝐁_fit", "Δ𝐁_fit_norm"])
 
     plt =
         data(tdf) *
@@ -200,7 +210,7 @@ fs = map([:mva]) do 𝐧
         # mapping(vars, row=AoG.dims(1) => renamer(labels), col=:type) *
         mapping(color=:id, linestyle=:enc) *
         AoG.density(; datalimits) * visual(Lines)
-    draw(plt, axis=(; yscale=log10))
+    draw(plt, scales(Layout=(; palette=wrapped(cols=4, by_col=true))); axis=(; yscale=log10), figure)
     easy_save("$fname-$𝐧"; formats, force=true)
 end
 fs[1]
@@ -214,7 +224,6 @@ Plot duration distributions for different missions and time periods.
 
 ```{julia}
 let df = dropmissing(df, :duration)
-    df.duration = ustrip.(df.duration .|> u"s")
     layer = AoG.density(; datalimits=x -> quantile(x, [0.02, 0.99])) * visual(Lines)
     # layer = AoG.histogram(; datalimits=x -> quantile(x, [0.02, 0.99]), bins = 0:0.3:30) * mapping(col=:id)
     plt = data(df) * mapping(:duration, linestyle=:enc, color=:id) * layer
@@ -222,7 +231,7 @@ let df = dropmissing(df, :duration)
     # plt *= (mapping(col=direct("col1")) + mapping(color=:tau, col=direct("col2")))
     # scales(Col=(; legend=false))
     draw(plt, axis=(; yscale=log10))
-    easy_save("duration_dist"; formats, force=true)
+    easy_save("duration_dist"; formats)
 end
 ```
 
@@ -230,12 +239,11 @@ Plot duration distributions faceted by different taus:
 
 ```{julia}
 let df = dropmissing(df, :duration)
-    df.duration = ustrip.(df.duration .|> u"s")
     layer = AoG.density(; datalimits=x -> quantile(x, [0.02, 0.99])) * visual(Lines)
     plt = data(df) * mapping(:duration, linestyle=:enc, color=:id) * layer
     plt *= mapping(layout=:tau)
     draw(plt, axis=(; yscale=log10), facet=(; linkxaxes=:none, linkyaxes=:none))
-    easy_save("duration_dist_tau"; formats, force=true)
+    easy_save("duration_dist_tau"; formats)
 end
 ```
 
@@ -272,6 +280,16 @@ draw(plt, axis=(; yscale=identity), facet=(; linkyaxes=:minimal))
 ### Thickness and current density
 
 ```{julia}
+function alpha_layer(df, alpha)
+    psp_df = @rsubset(df, :id == "PSP"; view=true)
+    thm_df = @rsubset(df, :id == "THEMIS"; view=true)
+    wind_df = @rsubset(df, :id == "Wind"; view=true)
+    (data(thm_df) + data(wind_df)) * visual(; alpha) + data(psp_df)
+end
+
+```
+
+```{julia}
 for 𝐧 in [:mva]
     view = true
     𝒎 = var_mapping(; 𝐧)
@@ -283,9 +301,9 @@ for 𝐧 in [:mva]
         subset_𝐧(𝐧)
     end
 
-    plt = alpha_layer(tdf, 0.618) * visual(Scatter; markersize=6, legend=(; alpha=0.6)) * mapping(color=:id, marker=:id)
+    plt = alpha_layer(tdf, 0.618) * visual(Scatter; markersize=6, legend=(; alpha=0.6)) * mapping(color=:id, marker=:id, layout=:id)
 
-    fig = Figure(size=(800, 300))
+    fig = Figure(size=(800, 400))
     axis = (; yscale=log10, xscale=log10)
     v_axis = (; yscale=log10, xscale=log10, limits=((2, 400), (2, 400)))
 
@@ -294,10 +312,12 @@ for 𝐧 in [:mva]
     gc = fig[2, 1]
     gd = fig[2, 2]
 
+    # spec1 = plt * mapping(:Δ𝐁_norm, 𝒎.l_norm) # Not strong correlation
+    # spec1 = plt * mapping(:Δ𝐁_norm, 𝒎.j_norm) # Not strong correlation
     spec1 = plt * mapping(𝒎.l, 𝒎.j)
     spec2 = plt * mapping(𝒎.l_norm, 𝒎.j_norm)
-    spec3 = plt * mapping(:B_n_mva_norm, :ω)
-    spec4 = plt * mapping(:ΔV_ratio, :ΔV_cosθ)
+    spec3 = plt * mapping(:B_n_mva_norm => L"B_{n}/ B", :ω_in => L"ω_{in}")
+    spec4 = plt * mapping(:ΔV_ratio => L"|Δ𝐕| / |Δ𝐕_A|", :ΔV_cosθ => L"\cos \theta")
 
     grid1 = draw!(ga, spec1; axis)
     draw!(gb, spec2; axis)
@@ -306,7 +326,7 @@ for 𝐧 in [:mva]
 
     # pretty_legend!(fig, grid1)
     # add_labels!([ga, gb, gc])
-    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
+    easy_save("joint_properties-$𝐧"; formats, force=true)
     display(fig)
 end
 ```
@@ -343,7 +363,7 @@ for 𝐧 in [:mva]
     ΔV_cosθ_group = :ΔV_cosθ => >(0)
     ΔV_cosθ_map = mapping(group=ΔV_cosθ_group, color=ΔV_cosθ_group)
 
-    B_n_spec = plt * mapping(:B_n_mva_norm, :ω_in) * vis
+    B_n_spec = plt * mapping(:B_n_mva_norm, :ω_in) * AoG.density(npoints=50)
     ΔV_spec = plt * mapping(:ΔV_ratio, :ΔV_cosθ) * (vis + AoG.linear() * ΔV_cosθ_map)
     σc_σr_spec = plt * mapping(:σ_c, :σ_r) * (vis + AoG.smooth() * visual(color=:red))
 
@@ -358,7 +378,6 @@ for 𝐧 in [:mva]
 
     # pretty_legend!(fig, grid1)
     # add_labels!([ga, gb, gc])
-    # easy_save("$fname-$enc-$𝐧"; formats, force=true)
     display(fig)
 end
 ```
@@ -374,11 +393,44 @@ vars = [:B_n_mva_norm, :Q_sonnerup, :duration, :σ_c]
 tdf = @chain df begin
     dropmissing(vars)
     @rsubset(all(!isnan, (:B_n_mva_norm, :Q_sonnerup, :σ_c)); view=true)
-    @transform!(
-        :duration = Float64.(:duration),
-        :B_n_mva_norm = Float64.(:B_n_mva_norm),
-    )
+    @transform!(:B_n_mva_norm = Float64.(:B_n_mva_norm))
 end
+
+Bn_df = subset_𝐧(tdf, 𝐧)
+
+fig = Figure(; size=(800, 400))
+axis = (;)
+
+# layout = mapping(row=:id, col=:enc)
+layout = mapping(col=:id)
+plt = data(tdf) * layout
+den_vis = AoG.density(npoints=50)
+
+# vis = visual(Scatter; markersize=5)
+# line_vis = visual(linewidth=3)
+# Q_group = mapping(group=:Q_sonnerup => >(0), color=:Q_sonnerup => >(0))
+# (vis + AoG.linear() * Q_group * line_vis)
+# (vis + AoG.smooth() * A_He_group * line_vis)
+
+Bn_Q_spec = data(Bn_df) * mapping(:B_n_mva_norm => L"B_n/B", :Q_sonnerup => abs  => L"Q") * layout * den_vis
+duration_Q_spec = plt * mapping(:duration => log10, :Q_sonnerup => L"Q") * den_vis
+σc_Q_spec = plt * mapping(:σ_c => L"σ_c", :Q_sonnerup => L"Q") * den_vis
+σr_Q_spec = plt * mapping(:σ_r => L"σ_r", :Q_sonnerup => L"Q") * den_vis
+
+draw!(fig[1, 1], Bn_Q_spec)
+draw!(fig[1, 2], duration_Q_spec)
+draw!(fig[2, 1], σc_Q_spec)
+draw!(fig[2, 2], σr_Q_spec)
+
+# add_labels!([ga, gb, gc])
+easy_save("Q_sonnerup_joint_dist_den"; formats, force=true)
+display(fig)
+```
+
+
+```{julia}
+view = true
+𝒎 = var_mapping(; 𝐧)
 
 A_He_df = @chain tdf begin
     dropmissing(:A_He)
@@ -392,8 +444,6 @@ end
     @transform!(:log_β = log10.(:β))
 end
 
-Bn_df = subset_𝐧(tdf, 𝐧)
-
 fig = Figure(; size=(1200, 800))
 axis = (;)
 
@@ -403,26 +453,20 @@ vis = visual(Scatter; markersize=5)
 
 Q_group = mapping(group=:Q_sonnerup => >(0), color=:Q_sonnerup => >(0))
 A_He_group = mapping(group=:A_He => >(0), color=:A_He => >(0))
-line_vis = visual(linewidth=3)
+den_vis = AoG.density(npoints=50)
 
-Bn_Q_spec = data(Bn_df) * mapping(:B_n_mva_norm, :Q_sonnerup => abs) * layout * (vis + AoG.linear() * line_vis * mapping(color=:id))
-duration_Q_spec = plt * mapping(:duration, :Q_sonnerup) * (vis + AoG.smooth() * Q_group * line_vis)
-σc_Q_spec = plt * mapping(:σ_c, :Q_sonnerup) * (vis + AoG.linear() * Q_group * line_vis)
-σr_Q_spec = plt * mapping(:σ_r, :Q_sonnerup) * (vis + AoG.linear() * Q_group * line_vis)
-A_He_Q_spec = data(A_He_df) * mapping(:A_He, :Q_sonnerup => abs) * layout * (vis + AoG.smooth() * A_He_group * line_vis)
-β_Q_spec = data(β_df) * mapping(:log_β, :Q_sonnerup => abs) * layout * (vis + AoG.smooth(; degree=4) * line_vis * mapping(color=:id))
+A_He_Q_spec = data(A_He_df) * mapping(:A_He => log10, :Q_sonnerup => abs) * layout * AoG.density(; npoints=50, datalimits=((-1, 1), (0, 1)))
+β_Q_spec = data(β_df) * mapping(:log_β, :Q_sonnerup => abs) * layout * AoG.histogram(; bins=50, datalimits=((-1, 1), (0, 1)))
 
-draw!(fig[1, 1], Bn_Q_spec)
-draw!(fig[1, 2], duration_Q_spec; axis=(; xscale=log10))
-draw!(fig[2, 1], σc_Q_spec)
-draw!(fig[2, 2], σr_Q_spec)
+# draw!(fig[1, 1], Bn_Q_spec)
 draw!(fig[3, 1], A_He_Q_spec)
 draw!(fig[3, 2], β_Q_spec)
 
 # add_labels!([ga, gb, gc])
-easy_save("Q_sonnerup_joint_dist"; formats, force=true)
+# easy_save("Q_sonnerup_joint_dist"; formats, force=true)
 display(fig)
 ```
+
 
 
 ## Duration vs Alfvénicity Correlation
@@ -470,8 +514,6 @@ Statistical Significance:
 Interpretation:
 1. There is a very weak negative correlation between duration and Alfvénicity - meaning longer events tend to be slightly less Alfvénic
 2. The effect size is tiny (correlations ~-0.02 to -0.03) - practically negligible
-3. Only Q_sonnerup shows statistical significance due to the large sample size (10,684 events)
-4. The large sample size makes even tiny correlations statistically detectable, but they're not practically meaningful
 
 Conclusion: While there's a statistically significant but extremely weak tendency for longer-duration current sheets to be slightly less Alfvénic, the correlation is so small it's essentially negligible in practical terms. Duration and Alfvénicity are largely independent of each other in this dataset.
 

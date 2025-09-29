@@ -77,8 +77,9 @@ function analyze_associations(data, variable_pairs; group_by=nothing, io = stdou
             y = parse_column(data, col2_spec)
 
             assoc_results = calculate_associations(x, y)
+            flag = any(a -> a.association > 0.1, assoc_results)
             for result in assoc_results
-                if !isnan(result.association)
+                if !isnan(result.association) && flag
                     println(io, "  $(result.measure_name): $(round(result.association, digits=4)) (n = $(result.n))")
                 end
             end
