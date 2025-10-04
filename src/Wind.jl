@@ -21,7 +21,11 @@ function (cdadim::CDADimArray)(tmin, tmax; kw...)
     A = DimArray(CDAWeb.get_data(cdadim.dataset, cdadim.variable, tmin, tmax; cdadim.kwargs..., kw...); replace_invalid = true)
     dim = dims(A, TimeDim)
     T = eltype(dim)
-    return @view A[Ti(T(tmin) .. T(tmax))]
+    return if isempty(A)
+        A
+    else
+        @view A[Ti(T(tmin) .. T(tmax))]
+    end
 end
 
 function (cdadim::CDADimArray)(trange; kw...)
@@ -79,8 +83,8 @@ const n_p_e = DataSet("Density", (n_p_K0, n_e))
 const T_p_PLSP = CDADimArray("WI_PLSP_3DP", "MOM.P.AVGTEMP")
 
 function A_He(tmin, tmax; n_p = nothing)
-    n_p = DimArray(@something n_p n_p_nonlin(tmin, tmax); standardize = true)
-    n_α = DimArray(n_α_nonlin(tmin, tmax); standardize = true)
+    n_p = @something n_p n_p_nonlin(tmin, tmax)
+    n_α = n_α_nonlin(tmin, tmax)
     return n_α ./ n_p .* 100
 end
 

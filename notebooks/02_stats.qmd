@@ -12,6 +12,7 @@ using DataFrames, DataFramesMeta
 using CairoMakie
 using Beforerr: _theme_legend, easy_save
 using AlgebraOfGraphics
+using AlgebraOfGraphics: data
 import AlgebraOfGraphics as AoG
 using LinearAlgebra
 using Accessors
@@ -24,7 +25,7 @@ foreach([:log10, :log2, :log]) do f
     @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
 end
 set_Z_theme!()
-formats = (:pdf,:png)
+formats = (:pdf, :png)
 ```
 
 ```{julia}
@@ -53,7 +54,6 @@ A_lens = @optic _.model.A
     end
     DC.classify!(:B_n_mva_norm)
 end
-
 
 # Count the number of events for each type
 df_event_counts = @chain df begin
@@ -187,30 +187,29 @@ Density distributions of (normalized) thickness and current density
 fname = "properties_hist"
 
 fs = map([:mva]) do 𝐧
-    figure = (; size=(650, 400))
+    figure = (; size=(450, 600))
     𝒎 = var_mapping(; 𝐧)
 
     datalimits = x -> quantile(x, [0.01, 0.99])
 
     tdf = @chain df begin
         @subset(.!isnan.(:L_n_mva_norm); view=true)
-        # @rsubset(((:id == "PSP") && :tau <= Second(2)) || (:id != "PSP" && :tau > Second(2))) # select current sheet events with tau <= 2s for PSP and tau > 2s for Earth
         subset_𝐧(𝐧)
         dropmissing(:L_n_mva_norm)
     end
 
-    vars = [𝒎.l_log, 𝒎.l_norm_log, 𝒎.j_log, 𝒎.j_norm_log, :Δ𝐁 => log10 => L"\text{Log }|Δ𝐁|", :Δ𝐁_norm => log10 => L"\text{Log } |Δ𝐁|/B",]
-    labels = ["Thickness", "Normalized thickness", "Current density", "Normalized current density", "|Δ𝐁|", "|Δ𝐁|/B"]
+    vars = [𝒎.l_log, 𝒎.l_norm_log, 𝒎.j_log, 𝒎.j_norm_log, 𝒎.Δ𝐁, 𝒎.Δ𝐁_norm_log]
+    labels = ["Thickness", "Normalized thickness", "Current density", "Normalized current density", "|Δ𝐁|", "|Δ𝐁|/⟨|𝐁|⟩"]
     # append!(vars, [ :Δ𝐁_fit => log10 => "Log Δ𝐁_fit", :Δ𝐁_fit_norm => log10 => "Log Δ𝐁_fit_norm"])
     # append!(labels, ["Δ𝐁_fit", "Δ𝐁_fit_norm"])
 
-    plt =
-        data(tdf) *
-        mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
-        # mapping(vars, row=AoG.dims(1) => renamer(labels), col=:type) *
-        mapping(color=:id, linestyle=:enc) *
-        AoG.density(; datalimits) * visual(Lines)
-    draw(plt, scales(Layout=(; palette=wrapped(cols=4, by_col=true))); axis=(; yscale=log10), figure)
+    plt = AoG.data(tdf) *
+          mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
+          mapping(color=:id, linestyle=:enc) *
+          AoG.density(; datalimits) * visual(Lines)
+    f = draw(plt, scales(Layout=(; palette=wrapped(cols=2))); axis=(; yscale=log10), figure, legend=(; position=:top))
+    hide_facet_labels!(f)
+    rowgap!(f.figure.layout, 1)
     easy_save("$fname-$𝐧"; formats, force=true)
 end
 fs[1]
@@ -249,88 +248,130 @@ end
 
 ## Alfvenicity
 
+Notes: `V_l_ratio_max` and `ΔV_ratio` are pretty much similar
+
+![](../figures/Alfvenicities.png)
+
 ```{julia}
-𝒎 = var_mapping(; 𝐧)
+update_theme!(;
+    Legend=(; framevisible=false, padding=(0, 0, -16, 0)),
+)
+let
+    𝒎 = var_mapping(; 𝐧)
+    datalimits = x -> quantile(x, [0.01, 0.99])
+    tdf = @chain df begin
+        dropmissing(:V_l_ratio)
+        @subset(.!isnan.(:V_l_ratio) .&& .!isnan.(:ΔV_cosθ); view=true)
+        subset_𝐧(𝐧)
+    end
 
-datalimits = x -> quantile(x, [0.01, 0.99])
+    ΔV_cosθ = :ΔV_cosθ => identity => L"\cos\;θ"
+    ΔV_ratio = :ΔV_ratio => identity => L"|Δ𝐕| / |Δ𝐕_A|"
+    dB_over_B = :dB_over_B => log10 => L"\text{Log } ΔB / ⟨B\;⟩"
+    dB_max_over_B = :dB_max_over_B => log10 => L"\text{Log } ΔB_{\text{max}} / ⟨B\;⟩"
+    Q_sonnerup = :Q_sonnerup => abs => ""
 
-tdf = @chain df begin
-    @subset(.!isnan.(:V_l_ratio); view=true)
-    subset_𝐧(𝐧)
-    dropmissing(:V_l_ratio)
+    spec = AoG.data(tdf) * mapping(color=:id) *
+           AoG.density(; datalimits) * visual(Lines)
+
+    fig = Figure()
+    ga = draw!(fig[1, 1], spec * mapping(ΔV_ratio))
+    gb = draw!(fig[1, 2], spec * mapping(ΔV_cosθ))
+    gc = draw!(fig[2, 1], spec * mapping(dB_over_B))
+    gd = draw!(fig[2, 2], spec * mapping(dB_max_over_B))
+    add_labels!(fig; valign=:top, position=Left(), padding=(0, 37, 0, 0))
+    display(fig)
+    pretty_legend!(fig, ga)
+    easy_save("Alfvenicities"; formats, force=true)
+    # vars = [ΔV_cosθ, ΔV_ratio, dB_over_B, dB_max_over_B]
+    # plt = spec * mapping(vars, layout=AoG.dims(1) => renamer(labels))
+    # draw(plt, axis=(; yscale=log10), facet=(; linkyaxes=:minimal))
 end
-
-vars = [:Q_sonnerup => abs => "", :ΔV_ratio => identity => "", :V_l_ratio => identity => "", :V_l_ratio_max => identity => ""]
-# 𝒎.v_l_ratio, 𝒎.bn
-labels = ["Q_sonnerup", "Δ V ratio", "ΔV_l ratio", "Max ΔV_l ratio"]
-
-plt =
-    data(tdf) *
-    mapping(vars, row=AoG.dims(1) => renamer(labels)) *
-    #   mapping(vars, col=:tau, row=AoG.dims(1) => renamer(labels)) *
-    mapping(color=:id, linestyle=:enc) *
-    AoG.density(; datalimits) * visual(Lines)
-draw(plt, axis=(; yscale=identity), facet=(; linkyaxes=:minimal))
-# easy_save("Alfvenicities"; formats, force=true)
-# draw(spec, scales(Layout=(; palette=wrapped(cols=2))); facet=(; linkyaxes=:none))
 ```
 
 ## Joint distributions
 
 ### Thickness and current density
 
+![](../figures/joint_properties-mva.png)
+
 ```{julia}
 function alpha_layer(df, alpha)
     psp_df = @rsubset(df, :id == "PSP"; view=true)
     thm_df = @rsubset(df, :id == "THEMIS"; view=true)
     wind_df = @rsubset(df, :id == "Wind"; view=true)
-    (data(thm_df) + data(wind_df)) * visual(; alpha) + data(psp_df)
+    (AoG.data(thm_df) + AoG.data(wind_df) * visual(; alpha)) + AoG.data(psp_df)
 end
-
 ```
 
 ```{julia}
+layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
+
 for 𝐧 in [:mva]
     view = true
     𝒎 = var_mapping(; 𝐧)
-
     tdf = @chain df begin
-        # @subset(:enc .== enc)
-        dropmissing()
+        dropmissing(:L_n_mva)
         @transform(:L_n_mva = Float64.(ustrip.(:L_n_mva)), :J_m_max_mva = Float64.(ustrip.(:J_m_max_mva)))
         subset_𝐧(𝐧)
     end
 
-    plt = alpha_layer(tdf, 0.618) * visual(Scatter; markersize=6, legend=(; alpha=0.6)) * mapping(color=:id, marker=:id, layout=:id)
+    plt = alpha_layer(tdf, 0.3) *
+          visual(Scatter; markersize=6, legend=(; alpha=0.6)) *
+          mapping(color=:id, marker=:id, layout=:id => layout_func)
 
-    fig = Figure(size=(800, 400))
+    fig = Figure(; size=(400, 800))
     axis = (; yscale=log10, xscale=log10)
-    v_axis = (; yscale=log10, xscale=log10, limits=((2, 400), (2, 400)))
 
-    ga = fig[1, 1]
-    gb = fig[1, 2]
-    gc = fig[2, 1]
-    gd = fig[2, 2]
-
-    # spec1 = plt * mapping(:Δ𝐁_norm, 𝒎.l_norm) # Not strong correlation
-    # spec1 = plt * mapping(:Δ𝐁_norm, 𝒎.j_norm) # Not strong correlation
     spec1 = plt * mapping(𝒎.l, 𝒎.j)
     spec2 = plt * mapping(𝒎.l_norm, 𝒎.j_norm)
-    spec3 = plt * mapping(:B_n_mva_norm => L"B_{n}/ B", :ω_in => L"ω_{in}")
-    spec4 = plt * mapping(:ΔV_ratio => L"|Δ𝐕| / |Δ𝐕_A|", :ΔV_cosθ => L"\cos \theta")
+    B_l_spec = plt * mapping(𝒎.Δ𝐁_norm, 𝒎.l_norm) # Not strong correlation
+    B_j_spec = plt * mapping(𝒎.Δ𝐁_norm, 𝒎.j_norm) # Not strong correlation
 
-    grid1 = draw!(ga, spec1; axis)
-    draw!(gb, spec2; axis)
-    draw!(gc, spec3)
-    draw!(gd, spec4; axis=(; limits=((0, 2), (-1, 1),)))
+    grid1 = draw!(fig[1, 1], spec1; axis)
+    grid2 = draw!(fig[2, 1], spec2; axis)
+    grid3 = draw!(fig[3, 1], B_l_spec; axis)
+    grid4 = draw!(fig[4, 1], B_j_spec; axis)
 
-    # pretty_legend!(fig, grid1)
-    # add_labels!([ga, gb, gc])
-    easy_save("joint_properties-$𝐧"; formats, force=true)
+    hide_facet_labels!.((grid2, grid3, grid4))
+
+    add_labels!(fig[1:4, 1]; position=Left(), padding=(0, 37, 0, 0))
     display(fig)
+    easy_save("joint_properties-$𝐧"; formats, force=true)
 end
 ```
 
+### In-plane rotation angle, Bn
+
+![](../figures/B_n_ω_subset=true.png) and ![](../figures/B_n_ω_subset=false.png)
+
+```{julia}
+layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
+
+for 𝐧 in [:mva], subset in (true, false)
+    normalization = :column
+    𝒎 = var_mapping(; 𝐧)
+    tdf = dropmissing(df, :B_n_mva_norm)
+    tdf = subset ? subset_𝐧(tdf, 𝐧) : tdf
+    plt = AoG.data(tdf) * mapping(col=:id => layout_func)
+    B_n_ω_spec = plt * mapping(𝒎.bn, 𝒎.ω_in) * fhist(; binedges=(0:0.03:0.99, 0:6:180), normalization)
+    f = draw(B_n_ω_spec)
+    colgap!(f.figure.layout, 10)
+
+    den_base = AoG.data(tdf) * mapping(color=:id => layout_func) * AoG.density(; datalimits) * visual(Lines)
+    ff = f.figure[0, 1:3]
+    grid1 = draw!(ff[1, 1], den_base * mapping(𝒎.ω_in))
+    grid2 = draw!(ff[1, 2], den_base * mapping(𝒎.bn); axis=(; ylabel="", yscale=log10))
+    legend!(ff[1, 1], grid1; tellheight=false, tellwidth=false, halign=:right, valign=:top)
+    rowgap!(f.figure.layout, 4)
+    add_labels!([ff[1, 1], ff[1, 2], f.figure[1, 1:end]]; position=Left(), padding=(0, 40, 0, -5))
+    easy_save("B_n_ω_subset=$subset"; formats, force=true)
+end
+```
+
+### β vs A_He
+
+There are two populations for beta and alpha particles abundance, corresponding to different sources of solubility. Correlation exist.
 
 ```{julia}
 for 𝐧 in [:mva]
@@ -363,7 +404,6 @@ for 𝐧 in [:mva]
     ΔV_cosθ_group = :ΔV_cosθ => >(0)
     ΔV_cosθ_map = mapping(group=ΔV_cosθ_group, color=ΔV_cosθ_group)
 
-    B_n_spec = plt * mapping(:B_n_mva_norm, :ω_in) * AoG.density(npoints=50)
     ΔV_spec = plt * mapping(:ΔV_ratio, :ΔV_cosθ) * (vis + AoG.linear() * ΔV_cosθ_map)
     σc_σr_spec = plt * mapping(:σ_c, :σ_r) * (vis + AoG.smooth() * visual(color=:red))
 
@@ -371,7 +411,6 @@ for 𝐧 in [:mva]
 
     β_A_He_spec = data(β_A_He_df) * layout * mapping(:log_β, :A_He) * (vis + AoG.smooth(; degree=1) * A_He_group)
 
-    draw!(fig[1, 1], B_n_spec; axis)
     draw!(fig[1, 2], ΔV_spec; axis=(; limits=((0, 2), (-1, 1),)))
     draw!(fig[2, 1], σc_σr_spec)
     draw!(fig[2, 2], β_A_He_spec)
@@ -384,87 +423,92 @@ end
 
 ### Q_sonnerup and other variables
 
+
+![](../figures/Q_sonnerup_joint_dist_den.png)
+
 ```{julia}
-view = true
 𝒎 = var_mapping(; 𝐧)
 
-vars = [:B_n_mva_norm, :Q_sonnerup, :duration, :σ_c]
+let vars = [:Q_sonnerup, :duration, :σ_c]
+    tdf = @chain df begin
+        dropmissing(vars)
+        @rsubset(all(!isnan, (:ΔV_cosθ, :Q_sonnerup, :σ_c)); view=true)
+    end
 
-tdf = @chain df begin
-    dropmissing(vars)
-    @rsubset(all(!isnan, (:B_n_mva_norm, :Q_sonnerup, :σ_c)); view=true)
-    @transform!(:B_n_mva_norm = Float64.(:B_n_mva_norm))
+    fig = Figure(; size=(500, 800))
+    plt = AoG.data(tdf) * mapping(col=:id => layout_func)
+
+    Q_limit = (-0.992, 0.992) # mainly for plotting so not show (-1, 1) in ticks
+    ΔV_spec = plt * mapping(𝒎.ΔV_ratio, 𝒎.ΔV_cosθ) * AoG.density(; datalimits=((0, 1.1), (-1, 1)))
+    duration_Q_spec = plt * mapping(:duration, 𝒎.Q) * AoG.density(; datalimits=((0, 3.1), Q_limit))
+    σc_Q_spec = plt * mapping(:σ_c => L"σ_c", 𝒎.Q) * AoG.density()
+    σr_Q_spec = plt * mapping(:σ_r => L"σ_r", 𝒎.Q) * AoG.density(; datalimits=(Q_limit, Q_limit))
+
+    ff11, ff12, ff21, ff22 = fig[1, 1], fig[2, 1], fig[3, 1], fig[4, 1]
+    grid1 = cdraw!(ff11, ΔV_spec)
+    grid3 = cdraw!(ff12, σc_Q_spec)
+    grid4 = cdraw!(ff21, σr_Q_spec)
+    grid2 = cdraw!(ff22, duration_Q_spec)
+
+    for f in (ff11, ff12, ff21, ff22)
+        colgap!(Makie.content(f[1, 1]), 6)
+    end
+
+    rowgap!(fig.layout, 4)
+    for g in (grid3, grid4)
+        ax = g[1].axis
+        ax.xlabelpadding[] = 1
+        ax.xlabelsize[] = 16
+    end
+    add_labels!(fig[1:4, 1]; position=Left(), padding=(0, 0, 0, -5))
+    hide_facet_labels!.((grid2, grid3, grid4))
+    easy_save("Q_sonnerup_joint_dist_den"; formats, force=true)
+    display(fig)
 end
-
-Bn_df = subset_𝐧(tdf, 𝐧)
-
-fig = Figure(; size=(800, 400))
-axis = (;)
-
-# layout = mapping(row=:id, col=:enc)
-layout = mapping(col=:id)
-plt = data(tdf) * layout
-den_vis = AoG.density(npoints=50)
-
-# vis = visual(Scatter; markersize=5)
-# line_vis = visual(linewidth=3)
-# Q_group = mapping(group=:Q_sonnerup => >(0), color=:Q_sonnerup => >(0))
-# (vis + AoG.linear() * Q_group * line_vis)
-# (vis + AoG.smooth() * A_He_group * line_vis)
-
-Bn_Q_spec = data(Bn_df) * mapping(:B_n_mva_norm => L"B_n/B", :Q_sonnerup => abs  => L"Q") * layout * den_vis
-duration_Q_spec = plt * mapping(:duration => log10, :Q_sonnerup => L"Q") * den_vis
-σc_Q_spec = plt * mapping(:σ_c => L"σ_c", :Q_sonnerup => L"Q") * den_vis
-σr_Q_spec = plt * mapping(:σ_r => L"σ_r", :Q_sonnerup => L"Q") * den_vis
-
-draw!(fig[1, 1], Bn_Q_spec)
-draw!(fig[1, 2], duration_Q_spec)
-draw!(fig[2, 1], σc_Q_spec)
-draw!(fig[2, 2], σr_Q_spec)
-
-# add_labels!([ga, gb, gc])
-easy_save("Q_sonnerup_joint_dist_den"; formats, force=true)
-display(fig)
 ```
 
+#### Q_sonnerup vs B_n
+
+Two populations for Q_sonnerup vs B_n: large B_n has larger Q_sonnerup. No strong correlation for small B_n groups.
 
 ```{julia}
-view = true
-𝒎 = var_mapping(; 𝐧)
-
-A_He_df = @chain tdf begin
-    dropmissing(:A_He)
-    @transform!(:A_He = Float64.(only.(:A_He)))
-    @rsubset(:A_He < 10)
+let 𝐧 = :mva
+    𝒎 = var_mapping(; 𝐧)
+    Bn_df = @chain df begin
+        @rsubset(all(isfinite, (:B_n_mva_norm, :Q_sonnerup)); view=true)
+        subset_𝐧(𝐧)
+    end
+    Bn_Q_spec = data(Bn_df) * mapping(𝒎.bn, :Q_sonnerup => L"Q", col=:id => layout_func) * AoG.density()
+    draw(Bn_Q_spec)
 end
+```
 
-β_df = @chain df begin
-    @rsubset(all(!isnan, [:β, :Q_sonnerup]); view=true)
-    dropmissing([:β, :Q_sonnerup])
-    @transform!(:log_β = log10.(:β))
+#### Q_sonnerup vs A_He
+
+We observe very weak correlation for PSP when $A_{He}<1$, and no correlation for Wind. ![](../figures/A_He_Q_sonnerup.png)
+
+```{julia}
+let
+    𝒎 = var_mapping()
+    A_He_df = @rsubset(df, :A_He > 0, isfinite(:Q_sonnerup))
+    A_He_Q_spec = data(A_He_df) * mapping(:A_He, :Q_sonnerup, col=:id => layout_func) * AoG.density(; datalimits=((0, 5), (-1, 1)))
+    draw(A_He_Q_spec)
+    easy_save("A_He_Q_sonnerup")
 end
+```
 
-fig = Figure(; size=(1200, 800))
-axis = (;)
+#### Q_sonnerup vs β
 
-layout = mapping(row=:id, col=:enc)
-plt = data(tdf) * layout
-vis = visual(Scatter; markersize=5)
+No obvious correlation for PSP and Wind ![](../figures/β_Q_sonnerup.png).
 
-Q_group = mapping(group=:Q_sonnerup => >(0), color=:Q_sonnerup => >(0))
-A_He_group = mapping(group=:A_He => >(0), color=:A_He => >(0))
-den_vis = AoG.density(npoints=50)
-
-A_He_Q_spec = data(A_He_df) * mapping(:A_He => log10, :Q_sonnerup => abs) * layout * AoG.density(; npoints=50, datalimits=((-1, 1), (0, 1)))
-β_Q_spec = data(β_df) * mapping(:log_β, :Q_sonnerup => abs) * layout * AoG.histogram(; bins=50, datalimits=((-1, 1), (0, 1)))
-
-# draw!(fig[1, 1], Bn_Q_spec)
-draw!(fig[3, 1], A_He_Q_spec)
-draw!(fig[3, 2], β_Q_spec)
-
-# add_labels!([ga, gb, gc])
-# easy_save("Q_sonnerup_joint_dist"; formats, force=true)
-display(fig)
+```{julia}
+let
+    β_df = @rsubset(df, all(isfinite, (:β, :Q_sonnerup)); view=true)
+    layout = mapping(row=:id)
+    β_Q_spec = data(β_df) * mapping(:β => log10, :Q_sonnerup) * layout * AoG.density(; datalimits=((-1, 1), (-1, 1)))
+    draw(β_Q_spec)
+    easy_save("β_Q_sonnerup")
+end
 ```
 
 

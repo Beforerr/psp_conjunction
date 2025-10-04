@@ -9,6 +9,9 @@ using SPEDAS
 using LaTeXStrings
 using Discontinuity
 using TimeseriesUtilities: tsplit
+using PartialFunctions
+
+include("data.jl")
 
 export get_timerange, workload, get_vl_ratio_ts
 
@@ -27,13 +30,13 @@ include("THEMIS.jl")
 
 function get_timerange(enc)
     Δt_min = Day(2)
-    Δt_max = Day(6)
+    Δt_max = Day(5)
     time = psp_events[enc, :Time]
     t0_psp = floor(time - Day(2), Day)
     t1_psp = ceil(time + Day(2), Day)
     t0_earth = t0_psp + Δt_min
     t1_earth = t1_psp + Δt_max
-    return (t0_psp, t1_psp), (t0_earth, t1_earth)
+    return (t0_psp, t1_psp), (t0_earth, t1_earth), (t0_earth, t1_earth)
 end
 
 export produce
@@ -70,7 +73,7 @@ function produce(conf, timerange, taus; split = Day(1))
 end
 
 function produce(conf_tr_pairs, taus; kw...)
-    df = mapreduce(vcat, conf_tr_pairs) do (conf, tr)
+    df = mapreduce(vcat $ (; cols = :union), conf_tr_pairs) do (conf, tr)
         @rtransform!(produce(conf, tr, taus; kw...), :id = conf["id"])
     end
     df.id = categorical(df.id; compress = true)
@@ -80,7 +83,7 @@ end
 function workload(taus = Second.(2 .^ (1:6)), encs = 7:9; kw...)
     df = mapreduce(vcat, encs) do enc
         timeranges = get_timerange(enc)
-        pairs = [psp_conf, wind_conf] .=> timeranges
+        pairs = [psp_conf, wind_conf, thm_conf] .=> timeranges
         @rtransform!(produce(pairs, taus; kw...), :enc = enc)
     end
     df.enc = categorical(df.enc; compress = true)
@@ -91,6 +94,6 @@ export psp_conf, wind_conf, thm_conf
 
 psp_conf = @strdict(id = "PSP", B = PSP.B_SC, V = PSP.V_SC, n = PSP.n_spi, extra = (:A_He => PSP.A_He, :T => PSP.pTemp))
 wind_conf = @strdict(id = "Wind", B = Wind.B_GSE, V = Wind.V_GSE_3DP, n = Wind.n_p_3DP, extra = (:A_He => Wind.A_He, :T => Wind.T_p_PLSP))
-thm_conf = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, extra = ())
+thm_conf = @strdict(id = "THEMIS", B = THEMIS.B_FGL_GSE, n = THEMIS.n_ion, V = THEMIS.V_GSE, extra = (:T => THEMIS.pTemp,))
 
 end

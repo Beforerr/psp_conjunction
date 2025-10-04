@@ -44,6 +44,7 @@ TimeseriesUtilities = "31d49243-0742-49c1-b8d2-db113b74581e"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 UnitfulAstro = "6112ee07-acf9-5e0f-b108-d242c714bf9f"
 UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
+Zarr = "0a941bbe-ad1d-11e8-39d9-ab76183a1d99"
 
 [sources]
 Beforerr = {path = "/Users/zijin/.julia/dev/Beforerr"}
@@ -71,3 +72,4 @@ PairPlots = "3.0.3"
 Statistics = "1.11"
 StatsBase = "0.34.4"
 UnitfulAstro = "1.2.2"
+Zarr = "0.9.5"

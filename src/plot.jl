@@ -115,7 +115,7 @@ _plasma_beta(T, n, B_mag) = setmeta(
     Discontinuity.plasma_beta.(tsync(T, n, B_mag)...); label = "β", units = ""
 )
 
-_tmean(x::AbstractArray{<:Number}) = tmean(x, Minute(8))
+_tmean(x::AbstractArray{<:Number}) = isempty(x) ? x : tmean(x, Minute(8))
 _tmean(x::AbstractArray) = map(_tmean, x)
 _tmean(x::DimStack) = tmean(x, Minute(8))
 _tmean(tuple) = map(_tmean, tuple)
@@ -204,6 +204,10 @@ function modify_faxs_base!(faxs)
 
     modify_A_He_ax!(faxs.axes[end - 1])
     modify_β_ax!(faxs.axes[end])
+
+    R_ax = faxs.axes[5]
+    ylims!(R_ax, 0.09, 0.85)
+    
     modify_N_ax!(faxs.axes[6])
     return
 end

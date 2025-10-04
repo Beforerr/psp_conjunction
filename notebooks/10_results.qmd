@@ -255,7 +255,6 @@ end
 ```
 
 ```{julia}
-ω_map = :rotation_angle => "rotation angle (deg)";
 v_l_ratio_map = :v_l_ratio => L"Δ V_{ion,l} / Δ V_{A,l}"
 plt = data(psp_df) * mapping(ω_map, v_l_ratio_map) * (linear() + visual(Scatter))
 draw(plt)

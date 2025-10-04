@@ -137,7 +137,17 @@ In general discontinuities observed by PSP are with
 
 # Results
 
-![Comparision map of (normalized) thickness and (normalized) current density](figures/enc7/thickness_current.svg){#fig-comp-map}
+![](figures/overview-7-all.pdf){#fig-overview}
+
+![](figures/properties_hist-mva.pdf){#fig-properties-hist}
+
+![](figures/joint_properties-mva.pdf){#fig-joint-properties}
+
+![](figures/Alfvenicities.pdf)
+
+![](figures/Q_sonnerup_joint_dist_den.pdf)
+
+![](figures/B_n_ω_subset=true.pdf)
 
 Comparison between Alfven speed and plasma speed change
 

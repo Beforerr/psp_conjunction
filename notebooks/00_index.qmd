@@ -36,16 +36,18 @@ compute_Alfvenicity_params!(df)
 
 psp_df = @rsubset(df, :id == "PSP"; view=true)
 wind_df = @rsubset(df, :id == "Wind"; view=true)
-thm_df = @rsubset(df, :id == "THEMIS"; view=true)p -
-         thm_conf["B"] = unitify("nT") ∘ thm_conf["B"]
+thm_df = @rsubset(df, :id == "THEMIS"; view=true)
 ```
 
 ```{julia}
 compute_PSP_anisotropy_params!(psp_df)
 for enc in 7:9
-    (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
+    tmin_wind, tmax_wind = get_timerange(enc)[2]
     wind_df_enc = @rsubset(wind_df, :enc == enc; view=true)
     compute_Wind_anisotropy_params!(wind_df_enc, tmin_wind, tmax_wind)
+
+    thm_df_enc = @rsubset(thm_df, :enc == enc; view=true)
+    compute_THM_anisotropy_params!(thm_df_enc, tmin_wind, tmax_wind)
 end
 ```
 
@@ -102,16 +104,6 @@ _tmax_wind = DateTime("2021-01-15T02")
 ```
 
 ```{julia}
-psp_B = set(tnorm_combine ∘ PSP.B_1MIN; ylabel=𝒀.B, labels=𝑳.B_RTN)
-psp_V = set(PSP.V; ylabel=𝒀.V, labels=𝑳.V_RTN)
-psp_n = PSP.n_spi
-
-wind_B = set(tnorm_combine ∘ Wind.B_GSE_1MIN; ylabel=𝒀.B, labels=𝑳.B_XYZ)
-wind_V = replace_outliers! ∘ set(Wind.V_GSE_K0; ylabel=𝒀.V, labels=𝑳.V_XYZ)
-wind_n = set(Wind.n_p_K0; ylabel=𝒀.n, yscale=identity)
-```
-
-```{julia}
 tvars_themis = [
     set(tnorm_combine ∘ THEMIS.B_GSE; ylabel=𝒀.B, labels=𝑳.B_XYZ),
     set(THEMIS.n; ylabel=𝒀.n),
@@ -141,41 +133,30 @@ end
 ```
 
 ```{julia}
-# using CairoMakie
-# CairoMakie.activate!()
-
 update_theme!(; Lines=(linewidth=1, alpha=0.9), figure_padding=(1, 1, 1, 15))
 
-add_vl_ratio = true
-
-for enc in 7:7
+for enc in 7:9
     (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
     legend = (; position=Top())
     labels = '1':'9'
     padding = (0, 30, 0, -30)
     f = Figure(; size=(1000, 800))
-    fname = "overview-$enc"
-    if add_vl_ratio
-        fname = "overview-vl-$enc"
-        faxs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...; legend)
-        modify_faxs_base!(faxs)
-        faxs = plot_Wind(f[1, 2], tmin_wind, tmax_wind - Day(1), get_vl_ratio_ts(wind_df)...; legend)
-        modify_faxs_base!(faxs)
-    end
+    faxs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...; legend)
+    modify_faxs_base!(faxs)
+    faxs = plot_Wind(f[1, 2], tmin_wind, tmax_wind - Day(1), get_vl_ratio_ts(wind_df)...; legend)
+    modify_faxs_base!(faxs)
 
     add_labels!(f[1, 1]; labels, open="(a.", padding)
     add_labels!(f[1, 2]; labels, open="(b.", padding)
     display(f)
     easy_save("overview-$enc-all")
-
-    # tplot(f[1, 3], _tmask! .∘ tvars_themis, tmin_wind, tmax_wind; legend)
-    # add_labels!(f[1, 3]; labels, open="(c.")
 end
 ```
 
 ## Event example (with pressure anisotropy)
 
 ```{julia}
+using Dates
 using Discontinuity: ids_finder
 tau = Second(30)
 psp_events = ids_finder(PSP.B, tmin_psp, tmax_psp, tau)
