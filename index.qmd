@@ -60,9 +60,12 @@ Using a robust automated detection algorithm, we identify and analyze more than 
 “Knetter [2005] extended this work to intervals in 2002 and 2003 which also included fast wind intervals. He obtained similar results to above and amassed a final total collection of 366 discontinuities. All of the discontinuities had normal field components consistent with zero. He concluded that the discontinuities are best explained as TDs regardless of the amount of dB/B.” ([Vasquez et al., 2007, p. 2](zotero://select/library/items/VPNY4UFZ)) ([pdf](zotero://open-pdf/library/items/DNN2ADMT?page=2&annotation=9Q8CVTE9)) 
 -->
 
+@huangTemperatureAnisotropyHelium2025 : alfvénic slow solar wind 
+@larosaSwitchbacksStatisticalProperties2021 : Switchbacks: statistical properties and deviations from Alfvénicity
+
 # Dataset and method
 
-In this study, we utilize magnetic field and plasma measurements from multiple spacecraft. For the Parker Solar Probe (PSP), we use magnetic field data from the FIELDS instrument and plasma data from the Solar Probe ANalyzer (SPAN) suite. The proton and electron anisotropies are derived from the corresponding SPAN-Ion and SPAN-Electron measurements. For the Wind and ARTEMIS missions, magnetic field data are obtained from the onboard magnetometers, while plasma parameters are taken from the Faraday cup instrument on Wind and the corresponding plasma instrument on ARTEMIS.
+We utilize magnetic field and plasma measurements from the Parker Solar Probe (PSP) mission [@foxSolarProbeMission2016], ARTEMIS mission [@angelopoulosARTEMISMission2011], and Wind mission [@acunaGlobalGeospaceScience1995]. For PSP, we utilized high-resolution magnetic field from the FIELDS instrument [@baleFIELDSInstrumentSuite2016] and proton, electron and alpha measurements from the FIELDS and SWEAP instruments [@kasperSolarWindElectrons2016]. More specifically, the proton and electron temperature anisotropies are derived from the corresponding SPAN-Ion and SPAN-Electron measurements [@whittleseySolarProbeANalyzers2020; @liviSolarProbeANalyzer2022]. For the Wind and ARTEMIS missions, magnetic field data are obtained from the onboard magnetometers, while plasma parameters are taken from the Faraday cup instrument on Wind and the corresponding plasma instrument on ARTEMIS.
 
 Our study focuses on the evolution of solar wind discontinuities within plasma parcels as they undergo expansion. We analyze datasets from the Parker Solar Probe (PSP) and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR, and Wind) at various radial distances in the inner heliosphere, during periods of conjunctions and alignments between PSP and these Earth-orbiting missions.
 
@@ -94,8 +97,6 @@ SWEAP consists of four separate sensors that measure the ions and electrons that
 "Looking at your intervals, which occurred during the early phase of the mission when PSP was far from the Sun, I realize that the plasma data wasn't good for your purpose because (1) SPAN-ion during at least the first 3-4 orbits did not measure the solar wind well, since a good portion of the solar wind distributions was out of view of that instrument, and (2) data from SPC (Farady Cup) does not give good temperature data. I am wondering if you have conjunction events that occurred later, say starting Encounter 7, when data from SPAN would be accurate. If not, some parts of Encounters 4-6 might be OK."
 -->
 
-For this study
-
 We utilized high-resolution magnetic field and plasma data from the FIELDS and SWEAP instruments aboard the Parker Solar Probe (PSP). For the plasma data presented in the figures of this paper, we used the dataset from SPAN-i, which measures ions in the solar wind. Although ion data is also available from SPC, the SPAN-i data was chosen due to its higher temporal resolution, making it more suitable for analyzing discontinuities. Our analysis confirms that the results obtained from SPC are consistent with those derived from SPAN-i data. It is also worth noting that sqtn data from the Radio Frequency Spectrometer (RFS) and Low-Frequency Receiver (LFR) for density measurements is available. However, we generally find that the results obtained from RFS/LFR do not differ significantly from those derived from SPAN-i data. Due to the limitations of SPAN-i data during the early mission phases, when a significant portion of the solar wind distributions was out of the instrument’s view, our study concentrates on data beginning with Encounter 7, where SPAN-i provides more accurate measurements.
 
 <!-- 
@@ -112,7 +113,10 @@ Wind 3dp, PESA LOW 1 spin resolution ion (proton and alpha) moments
 Wind 3D Plasma Analyzer
 Instrument Description
 The Wind 3DP instrument consists of six different sensors. There are two electron (EESA) and two ion (PESA) electrostatic analyzers with different geometrical factors and field-of-views covering the energy range from 3 eV to 30 keV. There are also a pair of solid state telescopes (SST) that measure electrons with energies up to 400 keV and protons with energie
--->
+ -->
+
+<!-- For the Wind data used in this work, the Solar Wind  Experiment Faraday cup measures the reduced VDFs of solar wind protons and helium along 40 angles every 92 s (K. Ogilvie  et al. 1995), and the Magnetic Field Investigation provides the  magnetic field data (R. Lepping et al. 1995; A. Koval & A. Szabo 2013). The proton temperature anisotropies are derived by fitting  the spectra with a convected bi-Maxwellian function (J. C. Kasper  et al. 2007).
+ -->
 
 The following data collected by Wind are used: magnetic fields with a $\sim 11$ Hz resolution measured by the Magnetic Field Investigation (MFI) [@leppingWINDMagneticField1995], the ion (proton and alpha) moments measured by ion (PESA) electrostatic analyzers of the 3D Plasma Analyzer (3DP) [@linThreedimensionalPlasmaEnergetic1995].
 
