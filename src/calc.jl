@@ -1,4 +1,5 @@
 using PlasmaFormulary
+import Discontinuity
 using Discontinuity: anisotropy
 using DataFramesMeta
 using StatsBase: mean
@@ -7,7 +8,7 @@ export Alfven_velocity_ts
 
 function Alfven_velocity_ts(B, n)
     n_mean = mean(parent(n))
-    return Alfven_velocity.(B, n_mean)
+    return Discontinuity.Alfven_velocity.(B, n_mean)
 end
 
 function anisotropy_ts(B, n, T3; kw...)
@@ -31,48 +32,6 @@ DEFAULT_B_UNIT = u"nT"
 DEFAULT_DENSITY_UNIT = u"cm^-3"
 DEFAULT_TEMP_UNIT = u"eV"
 
-"""
-Calculate the pressure anisotropy
-"""
-function calc_pressure_anisotropy!(
-        df;
-        B = "B.mean",
-        density = "n.mean",
-        ion_temp_para = "ion_temp_para",
-        ion_temp_perp = "ion_temp_perp",
-        e_temp_para = "e_temp_para",
-        e_temp_perp = "e_temp_perp",
-        B_unit = DEFAULT_B_UNIT,
-        density_unit = DEFAULT_DENSITY_UNIT,
-        temp_unit = DEFAULT_TEMP_UNIT,
-    )
-
-    B = df[:, B] .* B_unit
-    n = df[:, density] .* density_unit
-
-    if ion_temp_para in names(df) && ion_temp_perp in names(df)
-        ion_temp_para_u = df[:, ion_temp_para] .* temp_unit
-        ion_temp_perp_u = df[:, ion_temp_perp] .* temp_unit
-        df[:, :Λ_ion] = anisotropy(B, n, ion_temp_para_u, ion_temp_perp_u)
-    else
-        @info "Ion temperature columns not found"
-    end
-
-    if e_temp_para in names(df) && e_temp_perp in names(df)
-        e_temp_para_u = df[:, e_temp_para] .* temp_unit
-        e_temp_perp_u = df[:, e_temp_perp] .* temp_unit
-        df[:, :Λ_e] = anisotropy(B, n, e_temp_para_u, e_temp_perp_u)
-    else
-        @info "Electron temperature columns not found"
-    end
-
-    if "Λ_ion" in names(df) && "Λ_e" in names(df)
-        df[:, :Λ] = df[:, :Λ_ion] .+ df[:, :Λ_e]
-    end
-
-    return df
-end
-
 function calc_vl_ratio!(df)
     if "Λ_ion" in names(df)
         @chain df begin
@@ -94,18 +53,18 @@ using StatsBase
 using DimensionalData
 using NaNStatistics
 
-function get_vl_ratio_ts(df, col, dt::TimePeriod=Hour(4))
+function get_vl_ratio_ts(df, col, dt::TimePeriod = Hour(4))
     data = getproperty(df, col)
     vl_ratio_ts = DimArray(data, Ti(df.time))
     gfunc = x -> floor(x, dt)
     gdf = groupby(vl_ratio_ts, Ti => gfunc)
     vl_ratio_ts_m = nanmedian.(disallowmissing.(filter.(!ismissing, gdf)))
-    n = rebuild(length.(gdf); metadata=(; ylabel="N (#)", plottype=:Stairs))
-    setmeta!(vl_ratio_ts_m; ylabel=L"R_{VB}", labels=["Isotropy", "Anisotropy"], plottype=:Stairs)
+    n = rebuild(length.(gdf); metadata = (; ylabel = "N (#)", plottype = :Stairs))
+    setmeta!(vl_ratio_ts_m; ylabel = L"R_{VB}", labels = ["Isotropy", "Anisotropy"], plottype = :Stairs)
     return vl_ratio_ts_m, n
 end
 
-function get_vl_ratio_ts(df, dt::TimePeriod=Hour(4))
+function get_vl_ratio_ts(df, dt::TimePeriod = Hour(4))
     v_l_ratio_ts, n1 = get_vl_ratio_ts(df, :V_l_ratio, dt)
     v_l_ratio_Λ_ts, n2 = get_vl_ratio_ts(df, :V_l_ratio_Λ, dt)
     vl_ratio_ts = hcat(v_l_ratio_ts, v_l_ratio_Λ_ts)

@@ -21,13 +21,13 @@ function tTemp(x; dims = Ti)
 end
 
 const B_GSE = SpeasyProduct("cda/THB_L2_FGM/thb_fgs_gseQ")
-const B_FGL_GSE = SpeasyProduct("cda/THB_L2_FGM/thb_fgl_gseQ")
+const B_FGL_GSE = DimArray ∘ SpeasyProduct("cda/THB_L2_FGM/thb_fgl_gseQ")
 
 const n_ion = SpeasyProduct("cda/THB_L2_MOM/thb_peim_densityQ"; labels = ["Ion"], yscale = identity)
 const n_elec = SpeasyProduct("cda/THB_L2_MOM/thb_peem_densityQ"; labels = ["Electron"], yscale = identity)
 const n = DataSet("Density", [n_ion, n_elec]; yscale = identity)
 
-const V_GSE = SpeasyProduct("cda/THB_L2_MOM/thb_peim_velocity_gseQ") # 4.25 s time resolution
+const V_GSE = CDADimArray("THB_L2_MOM", "thb_peim_velocity_gseQ") # 4.25 s time resolution
 
 const pTemp = SpeasyProduct("cda/THB_L2_ESA/thb_peif_avgtempQ"; labels = ["Proton"])
 const eTemp = tTemp ∘ SpeasyProduct("cda/THB_L2_MOM/thb_peem_t3_magQ"; labels = ["Electron"])
@@ -50,7 +50,7 @@ const eTemp_T2 = para_perp_avg("e") ∘ eTemp_ani
 
 function get_themis_tmask(t0, t1)
     thx_v_gse = THEMIS.V_GSE(t0, t1)
-    _times = @views SPEDAS.times(thx_v_gse)[(thx_v_gse[:, 1].>-200u"km/s").|(thx_v_gse[:, 2].<-50u"km/s")]
+    _times = @views SPEDAS.times(thx_v_gse)[(thx_v_gse[:, 1] .> -200u"km/s") .| (thx_v_gse[:, 2] .< -50u"km/s")]
     dt = Minute(10)
     its = union([Interval(t - dt, t + dt) for t in _times])
     return tmask!(its)

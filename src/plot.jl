@@ -77,34 +77,39 @@ function plot_candidate(f, event, B::Union{AbstractArray, Product}, toffset = no
 end
 
 
-function plot_candidate(f, event, config::AbstractDict, toffset = Second(0); add_J = false, kwargs...)
+function plot_candidate(f, event, config::AbstractDict, toffset = Second(0); add_Va = false, add_J = false, add_fit = false, kwargs...)
     tmin, tmax = event.t_us, event.t_ds
     t0 = tmin - toffset
     t1 = tmax + toffset
-
-    B_product = config["B"]
-    V_product = config["V"]
-
-    B = setmeta!(DimArray(B_product(t0, t1); add_unit = true); ylabel = "B", labels = 𝑳.B_RTN)
-    V = setmeta!(DimArray(V_product(t0, t1); add_unit = true); ylabel = "V", labels = 𝑳.V_RTN)
-    n = DimArray(config["n"](t0, t1); add_unit = true)
+    B = setmeta(config["B"](t0, t1); ylabel = "B (nT)")
+    V = setmeta(config["V"](t0, t1); ylabel = "V (km/s)")
 
     B_subset = tview(B, tmin, tmax)
-
     B_mva = setmeta(mva(B, B_subset); labels = 𝑳.B_LMN)
-    Va = setmeta(Alfven_velocity_ts(B_mva, n) .|> u"km/s"; labels = 𝑳.Va_LMN, ylabel = "V")
-    V_mva = setmeta(mva(V, B_subset); labels = 𝑳.V_LMN)
+    V_mva = setmeta(mva(V, B_subset); labels = 𝑳.V_LMN, plottype = :ScatterLines)
+    result = (tnorm_combine(B_mva), tsubtract(V_mva))
 
-    result = [tnorm_combine(B_mva), tsubtract(V_mva), tsubtract(Va)]
+    if add_Va
+        n = config["n"](t0, t1)
+        Va = setmeta(Alfven_velocity_ts(B_mva, n) ./ u"km/s"; labels = 𝑳.Va_LMN, ylabel = "V (km/s)")
+        result = (result..., tsubtract(Va))
+    end
 
     if add_J
         J = hcat(current_density(B_mva, V_mva)...)
         J = setmeta(J; labels = 𝑳.J, ylabel = "J")
-        push!(result, J)
+        result = (result..., J)
     end
 
     fax = tplot(f, result; kwargs...)
-    tlines!(fax, [tmin, tmax])
+
+    if add_fit
+        model = event.model
+        ts = DateTime.(times(B_subset))
+        lines!(fax.axes[1], ts, model.(ts); color = :red, linestyle = :dash, linewidth = 3, label = "fit")
+    end
+
+    tlines!(fax, [tmin, tmax]; color = :gray, linestyle = :dash)
     return fax, result
 end
 
@@ -207,7 +212,7 @@ function modify_faxs_base!(faxs)
 
     R_ax = faxs.axes[5]
     ylims!(R_ax, 0.09, 0.85)
-    
+
     modify_N_ax!(faxs.axes[6])
     return
 end
