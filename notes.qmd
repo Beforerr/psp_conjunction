@@ -6,6 +6,17 @@
   - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy
 
 
+# Motivation
+
+Studying the radial evolution of solar wind discontinuities from synergistic observations of PSP and Earth-orbiting missions (ARTEMIS, Wind) during aligned intervals.
+
+- How does the discontinuities change with the radial distance from the Sun?
+
+- How is solar wind discontinuities formed? What is the physical mechanisms?
+
+  - Generated at or near the sun?
+
+  - Locally generated in the interplanetary space by turbulence?
 
 
 # TODO

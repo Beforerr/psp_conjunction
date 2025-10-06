@@ -22,37 +22,47 @@ author:
     affiliation: Space Sciences Laboratory, University of California, Berkeley
 ---
 
-# Motivation
+# Abstract
 
-Studying the radial evolution of solar wind discontinuities from synergistic observations of PSP and Earth-orbiting missions (ARTEMIS, Wind) during aligned intervals.
+In this study, we analyze three time intervals during which the Parker Solar Probe (PSP) was in close proximity to the Sun. We investigate current sheets (magnetic discontinuities) observed by PSP, as well as by the ARTEMIS and Wind missions.
 
-- How does the discontinuities change with the radial distance from the Sun?
+Using an automated detection method, we identify current sheets in the magnetic field data and examine their properties in conjunction with plasma parameters such as velocity, density, and temperature.
 
-- How is solar wind discontinuities formed? What is the physical mechanisms?
+We identified more than 45,000 current sheets across the three selected time intervals, including approximately 17,000 events from the Parker Solar Probe (PSP). Our analysis shows that the absolute current density decreases with increasing radial distance from the Sun, while the normalized current density—defined as the current density divided by the Alfvén current density—remains relatively constant across different heliocentric distances. In contrast, the current sheet thickness increases with radial distance, indicating that current sheets broaden as the solar wind expands. When normalized by the ion inertial length, however, the thickness shows a slight decrease. We also observe distinct distributions in the amplitudes of magnetic field jumps among the different missions. Furthermore, the current sheet thickness and current density are found to be strongly correlated, suggesting that thinner current sheets are associated with stronger current densities.
 
-  - Generated at or near the sun?
+Most current sheets exhibit only small variations in magnetic field magnitude, suggesting a predominantly force-free, rotational-discontinuity (RD)–like nature. However, significant deviations from the Walén relation are observed, even when pressure anisotropy is taken into account, indicating that anisotropy alone cannot explain the discrepancies expected for ideal RDs. Finally, we find that the Alfvénicity of the current sheets is strongly correlated with the cross helicity and residual energy of the ambient plasma, suggesting that the local current sheet dynamics are largely governed by the surrounding turbulent environment.
 
-  - Locally generated in the interplanetary space by turbulence?
+<!-- 
+In addition, we analyze the Alfvénicity of the current sheets and find that both Parker Solar Probe and Wind observations consistently show that the velocity-jump ratio is often smaller than unity. While the two missions reveal similar statistical trends, the alignment of the magnetic field and velocity jump directions differs, with Parker Solar Probe exhibiting a larger degree of angular misalignment.
+
+In contrast, other parameters such as plasma beta and the alpha-particle abundance do not show a significant influence, and no strong correlations are observed.
+-->
 
 # Introduction
 
-@lotekarKineticscaleCurrentSheets2022
-@perroneCoherentEventsIon2020
+Current sheets are ubiquitous mesoscale structures in the solar wind, where the magnetic field changes direction abruptly over ion-scale thicknesses, while their lateral extents can exceed typical magnetohydrodynamic (MHD) scales. These current sheets most readily identified from sharp magnetic-field rotations but can also be evident in simultaneous changes of plasma density, bulk velocity, and temperature.
 
-The study of the spatial evolution of solar wind discontinuities is important for understanding the dynamics of the solar wind
+In turbulent solar wind plasmas, current sheets are widely recognized as signatures of intermittency, contributing to the non-Gaussian nature of magnetic field fluctuations and localized energy dissipation [@borovskyContributionStrongDiscontinuities2010; @grecoPartialVarianceIncrements2017]. They play a crucial role in mediating the transfer of energy across scales, from large-scale MHD fluctuations down to ion and electron kinetic scales, and are believed to be important sites of plasma heating and particle acceleration [@osmanIntermittencyLocalHeating2012; @tesseinAssociationSuprathermalParticles2013].
 
-Previous statistical studies of solar wind discontinuities in the inner heliosphere @marianiStatisticalStudyMagnetohydrodynamic1983 @liuCharacteristicsInterplanetaryDiscontinuities2021
+<!-- Because they concentrate gradients and localized dissipation, current sheets are central features of solar-wind intermittency and non-Gaussian magnetic fluctuations [@borovskyContributionStrongDiscontinuities2010; @grecoPartialVarianceIncrements2017]. They are therefore important for understanding how energy cascades from large MHD scales to ion and electron kinetic scales, and for identifying sites of plasma heating and particle energization [@osmanIntermittencyLocalHeating2012; @tesseinAssociationSuprathermalParticles2013]. -->
 
-Alignement study of solar wind discontinuities @artemyevDynamicsIntenseCurrents2018
+Understanding the formation, structure, and evolution of current sheets at different heliocentric distances is therefore essential for elucidating the mechanisms that govern solar wind turbulence and heating. A number of statistical studies have investigated current sheet properties across a broad range of radial distances [@marianiStatisticalStudyMagnetohydrodynamic1983; @artemyevDynamicsIntenseCurrents2018; @perroneCoherentEventsIon2020; @liuCharacteristicsInterplanetaryDiscontinuities2021; @lotekarKineticscaleCurrentSheets2022; @vaskoKineticscaleCurrentSheets2022; @vaskoKineticScaleCurrentSheets2024]. Despite this progress, several important gaps remain.
+First, many earlier studies rely on datasets obtained at different times and with instruments of varying temporal resolution, which complicates consistent comparisons across heliocentric distances. Few investigations have examined simultaneous observations from multiple radial positions [@velliUnderstandingOriginsHeliosphere2020, @telloniSpacecraftRadialAlignments2023], limiting our understanding of how current sheet properties evolve as the solar wind expands. Second, existing identification methods often depend on fixed thresholds—such as absolute magnetic-field jumps—or are highly sensitive to data resolution, as in the case of partial variance increment techniques. To enable meaningful cross-mission comparisons, more robust approaches based on normalized, resolution-independent criteria are needed. Finally, most prior work has classified discontinuities within the ideal MHD framework—for instance, distinguishing tangential from rotational discontinuities. While useful in some contexts and extensively studied, these categories become inadequate at ion scales, where kinetic and multi-fluid effects play a central role. In this study, we therefore move beyond strict MHD classifications and instead emphasize the Alfvénic character of current sheets—that is, the extent to which plasma and magnetic-field variations follow Alfvénic correlations [@shenComparingPlasmaAnisotropy2024]. Although this perspective is fundamental for understanding the origin and evolution of current sheets, it has received relatively limited systematic attention.
 
-By indentifying the periods of conjunctions and alignments between PSP and Earth-orbiting missions
+The Parker Solar Probe (PSP) mission offers an unprecedented opportunity to probe current sheets in the near-Sun environment with high cadence and to compare those observations with near-Earth measurements. In this study, we focus on three PSP perihelion intervals (Encounters 7–9) selected for their differing geometric alignments with the near-Earth spacecraft ARTEMIS and Wind. Encounter 8 features strong radial alignment, enabling sampling of similar solar wind streams while Encounter 7 exhibits weaker alignment and Encounter 9 places PSP roughly 180° away in longitude. These contrasting configurations enable a controlled examination of current sheet properties and, more broadly, provide insight into how those properties depend on the solar wind's source region.
+
+Using a robust automated detection algorithm, we identify and analyze more than 45,000 current sheets across the three intervals (≈17,000 from PSP). We systematically characterize their thickness, current density, magnetic-field jump, and Alfvénicity. The remainder of the paper is organized as follows: Section 2 describes datasets and methods; Section 3 presents results; and Section 4 discusses physical implications and conclusions.
+
+<!-- References
 
 @hudsonDiscontinuitiesAnisotropicPlasma1970
 
-
-“Knetter [2005] extended this work to intervals in 2002 and 2003 which also included fast wind intervals. He obtained similar results to above and amassed a final total collection of 366 discontinuities. All of the discontinuities had normal field components consistent with zero. He concluded that the discontinuities are best explained as TDs regardless of the amount of dB/B.” ([Vasquez et al., 2007, p. 2](zotero://select/library/items/VPNY4UFZ)) ([pdf](zotero://open-pdf/library/items/DNN2ADMT?page=2&annotation=9Q8CVTE9))
+“Knetter [2005] extended this work to intervals in 2002 and 2003 which also included fast wind intervals. He obtained similar results to above and amassed a final total collection of 366 discontinuities. All of the discontinuities had normal field components consistent with zero. He concluded that the discontinuities are best explained as TDs regardless of the amount of dB/B.” ([Vasquez et al., 2007, p. 2](zotero://select/library/items/VPNY4UFZ)) ([pdf](zotero://open-pdf/library/items/DNN2ADMT?page=2&annotation=9Q8CVTE9)) 
+-->
 
 # Dataset and method
+
+In this study, we utilize magnetic field and plasma measurements from multiple spacecraft. For the Parker Solar Probe (PSP), we use magnetic field data from the FIELDS instrument and plasma data from the Solar Probe ANalyzer (SPAN) suite. The proton and electron anisotropies are derived from the corresponding SPAN-Ion and SPAN-Electron measurements. For the Wind and ARTEMIS missions, magnetic field data are obtained from the onboard magnetometers, while plasma parameters are taken from the Faraday cup instrument on Wind and the corresponding plasma instrument on ARTEMIS.
 
 Our study focuses on the evolution of solar wind discontinuities within plasma parcels as they undergo expansion. We analyze datasets from the Parker Solar Probe (PSP) and Earth-orbiting missions (e.g., ARTEMIS, DSCOVR, and Wind) at various radial distances in the inner heliosphere, during periods of conjunctions and alignments between PSP and these Earth-orbiting missions.
 
@@ -110,20 +120,30 @@ The following data collected by Wind are used: magnetic fields with a $\sim 11$ 
 > The procedure of CS selection and methodology, briefly described below, is equivalent to those used in the paper 
 
 
-
-
 @telloniSpacecraftRadialAlignments2023
 
 <!-- sensing solar wind emitted from the same region on the solar surface, with the caveat that dynamical processes at the chromosphere–corona interface have not dramatically altered the solar footpoint within the time corresponding to the radial propagation from the measurement of one spacecraft to that of the other. -->
 
+
+## Methodology
+
+To identify current sheets, we employ an automated detection algorithm similar to that used in our previous study (Zhang et al., 2024). The magnetic field data are divided into consecutive time intervals, and the standard deviation within each interval is calculated and compared with those of adjacent intervals. A current sheet is identified when the standard deviation within an interval significantly exceeds that of its neighboring intervals, indicating a sharp magnetic field variation.
+
+Once the current sheets are identified, we apply minimum variance analysis (MVA) to transform the magnetic field and plasma data into the local LMN coordinate system, where L, M, and N correspond to the maximum, intermediate, and minimum variance directions, respectively. The spatial thickness of each current sheet is estimated by multiplying its temporal duration by the plasma velocity projected along the normal (N) direction. The current density is then derived accordingly.
+
+For each identified event, we select time steps immediately before and after the current sheet as the upstream and downstream intervals, respectively. The mean plasma density and temperature from these intervals are used to estimate the plasma pressure and pressure anisotropy factors. Using these parameters, we derive both the Alfvén velocity and a modified Alfvén velocity that accounts for the pressure anisotropy. Finally, we compute the cross helicity and residual energy within the same intervals to characterize the local solar wind conditions surrounding each current sheet.
+
 # Overview and Example of Current Sheets
+
 
 > @lotekarKineticscaleCurrentSheets2022 Figure 1 presents an overview of the considered 10 day interval. Over this interval, the spacecraft was at radial distances from 0.17 to 0.24 au, that is, from 35 to 50 solar radii, and remained within the inward magnetic field sector without crossing the heliospheric current sheet (Phan et al. 2020; Szabo et al. 2020). No coronal mass ejections were observed in the considered interval (Phan et al. 2020; Szabo et al. 2020). The spacecraft was approximately corotating with the Sun and connected to the same coronal hole (Bale et al. 2019; Badman et al. 2020). Panels (a)–(d) present 1 minute averages of the magnetic field magnitude, proton flow velocity, densities, and temperatures of protons and electrons as well as plasma density estimates provided by the quasi-thermal noise spectroscopy. The magnetic field magnitude was about 100 nT at the perihelion on November 6, and around 50 nT as the spacecraft moved to a radial distance of 50 solar radii from the Sun on November 1 and 10. The solar wind was typically slow  with a proton flow velocity below 400 km s−1, except for the ≈20 hr period of fast solar wind between November 9 and 10. The three plasma density estimates in panel (c) are consistent with each other within a few tens of percent over the entire interval, except for the fast solar wind interval, where the proton densities were about 4 times smaller than the plasma density estimates provided by the quasi-thermal noise spectroscopy. We will use the electron density estimates, calibrated to best match proton densities and the results of quasi-thermal noise spectroscopy, as plasma density estimates. The proton temperature during the considered interval varied between about 10 and 100 eV, while the electron temperature remained around 30 eV. Panel (e) presents 1 minute averages of proton and electron betas and shows that both quantities varied in the range from 0.1 to 5.
 > Figure 2 presents several CSs from our data set.
 
 ## Examples of discontinuities
 
-![](figures/examples/psp_e2_example.png)
+![](figures/event-example.pdf){#fig-event-example}
+
+<!-- ![](figures/examples/psp_e2_example.png) -->
 
 In general discontinuities observed by PSP are with
 
@@ -137,15 +157,35 @@ In general discontinuities observed by PSP are with
 
 # Results
 
+We analyze the Alfvénicity of the current sheets and find that both Parker Solar Probe and Wind observations consistently show that the velocity-jump ratio is often smaller than unity. While the two missions reveal similar statistical trends, the alignment of the magnetic field and velocity jump directions differs, with Parker Solar Probe exhibiting a larger degree of angular misalignment.
+
+Figure 1 presents the statistical distributions of current density, current sheet scale (or cycle length), and magnetic field jumps derived from different missions and time intervals. Despite the varying observation conditions, the normalized current density exhibits similar magnitudes across the Parker Solar Probe (PSP), Wind, and ARTEMIS datasets. In contrast, the current sheet scale increases systematically from PSP to ARTEMIS, suggesting a radial evolution as the solar wind expands. However, after normalization by local parameters, the current sheet scale shows a slight decrease.
+
+The magnetic field jump displays more complex behavior among the missions, with PSP, Wind, and ARTEMIS showing distinct distributions. This diversity may indicate the presence of two populations of current sheets in the near-Sun environment, possibly reflecting different formation mechanisms or solar wind regimes.
+
+Figure 2 shows the joint distributions between (a) current density and current sheet scale, (b) current density and magnetic field jump, and (c) current sheet scale and magnetic field jump. A clear negative correlation is observed between current density and current sheet scale, indicating that stronger current densities are generally associated with thinner current sheets.
+
 ![](figures/overview-7-all.pdf){#fig-overview}
 
 ![](figures/properties_hist-mva.pdf){#fig-properties-hist}
+
+Figure 3 illustrates the parameters used to characterize the Alfvénicity of the current sheets. Two key quantities are considered: (1) the velocity jump across the current sheet, and (2) the variation in magnetic field magnitude across the same interval. The first panel presents the ratio of magnetic field magnitude before and after the current sheet, while the second panel shows the angular difference between the Alfvén velocity and the plasma velocity.
+
+In general, the magnetic field magnitude ratio is less than unity, with mean values of approximately 0.6 for the Parker Solar Probe and 0.5 for the Wind observations. The velocity angle distribution is concentrated near 0° and 180°, indicating that the plasma and Alfvén velocities are typically aligned or anti-aligned. The Wind data exhibit a somewhat broader angular distribution compared to PSP, suggesting a larger degree of deviation from ideal Alfvénic alignment. The variation in magnetic field magnitude across the current sheets is relatively small, implying that the magnetic field strength remains nearly constant while its direction rotates—consistent with the rotational nature of many observed current sheets.
 
 ![](figures/joint_properties-mva.pdf){#fig-joint-properties}
 
 ![](figures/Alfvenicities.pdf)
 
+To further investigate how the Alfvénicity of current sheets relates to other parameters, we combine the velocity jump ratio and the velocity jump angle into a single scalar parameter, Q, following the formulation introduced by Sonnerup (2016). The parameter Q, bounded between –1 and 1, quantifies the deviation from ideal Alfvénic behavior expected for a rotational discontinuity.
+
+We examine the relationship between Q and various plasma properties and find that most parameters show little or no correlation. However, two parameters exhibit strong correlations with Q: the cross helicity and the residual energy of the surrounding solar wind. Both quantities describe the Alfvénicity of the background solar wind rather than that of individual current sheets. Our results show that current sheet Alfvénicity increases with solar wind cross helicity and decreases with residual energy.
+
+Additionally, for the Parker Solar Probe observations, we find a weak positive correlation between the temporal duration of the current sheets and their Alfvénicity, with longer-duration current sheets tending to display slightly higher Alfvénicity. However, this trend may partly arise from instrumental limitations, as longer-duration events provide better temporal resolution for plasma measurements.
+
 ![](figures/Q_sonnerup_joint_dist_den.pdf)
+
+We also analyze the rotational characteristics of the current sheets and their relationship with the normal component of the magnetic field. The rotational profile provides insights into how the magnetic field vector changes direction across each current sheet. Our results show that the Parker Solar Probe observes a distinctly different distribution of rotation angles compared to the Wind and ARTEMIS missions. This discrepancy suggests that the orientation and rotational structure of current sheets evolve significantly as the solar wind propagates from the near-Sun environment to near-Earth distances.
 
 ![](figures/B_n_ω_subset=true.pdf)
 
@@ -168,6 +208,42 @@ K2: $Δv_l$,l demonstrates a strong correlation with $Δv_{A}$, albeit being con
 K1: Normalized discontinuities properties does not vary much with radial distance
 
 Thickness and current density relationship, scale-dependent properties of current sheets in the solar wind
+
+Discussion
+
+Our analysis reveals several robust, physically meaningful trends that illuminate how current sheets evolve from the near-Sun environment sampled by Parker Solar Probe (PSP) to the near-Earth environment sampled by Wind and ARTEMIS. Below I synthesize the principal findings, interpret their physical significance, identify methodological caveats, and suggest targeted follow-ups.
+
+1. Alfvénicity is controlled by the background turbulence, not only by local sheet properties.
+The strong positive correlation between current-sheet Alfvénicity and the ambient cross-helicity, together with the negative correlation with residual energy, indicates that the degree to which a current sheet behaves like an ideal rotational discontinuity is largely set by the surrounding turbulence state. High cross-helicity (more Alfvénic background fluctuations) promotes velocity–magnetic-field alignment at the sheet and hence higher sheet Alfvénicity; conversely, large (negative) residual energy — a relative excess of magnetic over kinetic fluctuation energy — corresponds to less Alfvénic sheets. This pattern is consistent with a picture in which current sheets are embedded, and shaped, by the local turbulent cascade rather than being isolated structures created by a single local process. In other words, the macroscopic turbulence environment biases whether a boundary will appear Alfvénic or non-Alfvénic when sampled by a spacecraft.
+
+2. Stronger currents ↔ thinner sheets: intermittency and cascade interpretation.
+The pronounced anti-correlation between current density and sheet scale (cycle length) — stronger current density associated with smaller spatial thickness — is a hallmark of intermittency in MHD turbulence. In a turbulent cascade, gradients steepen locally and concentrate current into thin, intense sheets. That we observe similar normalized current densities across radial distances suggests the cascade produces structures that are, after normalization by local parameters (e.g., Alfvén speed), roughly self-similar. The increase of absolute cycle length with heliocentric distance (and the slight decrease after normalization) can be interpreted as geometric expansion and evolution of structures during propagation combined with changes in local plasma conditions.
+
+3. Two populations and the predominance of rotational behavior.
+The magnetic magnitude change across many sheets is small while the direction rotates, consistent with a predominance of rotational discontinuities (RDs). Yet the mission-dependent diversity in magnetic jump distributions and the suggestion of two populations (one with small |ΔB| and one with larger |ΔB|) point to coexisting RD-like and more tangential/discontinuous (TD-like) structures near the Sun. PSP’s distinct rotation-angle distribution relative to Wind/ARTEMIS indicates evolution: as the solar wind propagates, some RD-like structures may transform (via interactions, steepening, or merging) into structures with different jump statistics, or different source populations (e.g., switchback boundaries versus streamer-belt tangential discontinuities) could dominate at different radii.
+
+4. Why pressure anisotropy alone fails to explain the velocity vs. magnetic jumps.
+Our finding that pressure anisotropy does not reconcile the observed discrepancy between the magnetic-field-derived Alfvén velocity jump and the measured plasma velocity jump suggests that single-fluid MHD (even with scalar anisotropy corrections) is insufficient. Possible contributors include: multi-fluid effects (e.g., decoupling of alpha particles or beams from the proton bulk), Hall and finite-Larmor-radius physics at ion scales, kinetic pressure tensor terms, or wave/beam populations that modify the bulk velocity without a matching magnetic signature. This motivates direct inspection of ion distribution functions (alpha particles, proton beams), search for Hall or reconnection signatures, and targeted kinetic modeling (hybrid/PIC) to quantify non-MHD contributions.
+
+5. Temporal-duration effect: physical or instrumental?
+The weak positive relation between current-sheet duration and Alfvénicity (longer events appearing more Alfvénic) must be interpreted cautiously. Longer durations provide more plasma samples and therefore better statistical estimates of upstream/downstream velocities; thus part of the trend may be instrumental or sampling bias. Nevertheless, if a residual physical trend remains after accounting for resolution effects, it could indicate that more spatially extended sheets preserve the Alfvénic coupling between flows and fields more effectively than shorter, more transient sheets — again pointing to an intimate connection between sheet morphology and the ambient turbulence.
+
+6. Radial evolution, rotation profiles, and implications for solar-wind dynamics.
+The systematic differences in rotation-angle distributions (PSP versus Wind/ARTEMIS) suggest that current sheets do not simply convect unchanged: they undergo reconfiguration. Processes that can drive this evolution include differential expansion, interactions with other structures (compressive regions, shocks, stream interactions), and nonlinear turbulent evolution (coalescence, steepening). This evolution has practical implications: the dynamical role of current sheets in particle energization, wave generation, and transport will depend on location and on how their topology and Alfvénicity change with distance.
+
+7. Methodological caveats and uncertainties.
+Several limitations could affect quantitative interpretation and should guide follow-up analyses: (i) single-spacecraft MVA and thickness estimates carry uncertainties in the normal direction and the projection of velocity; (ii) current density estimated from ΔB/Δl assumes a 1D geometry and neglects possible multi-dimensional structure; (iii) time-resolution differences between magnetometers and plasma instruments (SPAN, Faraday cup) can bias velocity-jump estimates; and (iv) detection thresholds and interval selection in the automated algorithm can preferentially select certain sheet types. We therefore recommend sensitivity tests varying detection thresholds, bootstrapping MVA normals, and quantifying the effect of cadence by sub-sampling or synthetic down-sampling tests.
+
+8. Specific, actionable follow-ups.
+To strengthen the physical interpretation and disentangle competing hypotheses, we recommend:
+	•	Cross-checking events with high-cadence particle moments and full distribution functions (to examine alpha/beams and non-Maxwellian features).
+	•	Searching for localized signatures of Hall physics or reconnection (bipolar electron jets, outflow pairs, Hall magnetic-field patterns) in high-resolution fields and particle data.
+	•	Conditioning the statistics on solar-wind type (fast vs. slow, presence of switchbacks, stream origin) to see whether the two inferred populations map to flow regimes.
+	•	Running hybrid or kinetic simulations initialized with observed upstream parameters to test whether pressure-tensor or multi-species effects reproduce the velocity–field jump mismatch.
+	•	Expanding the radial coverage (include Solar Orbiter, STEREO where possible) or employing multi-point analysis to reduce geometric ambiguities.
+
+9. Concluding synthesis.
+Taken together, our results support a picture in which current sheets are predominantly turbulence-embedded, dynamically evolving structures whose Alfvénic character is governed more by the ambient solar-wind turbulence state (cross-helicity and residual energy) than by simple local pressure anisotropy. The tight coupling between sheet intensity and spatial scale, the presence of (at least) two structural populations, and the radial evolution of rotation profiles together point to a complex interplay of cascade intermittency, expansion effects, and kinetic physics. Resolving the remaining discrepancies will require higher-resolution particle data, multi-spacecraft constraints, and targeted kinetic modeling.
 
 
 # Conclusion
