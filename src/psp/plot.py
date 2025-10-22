@@ -52,18 +52,3 @@ def plot_event(
         timebar(td_stop)
 
     return tplot(tnames2plot, return_plot_objects=True)
-
-
-def plot_candidate_tplot(
-    event,
-    mag_tname: str = PSP_MAG_TNAME,
-    vec_tname: str = PSP_VEL_TNAME,
-    den_tname: str = PSP_DEN_TNAME,
-    offset=timedelta(seconds=0),
-):
-    """Plot the candidate event with velocity profiles"""
-
-    start = event[start_col]
-    end = event[end_col]
-
-    return tplot_Alfvenicity(start, end, mag_tname, vec_tname, den_tname, offset)

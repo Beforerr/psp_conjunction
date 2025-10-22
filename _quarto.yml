@@ -1,6 +1,6 @@
 project:
   type: website
-  preview: 
+  preview:
     port: 4003
 
 website:
@@ -14,7 +14,7 @@ website:
         href: article.qmd
         # href: _manuscript/index.html
       - text: "Presentation"
-        menu: 
+        menu:
           - href: presentations/grp.qmd
             text: Group Meeting
           - href: presentations/sparthb.qmd
@@ -30,3 +30,8 @@ bibliography:
   - files/bibliography/research.bib
 
 wrap: preserve
+
+execute:
+  eval: false
+
+engines: ["julia"]

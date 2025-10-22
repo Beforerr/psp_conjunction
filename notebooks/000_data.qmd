@@ -1,4 +1,4 @@
-## Data
+# Data
 
 ```{julia}
 using Dates
@@ -232,6 +232,11 @@ f
 
 ### THEMIS
 
+<!-- 
+ARTEMIS:
+We use the following data collected by ARTEMIS P1: magnetic fields with a ∼4s spin resolution (Auster et al. 2008), the ion bulk velocity v, and the ion (assumed to be proton) temperature (scalar) Tp calculated from velocity distributions measured at spin resolution by the Electrostatic Analyzer (ESA; McFadden et al. 2008). Being designed for measurements of a hot, rarefied plasma in Earth’s magnetosphere, ESA typically overestimates the proton temperature in the solar wind, because the solar wind proton beam is narrower than ESA’s energy and angular resolution.
+TODO: check if the ESA is in solar wind mode
+-->
 
 Notes: `thb_peim_t3_magQ` is not accurate in solar wind mode.
 
@@ -247,7 +252,15 @@ end
 ```
 
 
-### Wind
+## Wind
+
+### Wind 3D Plasma Analyzer
+
+> The Wind 3DP instrument consists of six different sensors. There are two electron (EESA) and two ion (PESA) electrostatic analyzers with different geometrical factors and field-of-views covering the energy range from 3 eV to 30 keV. There are also a pair of solid state telescopes (SST) that measure electrons with energies up to 400 keV and protons with energie...
+
+Wind 3dp, PESA LOW 1 spin resolution ion (proton and alpha) moments
+
+Instrument Description
 
 ```{julia}
 let tmin = DateTime("2021-01-15"), add_unit = false

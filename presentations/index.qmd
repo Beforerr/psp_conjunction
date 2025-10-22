@@ -10,8 +10,6 @@ format:
 
 ## Effect of alignment on discontinuity properties
 
-![](../figures/thickness_current.png)
-
 ![](../figures/B_angle.png)
 
 $|\Delta \mathbf{B}/B|$
