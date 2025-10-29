@@ -103,10 +103,6 @@ Pair plot
 ![](figures/enc2/dn-dB)
 :::
 
-## 
-
-![](images/paste-20.png)
-
 Given timeseries $(R_a, \phi_a$, $R_b(t)$,
 
 ![](images/paste-11.png)
@@ -131,6 +127,24 @@ How to define alignment?
   - Correlation: magnetic field / plasma velocity
 
 - Simulation: Trace plasma parcels evolution
+
+<!-- ::: {#fig-plasma-adiabatic-evolution .column-page}
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR-next.svg)
+
+![](figures/evolution/plasma-adiabatic-evolution_e2-DSCOVR.svg)
+
+Comparison of plasma dimensionless quantities (plasma beta and normalized plasma speed by Alfven speed) between PSP (red) and DSCOVR (blue). Yellow dots are predicted plasma beta and normalized speed using formulary from @perroneRadialEvolutionSolar2019.
+::: -->
+
+
+<!-- sensing solar wind emitted from the same region on the solar surface, with the caveat that dynamical processes at the chromosphere–corona interface have not dramatically altered the solar footpoint within the time corresponding to the radial propagation from the measurement of one spacecraft to that of the other. -->
+
+
+<!-- OUTDATED
+To achieve this, we utilize a configuration where two spacecraft are radially aligned in the Heliographic (HG) frame, with the longitude fixed on the Sun. It is important to note that the plasma parcels observed by the two spacecraft may differ in composition, as solar wind particles propagate at varying velocities. For instance, protons often exhibit a beam in their velocity distribution function, while the thermal speed of electrons is much higher than their bulk speed. Nonetheless, observing plasma that passes through both spacecraft offers the best opportunity to study the evolution of solar wind discontinuities with minimal influence from other processes during propagation. It is also expected that these plasma parcels evolve due to heating and other processes. 
+
+The plasma parcels in question are large-scale structures. As the scale size decreases below the mesoscale [@viallMesoscaleStructureSolar2021] (with radial sizes ranging from approximately 5 × 10³ km to 10⁷ km), it becomes increasingly unlikely to identify the same structure, depending on the latitude difference between the two spacecraft. Furthermore, although large-scale structures (especially density enhancements) can be identified as passing through both spacecraft [@berriotIdentificationSinglePlasma2024], it is nearly impossible to detect kinetic-scale structures, such as solar wind discontinuities (with time scales on the order of seconds), by both spacecraft simultaneously. Therefore, our study focuses on the statistical properties of solar wind discontinuities within the "same" large-scale structures that pass through both spacecraft. 
+-->
 
 ## Anisotropy
 

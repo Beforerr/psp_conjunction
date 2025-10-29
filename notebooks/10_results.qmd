@@ -1,9 +1,9 @@
 ---
 title: Results
-engine: julia
 ---
 
 ```{julia}
+using PSPAnisotropy
 using DrWatson
 import Beforerr: easy_save
 using GLMakie, AlgebraOfGraphics

@@ -10,7 +10,7 @@ using Discontinuity: compute_Alfvenicity_params!, Alfven_velocity
 using DimensionalData
 using DataFrames, DataFramesMeta
 using CairoMakie
-using Beforerr: _theme_legend, easy_save
+using Beforerr: _theme_legend, easy_save, hide_facet_labels!, add_labels!
 using AlgebraOfGraphics
 using AlgebraOfGraphics: data
 import AlgebraOfGraphics as AoG
@@ -19,13 +19,14 @@ using Accessors
 using Unitful
 Unitful.preferunits(u"nA", u"km")
 
+includet("../src/plot.jl")
+
 # https://github.com/MakieOrg/AlgebraOfGraphics.jl/issues/464
 foreach([:log10, :log2, :log]) do f
     @eval import Base: $f
     @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
 end
 set_Z_theme!()
-formats = (:pdf, :png)
 ```
 
 ```{julia}
@@ -34,23 +35,27 @@ formats = (:pdf, :png)
 
 taus = Second.(2 .^ (1:6))
 # taus = Second.(2 .^ (0:6))
-df = workload(taus)
+wdf = workload(taus)
 
 _float64(x) = Float64(x)
 _float64(::Missing) = missing
 
 A_lens = @optic _.model.A
 
-@chain df begin
+df = @chain wdf begin
     DC.compute_Alfvenicity_params!()
     DC.compute_params!()
-    @transform! @astable begin
+    @transform @astable begin
         :Δ𝐁 = @. norm(:B_us - :B_ds)
         :Δ𝐁_fit = @. 2 * passmissing(A_lens)(:model) |> abs
         :Δ𝐁_norm = :Δ𝐁 ./ :B_mag
         :Δ𝐁_fit_norm = :Δ𝐁_fit ./ :B_mag
         :B_n_mva_norm = abs.(:B_n_mva ./ :B_mag)
         :duration = _float64.(ustrip.(:duration .|> u"s"))
+        :L_n_mva = _float64.(ustrip.(:L_n_mva))
+        :J_m_max_mva = _float64.(ustrip.(:J_m_max_mva))
+        :L_n_cross = _float64.(ustrip.(:L_n_cross))
+        :J_m_max_cross = _float64.(ustrip.(:J_m_max_cross))
     end
     DC.classify!(:B_n_mva_norm)
 end
@@ -62,6 +67,7 @@ df_event_counts = @chain df begin
 end
 
 subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
+const datalimits = x -> quantile(x, [0.01, 0.99])
 ```
 
 
@@ -186,34 +192,67 @@ Density distributions of (normalized) thickness and current density
 ```{julia}
 fname = "properties_hist"
 
-fs = map([:mva]) do 𝐧
+update_theme!(;
+    Legend=(; framevisible=false, padding=(0, 0, 0, 0)),
+)
+
+function plot_properties_hist(df, 𝐧)
     figure = (; size=(450, 600))
     𝒎 = var_mapping(; 𝐧)
 
     datalimits = x -> quantile(x, [0.01, 0.99])
 
+    l_sym = first(𝒎.l_norm)
     tdf = @chain df begin
-        @subset(.!isnan.(:L_n_mva_norm); view=true)
+        @subset(.!isnan.($l_sym); view=true)
         subset_𝐧(𝐧)
-        dropmissing(:L_n_mva_norm)
+        dropmissing(l_sym)
     end
 
-    vars = [𝒎.l_log, 𝒎.l_norm_log, 𝒎.j_log, 𝒎.j_norm_log, 𝒎.Δ𝐁, 𝒎.Δ𝐁_norm_log]
-    labels = ["Thickness", "Normalized thickness", "Current density", "Normalized current density", "|Δ𝐁|", "|Δ𝐁|/⟨|𝐁|⟩"]
-    # append!(vars, [ :Δ𝐁_fit => log10 => "Log Δ𝐁_fit", :Δ𝐁_fit_norm => log10 => "Log Δ𝐁_fit_norm"])
-    # append!(labels, ["Δ𝐁_fit", "Δ𝐁_fit_norm"])
+    l_vars = [𝒎.l_log, 𝒎.l_norm_log]
+    j_vars = [𝒎.j_log, 𝒎.j_norm_log]
+    B_vars = [𝒎.Δ𝐁, 𝒎.Δ𝐁_norm_log]
+    l_labels = ["Thickness", "Normalized thickness"]
+    j_labels = ["Current density", "Normalized current density"]
+    B_labels = ["|Δ𝐁|", "|Δ𝐁|/⟨|𝐁|⟩"]
 
-    plt = AoG.data(tdf) *
-          mapping(vars, layout=AoG.dims(1) => renamer(labels)) *
-          mapping(color=:id, linestyle=:enc) *
-          AoG.density(; datalimits) * visual(Lines)
-    f = draw(plt, scales(Layout=(; palette=wrapped(cols=2))); axis=(; yscale=log10), figure, legend=(; position=:top))
-    hide_facet_labels!(f)
+    facet = (; linkxaxes=:none, linkyaxes=:none)
+    layer = mapping(color=:id, linestyle=:enc) *
+            AoG.density(; datalimits) * visual(Lines)
+    axis = (; yscale=log10)
+
+    plt = AoG.data(tdf) * mapping(l_vars, layout=AoG.dims(1)) * layer
+    f = draw(plt; axis, figure, legend=(; position=:top))
+    ylims!.(getproperty.(f.grid, :axis), 10^(-1.6), 10^(0.1))
+
+    gl2 = GridLayout(f.figure[2, 1:end])
+    f2 = draw!(gl2, AoG.data(tdf) * mapping(j_vars, layout=AoG.dims(1)) * layer; axis)
+
+    gl3 = GridLayout(f.figure[3, 1:end])
+    # no need to subset and dropmissing
+    f3 = draw!(gl3, AoG.data(df) * mapping(B_vars, layout=AoG.dims(1)) * layer; axis)
+
+    hide_facet_labels!.((f, f2, f3))
     rowgap!(f.figure.layout, 1)
-    easy_save("$fname-$𝐧"; formats, force=true)
+    add_labels!(f.figure; position=Left(), padding=(20, -20, 0, 0))
+    colgap!.((f.figure.layout, gl2, gl3), 1)
+
+    return f
+end
+
+fs = map([:mva, :cross]) do 𝐧
+    plot_properties_hist(df, 𝐧)
+    # subset df by plasma beta
+    # plot_properties_hist(@rsubset(df, :β < 1), 𝐧)
+    # plot_properties_hist(@rsubset(df, :β > 3), 𝐧)
+    # easy_save("$fname-$𝐧"; force=true)
+    easy_save("$fname-$𝐧")
 end
 fs[1]
 ```
+
+![properties_hist-mva](../figures/properties_hist-mva.png)
+![properties_hist-cross](../figures/properties_hist-cross.png)
 
 ## Duration (temporal thickness)
 
@@ -222,17 +261,23 @@ Now we analyze what is the distribution of the duration of the current sheet, an
 Plot duration distributions for different missions and time periods.
 
 ```{julia}
-let df = dropmissing(df, :duration)
-    layer = AoG.density(; datalimits=x -> quantile(x, [0.02, 0.99])) * visual(Lines)
-    # layer = AoG.histogram(; datalimits=x -> quantile(x, [0.02, 0.99]), bins = 0:0.3:30) * mapping(col=:id)
-    plt = data(df) * mapping(:duration, linestyle=:enc, color=:id) * layer
-    plt = plt + mapping(2 .^ (1:4)) * visual(VLines, color=:gray, linestyle=:dash)
-    # plt *= (mapping(col=direct("col1")) + mapping(color=:tau, col=direct("col2")))
-    # scales(Col=(; legend=false))
-    draw(plt, axis=(; yscale=log10))
-    easy_save("duration_dist"; formats)
+let tdf = dropmissing(df, :duration)
+    psp_df = @chain tdf begin
+        @rsubset(:id == "PSP"; view=true)
+        @transform(:duration = :duration .* 4, :id = "PSP (4x)")
+    end
+    fdf = vcat(tdf, psp_df)
+    axis = (; yscale=log10)
+    layer = mapping(:duration) * AoG.density(; datalimits=x -> quantile(x, [0.01, 0.99])) * visual(Lines)
+    plt = data(fdf) * mapping(color=:id) * layer
+    plt = plt + mapping(2 .^ (0:5)) * visual(VLines, color=:gray, linestyle=:dash)
+    fg = draw(plt; axis)
+
+    easy_save("duration_dist")
 end
 ```
+
+![](../figures/duration_dist.png)
 
 Plot duration distributions faceted by different taus:
 
@@ -242,7 +287,7 @@ let df = dropmissing(df, :duration)
     plt = data(df) * mapping(:duration, linestyle=:enc, color=:id) * layer
     plt *= mapping(layout=:tau)
     draw(plt, axis=(; yscale=log10), facet=(; linkxaxes=:none, linkyaxes=:none))
-    easy_save("duration_dist_tau"; formats)
+    easy_save("duration_dist_tau")
 end
 ```
 
@@ -307,12 +352,14 @@ end
 ```{julia}
 layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
 
-for 𝐧 in [:mva]
+for 𝐧 in [:mva, :cross]
     view = true
     𝒎 = var_mapping(; 𝐧)
+
+    l_sym = first(𝒎.l_norm)
+
     tdf = @chain df begin
-        dropmissing(:L_n_mva)
-        @transform(:L_n_mva = Float64.(ustrip.(:L_n_mva)), :J_m_max_mva = Float64.(ustrip.(:J_m_max_mva)))
+        dropmissing(l_sym)
         subset_𝐧(𝐧)
     end
 
@@ -325,21 +372,30 @@ for 𝐧 in [:mva]
 
     spec1 = plt * mapping(𝒎.l, 𝒎.j)
     spec2 = plt * mapping(𝒎.l_norm, 𝒎.j_norm)
-    B_l_spec = plt * mapping(𝒎.Δ𝐁_norm, 𝒎.l_norm) # Not strong correlation
-    B_j_spec = plt * mapping(𝒎.Δ𝐁_norm, 𝒎.j_norm) # Not strong correlation
+    B_l_spec = plt * mapping(𝒎.l_norm, 𝒎.Δ𝐁_norm) # Not strong correlation
+    B_j_spec = plt * mapping(𝒎.j_norm, 𝒎.Δ𝐁_norm) # Not strong correlation
+
+    d_lims = (10^(-2.5), 10^3.5)
+    j_lims = (10^(-3.6), 10^2.4)
+    B_lims = (10^(-3), 10^3)
 
     grid1 = draw!(fig[1, 1], spec1; axis)
-    grid2 = draw!(fig[2, 1], spec2; axis)
-    grid3 = draw!(fig[3, 1], B_l_spec; axis)
-    grid4 = draw!(fig[4, 1], B_j_spec; axis)
+    grid2 = draw!(fig[2, 1], spec2; axis=(; axis..., limits=(d_lims, j_lims)))
+    grid3 = draw!(fig[3, 1], B_l_spec; axis=(; axis..., limits=(d_lims, nothing)))
+    grid4 = draw!(fig[4, 1], B_j_spec; axis=(; axis..., limits=(j_lims, nothing)))
 
     hide_facet_labels!.((grid2, grid3, grid4))
+    rowgap!(fig.layout, 4)
 
-    add_labels!(fig[1:4, 1]; position=Left(), padding=(0, 37, 0, 0))
+    add_labels!([fig[1, 1], fig[2, 1], fig[3, 1], fig[4, 1]]; position=Left(), padding=(0, 37, 0, 0))
     display(fig)
-    easy_save("joint_properties-$𝐧"; formats, force=true)
+    # easy_save("joint_properties-$𝐧"; force=true)
+    easy_save("joint_properties-$𝐧")
 end
 ```
+
+![](../figures/joint_properties-mva.png)
+![](../figures/joint_properties-cross.png)
 
 ### In-plane rotation angle, Bn
 
@@ -348,11 +404,13 @@ end
 ```{julia}
 layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
 
-for 𝐧 in [:mva], subset in (true, false)
+for 𝐧 in [:mva, :cross], subset in (true)
     normalization = :column
     𝒎 = var_mapping(; 𝐧)
-    tdf = dropmissing(df, :B_n_mva_norm)
-    tdf = subset ? subset_𝐧(tdf, 𝐧) : tdf
+    B_sym = Symbol(:B_n_, 𝐧)
+    tdf = dropmissing(df, B_sym)
+    # tdf = subset ? subset_𝐧(tdf, 𝐧) : tdf
+    tdf = subset_𝐧(tdf, 𝐧)
     plt = AoG.data(tdf) * mapping(col=:id => layout_func)
     B_n_ω_spec = plt * mapping(𝒎.bn, 𝒎.ω_in) * fhist(; binedges=(0:0.03:0.99, 0:6:180), normalization)
     f = draw(B_n_ω_spec)
@@ -365,7 +423,25 @@ for 𝐧 in [:mva], subset in (true, false)
     legend!(ff[1, 1], grid1; tellheight=false, tellwidth=false, halign=:right, valign=:top)
     rowgap!(f.figure.layout, 4)
     add_labels!([ff[1, 1], ff[1, 2], f.figure[1, 1:end]]; position=Left(), padding=(0, 40, 0, -5))
-    easy_save("B_n_ω_subset=$subset"; formats, force=true)
+    # easy_save("B_n_ω_subset=$subset"; force=true)
+    easy_save("B_n_ω_-$𝐧-subset=$subset")
+end
+```
+
+![](../figures/B_n_ω_subset=true.png) and ![](../figures/B_n_ω_subset=false.png)
+
+```{julia}
+layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
+
+for 𝐧 in [:mva], subset in (true, false)
+    normalization = :column
+    𝒎 = var_mapping(; 𝐧)
+    tdf = dropmissing(df, :B_n_mva_norm)
+    tdf = subset ? subset_𝐧(tdf, 𝐧) : tdf
+    plt = AoG.data(tdf) * mapping(col=:id => layout_func)
+    duration_spec = plt * mapping(:duration, 𝒎.ω_in)
+    f = draw(duration_spec)
+    display(f)
 end
 ```
 
@@ -440,7 +516,9 @@ let vars = [:Q_sonnerup, :duration, :σ_c]
 
     Q_limit = (-0.992, 0.992) # mainly for plotting so not show (-1, 1) in ticks
     ΔV_spec = plt * mapping(𝒎.ΔV_ratio, 𝒎.ΔV_cosθ) * AoG.density(; datalimits=((0, 1.1), (-1, 1)))
-    duration_Q_spec = plt * mapping(:duration, 𝒎.Q) * AoG.density(; datalimits=((0, 3.1), Q_limit))
+    # duration_Q_spec = plt * mapping(:duration, 𝒎.Q) * AoG.density(; datalimits=((0, 3.1), Q_limit))
+    duration_Q_spec = plt * mapping(:duration => log10 => "Log Duration (s)", 𝒎.Q) * AoG.density(; datalimits=((-0.9, 1.1), Q_limit))
+    # duration_Q_spec = plt * mapping(:duration => log10, 𝒎.Q) * fhist(; binedges=(-0.9:0.1:1.1, -0.99:0.1:0.99), normalization=:column)
     σc_Q_spec = plt * mapping(:σ_c => L"σ_c", 𝒎.Q) * AoG.density()
     σr_Q_spec = plt * mapping(:σ_r => L"σ_r", 𝒎.Q) * AoG.density(; datalimits=(Q_limit, Q_limit))
 
@@ -462,8 +540,7 @@ let vars = [:Q_sonnerup, :duration, :σ_c]
     end
     add_labels!(fig[1:4, 1]; position=Left(), padding=(0, 0, 0, -5))
     hide_facet_labels!.((grid2, grid3, grid4))
-    easy_save("Q_sonnerup_joint_dist_den"; formats, force=true)
-    display(fig)
+    easy_save("Q_sonnerup_joint_dist_den")
 end
 ```
 

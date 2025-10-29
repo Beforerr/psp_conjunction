@@ -16,7 +16,7 @@ using DimensionalData
 using DataFrames, DataFramesMeta
 using SpacePhysicsMakie, GLMakie
 using SPEDAS: setmeta, setmeta!
-using Beforerr: _theme_legend, easy_save, hideylabel!
+using Beforerr: _theme_legend, easy_save, hideylabel!, align_ylabels!
 using PartialFunctions
 
 𝐧 = :mva
@@ -27,6 +27,8 @@ Unitful.preferunits(u"nA", u"km")
 unitify(u) = (*)$u
 unitify(u::String) = (*)$uparse(u)
 includet("../src/plot.jl")
+
+set_Z_theme!()
 ```
 
 ```{julia}
@@ -57,20 +59,36 @@ end
 
 ```{julia}
 let add_fit = true, add_Va = true
-    f = Figure(; size=(450, 400))
-    faxs, = plot_candidate(f[1, 1], filter_low_mva_quality(psp_df)[20, :], psp_conf, Second(4); add_fit, legend=nothing, add_Va)
-    faxs, = plot_candidate(f[1, 2], filter_low_mva_quality(thm_df)[12, :], thm_conf, Second(2); add_fit, add_Va)
+    f = Figure(; size=(600, 400))
+    psp_row = filter_low_mva_quality(psp_df)[20, :]
+    faxs, = plot_candidate(f[1, 1], psp_row, psp_conf, Second(6); add_fit, legend=nothing, add_Va)
+    align_ylabels!(faxs.axes)
+    thm_row = filter_low_mva_quality(thm_df)[18, :]
+    faxs, = plot_candidate(f[1, 2], thm_row, thm_conf, Second(8); add_fit, add_Va)
     hideylabel!.(faxs.axes)
     add_labels!(f[1, 1]; position=Left(), padding=(30, -30, 0, 0), labels=1:3, open="(a.")
     add_labels!(f[1, 2]; position=Left(), padding=(30, -30, 0, 0), labels=1:3, open="(b.")
     # faxs, = plot_candidate(f[1, 3], filter_low_mva_quality(wind_df)[2, :], wind_conf, Second(6); add_fit)
     # hideylabel!.(faxs.axes)
+
+    @info "PSP" psp_row.ΔV_ratio psp_row.ΔV_cosθ
+    @info "THEMIS" thm_row.ΔV_ratio thm_row.ΔV_cosθ
+
     colgap!(f.layout, 1)
     resize_to_layout!(f)
     easy_save("event-example")
     f
 end
 ```
+
+![](../figures/event-example.png)
+
+┌ Info: PSP
+│   psp_row.ΔV_ratio = 0.31703819329006777
+└   psp_row.ΔV_cosθ = -0.8208860063945036
+┌ Info: THEMIS
+│   thm_row.ΔV_ratio = 0.3268322029115623
+└   thm_row.ΔV_cosθ = -0.9457794099717979
 
 ```txt
   :t_us              => 2021-01-15T04:05:04.549
@@ -79,8 +97,6 @@ end
 ```
 
 ## Overview
-
-<!-- TODO: add Alfvénicity over time -->
 
 ```{julia}
 using Speasy
@@ -95,7 +111,6 @@ using SPEDAS.SpaceDataModel: set, extend, @set
 
 import AlgebraOfGraphics as AoG
 
-set_Z_theme!()
 ```
 
 ```{julia}
@@ -114,16 +129,6 @@ _tmax_wind = DateTime("2021-01-15T02")
 # tmin_wind = DateTime("2021-01-17")
 # tmax_wind = DateTime("2021-01-18")
 ```
-
-```{julia}
-tvars_themis = [
-    set(tnorm_combine ∘ THEMIS.B_GSE; ylabel=𝒀.B, labels=𝑳.B_XYZ),
-    set(THEMIS.n; ylabel=𝒀.n),
-    replace_outliers! ∘ set(THEMIS.V_GSE; ylabel=𝒀.V, labels=𝑳.V_XYZ),
-    set(THEMIS.eTemp; ylabel=𝒀.T)
-]
-```
-
 
 ### Alfvén ratio over time
 
@@ -145,25 +150,54 @@ end
 ```
 
 ```{julia}
+using Beforerr: add_labels!, align_ylabels!
 update_theme!(; Lines=(linewidth=1, alpha=0.9), figure_padding=(1, 1, 1, 15))
 
-for enc in 7:9
+function add_wind_twin!(gl, wind_axs)
+    # Create a twin axis for Wind magnetic field and density (multiply by the radial ratio)
+    # 1AU / 1Rsun =215
+    B_ax = wind_axs.axes[1]
+    B_ax2 = Axis(gl[1, 1]; yaxisposition=:right, rightspinevisible=true, rightspinecolor=:darkgray)
+    hidexdecorations!(B_ax2, grid=false)
+    ylims!(B_ax, 0.1, 9.9)
+    ylims!(B_ax2, 0.1 * (0.1)^(-1.59), 9.9 * (0.1)^(-1.59))
+    n_ax = wind_axs.axes[2]
+    n_ax2 = Axis(gl[2, 1]; yaxisposition=:right, rightspinevisible=true, rightspinecolor=:darkgray)
+    hidexdecorations!(n_ax2, grid=false)
+    ylims!(n_ax, 3, 16)
+    ylims!(n_ax2, 3 * (0.1)^(-1.96), 16 * (0.1)^(-1.96))222
+end
+
+function overview_plot(enc)
     (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
     legend = (; position=Top())
-    labels = '1':'9'
-    padding = (0, 30, 0, -30)
-    f = Figure(; size=(1000, 800))
-    faxs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...; legend)
-    modify_faxs_base!(faxs)
-    faxs = plot_Wind(f[1, 2], tmin_wind, tmax_wind - Day(1), get_vl_ratio_ts(wind_df)...; legend)
-    modify_faxs_base!(faxs)
 
-    add_labels!(f[1, 1]; labels, open="(a.", padding)
-    add_labels!(f[1, 2]; labels, open="(b.", padding)
-    display(f)
+    f = Figure(; size=(1000, 800))
+    psp_axs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...; legend)
+    modify_faxs_base!(psp_axs)
+    gl = GridLayout(f[1, 2])
+    wind_axs = plot_Wind(f[1, 2], tmin_wind, tmax_wind - Day(1), get_vl_ratio_ts(wind_df)...; legend)
+    modify_faxs_base!(wind_axs)
+
+    labels = (; labels='1':'9', position=Left(), padding=(32, -32, 0, 0))
+    add_labels!(f[1, 1]; labels..., open="(a.")
+    add_labels!(f[1, 2]; labels..., open="(b.")
+    colgap!(f.layout, 2)
+
+    hideylabel!.(wind_axs.axes)
+    add_wind_twin!(gl, wind_axs)
+    align_ylabels!(psp_axs.axes)
     easy_save("overview-$enc-all")
+    return f
 end
+
+overview_plot(7)
+# overview_plot.(7:9)
 ```
+
+![](../figures/overview-7-all.png)
+![](../figures/overview-8-all.png)
+![](../figures/overview-9-all.png)
 
 ## Event example (with pressure anisotropy)
 

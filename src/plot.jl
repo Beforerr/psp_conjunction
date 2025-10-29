@@ -1,7 +1,7 @@
 import AlgebraOfGraphics as AoG
 import AlgebraOfGraphics: draw!
 import Discontinuity
-using SPEDAS: tvec, setmeta, setmeta!
+using SPEDAS: tvec, setmeta, setmeta!, Product
 using Statistics
 using CairoMakie
 using TimeseriesUtilities: times
@@ -20,7 +20,7 @@ export set_Z_theme!
 set_Z_theme!() = begin
     AoG.set_aog_theme!()
     update_theme!(;
-        figure_padding = 1,
+        figure_padding = 2,
         fonts = (; regular = AoG.firasans("Regular"), bold = AoG.firasans("Medium")),
         Legend = (; framevisible = false, padding = (0, 0, 0, -15)),
         Axis = (; xlabelfont = :bold, ylabelfont = :bold),
@@ -76,13 +76,16 @@ function plot_candidate(f, event, B::Union{AbstractArray, Product}, toffset = no
     return fax
 end
 
+using NaNStatistics
+
+subtract_func(x; dims) = mean.(nanextrema(x; dims))
 
 function plot_candidate(f, event, config::AbstractDict, toffset = Second(0); add_Va = false, add_J = false, add_fit = false, kwargs...)
     tmin, tmax = event.t_us, event.t_ds
     t0 = tmin - toffset
     t1 = tmax + toffset
-    B = setmeta(config["B"](t0, t1); ylabel = "B (nT)")
-    V = setmeta(config["V"](t0, t1); ylabel = "V (km/s)")
+    B = setmeta(config["B"](t0, t1); ylabel = "(nT)")
+    V = setmeta(config["V"](t0, t1); ylabel = "(km/s)")
 
     B_subset = tview(B, tmin, tmax)
     B_mva = setmeta(mva(B, B_subset); labels = 𝑳.B_LMN)
@@ -91,8 +94,8 @@ function plot_candidate(f, event, config::AbstractDict, toffset = Second(0); add
 
     if add_Va
         n = config["n"](t0, t1)
-        Va = setmeta(Alfven_velocity_ts(B_mva, n) ./ u"km/s"; labels = 𝑳.Va_LMN, ylabel = "V (km/s)")
-        result = (result..., tsubtract(Va))
+        Va = setmeta(Alfven_velocity_ts(B_mva, n) ./ u"km/s"; labels = 𝑳.Va_LMN, ylabel = "(km/s)")
+        result = (result..., tsubtract(Va, subtract_func))
     end
 
     if add_J
