@@ -386,7 +386,7 @@ for 𝐧 in [:mva, :cross], subset in (true)
 end
 ```
 
-![](../figures/B_n_ω_-mva-subset=true.png) and ![](../figures/B_n_ω_-mva-subset=false.png)
+![](../figures/B_n_ω_-mva-subset=true.png) and ![](../figures/B_n_ω_-cross-subset=true.png)
 
 ```{julia}
 for 𝐧 in [:mva], subset in (true, false)

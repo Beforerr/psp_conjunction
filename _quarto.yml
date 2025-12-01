@@ -1,7 +1,13 @@
 project:
-  type: website
+  type: manuscript
   preview:
     port: 4003
+
+manuscript:
+  article: index.qmd
+  code-links: [repo]
+  notebooks:
+    - notebook: notebooks/02_stats.qmd
 
 website:
   sidebar:

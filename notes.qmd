@@ -85,26 +85,6 @@ $$
 
 ## 02/09/2024 (Encounter 2)
 
-::: {.column-screen-inset layout-nrow="1"}
-
-![](figures/enc2/thickness_current)
-
-![](figures/enc2/density_distribution)
-
-![](figures/enc2/dvl)
-:::
-
-Pair plot
-
-::: {.column-screen-inset layout-nrow="1"}
-
-![](figures/enc2/dn-dT)
-
-![](figures/enc2/dT-dB)
-
-![](figures/enc2/dn-dB)
-:::
-
 Given timeseries $(R_a, \phi_a$, $R_b(t)$,
 
 ![](images/paste-11.png)
