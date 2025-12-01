@@ -2,6 +2,7 @@ import AlgebraOfGraphics as AoG
 import AlgebraOfGraphics: draw!
 import Discontinuity
 using SPEDAS: tvec, setmeta, setmeta!, Product
+using SPEDAS
 using Statistics
 using CairoMakie
 using TimeseriesUtilities: times
@@ -11,6 +12,8 @@ export plot_candidate, plot_var_info!, plot_PSP, plot_Wind
 
 
 include("meta.jl")
+
+layout_func(id) = sorter(["PSP", "ARTEMIS + Wind"])(id == "PSP" ? "PSP" : "ARTEMIS + Wind")
 
 import .Labels as 𝑳
 import .YLabel as 𝒀
@@ -51,9 +54,9 @@ function plot_candidate(f, event, ts::AbstractArray, toffset = nothing; kwargs..
 end
 
 get_data(B::AbstractArray, tmin, tmax) = tview(B, tmin, tmax)
-get_data(B::Product, tmin, tmax) = B(tmin, tmax)
+get_data(B, tmin, tmax) = B(tmin, tmax)
 
-function plot_candidate(f, event, B::Union{AbstractArray, Product}, toffset = nothing; add_B_mva = false, add_fit = false, kwargs...)
+function plot_candidate(f, event, B, toffset = nothing; add_B_mva = false, add_fit = false, kwargs...)
     tmin, tmax = event.t_us, event.t_ds
     tstart, tstop = event.tstart, event.tstop
     toffset = something(toffset, tstop - tstart)
@@ -71,8 +74,7 @@ function plot_candidate(f, event, B::Union{AbstractArray, Product}, toffset = no
     end
 
     fax = tplot(f, tvars2plot; kwargs...)
-    tlines!(fax, [tmin, tmax])
-    tlines!(fax, [tstart, tstop])
+    tlines!(fax, [tmin, tmax]; color = :gray, linestyle = :dash)
     return fax
 end
 
@@ -114,6 +116,49 @@ function plot_candidate(f, event, config::AbstractDict, toffset = Second(0); add
 
     tlines!(fax, [tmin, tmax]; color = :gray, linestyle = :dash)
     return fax, result
+end
+
+# ---
+# Statistics Plots
+
+function plot_properties_hist(df, 𝐧)
+    figure = (; size = (450, 600))
+    𝒎 = var_mapping(; 𝐧)
+
+    datalimits = x -> quantile(x, [0.01, 0.99])
+
+    l_sym = first(𝒎.l_norm)
+    tdf = @chain df begin
+        @subset(.!isnan.($l_sym); view = true)
+        subset_𝐧(𝐧)
+        dropmissing(l_sym)
+    end
+
+    l_vars = [𝒎.l_log, 𝒎.l_norm_log]
+    j_vars = [𝒎.j_log, 𝒎.j_norm_log]
+    B_vars = [𝒎.Δ𝐁, 𝒎.Δ𝐁_norm_log]
+
+    layer = mapping(color = :id, linestyle = :enc) *
+        AoG.density(; datalimits) * visual(Lines)
+    axis = (; yscale = log10)
+
+    plt = AoG.data(tdf) * mapping(l_vars, layout = AoG.dims(1)) * layer
+    f = draw(plt; axis, figure, legend = (; position = :top))
+    ylims!.(getproperty.(f.grid, :axis), 10^(-1.6), 10^(0.1))
+
+    gl2 = GridLayout(f.figure[2, 1:end])
+    f2 = draw!(gl2, AoG.data(tdf) * mapping(j_vars, layout = AoG.dims(1)) * layer; axis)
+
+    gl3 = GridLayout(f.figure[3, 1:end])
+    # no need to subset and dropmissing
+    f3 = draw!(gl3, AoG.data(df) * mapping(B_vars, layout = AoG.dims(1)) * layer; axis)
+
+    hide_facet_labels!.((f, f2, f3))
+    rowgap!(f.figure.layout, 1)
+    add_labels!(f.figure; position = Left(), padding = (20, -20, 0, 0))
+    colgap!.((f.figure.layout, gl2, gl3), 1)
+
+    return f
 end
 
 # ---

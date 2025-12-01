@@ -44,3 +44,14 @@ download:
     wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_201903-201904.mp4
     wget -P images/enlil/ http://helioweather.net/missions/psp/per02/anim/tuz-a7b1-d4t05x1-d200t1-donki_vel2e1-psp-x15ifs3z1fr_med_201903-201904.mp4
     wget -P images/enlil/ http://helioweather.net/missions/psp/per04/anim/tuz-a7b1-d4t05x1-d200t1-donki_den1-psp-x15wifs3z1fo_med_202001-202002.mp4
+
+
+cp-figures:
+    cp figures/Alfvenicities.pdf overleaf/figures/Alfvenicities.pdf
+    cp figures/B_n_ω_-mva-subset=true.pdf overleaf/figures/B_n_ω_-mva-subset=true.pdf
+    cp figures/duration_dist.pdf overleaf/figures/duration_dist.pdf
+    cp figures/joint_properties-cross.pdf overleaf/figures/joint_properties-cross.pdf
+    cp figures/joint_properties-mva.pdf overleaf/figures/joint_properties-mva.pdf
+    cp figures/properties_hist-cross.pdf overleaf/figures/properties_hist-cross.pdf
+    cp figures/properties_hist-mva.pdf overleaf/figures/properties_hist-mva.pdf
+    cp figures/Q_sonnerup_joint_dist_den.pdf overleaf/figures/Q_sonnerup_joint_dist_den.pdf

@@ -1,6 +1,8 @@
 # Updates
 
 - [x] Why ARTEMIS electron data and Wind ion data?
+- [ ] Why we have so many events from Wind observations?
+- [ ] Show PSP and ARTEMIS examples with Bn/B~0.75?
 - [ ] Disagreement between anisotropy observed and predicted by the theory
   - maybe just too localized anisotropy that is not well measured with available time resolution... 
   - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy

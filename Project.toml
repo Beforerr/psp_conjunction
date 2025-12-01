@@ -9,11 +9,9 @@ AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
 Associations = "614afb3a-e278-4863-8805-9959372b9ec2"
 Beforerr = "49aed396-608e-4c3f-b6d6-a749216c9ea7"
 CDAWeb = "950ff2a9-823f-469c-91a7-754a5d85edca"
-CDFDatasets = "075ae62b-f872-4368-b383-31e3aa6c3154"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
-CommonDataFormat = "a9737db6-c05c-4e48-868b-6bc41491d9d9"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
@@ -28,7 +26,6 @@ Intervals = "d8418881-c3e1-53bb-8760-2df7ec849ed5"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
-NCDatasets = "85f8d34a-cbdd-5861-8df4-14fed0d494ab"
 NaNStatistics = "b946abbf-3ea7-4610-9019-9858bfdeaf2d"
 PSP = "a1b2c3d4-e5f6-7890-1234-567890abcdef"
 PairPlots = "43a3c2be-4208-490b-832a-a21dcd55d7da"
@@ -42,18 +39,16 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 TimeseriesUtilities = "31d49243-0742-49c1-b8d2-db113b74581e"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
-UnitfulAstro = "6112ee07-acf9-5e0f-b108-d242c714bf9f"
-UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
-Zarr = "0a941bbe-ad1d-11e8-39d9-ab76183a1d99"
 
 [sources]
 Beforerr = {path = "/Users/zijin/.julia/dev/Beforerr"}
-Discontinuity = {path = "/Users/zijin/.julia/dev/Discontinuity"}
+CDAWeb = {path = "/Users/zijin/.julia/dev/CDAWeb"}
+Discontinuity = {path = "../../src/Discontinuity.jl"}
 PSP = {path = "lib/PSP"}
 PlasmaFormulary = {path = "/Users/zijin/.julia/dev/PlasmaFormulary"}
 SPEDAS = {path = "/Users/zijin/.julia/dev/SPEDAS"}
 SpaceDataModel = {path = "/Users/zijin/.julia/dev/SpaceDataModel"}
-SpacePhysicsMakie = {path = "/Users/zijin/src/Makie24"}
+SpacePhysicsMakie = {path = "/Users/zijin/.julia/dev/SpacePhysicsMakie"}
 Speasy = {path = "/Users/zijin/.julia/dev/Speasy"}
 TimeseriesUtilities = {path = "/Users/zijin/.julia/dev/TimeseriesUtilities"}
 
@@ -71,5 +66,3 @@ NaNStatistics = "0.6"
 PairPlots = "3.0.3"
 Statistics = "1.11"
 StatsBase = "0.34.4"
-UnitfulAstro = "1.2.2"
-Zarr = "0.9.5"

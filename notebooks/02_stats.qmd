@@ -11,6 +11,8 @@ using DimensionalData
 using DataFrames, DataFramesMeta
 using CairoMakie
 using Beforerr: _theme_legend, easy_save, hide_facet_labels!, add_labels!
+using Beforerr
+using CategoricalArrays
 using AlgebraOfGraphics
 using AlgebraOfGraphics: data
 import AlgebraOfGraphics as AoG
@@ -22,10 +24,10 @@ Unitful.preferunits(u"nA", u"km")
 includet("../src/plot.jl")
 
 # https://github.com/MakieOrg/AlgebraOfGraphics.jl/issues/464
-foreach([:log10, :log2, :log]) do f
-    @eval import Base: $f
-    @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
-end
+# foreach([:log10, :log2, :log]) do f
+# @eval import Base: $f
+# @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
+# end
 set_Z_theme!()
 ```
 
@@ -37,8 +39,7 @@ taus = Second.(2 .^ (1:6))
 # taus = Second.(2 .^ (0:6))
 wdf = workload(taus)
 
-_float64(x) = Float64(x)
-_float64(::Missing) = missing
+_float64(x) = passmissing(Float64)(x)
 
 A_lens = @optic _.model.A
 
@@ -65,6 +66,11 @@ df_event_counts = @chain df begin
     groupby(:type)
     combine(nrow)
 end
+
+thm_df = @rsubset(df, :id == "THEMIS"; view=true)
+thm_df.id .= "ARTEMIS"
+df.id = categorical(df.id)
+levels!(df.id, ["PSP", "ARTEMIS", "Wind"])
 
 subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
 const datalimits = x -> quantile(x, [0.01, 0.99])
@@ -196,57 +202,13 @@ update_theme!(;
     Legend=(; framevisible=false, padding=(0, 0, 0, 0)),
 )
 
-function plot_properties_hist(df, 𝐧)
-    figure = (; size=(450, 600))
-    𝒎 = var_mapping(; 𝐧)
-
-    datalimits = x -> quantile(x, [0.01, 0.99])
-
-    l_sym = first(𝒎.l_norm)
-    tdf = @chain df begin
-        @subset(.!isnan.($l_sym); view=true)
-        subset_𝐧(𝐧)
-        dropmissing(l_sym)
-    end
-
-    l_vars = [𝒎.l_log, 𝒎.l_norm_log]
-    j_vars = [𝒎.j_log, 𝒎.j_norm_log]
-    B_vars = [𝒎.Δ𝐁, 𝒎.Δ𝐁_norm_log]
-    l_labels = ["Thickness", "Normalized thickness"]
-    j_labels = ["Current density", "Normalized current density"]
-    B_labels = ["|Δ𝐁|", "|Δ𝐁|/⟨|𝐁|⟩"]
-
-    facet = (; linkxaxes=:none, linkyaxes=:none)
-    layer = mapping(color=:id, linestyle=:enc) *
-            AoG.density(; datalimits) * visual(Lines)
-    axis = (; yscale=log10)
-
-    plt = AoG.data(tdf) * mapping(l_vars, layout=AoG.dims(1)) * layer
-    f = draw(plt; axis, figure, legend=(; position=:top))
-    ylims!.(getproperty.(f.grid, :axis), 10^(-1.6), 10^(0.1))
-
-    gl2 = GridLayout(f.figure[2, 1:end])
-    f2 = draw!(gl2, AoG.data(tdf) * mapping(j_vars, layout=AoG.dims(1)) * layer; axis)
-
-    gl3 = GridLayout(f.figure[3, 1:end])
-    # no need to subset and dropmissing
-    f3 = draw!(gl3, AoG.data(df) * mapping(B_vars, layout=AoG.dims(1)) * layer; axis)
-
-    hide_facet_labels!.((f, f2, f3))
-    rowgap!(f.figure.layout, 1)
-    add_labels!(f.figure; position=Left(), padding=(20, -20, 0, 0))
-    colgap!.((f.figure.layout, gl2, gl3), 1)
-
-    return f
-end
-
 fs = map([:mva, :cross]) do 𝐧
     plot_properties_hist(df, 𝐧)
     # subset df by plasma beta
     # plot_properties_hist(@rsubset(df, :β < 1), 𝐧)
     # plot_properties_hist(@rsubset(df, :β > 3), 𝐧)
-    # easy_save("$fname-$𝐧"; force=true)
-    easy_save("$fname-$𝐧")
+    easy_save("$fname-$𝐧"; force=true)
+    # easy_save("$fname-$𝐧")
 end
 fs[1]
 ```
@@ -273,7 +235,7 @@ let tdf = dropmissing(df, :duration)
     plt = plt + mapping(2 .^ (0:5)) * visual(VLines, color=:gray, linestyle=:dash)
     fg = draw(plt; axis)
 
-    easy_save("duration_dist")
+    easy_save("duration_dist"; force=true)
 end
 ```
 
@@ -327,7 +289,7 @@ let
     add_labels!(fig; valign=:top, position=Left(), padding=(0, 37, 0, 0))
     display(fig)
     pretty_legend!(fig, ga)
-    easy_save("Alfvenicities"; formats, force=true)
+    easy_save("Alfvenicities"; force=true)
     # vars = [ΔV_cosθ, ΔV_ratio, dB_over_B, dB_max_over_B]
     # plt = spec * mapping(vars, layout=AoG.dims(1) => renamer(labels))
     # draw(plt, axis=(; yscale=log10), facet=(; linkyaxes=:minimal))
@@ -343,15 +305,13 @@ end
 ```{julia}
 function alpha_layer(df, alpha)
     psp_df = @rsubset(df, :id == "PSP"; view=true)
-    thm_df = @rsubset(df, :id == "THEMIS"; view=true)
+    thm_df = @rsubset(df, :id ∈ ("ARTEMIS", "THEMIS"); view=true)
     wind_df = @rsubset(df, :id == "Wind"; view=true)
-    (AoG.data(thm_df) + AoG.data(wind_df) * visual(; alpha)) + AoG.data(psp_df)
+    AoG.data(psp_df) + (AoG.data(thm_df) + AoG.data(wind_df) * visual(; alpha))
 end
 ```
 
 ```{julia}
-layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
-
 for 𝐧 in [:mva, :cross]
     view = true
     𝒎 = var_mapping(; 𝐧)
@@ -389,8 +349,8 @@ for 𝐧 in [:mva, :cross]
 
     add_labels!([fig[1, 1], fig[2, 1], fig[3, 1], fig[4, 1]]; position=Left(), padding=(0, 37, 0, 0))
     display(fig)
-    # easy_save("joint_properties-$𝐧"; force=true)
-    easy_save("joint_properties-$𝐧")
+    easy_save("joint_properties-$𝐧"; force=true)
+    # easy_save("joint_properties-$𝐧")
 end
 ```
 
@@ -402,8 +362,6 @@ end
 ![](../figures/B_n_ω_subset=true.png) and ![](../figures/B_n_ω_subset=false.png)
 
 ```{julia}
-layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
-
 for 𝐧 in [:mva, :cross], subset in (true)
     normalization = :column
     𝒎 = var_mapping(; 𝐧)
@@ -423,16 +381,14 @@ for 𝐧 in [:mva, :cross], subset in (true)
     legend!(ff[1, 1], grid1; tellheight=false, tellwidth=false, halign=:right, valign=:top)
     rowgap!(f.figure.layout, 4)
     add_labels!([ff[1, 1], ff[1, 2], f.figure[1, 1:end]]; position=Left(), padding=(0, 40, 0, -5))
-    # easy_save("B_n_ω_subset=$subset"; force=true)
-    easy_save("B_n_ω_-$𝐧-subset=$subset")
+    easy_save("B_n_ω_-$𝐧-subset=$subset"; force=true)
+    # easy_save("B_n_ω_-$𝐧-subset=$subset")
 end
 ```
 
-![](../figures/B_n_ω_subset=true.png) and ![](../figures/B_n_ω_subset=false.png)
+![](../figures/B_n_ω_-mva-subset=true.png) and ![](../figures/B_n_ω_-mva-subset=false.png)
 
 ```{julia}
-layout_func(id) = id == "PSP" ? "PSP" : "Wind + THEMIS"
-
 for 𝐧 in [:mva], subset in (true, false)
     normalization = :column
     𝒎 = var_mapping(; 𝐧)
@@ -505,13 +461,12 @@ end
 ```{julia}
 𝒎 = var_mapping(; 𝐧)
 
+fig = Figure(; size=(500, 800))
 let vars = [:Q_sonnerup, :duration, :σ_c]
     tdf = @chain df begin
         dropmissing(vars)
         @rsubset(all(!isnan, (:ΔV_cosθ, :Q_sonnerup, :σ_c)); view=true)
     end
-
-    fig = Figure(; size=(500, 800))
     plt = AoG.data(tdf) * mapping(col=:id => layout_func)
 
     Q_limit = (-0.992, 0.992) # mainly for plotting so not show (-1, 1) in ticks
@@ -538,9 +493,9 @@ let vars = [:Q_sonnerup, :duration, :σ_c]
         ax.xlabelpadding[] = 1
         ax.xlabelsize[] = 16
     end
-    add_labels!(fig[1:4, 1]; position=Left(), padding=(0, 0, 0, -5))
+    add_labels!([fig[1, 1], fig[2, 1], fig[3, 1], fig[4, 1]]; position=Left(), padding=(0, 0, 0, -5))
     hide_facet_labels!.((grid2, grid3, grid4))
-    easy_save("Q_sonnerup_joint_dist_den")
+    easy_save("Q_sonnerup_joint_dist_den"; force=true)
 end
 ```
 

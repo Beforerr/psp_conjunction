@@ -254,14 +254,6 @@ f = let
 end
 ```
 
-## Batch processing
-
-Wind Speed, Time to Earth
-300 km/s, ~5.8 days
-400 km/s, ~3.9 days
-500 km/s, ~3.5 days
-700 km/s, ~2.5 days
-
 ## The effect of tau
 
 ```{julia}

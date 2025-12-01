@@ -6,3 +6,5 @@
 This repository contains the codes and manuscripts of the paper ***"Evolution of solar wind current sheets in the inner heliosphere"***.
 
 [Website](https://beforerr.github.io/psp_conjunction/)
+
+See [the subfolder `lib/zhangEvolutionSolarWind2025`](./lib/zhangEvolutionSolarWind2025/README.md) for loading the current sheets datasets.
