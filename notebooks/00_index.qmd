@@ -1,0 +1,315 @@
+Interactively exploring the quantities of solar wind. See [Data](000_data.qmd) for more details about different data products.
+
+## Setup
+
+```{julia}
+using Dates
+using Speasy
+using DrWatson
+using PSPAnisotropy
+using PSPAnisotropy: Wind, PSP, THEMIS
+using Discontinuity
+using Discontinuity: compute_params!, filter_low_mva_quality
+using Discontinuity: compute_Alfvenicity_params!, Alfven_velocity
+using SPEDAS
+using DimensionalData
+using DataFrames, DataFramesMeta
+using SpacePhysicsMakie, GLMakie
+using SPEDAS: setmeta, setmeta!
+using Beforerr: _theme_legend, easy_save, hideylabel!, align_ylabels!
+using PartialFunctions
+
+𝐧 = :mva
+𝒎 = var_mapping(; 𝐧)
+
+using Unitful
+Unitful.preferunits(u"nA", u"km")
+unitify(u) = (*)$u
+unitify(u::String) = (*)$uparse(u)
+includet("../src/plot.jl")
+
+set_Z_theme!()
+```
+
+```{julia}
+df = workload()
+
+psp_df = @rsubset(df, :id == "PSP"; view=true)
+wind_df = @rsubset(df, :id == "Wind"; view=true)
+thm_df = @rsubset(df, :id == "THEMIS"; view=true)
+```
+
+```{julia}
+compute_params!(df)
+compute_Alfvenicity_params!(df)
+
+compute_PSP_anisotropy_params!(psp_df)
+for enc in 7:9
+    tmin_wind, tmax_wind = get_timerange(enc)[2]
+    wind_df_enc = @rsubset(wind_df, :enc == enc; view=true)
+    compute_Wind_anisotropy_params!(wind_df_enc, tmin_wind, tmax_wind)
+
+    thm_df_enc = @rsubset(thm_df, :enc == enc; view=true)
+    compute_THM_anisotropy_params!(thm_df_enc, tmin_wind, tmax_wind)
+end
+```
+
+
+## Event example (simple)
+
+```{julia}
+let add_fit = true, add_Va = true
+    f = Figure(; size=(600, 400))
+    psp_row = filter_low_mva_quality(psp_df)[20, :]
+    faxs, = plot_candidate(f[1, 1], psp_row, psp_conf, Second(6); add_fit, legend=nothing, add_Va)
+    align_ylabels!(faxs.axes)
+    thm_row = filter_low_mva_quality(thm_df)[18, :]
+    faxs, = plot_candidate(f[1, 2], thm_row, thm_conf, Second(8); add_fit, add_Va)
+    hideylabel!.(faxs.axes)
+    add_labels!(f[1, 1]; position=Left(), padding=(30, -30, 0, 0), labels=1:3, open="(a.")
+    add_labels!(f[1, 2]; position=Left(), padding=(30, -30, 0, 0), labels=1:3, open="(b.")
+    # faxs, = plot_candidate(f[1, 3], filter_low_mva_quality(wind_df)[2, :], wind_conf, Second(6); add_fit)
+    # hideylabel!.(faxs.axes)
+
+    @info "PSP" psp_row.ΔV_ratio psp_row.ΔV_cosθ
+    @info "THEMIS" thm_row.ΔV_ratio thm_row.ΔV_cosθ
+
+    colgap!(f.layout, 1)
+    resize_to_layout!(f)
+    easy_save("event-example")
+    f
+end
+```
+
+![](../figures/event-example.png)
+
+┌ Info: PSP
+│   psp_row.ΔV_ratio = 0.31703819329006777
+└   psp_row.ΔV_cosθ = -0.8208860063945036
+┌ Info: THEMIS
+│   thm_row.ΔV_ratio = 0.3268322029115623
+└   thm_row.ΔV_cosθ = -0.9457794099717979
+
+```txt
+  :t_us              => 2021-01-15T04:05:04.549
+  :t_ds              => 2021-01-15T04:05:17.957
+  :tstart            => 2021-01-15T04:05:04
+```
+
+## Overview
+
+```{julia}
+using Speasy
+using SPEDAS: tnorm_combine, DataSet
+using DimensionalData
+# using CairoMakie
+using GLMakie
+using Statistics
+using PartialFunctions
+using Unitful
+using SPEDAS.SpaceDataModel: set, extend, @set
+
+import AlgebraOfGraphics as AoG
+
+```
+
+```{julia}
+mva_transform((V, B), tmin, tmax; tb_min=tmin, tb_max=tmax) = mva(V(tmin, tmax), B(tb_min, tb_max))
+```
+
+```{julia}
+tmin_psp = DateTime("2021-01-15")
+tmax_psp = DateTime("2021-01-20")
+tmin_wind = DateTime("2021-01-17")
+tmax_wind = DateTime("2021-01-23")
+_tmax_wind = DateTime("2021-01-15T02")
+
+# tmin_psp = DateTime("2021-01-16")
+# tmax_psp = DateTime("2021-01-19")
+# tmin_wind = DateTime("2021-01-17")
+# tmax_wind = DateTime("2021-01-18")
+```
+
+### Alfvén ratio over time
+
+```{julia}
+f = Figure(; size=(800, 600))
+faxs = plot_PSP(f[1, 1], tmin_psp + Day(2), tmin_psp + Day(3), get_vl_ratio_ts(psp_df)...)
+modify_faxs_base!(faxs)
+# modify_faxs_vl!(faxs)
+f
+```
+
+```{julia}
+let tmin = tmin_wind, tmax = tmin_wind + Day(3)
+    f = Figure(; size=(800, 600))
+    faxs = plot_Wind(f[1, 1], tmin, tmax, get_vl_ratio_ts(wind_df)...)
+    modify_faxs_base!(faxs)
+    f
+end
+```
+
+```{julia}
+using Beforerr: add_labels!, align_ylabels!
+update_theme!(; Lines=(linewidth=1, alpha=0.9), figure_padding=(1, 1, 1, 15))
+
+function add_wind_twin!(gl, wind_axs)
+    # Create a twin axis for Wind magnetic field and density (multiply by the radial ratio)
+    # 1AU / 1Rsun =215
+    B_ax = wind_axs.axes[1]
+    B_ax2 = Axis(gl[1, 1]; yaxisposition=:right, rightspinevisible=true, rightspinecolor=:darkgray)
+    hidexdecorations!(B_ax2, grid=false)
+    ylims!(B_ax, 0.1, 9.9)
+    ylims!(B_ax2, 0.1 * (0.1)^(-1.59), 9.9 * (0.1)^(-1.59))
+    n_ax = wind_axs.axes[2]
+    n_ax2 = Axis(gl[2, 1]; yaxisposition=:right, rightspinevisible=true, rightspinecolor=:darkgray)
+    hidexdecorations!(n_ax2, grid=false)
+    ylims!(n_ax, 3, 16)
+    ylims!(n_ax2, 3 * (0.1)^(-1.96), 16 * (0.1)^(-1.96))222
+end
+
+function overview_plot(enc)
+    (tmin_psp, tmax_psp), (tmin_wind, tmax_wind) = get_timerange(enc)
+    legend = (; position=Top())
+
+    f = Figure(; size=(1000, 800))
+    psp_axs = plot_PSP(f[1, 1], tmin_psp, tmax_psp, get_vl_ratio_ts(psp_df)...; legend)
+    modify_faxs_base!(psp_axs)
+    gl = GridLayout(f[1, 2])
+    wind_axs = plot_Wind(f[1, 2], tmin_wind, tmax_wind - Day(1), get_vl_ratio_ts(wind_df)...; legend)
+    modify_faxs_base!(wind_axs)
+
+    labels = (; labels='1':'9', position=Left(), padding=(32, -32, 0, 0))
+    add_labels!(f[1, 1]; labels..., open="(a.")
+    add_labels!(f[1, 2]; labels..., open="(b.")
+    colgap!(f.layout, 2)
+
+    hideylabel!.(wind_axs.axes)
+    add_wind_twin!(gl, wind_axs)
+    align_ylabels!(psp_axs.axes)
+    easy_save("overview-$enc-all")
+    return f
+end
+
+overview_plot(7)
+# overview_plot.(7:9)
+```
+
+![](../figures/overview-7-all.png)
+![](../figures/overview-8-all.png)
+![](../figures/overview-9-all.png)
+
+## Event example (with pressure anisotropy)
+
+```{julia}
+using Dates
+using Discontinuity: ids_finder
+tau = Second(30)
+psp_events = ids_finder(PSP.B, tmin_psp, tmax_psp, tau)
+wind_events = ids_finder(Wind.B_GSE, tmin_wind, tmax_wind, tau, Wind.V_GSE, Wind.n_p)
+thm_events = ids_finder(THEMIS.B_FGL_GSE, tmin_wind, tmax_wind, tau)
+```
+
+```{julia}
+psp_B_mva = set(mva ∘ PSP.B; name="mva_B", labels=𝑳.B_LMN)
+psp_V_mva = Product((PSP.V, PSP.B), mva_transform; ylabel=𝒀.V, labels=𝑳.V_LMN)
+psp_eTemp_ani = Product(read_electron_temperature(), tview; labels=["Electron (parallel)", "Electron (perpendicular)"])
+psp_pTemp_ani = Product(read_proton_temperature(), tview; labels=["Proton (parallel)", "Proton (perpendicular)"])
+psp_Temp_ani = [psp_eTemp_ani, psp_pTemp_ani]
+psp_mva_all = [psp_B_mva, psp_V_mva, psp_Temp_ani]
+
+thm_B_mva = set(mva ∘ THEMIS.B_FGL_GSE; name="mva_B", labels=𝑳.B_LMN)
+thm_V_mva = Product((THEMIS.V_GSE, THEMIS.B_FGL_GSE), mva_transform; ylabel=𝒀.V, labels=𝑳.V_LMN)
+thm_mva_all = [thm_B_mva, thm_V_mva, THEMIS.T_ani]
+```
+
+```{julia}
+tvars2_wind = [
+    tnorm_combine ∘ Wind.B,
+    Wind.n,
+    Wind.V_GSE,
+    Wind.Temp,
+    Wind.Temp_ani
+]
+
+tvars_themis2 = [[THEMIS.B_FGL_GSE, THEMIS.n, THEMIS.V_GSE, THEMIS.T]; thm_mva_all]
+```
+
+```{julia}
+f = let
+    f = Figure(; size=(1200, 800))
+    # plot_candidate(f[1, 1], Event(psp_events, 2), [tvars_psp; psp_mva_all]; link_xaxes)
+
+    wind_event = AniEvent(wind_events, 1) # 300
+    wind_T3 = extend(Wind.pTemp_ani, Second(20))
+    wind_tvars = make_mva_products(wind_event, Wind.B_GSE, Wind.V_GSE, Wind.n_p, wind_T3)
+    wind_tvars = [wind_tvars[3:end]; Wind.Temp_ani; Wind.n; Wind.Temp]
+    for p in Wind.Temp_ani
+        @info "$p" data = p(wind_event)
+    end
+    wind_plots = plot_candidate(f, wind_event, wind_tvars, tau)
+    # themis_plots = plot_candidate(f[1, 3], Event(thm_events, 3), tvars_themis2, Minute(1); link_xaxes)
+    # hideydecorations!(wind_plots)
+    # hideydecorations!(themis_plots)
+end
+```
+
+## The effect of tau
+
+```{julia}
+psp_df_taus = map([2, 4, 8, 16, 32]) do tau
+    psp_conf["tau"] = tau
+    df = PSPAnisotropy.produce(psp_conf, psp_conf["timeranges"][1]...)
+    @transform! df :tau = tau
+    compute_Alfvenicity_params!(df)
+end
+
+wind_df_taus = map([2, 4, 8, 16, 32]) do tau
+    wind_conf["tau"] = tau
+    df = PSPAnisotropy.produce(wind_conf, wind_conf["timeranges"][1]...)
+    @transform! df :tau = tau
+    compute_Alfvenicity_params!(df)
+end
+```
+
+Check examples
+
+```{julia}
+f = Figure(; size=(1200, 800))
+# let df = psp_df_taus[1], config = psp_conf
+begin
+    df = @subset(wind_df_taus[1], :index_std .> 4)
+    config = wind_conf
+    event = filter_low_mva_quality(df)[5, :]
+    fax, res_psp = plot_candidate(f[1, 1], event, config, Second(10))
+    plot_var_info!(fax, event)
+    @info "v_l_ratio" event.V_l_ratio event.V_l_ratio_max
+end
+f
+```
+
+```{julia}
+f = Figure()
+axR1 = Axis(f[1, 1])
+axn1 = Axis(f[2, 1])
+filter_func = df -> @subset(df, :index_std .> 2)
+
+for (i, df) in enumerate(psp_df_taus)
+    v_l_ratio_ts, n = get_vl_ratio_ts(filter_func(df), :V_l_ratio_max)
+    lines!(axR1, v_l_ratio_ts)
+    lines!(axn1, n)
+end
+
+axR2 = Axis(f[1, 2])
+axn2 = Axis(f[2, 2])
+for (i, df) in enumerate(wind_df_taus)
+    v_l_ratio_ts, n = get_vl_ratio_ts(filter_func(df), :V_l_ratio_max)
+    lines!(axR2, v_l_ratio_ts)
+    lines!(axn2, n)
+end
+
+ylims!.((axR1, axR2), 0, 0.8)
+# ylims!.((axn1, axn2), 0, 121)
+easy_save("vl_ratio-tau")
+f
+```

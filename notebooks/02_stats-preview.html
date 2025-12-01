@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.9.8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+    <title>stats</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = "../index.html";
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="../site_libs/manuscript-notebook/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-095e6f6405c331e3b33229e03003579f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a74871fe4945b66d259aafc266475145.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
+      </head>
+
+  <body class="quarto-notebook quarto-light">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> Current sheet statistics</h6>
+
+            <a href="../notebooks/02_stats.qmd" class="btn btn-primary quarto-download-embed" download="02_stats.qmd">Download Source</a>
+          </div>
+
+     <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Current sheet statistics</h1>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+        
+        <div class="quarto-title-meta">
+
+                
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      </div>
+    </div>
+
+
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#associations-and-independence-test" id="toc-associations-and-independence-test" class="nav-link active" data-scroll-target="#associations-and-independence-test">Associations and independence test</a></li>
+  <li><a href="#thickness-and-current-density" id="toc-thickness-and-current-density" class="nav-link" data-scroll-target="#thickness-and-current-density">Thickness and current density</a></li>
+  <li><a href="#duration-temporal-thickness" id="toc-duration-temporal-thickness" class="nav-link" data-scroll-target="#duration-temporal-thickness">Duration (temporal thickness)</a></li>
+  <li><a href="#alfvenicity" id="toc-alfvenicity" class="nav-link" data-scroll-target="#alfvenicity">Alfvenicity</a></li>
+  <li><a href="#joint-distributions" id="toc-joint-distributions" class="nav-link" data-scroll-target="#joint-distributions">Joint distributions</a>
+  <ul class="collapse">
+  <li><a href="#thickness-and-current-density-1" id="toc-thickness-and-current-density-1" class="nav-link" data-scroll-target="#thickness-and-current-density-1">Thickness and current density</a></li>
+  <li><a href="#in-plane-rotation-angle-bn" id="toc-in-plane-rotation-angle-bn" class="nav-link" data-scroll-target="#in-plane-rotation-angle-bn">In-plane rotation angle, Bn</a></li>
+  <li><a href="#β-vs-a_he" id="toc-β-vs-a_he" class="nav-link" data-scroll-target="#β-vs-a_he">β vs A_He</a></li>
+  <li><a href="#q_sonnerup-and-other-variables" id="toc-q_sonnerup-and-other-variables" class="nav-link" data-scroll-target="#q_sonnerup-and-other-variables">Q_sonnerup and other variables</a></li>
+  </ul></li>
+  <li><a href="#duration-vs-alfvénicity-correlation" id="toc-duration-vs-alfvénicity-correlation" class="nav-link" data-scroll-target="#duration-vs-alfvénicity-correlation">Duration vs Alfvénicity Correlation</a></li>
+  <li><a href="#unused-code" id="toc-unused-code" class="nav-link" data-scroll-target="#unused-code">Unused Code</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      
+
+       <div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="2" class="cell" data-execution_count="0">
+<pre><code>using Dates
+using StatsBase, Statistics
+using PSPAnisotropy
+import Discontinuity as DC
+using Discontinuity: var_mapping, compute_params!, filter_low_mva_quality
+using Discontinuity: compute_Alfvenicity_params!, Alfven_velocity
+using DimensionalData
+using DataFrames, DataFramesMeta
+using CairoMakie
+using Beforerr: _theme_legend, easy_save, hide_facet_labels!, add_labels!
+using Beforerr
+using CategoricalArrays
+using AlgebraOfGraphics
+using AlgebraOfGraphics: data
+import AlgebraOfGraphics as AoG
+using LinearAlgebra
+using Accessors
+using Unitful
+Unitful.preferunits(u"nA", u"km")
+
+includet("../src/plot.jl")
+
+# https://github.com/MakieOrg/AlgebraOfGraphics.jl/issues/464
+# foreach([:log10, :log2, :log]) do f
+# @eval import Base: $f
+# @eval $f(x::Unitful.Quantity) = $f(ustrip(x))
+# end
+set_Z_theme!()</code></pre>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="4" class="cell" data-execution_count="0">
+<pre><code>𝐧 = :mva
+𝒎 = var_mapping(; 𝐧)
+
+taus = Second.(2 .^ (1:6))
+# taus = Second.(2 .^ (0:6))
+wdf = workload(taus)
+
+_float64(x) = passmissing(Float64)(x)
+
+A_lens = @optic _.model.A
+
+df = @chain wdf begin
+    DC.compute_Alfvenicity_params!()
+    DC.compute_params!()
+    @transform @astable begin
+        :Δ𝐁 = @. norm(:B_us - :B_ds)
+        :Δ𝐁_fit = @. 2 * passmissing(A_lens)(:model) |&gt; abs
+        :Δ𝐁_norm = :Δ𝐁 ./ :B_mag
+        :Δ𝐁_fit_norm = :Δ𝐁_fit ./ :B_mag
+        :B_n_mva_norm = abs.(:B_n_mva ./ :B_mag)
+        :duration = _float64.(ustrip.(:duration .|&gt; u"s"))
+        :L_n_mva = _float64.(ustrip.(:L_n_mva))
+        :J_m_max_mva = _float64.(ustrip.(:J_m_max_mva))
+        :L_n_cross = _float64.(ustrip.(:L_n_cross))
+        :J_m_max_cross = _float64.(ustrip.(:J_m_max_cross))
+    end
+    DC.classify!(:B_n_mva_norm)
+end
+
+# Count the number of events for each type
+df_event_counts = @chain df begin
+    groupby(:type)
+    combine(nrow)
+end
+
+thm_df = @rsubset(df, :id == "THEMIS"; view=true)
+thm_df.id .= "ARTEMIS"
+df.id = categorical(df.id)
+levels!(df.id, ["PSP", "ARTEMIS", "Wind"])
+
+subset_𝐧(df, 𝐧) = 𝐧 == :mva ? filter_low_mva_quality(df) : df
+const datalimits = x -&gt; quantile(x, [0.01, 0.99])</code></pre>
+</div></div>
+<section id="associations-and-independence-test" class="level2">
+<h2 class="anchored" data-anchor-id="associations-and-independence-test">Associations and independence test</h2>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="6" class="cell" data-execution_count="0">
+<pre><code>
+println("\n" * "="^60)
+println("ASSOCIATION ANALYSIS FOR ALFVÉNICITY")
+println("="^60)
+
+# Define the variable pairs you want to analyze with transformations embedded
+alfvenicity_pairs = [
+    (:duration, :Q_sonnerup =&gt; abs, "Duration vs Alfvénicity (Q_sonnerup)"),
+    (:duration, :V_l_ratio, "Duration vs Velocity Ratio (V_l_ratio)"),
+    (:B_n_mva_norm, :Q_sonnerup =&gt; abs, "Magnetic Field Normal vs Alfvénicity"),
+    (:σ_c, :Q_sonnerup, "Cross helicity vs Alfvénicity"),
+    (:σ_r, :Q_sonnerup),
+    (:β, :Q_sonnerup =&gt; abs),
+    (:A_He =&gt; x -&gt; ismissing(x) ? missing : only(x), :Q_sonnerup =&gt; abs, "Helium Abundance vs Alfvénicity"),
+    (:J_m_max_mva_norm, :Q_sonnerup =&gt; abs, "Current density vs Alfvénicity"),
+    (:L_n_mva_norm, :Q_sonnerup =&gt; abs, "Thickness vs Alfvénicity"),
+    (:A_He =&gt; x -&gt; ismissing(x) ? missing : only(x), :J_m_max_mva_norm),
+    (:A_He =&gt; x -&gt; ismissing(x) ? missing : only(x), :L_n_mva_norm),
+    (:β, :J_m_max_mva_norm),
+    (:β, :L_n_mva_norm),
+    (:β, :A_He),
+]
+
+# Run overall analysis
+println("OVERALL ASSOCIATION ANALYSIS")
+println("="^50)
+analyze_associations(df, alfvenicity_pairs)
+
+# Grouped analysis
+# println("GROUPED ASSOCIATION ANALYSIS (by $(group_by))")
+println("="^50)
+analyze_associations(df, alfvenicity_pairs; group_by=:id)</code></pre>
+</div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="an">Association Measure Interpretation:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Values range from 0 (no association) to 1 (perfect association):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>0.0 - 0.1: Very weak association</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>0.1 - 0.3: Weak association  </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>0.3 - 0.5: Moderate association</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>0.5 - 0.7: Strong association</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>0.7 - 1.0: Very strong association</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>Association Methods Used:</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Distance Correlation: Non-parametric measure detecting linear &amp; nonlinear dependencies</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Pearson Correlation: Standard linear correlation coefficient  </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Spearman Correlation: Rank-based correlation (monotonic relationships)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Chatterjee Correlation: New robust measure for general dependencies</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Mutual Information: Information-theoretic measure of shared information</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>Note: These are association strengths, not statistical significance tests.</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>For independence testing, use with caution - consider both effect size and sample size.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="../association_results.txt"></a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>🔎 Step 1. General observations</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    •   Cross helicity vs Alfvénicity absolutely dominates:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    •   Pearson = 0.84 overall (0.92 in PSP, 0.76 in Wind).</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    •   Chatterjee = 0.47–0.53.</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    •   MI = 0.58–0.97.</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>→ This is a very strong dependence by any metric, which is expected since Alfvénicity is conceptually related to cross helicity.</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    •   Magnetic field normal vs Alfvénicity shows weak-to-moderate positive linear correlation (~0.17–0.19), but Chatterjee and MI stay low. Suggests a weak linear trend, not a strong monotonic or nonlinear relationship.</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    •   Σ_r vs Q_sonnerup:</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    •   Small negative Pearson (~ -0.1).</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    •   But Chatterjee 0.09–0.15 and MI up to 0.24 in PSP → weak, possibly nonlinear dependence.</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    •   This might indicate subtle structure missed by linear correlation.</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    •   Duration, velocity ratio, thickness, helium abundance, current density:</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    •   All show weak or negligible correlations (|Pearson| &lt; 0.25, Chatterjee mostly &lt; 0.06, MI close to 0).</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    •   Suggests near independence, with only minor dataset-specific effects (e.g., PSP helium abundance at -0.24).</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>⸻</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>🔎 Step 2. Dataset comparison (PSP vs Wind)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    •   Cross helicity vs Alfvénicity is strong in both spacecraft, but even stronger in PSP (r ~ 0.92 vs 0.76).</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    •   Magnetic field normal vs Alfvénicity is similar across PSP/Wind (r ~ 0.17–0.18).</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    •   Σ_r vs Q_sonnerup is stronger in PSP (MI ~0.24 vs 0.05 in Wind).</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    •   Helium abundance vs Alfvénicity:</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    •   PSP: moderate negative Pearson (-0.24).</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    •   Wind: near zero.</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>→ Suggests PSP-specific dependence (possibly tied to solar wind composition closer to the Sun).</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    •   The rest (duration, velocity ratio, thickness, current density) are consistently weak in both datasets.</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>⸻</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>🔎 Step 3. Practical interpretation</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="ss">    1.  </span>Cross helicity is the defining feature of Alfvénicity.</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>The high correlations confirm that your Alfvénicity measure (Q_sonnerup) essentially tracks cross helicity. This is expected, but the strength of correlation (0.8–0.9) validates consistency across datasets.</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="ss">    2.  </span>Other plasma/structural properties are only weakly linked.</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>Magnetic field orientation (normal) shows a weak positive association, but not much more.</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="ss">    3.  </span>Σ_r (residual energy measure?) has a modest but interesting nonlinear association with Alfvénicity, especially in PSP. Could hint at a subtle dependence worth exploring with scatter plots or conditional analysis.</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="ss">    4.  </span>Helium abundance only matters in PSP.</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>The -0.24 Pearson suggests Alfvénicity tends to be lower in He-rich regions, but this trend does not appear in Wind. That could reflect heliocentric distance effects.</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>⸻</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>✅ Summary of main findings:</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    •   Strong dependence: Cross helicity ↔ Alfvénicity (core relationship).</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    •   Weak but consistent: Magnetic field normal, Σ_r (especially in PSP).</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    •   Dataset-specific: Helium abundance (negative in PSP, absent in Wind).</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    •   Effectively independent: Duration, velocity ratio, thickness, current density.</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>⸻</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Would you like me to help you visualize these dependencies (scatter plots, density plots, MI heatmaps) to confirm the weak vs strong associations, or do you just need a written interpretation for now?</p>
+</section>
+<section id="thickness-and-current-density" class="level2">
+<h2 class="anchored" data-anchor-id="thickness-and-current-density">Thickness and current density</h2>
+<p>Density distributions of (normalized) thickness and current density</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="8" class="cell" data-execution_count="0">
+<pre><code>fname = "properties_hist"
+
+update_theme!(;
+    Legend=(; framevisible=false, padding=(0, 0, 0, 0)),
+)
+
+fs = map([:mva, :cross]) do 𝐧
+    plot_properties_hist(df, 𝐧)
+    # subset df by plasma beta
+    # plot_properties_hist(@rsubset(df, :β &lt; 1), 𝐧)
+    # plot_properties_hist(@rsubset(df, :β &gt; 3), 𝐧)
+    easy_save("$fname-$𝐧"; force=true)
+    # easy_save("$fname-$𝐧")
+end
+fs[1]</code></pre>
+</div></div>
+<p><img src="../figures/properties_hist-mva.png" class="img-fluid" alt="properties_hist-mva">
+<img src="../figures/properties_hist-cross.png" class="img-fluid" alt="properties_hist-cross"></p>
+</section>
+<section id="duration-temporal-thickness" class="level2">
+<h2 class="anchored" data-anchor-id="duration-temporal-thickness">Duration (temporal thickness)</h2>
+<p>Now we analyze what is the distribution of the duration of the current sheet, and how does it vary with the different tau we use.</p>
+<p>Plot duration distributions for different missions and time periods.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="10" class="cell" data-execution_count="0">
+<pre><code>let tdf = dropmissing(df, :duration)
+    psp_df = @chain tdf begin
+        @rsubset(:id == "PSP"; view=true)
+        @transform(:duration = :duration .* 4, :id = "PSP (4x)")
+    end
+    fdf = vcat(tdf, psp_df)
+    axis = (; yscale=log10)
+    layer = mapping(:duration) * AoG.density(; datalimits=x -&gt; quantile(x, [0.01, 0.99])) * visual(Lines)
+    plt = data(fdf) * mapping(color=:id) * layer
+    plt = plt + mapping(2 .^ (0:5)) * visual(VLines, color=:gray, linestyle=:dash)
+    fg = draw(plt; axis)
+
+    easy_save("duration_dist"; force=true)
+end</code></pre>
+</div></div>
+<p><a href="../figures/duration_dist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="../figures/duration_dist.png" class="img-fluid"></a></p>
+<p>Plot duration distributions faceted by different taus:</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="12" class="cell" data-execution_count="0">
+<pre><code>let df = dropmissing(df, :duration)
+    layer = AoG.density(; datalimits=x -&gt; quantile(x, [0.02, 0.99])) * visual(Lines)
+    plt = data(df) * mapping(:duration, linestyle=:enc, color=:id) * layer
+    plt *= mapping(layout=:tau)
+    draw(plt, axis=(; yscale=log10), facet=(; linkxaxes=:none, linkyaxes=:none))
+    easy_save("duration_dist_tau")
+end</code></pre>
+</div></div>
+</section>
+<section id="alfvenicity" class="level2">
+<h2 class="anchored" data-anchor-id="alfvenicity">Alfvenicity</h2>
+<p>Notes: <code>V_l_ratio_max</code> and <code>ΔV_ratio</code> are pretty much similar</p>
+<p><a href="../figures/Alfvenicities.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="../figures/Alfvenicities.png" class="img-fluid"></a></p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="14" class="cell" data-execution_count="0">
+<pre><code>update_theme!(;
+    Legend=(; framevisible=false, padding=(0, 0, -16, 0)),
+)
+let
+    𝒎 = var_mapping(; 𝐧)
+    datalimits = x -&gt; quantile(x, [0.01, 0.99])
+    tdf = @chain df begin
+        dropmissing(:V_l_ratio)
+        @subset(.!isnan.(:V_l_ratio) .&amp;&amp; .!isnan.(:ΔV_cosθ); view=true)
+        subset_𝐧(𝐧)
+    end
+
+    ΔV_cosθ = :ΔV_cosθ =&gt; identity =&gt; L"\cos\;θ"
+    ΔV_ratio = :ΔV_ratio =&gt; identity =&gt; L"|Δ𝐕| / |Δ𝐕_A|"
+    dB_over_B = :dB_over_B =&gt; log10 =&gt; L"\text{Log } ΔB / ⟨B\;⟩"
+    dB_max_over_B = :dB_max_over_B =&gt; log10 =&gt; L"\text{Log } ΔB_{\text{max}} / ⟨B\;⟩"
+    Q_sonnerup = :Q_sonnerup =&gt; abs =&gt; ""
+
+    spec = AoG.data(tdf) * mapping(color=:id) *
+           AoG.density(; datalimits) * visual(Lines)
+
+    fig = Figure()
+    ga = draw!(fig[1, 1], spec * mapping(ΔV_ratio))
+    gb = draw!(fig[1, 2], spec * mapping(ΔV_cosθ))
+    gc = draw!(fig[2, 1], spec * mapping(dB_over_B))
+    gd = draw!(fig[2, 2], spec * mapping(dB_max_over_B))
+    add_labels!(fig; valign=:top, position=Left(), padding=(0, 37, 0, 0))
+    display(fig)
+    pretty_legend!(fig, ga)
+    easy_save("Alfvenicities"; force=true)
+    # vars = [ΔV_cosθ, ΔV_ratio, dB_over_B, dB_max_over_B]
+    # plt = spec * mapping(vars, layout=AoG.dims(1) =&gt; renamer(labels))
+    # draw(plt, axis=(; yscale=log10), facet=(; linkyaxes=:minimal))
+end</code></pre>
+</div></div>
+</section>
+<section id="joint-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="joint-distributions">Joint distributions</h2>
+<section id="thickness-and-current-density-1" class="level3">
+<h3 class="anchored" data-anchor-id="thickness-and-current-density-1">Thickness and current density</h3>
+<p><a href="../figures/joint_properties-mva.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="../figures/joint_properties-mva.png" class="img-fluid"></a></p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="16" class="cell" data-execution_count="0">
+<pre><code>function alpha_layer(df, alpha)
+    psp_df = @rsubset(df, :id == "PSP"; view=true)
+    thm_df = @rsubset(df, :id ∈ ("ARTEMIS", "THEMIS"); view=true)
+    wind_df = @rsubset(df, :id == "Wind"; view=true)
+    AoG.data(psp_df) + (AoG.data(thm_df) + AoG.data(wind_df) * visual(; alpha))
+end</code></pre>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="18" class="cell" data-execution_count="0">
+<pre><code>for 𝐧 in [:mva, :cross]
+    view = true
+    𝒎 = var_mapping(; 𝐧)
+
+    l_sym = first(𝒎.l_norm)
+
+    tdf = @chain df begin
+        dropmissing(l_sym)
+        subset_𝐧(𝐧)
+    end
+
+    plt = alpha_layer(tdf, 0.3) *
+          visual(Scatter; markersize=6, legend=(; alpha=0.6)) *
+          mapping(color=:id, marker=:id, layout=:id =&gt; layout_func)
+
+    fig = Figure(; size=(400, 800))
+    axis = (; yscale=log10, xscale=log10)
+
+    spec1 = plt * mapping(𝒎.l, 𝒎.j)
+    spec2 = plt * mapping(𝒎.l_norm, 𝒎.j_norm)
+    B_l_spec = plt * mapping(𝒎.l_norm, 𝒎.Δ𝐁_norm) # Not strong correlation
+    B_j_spec = plt * mapping(𝒎.j_norm, 𝒎.Δ𝐁_norm) # Not strong correlation
+
+    d_lims = (10^(-2.5), 10^3.5)
+    j_lims = (10^(-3.6), 10^2.4)
+    B_lims = (10^(-3), 10^3)
+
+    grid1 = draw!(fig[1, 1], spec1; axis)
+    grid2 = draw!(fig[2, 1], spec2; axis=(; axis..., limits=(d_lims, j_lims)))
+    grid3 = draw!(fig[3, 1], B_l_spec; axis=(; axis..., limits=(d_lims, nothing)))
+    grid4 = draw!(fig[4, 1], B_j_spec; axis=(; axis..., limits=(j_lims, nothing)))
+
+    hide_facet_labels!.((grid2, grid3, grid4))
+    rowgap!(fig.layout, 4)
+
+    add_labels!([fig[1, 1], fig[2, 1], fig[3, 1], fig[4, 1]]; position=Left(), padding=(0, 37, 0, 0))
+    display(fig)
+    easy_save("joint_properties-$𝐧"; force=true)
+    # easy_save("joint_properties-$𝐧")
+end</code></pre>
+</div></div>
+<p><img src="../figures/joint_properties-mva.png" class="img-fluid">
+<img src="../figures/joint_properties-cross.png" class="img-fluid"></p>
+</section>
+<section id="in-plane-rotation-angle-bn" class="level3">
+<h3 class="anchored" data-anchor-id="in-plane-rotation-angle-bn">In-plane rotation angle, Bn</h3>
+<p><img src="../figures/B_n_ω_subset=true.png" class="img-fluid"> and <img src="../figures/B_n_ω_subset=false.png" class="img-fluid"></p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="20" class="cell" data-execution_count="0">
+<pre><code>for 𝐧 in [:mva, :cross], subset in (true)
+    normalization = :column
+    𝒎 = var_mapping(; 𝐧)
+    B_sym = Symbol(:B_n_, 𝐧)
+    tdf = dropmissing(df, B_sym)
+    # tdf = subset ? subset_𝐧(tdf, 𝐧) : tdf
+    tdf = subset_𝐧(tdf, 𝐧)
+    plt = AoG.data(tdf) * mapping(col=:id =&gt; layout_func)
+    B_n_ω_spec = plt * mapping(𝒎.bn, 𝒎.ω_in) * fhist(; binedges=(0:0.03:0.99, 0:6:180), normalization)
+    f = draw(B_n_ω_spec)
+    colgap!(f.figure.layout, 10)
+
+    den_base = AoG.data(tdf) * mapping(color=:id =&gt; layout_func) * AoG.density(; datalimits) * visual(Lines)
+    ff = f.figure[0, 1:3]
+    grid1 = draw!(ff[1, 1], den_base * mapping(𝒎.ω_in))
+    grid2 = draw!(ff[1, 2], den_base * mapping(𝒎.bn); axis=(; ylabel="", yscale=log10))
+    legend!(ff[1, 1], grid1; tellheight=false, tellwidth=false, halign=:right, valign=:top)
+    rowgap!(f.figure.layout, 4)
+    add_labels!([ff[1, 1], ff[1, 2], f.figure[1, 1:end]]; position=Left(), padding=(0, 40, 0, -5))
+    easy_save("B_n_ω_-$𝐧-subset=$subset"; force=true)
+    # easy_save("B_n_ω_-$𝐧-subset=$subset")
+end</code></pre>
+</div></div>
+<p><img src="../figures/B_n_ω_-mva-subset=true.png" class="img-fluid"> and <img src="../figures/B_n_ω_-cross-subset=true.png" class="img-fluid"></p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="22" class="cell" data-execution_count="0">
+<pre><code>for 𝐧 in [:mva], subset in (true, false)
+    normalization = :column
+    𝒎 = var_mapping(; 𝐧)
+    tdf = dropmissing(df, :B_n_mva_norm)
+    tdf = subset ? subset_𝐧(tdf, 𝐧) : tdf
+    plt = AoG.data(tdf) * mapping(col=:id =&gt; layout_func)
+    duration_spec = plt * mapping(:duration, 𝒎.ω_in)
+    f = draw(duration_spec)
+    display(f)
+end</code></pre>
+</div></div>
+</section>
+<section id="β-vs-a_he" class="level3">
+<h3 class="anchored" data-anchor-id="β-vs-a_he">β vs A_He</h3>
+<p>There are two populations for beta and alpha particles abundance, corresponding to different sources of solubility. Correlation exist.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="24" class="cell" data-execution_count="0">
+<pre><code>for 𝐧 in [:mva]
+    view = true
+    𝒎 = var_mapping(; 𝐧)
+
+    tdf = @chain df begin
+        @rsubset(all(!isnan, (:B_n_mva_norm, :Q_sonnerup, :σ_c, :ΔV_ratio, :ΔV_cosθ)); view=true)
+        dropmissing([:B_n_mva_norm, :duration, :σ_c])
+        @transform!(:duration = Float64.(:duration))
+        subset_𝐧(𝐧)
+    end
+
+    β_A_He_df = @chain df begin
+        @rsubset(all(!isnan, (:β, :A_He)); view=true)
+        dropmissing([:β, :A_He])
+        @transform!(:log_β = log10.(:β))
+        @rsubset(:A_He &lt; 20, :log_β &gt; -1.5)
+    end
+
+
+    layout = mapping(row=:id, col=:enc)
+
+    plt = data(tdf) * layout
+    vis = visual(Scatter; markersize=6)
+    fig = Figure(; size=(1200, 800))
+    axis = (;)
+
+
+    ΔV_cosθ_group = :ΔV_cosθ =&gt; &gt;(0)
+    ΔV_cosθ_map = mapping(group=ΔV_cosθ_group, color=ΔV_cosθ_group)
+
+    ΔV_spec = plt * mapping(:ΔV_ratio, :ΔV_cosθ) * (vis + AoG.linear() * ΔV_cosθ_map)
+    σc_σr_spec = plt * mapping(:σ_c, :σ_r) * (vis + AoG.smooth() * visual(color=:red))
+
+    A_He_group = mapping(group=:A_He =&gt; &gt;(1.5), color=:A_He =&gt; &gt;(1.5))
+
+    β_A_He_spec = data(β_A_He_df) * layout * mapping(:log_β, :A_He) * (vis + AoG.smooth(; degree=1) * A_He_group)
+
+    draw!(fig[1, 2], ΔV_spec; axis=(; limits=((0, 2), (-1, 1),)))
+    draw!(fig[2, 1], σc_σr_spec)
+    draw!(fig[2, 2], β_A_He_spec)
+
+    # pretty_legend!(fig, grid1)
+    # add_labels!([ga, gb, gc])
+    display(fig)
+end</code></pre>
+</div></div>
+</section>
+<section id="q_sonnerup-and-other-variables" class="level3">
+<h3 class="anchored" data-anchor-id="q_sonnerup-and-other-variables">Q_sonnerup and other variables</h3>
+<p><a href="../figures/Q_sonnerup_joint_dist_den.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="../figures/Q_sonnerup_joint_dist_den.png" class="img-fluid"></a></p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="26" class="cell" data-execution_count="0">
+<pre><code>𝒎 = var_mapping(; 𝐧)
+
+fig = Figure(; size=(500, 800))
+let vars = [:Q_sonnerup, :duration, :σ_c]
+    tdf = @chain df begin
+        dropmissing(vars)
+        @rsubset(all(!isnan, (:ΔV_cosθ, :Q_sonnerup, :σ_c)); view=true)
+    end
+    plt = AoG.data(tdf) * mapping(col=:id =&gt; layout_func)
+
+    Q_limit = (-0.992, 0.992) # mainly for plotting so not show (-1, 1) in ticks
+    ΔV_spec = plt * mapping(𝒎.ΔV_ratio, 𝒎.ΔV_cosθ) * AoG.density(; datalimits=((0, 1.1), (-1, 1)))
+    # duration_Q_spec = plt * mapping(:duration, 𝒎.Q) * AoG.density(; datalimits=((0, 3.1), Q_limit))
+    duration_Q_spec = plt * mapping(:duration =&gt; log10 =&gt; "Log Duration (s)", 𝒎.Q) * AoG.density(; datalimits=((-0.9, 1.1), Q_limit))
+    # duration_Q_spec = plt * mapping(:duration =&gt; log10, 𝒎.Q) * fhist(; binedges=(-0.9:0.1:1.1, -0.99:0.1:0.99), normalization=:column)
+    σc_Q_spec = plt * mapping(:σ_c =&gt; L"σ_c", 𝒎.Q) * AoG.density()
+    σr_Q_spec = plt * mapping(:σ_r =&gt; L"σ_r", 𝒎.Q) * AoG.density(; datalimits=(Q_limit, Q_limit))
+
+    ff11, ff12, ff21, ff22 = fig[1, 1], fig[2, 1], fig[3, 1], fig[4, 1]
+    grid1 = cdraw!(ff11, ΔV_spec)
+    grid3 = cdraw!(ff12, σc_Q_spec)
+    grid4 = cdraw!(ff21, σr_Q_spec)
+    grid2 = cdraw!(ff22, duration_Q_spec)
+
+    for f in (ff11, ff12, ff21, ff22)
+        colgap!(Makie.content(f[1, 1]), 6)
+    end
+
+    rowgap!(fig.layout, 4)
+    for g in (grid3, grid4)
+        ax = g[1].axis
+        ax.xlabelpadding[] = 1
+        ax.xlabelsize[] = 16
+    end
+    add_labels!([fig[1, 1], fig[2, 1], fig[3, 1], fig[4, 1]]; position=Left(), padding=(0, 0, 0, -5))
+    hide_facet_labels!.((grid2, grid3, grid4))
+    easy_save("Q_sonnerup_joint_dist_den"; force=true)
+end</code></pre>
+</div></div>
+<section id="q_sonnerup-vs-b_n" class="level4">
+<h4 class="anchored" data-anchor-id="q_sonnerup-vs-b_n">Q_sonnerup vs B_n</h4>
+<p>Two populations for Q_sonnerup vs B_n: large B_n has larger Q_sonnerup. No strong correlation for small B_n groups.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="28" class="cell" data-execution_count="0">
+<pre><code>let 𝐧 = :mva
+    𝒎 = var_mapping(; 𝐧)
+    Bn_df = @chain df begin
+        @rsubset(all(isfinite, (:B_n_mva_norm, :Q_sonnerup)); view=true)
+        subset_𝐧(𝐧)
+    end
+    Bn_Q_spec = data(Bn_df) * mapping(𝒎.bn, :Q_sonnerup =&gt; L"Q", col=:id =&gt; layout_func) * AoG.density()
+    draw(Bn_Q_spec)
+end</code></pre>
+</div></div>
+</section>
+<section id="q_sonnerup-vs-a_he" class="level4">
+<h4 class="anchored" data-anchor-id="q_sonnerup-vs-a_he">Q_sonnerup vs A_He</h4>
+<p>We observe very weak correlation for PSP when <span class="math inline">\(A_{He}&lt;1\)</span>, and no correlation for Wind. <img src="../figures/A_He_Q_sonnerup.png" class="img-fluid"></p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="30" class="cell" data-execution_count="0">
+<pre><code>let
+    𝒎 = var_mapping()
+    A_He_df = @rsubset(df, :A_He &gt; 0, isfinite(:Q_sonnerup))
+    A_He_Q_spec = data(A_He_df) * mapping(:A_He, :Q_sonnerup, col=:id =&gt; layout_func) * AoG.density(; datalimits=((0, 5), (-1, 1)))
+    draw(A_He_Q_spec)
+    easy_save("A_He_Q_sonnerup")
+end</code></pre>
+</div></div>
+</section>
+<section id="q_sonnerup-vs-β" class="level4">
+<h4 class="anchored" data-anchor-id="q_sonnerup-vs-β">Q_sonnerup vs β</h4>
+<p>No obvious correlation for PSP and Wind <img src="../figures/β_Q_sonnerup.png" class="img-fluid">.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="32" class="cell" data-execution_count="0">
+<pre><code>let
+    β_df = @rsubset(df, all(isfinite, (:β, :Q_sonnerup)); view=true)
+    layout = mapping(row=:id)
+    β_Q_spec = data(β_df) * mapping(:β =&gt; log10, :Q_sonnerup) * layout * AoG.density(; datalimits=((-1, 1), (-1, 1)))
+    draw(β_Q_spec)
+    easy_save("β_Q_sonnerup")
+end</code></pre>
+</div></div>
+</section>
+</section>
+</section>
+<section id="duration-vs-alfvénicity-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="duration-vs-alfvénicity-correlation">Duration vs Alfvénicity Correlation</h2>
+<p>Let’s analyze the relationship between duration and Alfvénicity to see if they are correlated.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="34" class="cell" data-execution_count="0">
+<pre><code>using HypothesisTests
+using NaNStatistics
+using PairPlots
+
+# Filter for clean data with both duration and Alfvénicity measures
+vars = [:duration, :Q_sonnerup, :V_l_ratio, :B_n_mva_norm]
+
+df_corr = @chain df begin
+    filter_low_mva_quality()
+    dropmissing(vars)
+    @transform!(:duration = Float64.(ustrip.(:duration .|&gt; u"s")))
+    @rsubset(all(!isnan, (:Q_sonnerup, :V_l_ratio, :duration, :σ_c)))
+end
+
+# Overall correlation matrix
+println("Overall correlation matrix:")
+cor_vars = [:Q_sonnerup, :duration, :B_n_mva_norm, :σ_c, :σ_r, :L_n_mva_norm, :J_m_max_mva_norm]
+_cor_func = df -&gt; nancor(Matrix(df[!, cor_vars]))
+overall_corr = _cor_func(df_corr)
+display(overall_corr)
+# # Statistical significance tests
+# test_q = CorrelationTest(df_corr.duration_s, df_corr.Q_sonnerup)
+# test_vl = CorrelationTest(df_corr.duration_s, collect(skipmissing(df_corr.V_l_ratio)))
+
+# println("Statistical significance:")
+# println("Duration vs Q_sonnerup: p-value = $(round(pvalue(test_q), digits=6))")
+# println("Duration vs V_l_ratio: p-value = $(round(pvalue(test_vl), digits=6))")</code></pre>
+</div></div>
+<p>Correlation Strength:
+- Duration vs Q_sonnerup: r = -0.0253 (very weak negative correlation)
+- Duration vs V_l_ratio: r = -0.0134 (very weak negative correlation)</p>
+<p>Statistical Significance:
+- Duration vs Q_sonnerup: p = 0.009 (statistically significant, p &lt; 0.05)
+- Duration vs V_l_ratio: p = 0.166 (not statistically significant, p &gt; 0.05)</p>
+<p>Interpretation:
+1. There is a very weak negative correlation between duration and Alfvénicity - meaning longer events tend to be slightly less Alfvénic
+2. The effect size is tiny (correlations ~-0.02 to -0.03) - practically negligible</p>
+<p>Conclusion: While there’s a statistically significant but extremely weak tendency for longer-duration current sheets to be slightly less Alfvénic, the correlation is so small it’s essentially negligible in practical terms. Duration and Alfvénicity are largely independent of each other in this dataset.</p>
+</section>
+<section id="unused-code" class="level2">
+<h2 class="anchored" data-anchor-id="unused-code">Unused Code</h2>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="36" class="cell" data-execution_count="0">
+<pre><code># Visualization: Scatter plot with trend line
+f_corr = Figure(size=(1400, 600))
+
+attrs = (alpha=0.6, markersize=6)
+
+# Duration vs Q_sonnerup
+ax1 = Axis(f_corr[1, 1],
+    xscale=log10,
+    xlabel="Duration (seconds)",
+    ylabel="Q_sonnerup (Alfvénicity)",
+    title="Duration vs Alfvénicity")
+
+scatter!(ax1, df_corr.duration_s, abs.(df_corr.Q_sonnerup); color=:blue, attrs...)
+
+# Add trend line (remove any remaining NaNs)
+valid_idx = .!isnan.(df_corr.duration_s) .&amp; .!isnan.(df_corr.Q_sonnerup)
+if sum(valid_idx) &gt; 0
+    x_valid = df_corr.duration_s[valid_idx]
+    y_valid = abs.(df_corr.Q_sonnerup[valid_idx])
+    x_range = range(minimum(x_valid), maximum(x_valid), length=100)
+    X = hcat(ones(length(x_valid)), x_valid)
+    β = X \ y_valid
+    trend_y = β[1] .+ β[2] .* x_range
+    lines!(ax1, x_range, trend_y, color=:red, linewidth=2, linestyle=:dash)
+end
+
+# text!(ax1, 0.05, 0.95, "r = $(round(corr_duration_q, digits=4))", space=:relative, fontsize=12, color=:black)
+
+# Duration vs V_l_ratio  
+df_vl = dropmissing(df_corr, :V_l_ratio)
+ax2 = Axis(f_corr[1, 2],
+    xscale=log10,
+    xlabel="Duration (seconds)",
+    ylabel="V_l_ratio",
+    title="Duration vs Velocity Ratio")
+
+scatter!(ax2, df_vl.duration_s, df_vl.V_l_ratio,
+    color=:green, alpha=0.6, markersize=6)
+
+# Add trend line for V_l_ratio (remove any remaining NaNs)
+valid_idx2 = .!isnan.(df_vl.duration_s) .&amp; .!isnan.(df_vl.V_l_ratio)
+if sum(valid_idx2) &gt; 0
+    x_valid2 = df_vl.duration_s[valid_idx2]
+    y_valid2 = df_vl.V_l_ratio[valid_idx2]
+    x_range2 = range(minimum(x_valid2), maximum(x_valid2), length=100)
+    X2 = hcat(ones(length(x_valid2)), x_valid2)
+    β2 = X2 \ y_valid2
+    trend_y2 = β2[1] .+ β2[2] .* x_range2
+    lines!(ax2, x_range2, trend_y2, color=:red, linewidth=2, linestyle=:dash)
+end
+ylims!(ax2, 0, 1)
+# text!(ax2, 0.05, 0.95, "r = $(round(corr_duration_vl, digits=4))", space=:relative, fontsize=12, color=:black)
+
+f_corr</code></pre>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="38" class="cell" data-execution_count="0">
+<pre><code>using CategoricalArrays
+using NaNStatistics
+# Binned analysis
+duration_bins = [0, 2, 5, 10, 20, 50, maximum(df_corr.duration_s)]
+df_binned = @transform(df_corr,
+    :duration_bin = cut(:duration_s, duration_bins, labels=["0-2s", "2-5s", "5-10s", "10-20s", "20-50s", "&gt;50s"]))
+
+binned_stats = @chain df_binned begin
+    dropmissing([:Q_sonnerup, :V_l_ratio])
+    groupby(:duration_bin)
+    @combine(
+        :count = length(:duration_s),
+        :mean_duration = nanmean(:duration_s),
+        :mean_Q_sonnerup = nanmean(abs.(:Q_sonnerup)),
+        :std_Q_sonnerup = nanstd(abs.(:Q_sonnerup)),
+        :mean_V_l_ratio = nanmean(:V_l_ratio),
+        :std_V_l_ratio = nanstd(:V_l_ratio)
+    )
+end
+
+println("Mean Alfvénicity by Duration Bins:")
+select(binned_stats, :duration_bin, :count, :mean_Q_sonnerup, :mean_V_l_ratio)</code></pre>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [0]:</pre></div><div id="40" class="cell" data-execution_count="0">
+<pre><code># Add binned averages to the scatter plots
+for (i, row) in enumerate(eachrow(binned_stats))
+    if i &lt; nrow(binned_stats)
+        # Get bin boundaries
+        bin_start = duration_bins[i]
+        bin_end = duration_bins[i+1]
+        bin_center = (bin_start + bin_end) / 2
+
+        # Add mean points with error bars to Q_sonnerup plot
+        scatter!(ax1, [bin_center], [row.mean_Q_sonnerup],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax1, [bin_center], [row.mean_Q_sonnerup], [row.std_Q_sonnerup],
+            color=:red, whiskerwidth=8, linewidth=2)
+
+        # Add mean points with error bars to V_l_ratio plot  
+        scatter!(ax2, [bin_center], [row.mean_V_l_ratio],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax2, [bin_center], [row.mean_V_l_ratio], [row.std_V_l_ratio],
+            color=:red, whiskerwidth=8, linewidth=2)
+    else
+        # Handle the last bin (&gt;50s) - use a representative position
+        bin_center = 60  # Approximate position for &gt;50s bin
+
+        scatter!(ax1, [bin_center], [row.mean_Q_sonnerup],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax1, [bin_center], [row.mean_Q_sonnerup], [row.std_Q_sonnerup],
+            color=:red, whiskerwidth=8, linewidth=2)
+
+        scatter!(ax2, [bin_center], [row.mean_V_l_ratio],
+            color=:red, markersize=12, marker=:diamond)
+        errorbars!(ax2, [bin_center], [row.mean_V_l_ratio], [row.std_V_l_ratio],
+            color=:red, whiskerwidth=8, linewidth=2)
+    end
+end
+
+# Add legend explaining the red diamonds
+Legend(f_corr[2, :], [MarkerElement(color=:red, marker=:diamond, markersize=12)],
+    ["Binned Averages ± Std"], orientation=:horizontal, tellwidth=false, tellheight=true)
+
+f_corr</code></pre>
+</div></div>
+</section>
+     </main>
+<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script> 
+  
+</body></html>

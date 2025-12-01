@@ -1,0 +1,136 @@
+============================================================
+ASSOCIATION ANALYSIS FOR ALFVÉNICITY
+============================================================
+OVERALL ASSOCIATION ANALYSIS
+==================================================
+
+1. DURATION VS ALFVÉNICITY (Q_SONNERUP)
+
+2. DURATION VS VELOCITY RATIO (V_L_RATIO)
+
+3. MAGNETIC FIELD NORMAL VS ALFVÉNICITY
+  Pearson Correlation: 0.1931 (n = 43938)
+  Chatterjee Correlation: 0.0258 (n = 43938)
+  Mutual Information: 0.024 (n = 43938)
+
+4. CROSS HELICITY VS ALFVÉNICITY
+  Pearson Correlation: 0.841 (n = 41676)
+  Chatterjee Correlation: 0.4737 (n = 41676)
+  Mutual Information: 0.7716 (n = 41676)
+
+5. Σ_R VS Q_SONNERUP
+  Pearson Correlation: -0.0186 (n = 41676)
+  Chatterjee Correlation: 0.0956 (n = 41676)
+  Mutual Information: 0.114 (n = 41676)
+
+6. Β VS :Q_SONNERUP => ABS
+
+7. HELIUM ABUNDANCE VS ALFVÉNICITY
+
+8. CURRENT DENSITY VS ALFVÉNICITY
+
+9. THICKNESS VS ALFVÉNICITY
+
+10. :A_HE => VAR"#429#430"() VS J_M_MAX_MVA_NORM
+
+11. :A_HE => VAR"#431#432"() VS L_N_MVA_NORM
+
+12. Β VS J_M_MAX_MVA_NORM
+
+13. Β VS L_N_MVA_NORM
+
+14. Β VS A_HE
+  Pearson Correlation: -0.0038 (n = 29556)
+  Chatterjee Correlation: 0.4154 (n = 29556)
+  Mutual Information: 0.2303 (n = 29556)
+==================================================
+
+PSP (n = 17054):
+
+1. DURATION VS ALFVÉNICITY (Q_SONNERUP)
+  Pearson Correlation: 0.1135 (n = 16956)
+  Chatterjee Correlation: 0.0338 (n = 16956)
+  Mutual Information: 0.0051 (n = 16956)
+
+2. DURATION VS VELOCITY RATIO (V_L_RATIO)
+  Pearson Correlation: 0.11 (n = 16956)
+  Chatterjee Correlation: 0.0375 (n = 16956)
+  Mutual Information: 0.0014 (n = 16956)
+
+3. MAGNETIC FIELD NORMAL VS ALFVÉNICITY
+  Pearson Correlation: 0.1832 (n = 17053)
+  Chatterjee Correlation: 0.012 (n = 17053)
+  Mutual Information: -0.0193 (n = 17053)
+
+4. CROSS HELICITY VS ALFVÉNICITY
+  Pearson Correlation: 0.9197 (n = 17044)
+  Chatterjee Correlation: 0.5275 (n = 17044)
+  Mutual Information: 0.9726 (n = 17044)
+
+5. Σ_R VS Q_SONNERUP
+  Pearson Correlation: -0.1017 (n = 17044)
+  Chatterjee Correlation: 0.1511 (n = 17044)
+  Mutual Information: 0.2414 (n = 17044)
+
+6. Β VS :Q_SONNERUP => ABS
+
+7. HELIUM ABUNDANCE VS ALFVÉNICITY
+
+8. CURRENT DENSITY VS ALFVÉNICITY
+
+9. THICKNESS VS ALFVÉNICITY
+  Pearson Correlation: 0.1303 (n = 16956)
+  Chatterjee Correlation: 0.043 (n = 16956)
+  Mutual Information: -0.0772 (n = 16956)
+
+10. :A_HE => VAR"#429#430"() VS J_M_MAX_MVA_NORM
+
+11. :A_HE => VAR"#431#432"() VS L_N_MVA_NORM
+
+12. Β VS J_M_MAX_MVA_NORM
+
+13. Β VS L_N_MVA_NORM
+
+14. Β VS A_HE
+  Pearson Correlation: -0.0268 (n = 17013)
+  Chatterjee Correlation: 0.1184 (n = 17013)
+  Mutual Information: 0.1984 (n = 17013)
+
+Wind (n = 27900):
+
+1. DURATION VS ALFVÉNICITY (Q_SONNERUP)
+
+2. DURATION VS VELOCITY RATIO (V_L_RATIO)
+
+3. MAGNETIC FIELD NORMAL VS ALFVÉNICITY
+  Pearson Correlation: 0.1679 (n = 26885)
+  Chatterjee Correlation: 0.0249 (n = 26885)
+  Mutual Information: -0.0014 (n = 26885)
+
+4. CROSS HELICITY VS ALFVÉNICITY
+  Pearson Correlation: 0.7582 (n = 24632)
+  Chatterjee Correlation: 0.3745 (n = 24632)
+  Mutual Information: 0.5779 (n = 24632)
+
+5. Σ_R VS Q_SONNERUP
+
+6. Β VS :Q_SONNERUP => ABS
+
+7. HELIUM ABUNDANCE VS ALFVÉNICITY
+
+8. CURRENT DENSITY VS ALFVÉNICITY
+
+9. THICKNESS VS ALFVÉNICITY
+
+10. :A_HE => VAR"#429#430"() VS J_M_MAX_MVA_NORM
+
+11. :A_HE => VAR"#431#432"() VS L_N_MVA_NORM
+
+12. Β VS J_M_MAX_MVA_NORM
+
+13. Β VS L_N_MVA_NORM
+
+14. Β VS A_HE
+  Pearson Correlation: 0.0521 (n = 12543)
+  Chatterjee Correlation: 0.6633 (n = 12543)
+  Mutual Information: 0.3682 (n = 12543)

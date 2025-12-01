@@ -1,0 +1,368 @@
+---
+title: Results
+---
+
+```{julia}
+using PSPAnisotropy
+using DrWatson
+import Beforerr: easy_save
+using GLMakie, AlgebraOfGraphics
+df = PSPAnisotropy.workload()
+```
+
+```{julia}
+function plot_dist_comp(
+    df1, df2;
+    figure_kwargs=(size=(800, 600),),
+    kwargs...
+)
+
+    df = reduce(vcat, [df1, df2], cols=:intersect)
+    data_layer = data(df) * mapping(color=ds_mapping, marker=ds_mapping)
+
+    maps = [l_log_map j_log_map
+        l_norm_log_map j_norm_log_map]
+
+    plot_dist(data_layer; maps, axis=(), visual=mapping(), figure_kwargs=figure_kwargs, kwargs...)
+end
+
+function plot_dist_comp(df1, df2, tr1, tr2)
+    df1 = subset_timerange(df1, tr1...)
+    df2 = subset_timerange(df2, tr2...)
+    @info "Number of data points in df1: $(nrow(df1))"
+    @info "Number of data points in df2: $(nrow(df2))"
+    plot_dist_comp(df1, df2)
+end
+```
+
+## Distribution comparison
+
+### Enc 7
+
+```{julia}
+enc = 7 # event id (encounter id)    
+easy_save(fname) = Beforerr.easy_save(fname; dir="$fig_dir/enc$enc", formats=[:svg])
+mkpath("$fig_dir/$enc");
+```
+
+```{julia}
+plot_dist_comp(psp_df, wind_df,
+    ["2021-01-15", "2021-01-17"],
+    ["2021-01-17", "2021-01-19"]
+)
+```
+
+```{julia}
+plot_dist_comp(psp_df, wind_df,
+    ["2021-01-15", "2021-01-17"],
+    ["2021-01-21", "2021-01-23"]
+)
+```
+
+### Enc 8
+
+```{julia}
+plot_dist_comp(psp_df, solo_df)
+```
+
+```{julia}
+DateTime("2021-04-29T00:45") + Hour(145)
+DateTime("2021-04-29T00:45") + Hour(-1)
+```
+
+```{julia}
+#| layout-ncol: 3
+#| column: screen
+f1 = plot_dist_comp(psp_df, solo_df,
+    ["2021-04-29T00:15", "2021-04-29T02:15"],
+    ["2021-05-04T17:45:00", "2021-05-04T19:45:00"]
+)
+f2 = plot_dist_comp(psp_df, solo_df,
+    ["2021-04-28T00:15", "2021-04-29T02:15"],
+    ["2021-05-03T17:45:00", "2021-05-04T19:45:00"]
+)
+
+f3 = plot_dist_comp(psp_df, solo_df,
+    ["2021-04-28T00:15", "2021-04-29T02:15"],
+    ["2021-05-04T17:45:00", "2021-05-05T19:45:00"]
+)
+display(f1)
+display(f2)
+display(f3);
+```
+
+```{julia}
+begin
+    df = reduce(
+        vcat,
+        [psp_df, thm_df, wind_df, solo_df],
+        cols=:intersect
+    )
+
+    earth_df = reduce(
+        vcat,
+        [thm_df, wind_df],
+        cols=:intersect
+    )
+end;
+```
+
+```{julia}
+begin
+    # base data layer
+    data_layer = data(df) * mapping(color=ds_mapping, marker=ds_mapping)
+
+    # data layer with different alpha
+    data_layer_a = (
+        (data(thm_df) + data(wind_df)) * visual(alpha=0.3) + data(psp_df) * visual(alpha=1)
+    ) * mapping(
+        color=ds_mapping, marker=ds_mapping
+    )
+
+    # data layer with 1au missions
+    data_layer_b = (
+        (data(wind_df) + data(thm_df))
+    ) * mapping(
+        color=:dataset, marker=:dataset
+    )
+end;
+```
+
+## Current sheet's properties
+
+```{julia}
+# velocity v is normalized to $l Ω$, where $l$ represents the width of the RD and $Ω = q B/(mpc)$ is the cyclotron frequency.
+function v_norm!(df::AbstractDataFrame)
+    df.v_to_norm = df.L_k .* df."B.mean"
+end
+v_norm!(df);
+```
+
+```{julia}
+layer = data(df) * mapping(color=:dataset, col=:enc)
+axis = (yscale=log10,)
+figure = (size=(600, 800),);
+```
+
+```{julia}
+Bn = :bn_over_b => abs => L"B_N/B";
+v_norm = :v_to_norm => log10 => "Log v_gyro";
+```
+
+```{julia}
+dfplot(layer, args...; axis=(;), kwargs...) = draw(layer * mapping(args...; kwargs...); axis)
+dfplot(df::AbstractDataFrame, args...; axis=(;), kwargs...) = draw(data(df) * mapping(args...; kwargs...); axis)
+```
+
+```{julia}
+using GLMakie
+GLMakie.activate!()
+axis = (type=Axis3, width=300, height=300)
+dfplot(layer, v_norm, ω_in, Bn; axis)
+```
+
+```{julia}
+maps = [B_log_map, v_norm, ω_in]
+plot_dist(layer, maps; figure=figure)
+```
+
+```{julia}
+function plot_dB_over_B(layer; axis=(yscale=identity,), datalimits=((0, 0.3),))
+    plt = layer * mapping(dB_over_B_map) * density(datalimits=datalimits) * visual(Lines)
+    draw(plt; axis=axis)
+end
+
+# log scale is not good for this parameter
+# plot_dB_over_B(layer; axis = (yscale=log10,)) |> display 
+
+plot_dB_over_B(layer)
+```
+
+```{julia}
+function plot_l_j_local_comp(df)
+    fig = Figure(size=(1000, 800))
+
+    data_layer = data(df) * mapping(col=:dataset)
+
+    facet = (; linkxaxes=:none, linkyaxes=:none)
+    # Thickness Panels
+    begin
+        plt = data_layer * mapping(di_log_map, l_log_map)
+        axis = (;)
+        draw!(fig[1, 1:3], plt, axis=axis, facet=facet)
+    end
+
+    # Current Density Panels
+    begin
+        plt = data_layer * mapping(jA_log_map, j_log_map)
+        axis = (;)
+        draw!(fig[2, 1:3], plt, axis=axis, facet=facet)
+    end
+
+    fig
+end
+
+df |> plot_l_j_local_comp
+```
+
+```{julia}
+#| label: fig-dn-dB
+#| column: screen
+axis = (limits=((-0.5, 0.5), (-0.5, 0.5)),)
+
+begin
+    fname = "dn-dB"
+    plt = data_layer_a * mapping(dn_over_n, dB_over_B) * (AlgebraOfGraphics.linear() + visual(Scatter))
+    fg = draw(plt, axis=axis)
+    easy_save(fname)
+end
+```
+
+```{julia}
+#| label: fig-dn-dT
+#| column: screen
+begin
+    fname = "dn-dT"
+    plt = data_layer_a * mapping(dT_over_T, dn_over_n) * (mapping())
+
+    fig = Figure(size=(1000, 500))
+    grid1 = plt |> draw!(fig[1, 1])
+    grid2 = plt |> draw!(fig[1, 2]; axis=(; limits=((-0.5, 0.5), (-0.5, 0.5))))
+
+    pretty_legend!(fig, grid1)
+    easy_save(fname)
+
+    fig
+end
+```
+
+```{julia}
+#| label: fig-dT-dB
+#| column: screen
+begin
+    fname = "dT-dB"
+    plt = data_layer_a * mapping(dT_over_T, dB_over_B) * (AlgebraOfGraphics.linear() + mapping())
+
+    fig = Figure(size=(1000, 500))
+    grid = draw!(fig[1, 1], plt)
+    draw!(fig[1, 2], plt, axis=(; limits=((-0.5, 0.5), (-0.5, 0.5))))
+
+    pretty_legend!(fig, grid1)
+    easy_save(fname)
+
+    fig
+end
+```
+
+```{julia}
+v_l_ratio_map = :v_l_ratio => L"Δ V_{ion,l} / Δ V_{A,l}"
+plt = data(psp_df) * mapping(ω_map, v_l_ratio_map) * (linear() + visual(Scatter))
+draw(plt)
+```
+
+## Alfvenicity
+
+Comparison of change in Alfven speed and plasma speed
+
+The distinguishing feature of rotational discontinuities is the plasma velocity jump across them: the plasma ﬂow velocity $v_l$ (the solar wind velocity projected onto l) changes due to changes in $B_l$, $Δv_l=±Δv_A$ with $v_A= B_l / \sqrt{4 n m}$ (Landau & Lifshitz 1960; Hudson 1970).
+
+```{julia}
+#| label: fig-dvl
+#| column: screen
+fig = plot_dvl(psp_df)
+```
+
+```{julia}
+plot_vl_ratio(df)
+```
+
+```{julia}
+vl_ratio_label = L"\Delta V_{i,l} / \Delta V_{A,l}"
+v_l_fit_ratio_map = "v_l_fit_ratio" => vl_ratio_label
+
+plot_vl_ratio(psp_df; mapping_args=(v_l_fit_ratio_map,), fname=missing)
+```
+
+```{julia}
+v_l_fit_ratio_map = "v_l_ratio.fit.Λ_ion" => vl_ratio_label
+
+plot_vl_ratio(psp_df; mapping_args=(v_l_fit_ratio_map,), fname=missing)
+```
+
+## Anistropy
+
+@shenComparingPlasmaAnisotropy2024
+
+```{julia}
+plot_anistropy_comparison_2d(psp_df)
+```
+
+```{julia}
+psp_df.Λ_ion_r = abs.(psp_df.Λ_ion ./ psp_df.Λ_t .- 1)
+first(sort(psp_df, :Λ_ion_r), 4)
+```
+
+```{julia}
+plot_anistropy(df)
+```
+
+```{julia}
+#| label: fig-anisotropy
+#| column: screen
+plot_anistropy_theory(df)
+```
+
+```{julia}
+function plot_anistropy_comparison()
+    fname = "anisotropy_comparison"
+
+    fig = Figure(size=(1000, 800))
+
+    plt_Λ = data(
+        stack(earth_df, [:Λ, :Λ_t, :Λ_ion, :Λ_e], [:time, :dataset])
+    ) * mapping(:value => L"\Lambda", color=:variable, marker=:variable, col=:dataset)
+
+    grid1 = plt_Λ * density() |> draw!$fig[1, 1:2]
+    grid2 = plt_Λ * histogram() |> draw!$fig[2, 1:2]
+    # easy_save("$(fname)_$psp_p_instr")
+    # legend!(fig[1, 1:2], grid, titleposition=:left, orientation=:horizontal)
+    pretty_legend!(fig, grid1)
+
+    fig
+end
+
+function plot_anistropy_comparison_i_e()
+    fname = "anisotropy_comparison_i_e"
+
+    mapping_layer = mapping(
+        Λ_e_map, Λ_ion_map,
+    )
+
+    # draw a dashed line with slope 1
+    df2 = (Λ_e=[0, 0.3], Λ_ion=[0, 0.3])
+
+    plt = (data(earth_df) * mapping(row=:dataset) + data(df2) * visual(Lines)) * mapping_layer
+
+    fig = draw(plt, facet=(; linkxaxes=:minimal, linkyaxes=:minimal))
+    fig
+end
+```
+
+```{julia}
+#| label: fig-anisotropy-comp
+#| column: screen
+plot_anistropy_comparison()
+```
+
+```{julia}
+#| label: fig-anisotropy-comp-2d
+#| column: screen
+plot_anistropy_comparison_2d()
+```
+
+```{julia}
+#| label: fig-anisotropy-comp-i-e
+#| column: screen
+plot_anistropy_comparison_i_e()
+```
+
