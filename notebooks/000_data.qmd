@@ -312,3 +312,44 @@ WI_PM_3DP	Ion moments (computed on-board) @ 3 second (spin) resolution, PESA LOW
 "cda/STA_L2_PLA_1DMAX_1MIN/proton_n_s_flow_angle_inst",
 "cda/STA_L2_PLA_1DMAX_1MIN/proton_e_w_flow_angle_inst",
 "cda/STA_L2_PLA_1DMAX_1MIN/proton_Vr_RTN",
+
+## Anisotropy Data
+
+# Anisotropy
+
+- PSP_SWP_SPI_SF00_L3_MOM
+    
+    - Notes: Partial moments of the Proton distribution function in the SPAN-Ion instrument, PSP spacecraft, and RTN coordinate systems. User should be aware that the full ion distribution is typically NOT in the FOV of the instrument.
+
+    - `T_TENSOR`  Partial Moment Temperature Tensor in instrument frame
+
+
+- WI_H0_SWE
+    
+    - `Te_anisotropy`	Temperature anisotropy = Te_para / Te_perp
+
+- WI_PLSP_3DP
+    
+    - `MOM.P.MAGT3`	---> [P.SYMM_MAGT3] Proton temperature tensor... rotated into a field-aligned coordinate basis and then taking the diagonal elements only
+
+- WI_ELM2_3DP : Wind 3dp, PESA Low (~24 sec resolution) energy spectra with ion moments 
+    
+    - `MAGT3`	---> [MAGT3] electron temperature tensor... rotated into a field-aligned coordinate basis and then taking the diagonal elements only
+
+- THB_L2_ESA
+
+    - `thb_peeb_magt3Q`	-----Electron Temperature, Field Aligned (Tprp1FA, Tprp2FA, TparFA)
+
+    - `thb_peef_magt3Q`	-----Electron Temperature, Field Aligned (Tprp1FA, Tprp2FA, TparFA)
+
+    - `thb_peif_magt3Q`	-----Temperature, Field Aligned (TprpFA1, TprpFA2, TparFA)
+
+- THB_L2_MOM
+	
+    - `thb_peem_ptens_magQ`	-----Electron Pressure Tensor, Field Aligned
+
+    - `thb_peem_t3_magQ`	-----Electron Temperature, Field Aligned (TprpFA1, TprpFA2, TparFA)
+
+    - `thb_peim_ptens_magQ`	-----Ion Pressure Tensor, Field Aligned
+    
+    - `thb_peim_t3_magQ`	-----Ion Temperature, Field Aligned (TprpFA1, TprpFA2, TparFA)
