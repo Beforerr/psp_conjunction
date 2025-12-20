@@ -1,11 +1,14 @@
-# Updates
+# TODO / Future work
 
 - [x] Why ARTEMIS electron data and Wind ion data?
 - [ ] Why we have so many events from Wind observations?
-- [ ] Show PSP and ARTEMIS examples with Bn/B~0.75?
+  - Biased by different methods.
+- [x] Show PSP and ARTEMIS examples with Bn/B~0.75?
+  - [ ] Check $B_n$ dependence to check method bias (duration / thickness)
 - [ ] Disagreement between anisotropy observed and predicted by the theory
   - maybe just too localized anisotropy that is not well measured with available time resolution... 
   - or maybe more complex ion distribution, where nongyrotropy is more important than anisotropy
+- [ ] Check the occurrence rates correlation with fluctuation level / residual energy at similar radial distance.
 
 
 # Motivation
@@ -19,11 +22,6 @@ Studying the radial evolution of solar wind discontinuities from synergistic obs
   - Generated at or near the sun?
 
   - Locally generated in the interplanetary space by turbulence?
-
-
-# TODO
-
-- [ ] Plot Bl(t), jm(l) and ion anisotropy for these cases?
 
 ## High-speed solar wind radial evolution
 
