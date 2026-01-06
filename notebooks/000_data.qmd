@@ -30,7 +30,13 @@ The parameters are:
 - 'Tp_spani_b' (Ion parallel and perpendicular ion temperature, regular resolution. Blue (first element in array): parallel, Red: perp)
 - 'Tp_spanib_b' (Ion parallel and perpendicular ion temperature, burst resolution. Blue (first element in array): parallel, Red: perp)
 
-the helium-to-proton abundance ratio ($A_{He} = N_α/N_p × 100\%$, where $N_α$ and $N_p$ are the number densities of helium particles and protons, respectively)
+Fluxgate Magnetometer, MAG, Data: The time resolution of the MAG time series data varies with instrument mode ranging from 2.289 samples/s to 292.9 samples/s.
+
+https://heliophysicsdata.gsfc.nasa.gov/WS/hdp/1/Spase?ResourceID=spase%3A%2F%2FNASA%2FNumericalData%2FParkerSolarProbe%2FFIELDS%2FMAG%2FLevel2%2FSC%2FFullResolution%2FPT0.003413S
+
+https://heliophysicsdata.gsfc.nasa.gov/WS/hdp/1/Spase?ResourceID=spase://NASA/NumericalData/ParkerSolarProbe/SWEAP/SPAN-I/Level-3/ProtonPartialMoments/VariableCadence.xml.html
+
+<!-- the helium-to-proton abundance ratio ($A_{He} = N_α/N_p × 100\%$, where $N_α$ and $N_p$ are the number densities of helium particles and protons, respectively) -->
 
 ```{julia}
 tmin = DateTime("2021-01-15")
